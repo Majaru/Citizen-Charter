@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Business Bureau – City of Davao</title>
+
+  <!-- ============================================================
+    FONTS
+    Change the Google Fonts import below to swap typefaces.
+    Current: Oswald (headings) + Source Sans 3 (body)
+  ============================================================ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+      CSS VARIABLES – edit colors, fonts, and spacing here
+      to update the entire site at once.
+    ============================================================ */
+    :root {
+      --navy:   #0d1f4e;
+      --gold:   #b8973a;
+      --teal:   #1a5276;
+      --white:  #ffffff;
+      --light:  #f5f6fa;
+      --text:   #2c2c2c;
+      --muted:  #6b7280;
+      --radius: 8px;
+      --font-heading: 'Oswald', sans-serif;
+      --font-body:    'Source Sans 3', sans-serif;
+      --nav-height: 72px;   /* used to size the mobile menu offset */
+    }
+
+    /* ============================================================
+      RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden; /* prevent horizontal scroll on mobile */
+    }
+    a { text-decoration: none; color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ============================================================
+      HEADER / NAVBAR
+      Sticky. Hamburger button visible on mobile (≤ 600px).
+      Edit logo text or swap in an <img> for the seal.
+    ============================================================ */
+    header {
+      background: var(--white);
+      border-bottom: 3px solid var(--gold);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: var(--nav-height);
+    }
+    .logo-seal { width: 46px; height: 46px; flex-shrink: 0; }
+    .logo-text {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.1;
+      letter-spacing: 0.03em;
+    }
+    .logo-text span { display: block; }
+
+    /* Desktop nav links (hidden on mobile) */
+    .nav-links {
+      margin-left: auto;
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      padding: 4px 0;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ── Hamburger button ──
+       Hidden on desktop; shown on mobile via media query.
+       Change the span background to adjust bar color. */
+    .hamburger {
+      display: none;
+      margin-left: auto;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .hamburger:hover { background: var(--light); }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 2.5px;
+      background: var(--navy);  /* ← change bar color here */
+      border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    /* Hamburger animates into an X when menu is open */
+    .hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    /* ── Mobile dropdown menu ──
+       Positioned below the header. JS adds/removes .open class. */
+    .mobile-menu {
+      display: none; /* shown only on mobile via media query */
+      position: absolute;
+      top: var(--nav-height);
+      left: 0; right: 0;
+      background: var(--white);
+      border-top: 1px solid #e5e7eb;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      padding: 12px 20px 20px;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 14px 0;
+      border-bottom: 1px solid #f0f0f0;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--gold); }
+
+    /* ============================================================
+      HERO SECTION
+      To use a real background photo, replace the gradient with:
+        background: url('photo.jpg') center/cover no-repeat;
+    ============================================================ */
+    .hero {
+      position: relative;
+      min-height: 380px;
+      display: flex;
+      align-items: flex-end;
+      background: linear-gradient(110deg, var(--navy) 0%, #1a3a6e 45%, #2a5298 70%, #8faecf 100%);
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 40px,
+        rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 80px
+      );
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 48px 20px;
+    }
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 7vw, 4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.05;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+      max-width: 560px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    /* CTA button – change href in HTML. min-height = 48px tap target */
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      padding: 13px 28px;
+      min-height: 48px;
+      border: 2px solid var(--white);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-cta:hover { background: var(--white); color: var(--navy); }
+
+    /* ============================================================
+      CITIZEN'S CHARTER SECTION
+    ============================================================ */
+    .charter {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .charter h2 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--navy);
+      padding-bottom: 10px;
+      border-bottom: 1px solid #d0d5df;
+      margin-bottom: 20px;
+    }
+    .charter-card { display: flex; gap: 16px; align-items: flex-start; }
+    .charter-icon {
+      width: 52px; height: 52px;
+      flex-shrink: 0;
+      background: var(--light);
+      border: 2px solid var(--navy);
+      border-radius: var(--radius);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .charter-icon svg { width: 28px; height: 28px; }
+    .charter-body h3 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .charter-body p { font-size: 0.92rem; color: var(--muted); }
+
+    /* ============================================================
+      MAIN SERVICES SECTION
+      Add a card by duplicating a .service-card block.
+      Use class "gold" or "teal" for color.
+    ============================================================ */
+    .services {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .services h2 {
+      font-family: var(--font-heading);
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 20px;
+    }
+    /* Grid: 4 col desktop → 2 col tablet → 1 col mobile */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .service-card {
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .service-card.gold { background: var(--gold); color: var(--white); }
+    .service-card.teal { background: var(--teal); color: var(--white); }
+    .service-card .card-icon {
+      width: 38px; height: 38px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .service-card .card-icon svg { width: 22px; height: 22px; }
+    .service-card h3 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; line-height: 1.2; }
+    .service-card p  { font-size: 0.8rem; opacity: 0.85; }
+    /* btn-card: 44px min-height for touch targets */
+    .btn-card {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 8px;
+      padding: 8px 16px;
+      min-height: 44px;
+      background: var(--white);
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      border-radius: 4px;
+      align-self: flex-start;
+      transition: opacity 0.2s;
+    }
+    .btn-card:hover { opacity: 0.85; }
+
+    /* ============================================================
+      FOOTER
+    ============================================================ */
+    footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64px; }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 20px 36px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr; /* collapses on mobile */
+      gap: 40px;
+    }
+    .footer-col h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .footer-col p { font-size: 0.88rem; line-height: 1.7; }
+    .contact-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 0.88rem; }
+    .contact-row svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; fill: var(--gold); }
+    .footer-map { margin-top: 14px; border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(255,255,255,0.1); }
+    .footer-map iframe { width: 100%; height: 150px; border: none; display: block; }
+    .social-links { display: flex; flex-direction: column; gap: 4px; }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.8);
+      transition: color 0.2s;
+      min-height: 44px; /* touch target */
+    }
+    .social-links a:hover { color: var(--gold); }
+    .social-links svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .footer-bottom {
+      text-align: center;
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ============================================================
+      RESPONSIVE BREAKPOINTS
+      ── 900px : tablet  – 2-col services, 2-col footer
+      ── 600px : mobile  – 1-col everything, hamburger menu
+      ── 360px : small phones – shrink logo
+    ============================================================ */
+
+    /* Tablet (≤ 900px) */
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner  { grid-template-columns: 1fr 1fr; }
+      .footer-col:last-child { grid-column: 1 / -1; } /* stretch social across both cols */
+    }
+
+    /* Mobile (≤ 600px) */
+    @media (max-width: 600px) {
+      /* Swap desktop nav for hamburger */
+      .nav-links  { display: none; }
+      .hamburger  { display: flex; }
+
+      /* Hero */
+      .hero { min-height: 280px; }
+      .hero-content { padding: 32px 20px; }
+
+      /* Services: 1 column */
+      .services-grid { grid-template-columns: 1fr; }
+
+      /* Footer: stack all columns */
+      .footer-inner {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 32px 20px 24px;
+      }
+      .footer-col:last-child { grid-column: auto; }
+      .footer-map iframe { height: 180px; } /* bigger map on mobile */
+
+      /* Tighter section spacing */
+      .charter, .services { margin: 24px auto; }
+      footer { margin-top: 40px; }
+    }
+
+    /* Very small phones (≤ 380px) */
+    @media (max-width: 380px) {
+      .logo-text { font-size: 1.05rem; }
+      .logo-seal { width: 38px; height: 38px; }
+      /* Stack charter icon + text vertically */
+      .charter-card { flex-direction: column; }
+    }
+
+    /* ============================================================
+      MODAL – Application type chooser
+      Triggered by the "Start Your Application" button.
+      ── To change the overlay darkness: edit rgba(0,0,0,0.55)
+      ── To change animation speed: edit the 0.25s values
+    ============================================================ */
+
+    /* Backdrop – covers the whole page */
+    .modal-backdrop {
+      display: none;               /* hidden by default; JS sets display:flex */
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      background: rgba(0, 0, 0, 0.55);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;               /* keeps modal away from screen edges on mobile */
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    /* Fade-in state added by JS */
+    .modal-backdrop.visible { opacity: 1; }
+
+    /* Modal card */
+    .modal {
+      background: var(--white);
+      border-radius: 12px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      overflow: hidden;
+    }
+    .modal-backdrop.visible .modal { transform: translateY(0); }
+
+    /* Coloured top bar – change background to restyle the header strip */
+    .modal-header {
+      background: var(--navy);
+      padding: 22px 24px 18px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-header-text {}
+    .modal-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.03em;
+    }
+    .modal-header p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.65);
+      margin-top: 3px;
+    }
+    /* Close (×) button */
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.7);
+      font-size: 1.4rem;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      transition: color 0.2s, background 0.2s;
+    }
+    .modal-close:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+
+    /* Choice cards container */
+    .modal-body {
+      padding: 24px;
+      display: grid;
+      /* Side-by-side on desktop, stacked on narrow screens */
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Each permit choice card
+       ── To add another option: duplicate .permit-card and update content */
+    .permit-card {
+      border: 2px solid #e5e7eb;
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .permit-card:hover {
+      border-color: var(--navy);
+      box-shadow: 0 6px 20px rgba(13,31,78,0.12);
+      transform: translateY(-2px);
+    }
+    /* Icon circle – change background to recolor per card */
+    .permit-card .permit-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .permit-card.business .permit-icon { background: rgba(184,151,58,0.12); }  /* gold tint */
+    .permit-card.occupational .permit-icon { background: rgba(26,82,118,0.1); } /* teal tint */
+    .permit-card .permit-icon svg { width: 28px; height: 28px; }
+    .permit-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .permit-card p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    /* "Select" pill at the bottom of each card */
+    .permit-card .permit-select {
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      min-height: 40px;
+      border-radius: 20px;
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 2px solid transparent;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .permit-card.business    .permit-select { background: var(--gold);  color: var(--white); }
+    .permit-card.occupational .permit-select { background: var(--teal); color: var(--white); }
+    .permit-card:hover .permit-select { filter: brightness(1.1); }
+
+    /* Stack cards on very narrow screens */
+    @media (max-width: 420px) {
+      .modal-body { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+    HEADER
+    Add nav links inside BOTH .nav-links (desktop) AND
+    .mobile-menu (mobile) so they stay in sync.
+  ============================================================ -->
+  <header>
+    <div class="nav-inner">
+
+      <!-- Logo seal – replace with: <img src="logo.png" class="logo-seal" alt="Business Bureau"> -->
+      <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
+        <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
+        <text x="26" y="30" font-family="serif" font-size="10" fill="#0d1f4e" text-anchor="middle" font-weight="bold">BB</text>
+      </svg>
+
+      <!-- Logo text – change the two <span> contents -->
+      <div class="logo-text">
+        <span>BUSINESS</span>
+        <span>BUREAU</span>
+      </div>
+
+      <!-- Desktop navigation – hidden on mobile -->
+      <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#charter">Charter</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <!-- Hamburger – visible only on mobile -->
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <!-- Mobile dropdown – JS toggles .open class -->
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <!-- Keep these in sync with the desktop .nav-links above -->
+      <a href="#services" class="mobile-link">Services</a>
+      <a href="#charter"  class="mobile-link">Charter</a>
+      <a href="#contact"  class="mobile-link">Contact</a>
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+    HERO SECTION
+    Change h1 text and btn-cta href/label below.
+  ============================================================ -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Empowering<br>Your Business</h1>
+      <!-- Change href to your application portal URL -->
+      <a href="#" class="btn-cta">Start Your Application</a>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+    CITIZEN'S CHARTER SECTION
+    Replace paragraph with your real charter text.
+  ============================================================ -->
+  <section class="charter" id="charter">
+    <h2>Citizen's Charter Overview</h2>
+    <div class="charter-card">
+
+      <!-- Charter icon – swap with any SVG or <img> -->
+      <div class="charter-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="7" y1="8"  x2="17" y2="8"/>
+          <line x1="7" y1="12" x2="17" y2="12"/>
+          <line x1="7" y1="16" x2="13" y2="16"/>
+          <polyline points="15 14 17 16 21 12"/>
+        </svg>
+      </div>
+
+      <div class="charter-body">
+        <h3>Business Permit Services:</h3>
+        <p>
+          The Business Bureau is committed to providing efficient, transparent, and
+          professional services for all business permit applications and renewals.
+          Our processes are designed to streamline compliance, reduce processing time,
+          and ensure a fair and impartial licensing experience for every applicant
+          in Davao City.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+    MAIN SERVICES SECTION
+    To add a service card:
+      1. Copy any .service-card block
+      2. Paste inside .services-grid
+      3. Update h3, p text, and the SVG icon
+      4. Switch class between "gold" and "teal"
+  ============================================================ -->
+  <section class="services" id="services">
+    <h2>Main Services</h2>
+
+    <div class="services-grid">
+
+      <!-- CARD 1 – Gold -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="18" rx="2"/>
+            <line x1="8" y1="10" x2="16" y2="10"/>
+            <line x1="8" y1="14" x2="16" y2="14"/>
+            <line x1="8" y1="18" x2="12" y2="18"/>
+          </svg>
+        </div>
+        <h3>Pre-Assessment</h3>
+        <p>Initial evaluation of business requirements and documents before permit processing to ensure compliance with local regulations.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 2 – Teal -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8"  x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+        </div>
+        <h3>Issuance of Business Permit</h3>
+        <p>Processing and release of official permits allowing businesses to legally operate within the city.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 3 – Gold -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <h3>Special Permit</h3>
+        <p>Issuance of temporary or special authorization for specific business activities, events, or operations requiring additional approval.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 4 – Teal -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <h3>Occupational Permit</h3>
+        <p>Processing of permits for employees and workers as proof of compliance with health, safety, and city requirements.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 5 – Gold -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="7" width="20" height="14" rx="2"/>
+            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+          </svg>
+        </div>
+        <h3>Issuance of Certifications</h3>
+        <p>Preparation and release of official certifications related to business records, permits, and compliance documents.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 6 – Teal -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+          </svg>
+        </div>
+        <h3>Full Retirement of Business Permit</h3>
+        <p>Processing the permanent closure or discontinuation of a business and cancellation of its active permit records.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 7 – Gold -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="15" y1="9"  x2="9"  y2="15"/>
+            <line x1="9"  y1="9"  x2="15" y2="15"/>
+          </svg>
+        </div>
+        <h3>Cancellation of Business Permit</h3>
+        <p>Termination or revocation of a business permit due to request, non-operation, or non-compliance with regulations.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+      <!-- CARD 8 – Teal -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </div>
+        <h3>Ocular Inspection</h3>
+        <p>On-site inspection of business establishments to verify compliance with safety, sanitation, zoning, and operational requirements.</p>
+        <a href="#" class="btn-card">View Details</a>
+      </div>
+
+    </div><!-- end .services-grid -->
+  </section>
+
+
+  <!-- ============================================================
+    FOOTER
+    Update address, phone, email, map src, and social link hrefs.
+    Map: Google Maps → Share → Embed a map → copy iframe src URL.
+  ============================================================ -->
+  <footer id="contact">
+    <div class="footer-inner">
+
+      <!-- Column 1: About -->
+      <div class="footer-col">
+        <h4>Business Bureau</h4>
+        <p>
+          Streamlining business registration through reliable, technology-driven
+          systems for an efficient and impartial licensing process.
+        </p>
+      </div>
+
+      <!-- Column 2: Contact -->
+      <div class="footer-col">
+        <h4>Contact</h4>
+
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>G/F Sangguniang Panlungsod Bldg., Davao City</span>
+        </div>
+
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+          <span>241-1000 Local 378</span>
+        </div>
+
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <span>busbureau@davaocity.gov.ph</span>
+        </div>
+
+        <!-- Replace the iframe src with your own Google Maps embed URL -->
+        <div class="footer-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Business Bureau Location">
+          </iframe>
+        </div>
+      </div>
+
+      <!-- Column 3: Social links – add/remove <a> tags as needed -->
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <div class="social-links">
+
+          <a href="#"><!-- Replace href with your Facebook URL -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+            Facebook Page
+          </a>
+
+          <a href="#"><!-- Replace href with your Twitter/X URL -->
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+            Twitter / X
+          </a>
+
+          <a href="#"><!-- Replace href with your website URL -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            davaocity.gov.ph
+          </a>
+
+        </div>
+      </div>
+
+    </div><!-- end .footer-inner -->
+
+    <!-- Update copyright year and org name here -->
+    <div class="footer-bottom">
+      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+    MODAL – Application type chooser
+    Appears when "Start Your Application" is clicked.
+
+    To link each card to a real URL:
+      Change href="#" on each .permit-card <a> tag.
+    To add a 3rd option:
+      Duplicate a .permit-card block and update CSS grid to "1fr 1fr 1fr".
+  ============================================================ -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 id="modalTitle">Start Your Application</h2>
+          <!-- Change this subtitle as needed -->
+          <p>Select the type of permit you want to apply for.</p>
+        </div>
+        <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+
+        <!-- OPTION 1: Business Permit – change href to your application URL -->
+        <a href="#" class="permit-card business">
+          <div class="permit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/>
+              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/>
+              <line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <h3>Business Permit</h3>
+          <p>For new and renewal of business registrations and licenses.</p>
+          <span class="permit-select">Select &rarr;</span>
+        </a>
+
+        <!-- OPTION 2: Occupational Permit – change href to your application URL -->
+        <a href="#" class="permit-card occupational">
+          <div class="permit-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1a5276" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+              <polyline points="9 11 12 14 15 11"/>
+            </svg>
+          </div>
+          <h3>Occupational Permit</h3>
+          <p>For employees and workers requiring occupational clearance.</p>
+          <span class="permit-select">Select &rarr;</span>
+        </a>
+
+      </div><!-- end .modal-body -->
+    </div><!-- end .modal -->
+  </div><!-- end .modal-backdrop -->
+
+
+  <!-- ============================================================
+    JAVASCRIPT – Hamburger / mobile menu toggle
+    No library needed. Handles open/close, link taps, and
+    clicking outside the menu to dismiss it.
+  ============================================================ -->
+  <script>
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    // Open or close the menu when the hamburger is tapped
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      mobileMenu.setAttribute('aria-hidden', !isOpen);
+    });
+
+    // Auto-close when a link inside the mobile menu is tapped
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+
+    // Close when the user taps anywhere outside the nav
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+
+    /* ============================================================
+      MODAL – Application chooser
+      openModal()  : shows the backdrop with fade + slide animation
+      closeModal() : hides it after the transition finishes
+
+      To trigger the modal from another button elsewhere on the page,
+      just call openModal() on its click event.
+    ============================================================ */
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalClose    = document.getElementById('modalClose');
+
+    function openModal() {
+      modalBackdrop.style.display = 'flex';   // make it exist in layout
+      // Small delay so the browser registers display:flex before opacity transition
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          modalBackdrop.classList.add('visible');
+        });
+      });
+      document.body.style.overflow = 'hidden'; // prevent page scroll behind modal
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('visible');
+      // Wait for fade-out transition to finish before hiding completely
+      modalBackdrop.addEventListener('transitionend', () => {
+        modalBackdrop.style.display = 'none';
+        document.body.style.overflow = '';     // restore page scroll
+      }, { once: true });
+    }
+
+    // "Start Your Application" button opens the modal
+    // (We use querySelectorAll in case you add more .btn-cta buttons)
+    document.querySelectorAll('.btn-cta').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();  // stop the default href="#" jump
+        openModal();
+      });
+    });
+
+    // Close via the × button
+    modalClose.addEventListener('click', closeModal);
+
+    // Close by clicking the dark backdrop (outside the modal card)
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    // Close with the Escape key (accessibility best practice)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
