@@ -1,0 +1,748 @@
+/* ============================================================
+  CSS VARIABLES – edit colors, fonts, and spacing here
+  to update the entire site at once.
+============================================================ */
+:root {
+  --navy:   #0d1f4e;
+  --gold:   #b8973a;
+  --teal:   #1a5276;
+  --white:  #ffffff;
+  --light:  #f5f6fa;
+  --text:   #2c2c2c;
+  --muted:  #6b7280;
+  --radius: 8px;
+  --font-heading: 'Oswald', sans-serif;
+  --font-body:    'Source Sans 3', sans-serif;
+  --nav-height: 72px;   /* used to size the mobile menu offset */
+}
+
+/* ============================================================
+  RESET & BASE
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--light);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden; /* prevent horizontal scroll on mobile */
+}
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+
+/* ============================================================
+  HEADER / NAVBAR
+  Sticky. Hamburger button visible on mobile (≤ 600px).
+  Edit logo text or swap in an <img> for the seal.
+============================================================ */
+header {
+  background: var(--white);
+  border-bottom: 3px solid var(--gold);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: var(--nav-height);
+}
+.logo-seal { width: 46px; height: 46px; flex-shrink: 0; }
+.logo-text {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+}
+.logo-text span { display: block; }
+
+/* Desktop nav links (hidden on mobile) */
+.nav-links {
+  margin-left: auto;
+  display: flex;
+  gap: 28px;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  padding: 4px 0;
+}
+.nav-links a:hover { color: var(--gold); }
+/* Active page indicator – add class="active" to the current page's nav link */
+.nav-links a.active {
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold);
+  padding-bottom: 2px;
+}
+.mobile-menu a.active { color: var(--gold); }
+
+/* ── Inner page hero (shorter than the home hero) ──
+   Used on citizens-charter.html and about.html.
+   Add class="hero hero-inner" to the <section> on inner pages. */
+.hero.hero-inner {
+  min-height: 180px;
+  align-items: center;
+}
+.hero.hero-inner .hero-content { padding: 36px 20px; }
+.hero.hero-inner h1 { font-size: clamp(1.5rem, 4vw, 2.4rem); margin-bottom: 0; }
+
+/* ── Hamburger button ──
+   Hidden on desktop; shown on mobile via media query.
+   Change the span background to adjust bar color. */
+.hamburger {
+  display: none;
+  margin-left: auto;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.hamburger:hover { background: var(--light); }
+.hamburger span {
+  display: block;
+  width: 26px;
+  height: 2.5px;
+  background: var(--navy);  /* ← change bar color here */
+  border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+/* Hamburger animates into an X when menu is open */
+.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ── Mobile dropdown menu ──
+   Positioned below the header. JS adds/removes .open class. */
+.mobile-menu {
+  display: none; /* shown only on mobile via media query */
+  position: absolute;
+  top: var(--nav-height);
+  left: 0; right: 0;
+  background: var(--white);
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  padding: 12px 20px 20px;
+  flex-direction: column;
+  gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+  transition: color 0.2s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--gold); }
+
+/* ============================================================
+  HERO SECTION
+  To use a real background photo, replace the gradient with:
+    background: url('photo.jpg') center/cover no-repeat;
+============================================================ */
+.hero {
+  position: relative;
+  min-height: 380px;
+  display: flex;
+  align-items: flex-end;
+  background: linear-gradient(110deg, var(--navy) 0%, #1a3a6e 45%, #2a5298 70%, #8faecf 100%);
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 40px,
+    rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 80px
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 48px 20px;
+}
+.hero h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 7vw, 4rem);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 24px;
+  max-width: 560px;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+/* CTA button – change href in HTML. min-height = 48px tap target */
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 28px;
+  min-height: 48px;
+  border: 2px solid var(--white);
+  color: var(--white);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-cta:hover { background: var(--white); color: var(--navy); }
+
+/* ============================================================
+  CITIZEN'S CHARTER SECTION
+============================================================ */
+.charter {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.charter h2 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--navy);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d0d5df;
+  margin-bottom: 20px;
+}
+.charter-card { display: flex; gap: 16px; align-items: flex-start; }
+.charter-icon {
+  width: 52px; height: 52px;
+  flex-shrink: 0;
+  background: var(--light);
+  border: 2px solid var(--navy);
+  border-radius: var(--radius);
+  display: flex; align-items: center; justify-content: center;
+}
+.charter-icon svg { width: 28px; height: 28px; }
+.charter-body h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+.charter-body p { font-size: 0.92rem; color: var(--muted); }
+
+/* ============================================================
+  MAIN SERVICES SECTION
+  Add a card by duplicating a .service-card block.
+  Use class "gold" or "teal" for color.
+============================================================ */
+.services {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+.services h2 {
+  font-family: var(--font-heading);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+/* Grid: 4 col desktop → 2 col tablet → 1 col mobile */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+.service-card {
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+.service-card.gold { background: var(--gold); color: var(--white); }
+.service-card.teal { background: var(--teal); color: var(--white); }
+.service-card .card-icon {
+  width: 38px; height: 38px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.service-card .card-icon svg { width: 22px; height: 22px; }
+.service-card h3 { font-family: var(--font-heading); font-size: 0.95rem; font-weight: 700; line-height: 1.2; }
+.service-card p  { font-size: 0.8rem; opacity: 0.85; }
+/* btn-card: 44px min-height for touch targets */
+.btn-card {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 8px 16px;
+  min-height: 44px;
+  background: var(--white);
+  color: var(--navy);
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  align-self: flex-start;
+  transition: opacity 0.2s;
+}
+.btn-card:hover { opacity: 0.85; }
+
+/* ============================================================
+  FOOTER
+============================================================ */
+footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64px; }
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 20px 36px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* collapses on mobile */
+  gap: 40px;
+}
+.footer-col h4 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.footer-col p { font-size: 0.88rem; line-height: 1.7; }
+.contact-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 0.88rem; }
+.contact-row svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; fill: var(--gold); }
+.footer-map { margin-top: 14px; border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(255,255,255,0.1); }
+.footer-map iframe { width: 100%; height: 150px; border: none; display: block; }
+.social-links { display: flex; flex-direction: column; gap: 4px; }
+.social-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.8);
+  transition: color 0.2s;
+  min-height: 44px; /* touch target */
+}
+.social-links a:hover { color: var(--gold); }
+.social-links svg { width: 18px; height: 18px; flex-shrink: 0; }
+.footer-bottom {
+  text-align: center;
+  padding: 14px 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
+  FOOTER PARTNER LOGOS
+  .logo-grid        : side-by-side layout for the two circles
+  .logo-placeholder : circular dashed outline shown until real logos are added
+  .partner-logo     : class to use on real <img> tags when replacing placeholders
+
+  To swap in a real logo, replace the .logo-placeholder div with:
+    <img src="your-logo.png" alt="Description" class="partner-logo">
+============================================================ */
+.footer-logos {
+  display: flex;
+  align-items: center;    /* vertically centre the circles in the column */
+  justify-content: flex-end;
+}
+.logo-grid {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.logo-placeholder {
+  width: 90px;
+  height: 90px;
+  border: 2px dashed rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  transition: border-color 0.2s;
+  flex-shrink: 0;
+}
+.logo-placeholder:hover { border-color: var(--gold); }
+.logo-placeholder svg { width: 100%; height: 100%; display: block; }
+/* Styles for real logo images once placeholders are replaced */
+.partner-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: brightness(0) invert(1);   /* makes logos white; remove for colour logos */
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.partner-logo:hover { opacity: 1; }
+
+/* ============================================================
+  MODAL – Application type chooser
+  Triggered by the "Start Your Application" button.
+  ── To change the overlay darkness: edit rgba(0,0,0,0.55)
+  ── To change animation speed: edit the 0.25s values
+============================================================ */
+
+/* Backdrop – covers the whole page */
+.modal-backdrop {
+  display: none;               /* hidden by default; JS sets display:flex */
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0, 0, 0, 0.55);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;               /* keeps modal away from screen edges on mobile */
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+/* Fade-in state added by JS */
+.modal-backdrop.visible { opacity: 1; }
+
+/* Modal card */
+.modal {
+  background: var(--white);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  transform: translateY(20px);
+  transition: transform 0.25s ease;
+  overflow: hidden;
+}
+.modal-backdrop.visible .modal { transform: translateY(0); }
+
+/* Coloured top bar – change background to restyle the header strip */
+.modal-header {
+  background: var(--navy);
+  padding: 22px 24px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modal-header h2 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.03em;
+}
+.modal-header p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  margin-top: 3px;
+}
+/* Close (×) button */
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  transition: color 0.2s, background 0.2s;
+}
+.modal-close:hover { color: var(--white); background: rgba(255,255,255,0.1); }
+
+/* Choice cards container */
+.modal-body {
+  padding: 24px;
+  display: grid;
+  /* Side-by-side on desktop, stacked on narrow screens */
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* Each permit choice card
+   ── To add another option: duplicate .permit-card and update content */
+.permit-card {
+  border: 2px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+  text-decoration: none;
+  color: var(--text);
+}
+.permit-card:hover {
+  border-color: var(--navy);
+  box-shadow: 0 6px 20px rgba(13,31,78,0.12);
+  transform: translateY(-2px);
+}
+/* Icon circle – change background to recolor per card */
+.permit-card .permit-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.permit-card.business .permit-icon    { background: rgba(184,151,58,0.12); }  /* gold tint */
+.permit-card.occupational .permit-icon { background: rgba(26,82,118,0.1); }   /* teal tint */
+.permit-card .permit-icon svg { width: 28px; height: 28px; }
+.permit-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+.permit-card p {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+/* "Select" pill at the bottom of each card */
+.permit-card .permit-select {
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  min-height: 40px;
+  border-radius: 20px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border: 2px solid transparent;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.permit-card.business    .permit-select { background: var(--gold);  color: var(--white); }
+.permit-card.occupational .permit-select { background: var(--teal); color: var(--white); }
+.permit-card:hover .permit-select { filter: brightness(1.1); }
+
+/* ============================================================
+  RESPONSIVE BREAKPOINTS
+  ── 900px : tablet  – 2-col services, 2-col footer
+  ── 600px : mobile  – 1-col everything, hamburger menu
+  ── 420px : modal cards stack vertically
+  ── 380px : small phones – shrink logo
+============================================================ */
+
+/* Tablet (≤ 900px) */
+@media (max-width: 900px) {
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner  { grid-template-columns: 1fr 1fr; }
+  /* Logos column drops below and centres on tablet */
+  .footer-col:last-child { grid-column: 1 / -1; justify-content: center; }
+  .footer-logos { justify-content: center; }
+}
+
+/* Mobile (≤ 600px) */
+@media (max-width: 600px) {
+  /* Swap desktop nav for hamburger */
+  .nav-links  { display: none; }
+  .hamburger  { display: flex; }
+
+  /* Hero */
+  .hero { min-height: 280px; }
+  .hero-content { padding: 32px 20px; }
+
+  /* Services: 1 column */
+  .services-grid { grid-template-columns: 1fr; }
+
+  /* Footer: stack all columns */
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 32px 20px 24px;
+  }
+  .footer-col:last-child { grid-column: auto; }
+  .footer-map iframe { height: 180px; } /* bigger map on mobile */
+
+  /* Tighter section spacing */
+  .charter, .services { margin: 24px auto; }
+  footer { margin-top: 40px; }
+}
+
+/* Stack modal cards on very narrow screens */
+@media (max-width: 420px) {
+  .modal-body { grid-template-columns: 1fr; }
+}
+
+/* Very small phones (≤ 380px) */
+@media (max-width: 380px) {
+  .logo-text { font-size: 1.05rem; }
+  .logo-seal { width: 38px; height: 38px; }
+  /* Stack charter icon + text vertically */
+  .charter-card { flex-direction: column; }
+}
+
+/* ============================================================
+  INNER PAGES – Citizen's Charter & About
+  Shared layout for citizens-charter.html and about.html.
+============================================================ */
+
+/* Page wrapper – max width + padding */
+.charter-page,
+.about-page {
+  max-width: 900px;
+  margin: 48px auto 64px;
+  padding: 0 24px;
+}
+
+/* Intro paragraph on Charter page */
+.charter-intro {
+  font-size: 0.97rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 40px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #d0d5df;
+}
+
+/* ── Charter entry row ──
+   Icon on the left, text on the right.
+   Duplicated for each service in the charter. */
+.charter-entry {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 28px 0;
+  border-bottom: 1px solid #e8eaf0;
+}
+.charter-entry:last-child { border-bottom: none; }
+.charter-entry-icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  background: var(--light);
+  border: 2px solid var(--navy);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.charter-entry-icon svg { width: 28px; height: 28px; }
+.charter-entry-body h2 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.charter-entry-body p {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 8px;
+}
+.charter-entry-body ul {
+  margin: 8px 0 0 16px;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ── About page blocks ── */
+.about-block {
+  margin-bottom: 40px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #e8eaf0;
+}
+.about-block:last-child { border-bottom: none; }
+.about-block h2 {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+.about-block p {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+
+/* Mission / Vision two-column cards */
+.about-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+.about-card {
+  background: var(--white);
+  border: 1px solid #e0e3ec;
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.about-card-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.about-card-icon svg { width: 24px; height: 24px; }
+.about-card h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+.about-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* Responsive: stack charter entries and about columns on mobile */
+@media (max-width: 600px) {
+  .charter-entry { flex-direction: column; }
+  .about-columns  { grid-template-columns: 1fr; }
+  .charter-page,
+  .about-page { margin: 28px auto 40px; }
+}
