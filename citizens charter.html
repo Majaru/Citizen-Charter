@@ -4,132 +4,943 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Citizen's Charter – Business Bureau</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ============================================================
+      CITIZEN'S CHARTER PAGE – additional styles
+      All base styles (nav, hero, footer) are in style.css.
+    ============================================================ */
+
+    /* Page wrapper */
+    .cc-page {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+    }
+
+    /* Intro paragraph */
+    .cc-intro {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 40px;
+      padding-bottom: 28px;
+      border-bottom: 2px solid var(--navy);
+    }
+
+    /* ── Service block ──
+       Each service (Pre-Assessment, Business Permit, etc.) is one .cc-service block.
+       To add a new service: duplicate a .cc-service block. */
+    .cc-service {
+      margin-bottom: 60px;
+      border: 1px solid #d0d5df;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* Service title bar */
+    .cc-service-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .cc-service-header .service-num {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      opacity: 0.5;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .cc-service-header h2 {
+      font-family: var(--font-heading);
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    /* Description text below the title bar */
+    .cc-service-desc {
+      background: #f8f9fc;
+      padding: 14px 24px;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      border-bottom: 1px solid #e0e3ec;
+    }
+
+    /* ── Info table (Office, Classification, Who may avail…) ── */
+    .cc-info-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+    .cc-info-table tr { border-bottom: 1px solid #e8eaf0; }
+    .cc-info-table tr:last-child { border-bottom: none; }
+    .cc-info-table th {
+      background: #f0f2f8;
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 10px 16px;
+      text-align: left;
+      width: 22%;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    .cc-info-table td {
+      padding: 10px 16px;
+      color: var(--text);
+      vertical-align: top;
+    }
+
+    /* ── Section label (e.g. "Checklist of Requirements", "Process Steps") ── */
+    .cc-section-label {
+      background: var(--gold);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-top: 1px solid #d0d5df;
+    }
+
+    /* ── Requirements table ── */
+    .cc-req-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .cc-req-table thead th {
+      background: #eef0f8;
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 9px 16px;
+      text-align: left;
+      border-bottom: 2px solid #d0d5df;
+    }
+    .cc-req-table tbody tr { border-bottom: 1px solid #eaecf4; }
+    .cc-req-table tbody tr:last-child { border-bottom: none; }
+    .cc-req-table tbody tr:nth-child(even) { background: #fafbfe; }
+    .cc-req-table tbody td { padding: 9px 16px; vertical-align: top; color: var(--text); }
+    .cc-req-table tbody td:first-child { width: 60%; }
+
+    /* Sub-section row (e.g. "NEW", "RENEWAL", "AMENDMENT…") */
+    .cc-req-table .sub-header td {
+      background: #e8eaf0;
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 7px 16px;
+    }
+
+    /* ── Process table (Client Steps / Agency Action…) ── */
+    .cc-process-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+    .cc-process-table thead th {
+      background: var(--teal);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 10px 14px;
+      text-align: left;
+      border-right: 1px solid rgba(255,255,255,0.15);
+    }
+    .cc-process-table thead th:last-child { border-right: none; }
+    .cc-process-table tbody tr { border-bottom: 1px solid #e8eaf0; vertical-align: top; }
+    .cc-process-table tbody tr:last-child { border-bottom: none; }
+    .cc-process-table tbody tr:nth-child(even) { background: #fafbfe; }
+    .cc-process-table tbody td {
+      padding: 10px 14px;
+      color: var(--text);
+      vertical-align: top;
+      border-right: 1px solid #e8eaf0;
+    }
+    .cc-process-table tbody td:last-child { border-right: none; }
+
+    /* Step sub-header row (e.g. "STEP 1: APPLICATION") */
+    .cc-process-table .step-header td {
+      background: #dde2f0;
+      color: var(--navy);
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 7px 14px;
+    }
+
+    /* TOTAL row */
+    .cc-process-table .total-row td {
+      background: #f0f2f8;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.83rem;
+    }
+
+    /* Fee badge */
+    .fee-tag {
+      display: inline-block;
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+    .fee-none { color: var(--muted); font-style: italic; }
+
+    /* Fees & Schedule block */
+    .cc-fees-block {
+      padding: 16px 20px;
+      background: #f8f9fc;
+      border-top: 1px solid #e0e3ec;
+    }
+    .cc-fees-block h4 {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+    .cc-fees-block ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .cc-fees-block ul li {
+      padding: 4px 0;
+      border-bottom: 1px dashed #e0e3ec;
+      display: flex;
+      gap: 8px;
+    }
+    .cc-fees-block ul li:last-child { border-bottom: none; }
+    .cc-fees-block ul li .fee-name { flex: 1; color: var(--muted); }
+    .cc-fees-block ul li .fee-amount { font-weight: 600; color: var(--navy); white-space: nowrap; }
+
+    /* Table of Contents / jump links */
+    .cc-toc {
+      background: var(--white);
+      border: 1px solid #d0d5df;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 36px;
+    }
+    .cc-toc h3 {
+      font-family: var(--font-heading);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .cc-toc ol {
+      list-style: none;
+      padding: 0; margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px 24px;
+    }
+    .cc-toc ol li a {
+      font-size: 0.88rem;
+      color: var(--teal);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .cc-toc ol li a:hover { color: var(--gold); }
+    .cc-toc ol li a::before {
+      content: attr(data-num);
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--navy);
+      border-radius: 3px;
+      padding: 1px 6px;
+      flex-shrink: 0;
+    }
+
+    /* Responsive table wrapper — scroll on mobile */
+    .table-wrap { overflow-x: auto; }
+
+    @media (max-width: 600px) {
+      .cc-service-header h2 { font-size: 1rem; }
+      .cc-toc ol { grid-template-columns: 1fr; }
+      .cc-page { padding: 0 12px; margin-top: 24px; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ============================================================
-    HEADER – same on every page.
-    Mark the current page link with class="active".
-  ============================================================ -->
+  <!-- ============================================================  HEADER  ============================================================ -->
   <header>
     <div class="nav-inner">
-
-      <!-- Logo – clicking it goes back to the home page -->
-      <a href="business-bureau.html" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+      <a href="business-bureau.html" style="display:flex;align-items:center;gap:14px;text-decoration:none;">
         <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
           <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
           <text x="26" y="30" font-family="serif" font-size="10" fill="#0d1f4e" text-anchor="middle" font-weight="bold">BB</text>
         </svg>
-        <div class="logo-text">
-          <span>BUSINESS</span>
-          <span>BUREAU</span>
-        </div>
+        <div class="logo-text"><span>BUSINESS</span><span>BUREAU</span></div>
       </a>
-
       <ul class="nav-links">
-        <!-- Add class="active" to the link matching the current page -->
+        <li><a href="business-bureau.html">Home</a></li>
         <li><a href="citizens-charter.html" class="active">Citizen's Charter</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="business-bureau.html#contact">Contact</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
-
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
-
     <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="business-bureau.html"  class="mobile-link">Home</a>
       <a href="citizens-charter.html" class="mobile-link active">Citizen's Charter</a>
       <a href="about.html"            class="mobile-link">About</a>
-      <a href="business-bureau.html#contact" class="mobile-link">Contact</a>
+      <a href="contact.html"          class="mobile-link">Contact</a>
     </nav>
   </header>
 
-
-  <!-- ============================================================
-    PAGE HERO – shorter banner for inner pages.
-    Change the h1 text as needed.
-  ============================================================ -->
+  <!-- HERO -->
   <section class="hero hero-inner">
-    <div class="hero-content">
-      <h1>Citizen's Charter</h1>
-    </div>
+    <div class="hero-content"><h1>Citizen's Charter</h1></div>
   </section>
 
-
   <!-- ============================================================
-    CITIZEN'S CHARTER CONTENT
-    Add/edit charter entries below.
-    Each .charter-entry is one service row.
-    To add a new entry: duplicate a .charter-entry block and update the content.
+    MAIN CONTENT
   ============================================================ -->
-  <main class="charter-page">
+  <main class="cc-page">
 
-    <!-- Page intro – replace with your official charter description -->
-    <p class="charter-intro">
-      The Business Bureau, Office of the City Mayor, is committed to providing prompt,
-      efficient, and courteous service to all clients in accordance with Republic Act 11032
+    <p class="cc-intro">
+      The Business Bureau, Office of the City Mayor of Davao City, is committed to providing prompt,
+      efficient, and courteous services to all clients in accordance with <strong>Republic Act 11032</strong>
       (Ease of Doing Business and Efficient Government Service Delivery Act of 2018).
-      Below is an overview of our services and the standards we uphold.
+      All services listed below are <strong>External Services</strong> under the City Mayor's Office –
+      Permits &amp; Licenses Division.
     </p>
 
-    <!-- ── Charter Entry 1 ──
-         Duplicate this block to add more charter entries.
-         Fields: service name, who may avail, requirements, fees, processing time, responsible office.
-    -->
-    <div class="charter-entry">
-      <div class="charter-entry-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/>
-          <line x1="7" y1="8"  x2="17" y2="8"/>
-          <line x1="7" y1="12" x2="17" y2="12"/>
-          <line x1="7" y1="16" x2="13" y2="16"/>
-          <polyline points="15 14 17 16 21 12"/>
-        </svg>
-      </div>
-      <div class="charter-entry-body">
-        <!-- Service name – change as needed -->
-        <h2>Business Permit Services</h2>
-        <p>
-          The Business Bureau is committed to providing efficient, transparent, and
-          professional services for all business permit applications and renewals.
-          Our processes are designed to streamline compliance, reduce processing time,
-          and ensure a fair and impartial licensing experience for every applicant
-          in Davao City.
-        </p>
-        <!-- Add more details here, e.g. requirements list:
-        <ul>
-          <li>Duly accomplished application form</li>
-          <li>Barangay Business Clearance</li>
-          <li>Valid government-issued ID</li>
-        </ul>
-        -->
-      </div>
+    <!-- Table of Contents -->
+    <div class="cc-toc">
+      <h3>Services Overview</h3>
+      <ol>
+        <li><a href="#s1" data-num="1">Pre-Assessment</a></li>
+        <li><a href="#s2" data-num="2">Issuance of Business Permit</a></li>
+        <li><a href="#s3" data-num="3">Special Permit</a></li>
+        <li><a href="#s4" data-num="4">Occupational Permit</a></li>
+        <li><a href="#s5" data-num="5">Issuance of Certifications / Certified True Copy</a></li>
+        <li><a href="#s6" data-num="6">Full Retirement of Business Permit</a></li>
+        <li><a href="#s7" data-num="7">Cancellation of Business Permit</a></li>
+        <li><a href="#s8" data-num="8">Ocular Inspection &amp; ICAB Inspection</a></li>
+      </ol>
     </div>
 
-    <!-- ── Add more charter entries here by duplicating the block above ── -->
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 1 – PRE-ASSESSMENT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s1">
+      <div class="cc-service-header">
+        <span class="service-num">01</span>
+        <h2>Pre-Assessment</h2>
+      </div>
+      <div class="cc-service-desc">
+        Pre-assessment is the process in which the Business Bureau assists clients in complying with
+        prerequisites required by Regulatory Offices prior to the application of a New Business Permit
+        and certain Amendments to it.
+      </div>
+
+      <!-- Info table -->
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen; G2B – Government to Business</td></tr>
+          <tr><th>Who May Avail</th><td>Any natural or juridical person conducting or engaging in any business, trade, or occupation within the territorial jurisdiction of Davao City.</td></tr>
+        </table>
+      </div>
+
+      <!-- Requirements -->
+      <div class="cc-section-label">Checklist of Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr class="sub-header"><td colspan="2">NEW APPLICATION</td></tr>
+            <tr><td>1. Duly filled-out Unified Application Form (1 original)</td><td>Business Bureau or <em>busbureau.davaocity.gov.ph</em> / <em>appbts.davaocity.gov.ph</em></td></tr>
+            <tr><td>2. Sketch / Google Map of Business location with pictures of premises (1 original)</td><td>Applicant</td></tr>
+            <tr><td>3. Certified List of Employees / Certification of No Employee (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>4. Valid DTI Registration – Single Proprietorship (1 photocopy)</td><td>Department of Trade and Industry</td></tr>
+            <tr><td>5. SEC Registration / Articles of Incorporation – Partnership &amp; Corporation (1 photocopy)</td><td>Securities and Exchange Commission</td></tr>
+            <tr><td>6. Certificate of Cooperation / Articles of Cooperation – Cooperative (1 photocopy)</td><td>Cooperative Development Authority</td></tr>
+            <tr><td>7. DOLE / POEA Certificate of Registration (if applicable)</td><td>Department of Labor and Employment</td></tr>
+            <tr><td>8. DHSUD Certificate of Registration (if applicable)</td><td>Department of Human Settlement and Urban Development</td></tr>
+            <tr><td>9. Special Power of Attorney – Sole Proprietorship representative (1 current, original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>10. Partnership Resolution – Partnership representative (1 current, original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>11. Secretary's Certificate or Board Resolution – Corporation/Cooperative (1 current, original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>12. Valid ID of representatives / owners / corporate secretary (1 photocopy each)</td><td>Applicant</td></tr>
+            <tr><td>13. Contract of Lease + proof of ownership by Lessor if rented (1 photocopy)</td><td>Applicant, notarized</td></tr>
+            <tr><td>14. Any proof of ownership if business location is owned</td><td>Applicant</td></tr>
+            <tr><td>15. Consent + proof of ownership if location is freely used (1 photocopy)</td><td>Applicant</td></tr>
+            <tr><td>16. OR/CR of vehicle, if with delivery vehicle (1 photocopy per vehicle)</td><td>Applicant</td></tr>
+            <tr><td>17. Consent for use of vehicle if not owned by applicant</td><td>Applicant</td></tr>
+            <tr><td>18. FSIC for Occupancy Permit valid in the last 9 months</td><td>Bureau of Fire Protection</td></tr>
+            <tr><td>19. Affidavit of Undertaking that no substantial changes were made on the building</td><td>Applicant, notarized</td></tr>
+            <tr><td>20. Other requirements depending on business activity declared</td><td>Concerned Agency</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Process Steps -->
+      <div class="cc-section-label">Process Steps (Online – New Business Permit)</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr>
+              <th style="width:28%">Client Steps</th>
+              <th style="width:34%">Agency Action</th>
+              <th style="width:12%">Fees</th>
+              <th style="width:13%">Processing Time</th>
+              <th style="width:13%">Person Responsible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Login to <em>appbts.davaocity.gov.ph</em>, fill up online application form completely, upload required documents, and press Submit.</td><td>Pre-assess Business Permit Application regarding the completeness of documentary requirements.</td><td><span class="fee-none">None</span></td><td>10 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr><td>2. Receive SMS or e-mail notification with access code. Check the status of the pre-assessment application. If approved or pending, comply with requirements. If denied, proceed to the Regulatory Office for further information.</td><td>Verify history, filled-out online application form information, and uploaded documents. Tag application as Accepted, Pending with Deficiency, or refer to Regulatory Offices as applicable.</td><td><span class="fee-none">None</span></td><td>10 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;font-weight:700;">TOTAL</td><td><span class="fee-none">None</span></td><td><strong>20 Minutes</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps (Onsite – New Business Permit)</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr>
+              <th style="width:28%">Client Steps</th>
+              <th style="width:34%">Agency Action</th>
+              <th style="width:12%">Fees</th>
+              <th style="width:13%">Processing Time</th>
+              <th style="width:13%">Person Responsible</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Submit pertinent documents and filled application form.</td><td>Pre-assess Business Permit Application.</td><td><span class="fee-none">None</span></td><td>10 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr><td>2. Receive Control Number Form with QR Code. Check status. If approved, proceed to Business Bureau for Business ID assignment. If pending, comply with requirements.</td><td>Verify history, application form, and uploaded documents. Issue Notice to Proceed or tag Pending with Deficiency Note as applicable.</td><td><span class="fee-none">None</span></td><td>10 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-none">None</span></td><td><strong>20 Minutes</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 1 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 2 – ISSUANCE OF BUSINESS PERMIT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s2">
+      <div class="cc-service-header">
+        <span class="service-num">02</span>
+        <h2>Issuance of Business Permit</h2>
+      </div>
+      <div class="cc-service-desc">
+        It shall be unlawful for any person or entity to conduct or engage in any business, trade, or occupation within the territorial jurisdiction of Davao City without first securing a permit from the City Mayor and paying the necessary fees to the City Treasurer. The Business Permit is valid for not more than one (1) year, expiring on December 31, and must be renewed within January each year.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen; G2B – Government to Business</td></tr>
+          <tr><th>Who May Avail</th><td>Any natural or juridical person conducting or engaging in any business, trade, or occupation within the territorial jurisdiction of Davao City.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Key Process Steps (New – Online)</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr class="step-header"><td colspan="5">STEP 1: APPLICATION</td></tr>
+            <tr><td>Receive Business ID number assigned.</td><td>Encode additional business application details and assign Business ID number to the encoded Pre-Assessed Application.</td><td><span class="fee-none">None</span></td><td>24 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 2: PAYMENT</td></tr>
+            <tr><td>Proceed to the City Treasurer's Office for payment.</td><td>Process under City Treasurer's Office.</td><td><span class="fee-tag">Mayor's Permit Fee based on asset size &amp; nature of business. See schedule below.</span></td><td>9 Minutes</td><td>City Treasurer's Office</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 3: RELEASE</td></tr>
+            <tr><td>Upload business line-specific documents. Download Business Permit; claim Business Identification Plate and Sticker at the Business Bureau office. Sign Logbook.</td><td>Check &amp; review application, encode notations, digitally approve &amp; issue Business Permit. Release business plate and sticker. Request client to sign logbook.</td><td><span class="fee-none">None</span></td><td>36 Minutes</td><td>Licensing Officer IV / Processing Section</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Mayor's Permit Fee</span></td><td><strong>1 Hr 9 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Key Process Steps (New – Onsite)</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr class="step-header"><td colspan="5">STEP 1: APPLICATION</td></tr>
+            <tr><td>Receive pre-assessed application with Business ID number assigned.</td><td>Encode additional business application details and assign Business ID number.</td><td><span class="fee-none">None</span></td><td>24 Minutes</td><td>EDP Personnel, Business Bureau</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 2: PAYMENT</td></tr>
+            <tr><td>Proceed to the City Treasurer's Office for payment.</td><td>Process under City Treasurer's Office.</td><td><span class="fee-tag">Mayor's Permit Fee</span></td><td>9 Minutes</td><td>City Treasurer's Office</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 3: RELEASE</td></tr>
+            <tr><td>Submit recommended approval, official receipts, and pertinent documents. Claim Business Permit, plate, and sticker. Sign Logbook.</td><td>Receive &amp; check documents, encode notations, print &amp; segregate permit, review, final approve, release permit &amp; plate, request client signature.</td><td><span class="fee-none">None</span></td><td>76 Minutes</td><td>Processing Section / Licensing Officer IV</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Mayor's Permit Fee</span></td><td><strong>2 Hr 19 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Key Process Steps (Renewal – Online)</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr class="step-header"><td colspan="5">STEP 1: APPLICATION</td></tr>
+            <tr><td>Login to <em>appbts.davaocity.gov.ph</em>, update contact info, upload required documents, fill web forms, proceed to assessment and payment online.</td><td>Assess pertinent documents. If permit is blocked, inform the client to comply with Regulatory Office requirements.</td><td><span class="fee-none">None</span></td><td>10 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 2: PAYMENT</td></tr>
+            <tr><td>Proceed to the City Treasurer's Office for payment.</td><td>Process under City Treasurer's Office.</td><td><span class="fee-tag">Mayor's Permit Fee + Business Taxes</span></td><td>9 Minutes</td><td>City Treasurer's Office</td></tr>
+            <tr class="step-header"><td colspan="5">STEP 3: RELEASE</td></tr>
+            <tr><td>Wait for Business Bureau approval. Claim Business Sticker at Business Bureau. Sign Logbook.</td><td>Check &amp; review application, encode notations, digitally approve &amp; issue permit, release sticker, request client signature.</td><td><span class="fee-none">None</span></td><td>86 Minutes</td><td>Licensing Officer / Processing Section</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Mayor's Permit Fee</span></td><td><strong>1 Hr 45 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Fees schedule -->
+      <div class="cc-fees-block">
+        <h4>Mayor's Permit Fee Schedule (Based on Asset Size &amp; Nature of Business)</h4>
+        <ul>
+          <li><span class="fee-name">Cottage (≤ Php 499,999)</span><span class="fee-amount">Php 1,000 – 2,000</span></li>
+          <li><span class="fee-name">Small (Php 500,000 – 1,999,999)</span><span class="fee-amount">Php 1,200 – 5,000</span></li>
+          <li><span class="fee-name">Medium (Php 2,000,000 – 9,999,999)</span><span class="fee-amount">Php 2,500 – 8,000</span></li>
+          <li><span class="fee-name">Large (Php 10,000,000 and above)</span><span class="fee-amount">Php 6,000 – 10,000</span></li>
+          <li><span class="fee-name">Amendment of Business Permit (service fee)</span><span class="fee-amount">Php 50.00</span></li>
+        </ul>
+      </div>
+    </div><!-- end SERVICE 2 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 3 – SPECIAL PERMIT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s3">
+      <div class="cc-service-header">
+        <span class="service-num">03</span>
+        <h2>Special Permit</h2>
+      </div>
+      <div class="cc-service-desc">
+        Special Mayor's Permit is issued to any natural or juridical entity for the conduct of any event or activity involving the grouping of people within the jurisdiction of Davao City — including bazaars, exhibits, fun-runs, motorcades, parades, and other similar activities.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen; G2B – Government to Business</td></tr>
+          <tr><th>Who May Avail</th><td>Any natural or entity conducting programs/activities involving the grouping of people — bazaars, exhibits, fun-runs, motorcades, parades, and others within the jurisdiction of Davao City.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">General Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr><td>1. Security Clearance from Public Safety and Security Office</td><td>Public Safety and Security Command Center</td></tr>
+            <tr><td>2. Business Permit (private agency / organizer)</td><td>Business Bureau</td></tr>
+            <tr><td>3. Affidavit of Undertaking to strictly follow recommendations</td><td>Client</td></tr>
+            <tr class="sub-header"><td colspan="2">Concerts / Shows / Events in Open Areas</td></tr>
+            <tr><td>Barangay Resolution (1 original)</td><td>Barangay Hall</td></tr>
+            <tr class="sub-header"><td colspan="2">Mahjong</td></tr>
+            <tr><td>Barangay Clearance + Cedula</td><td>Barangay Hall / City Treasurer's Office</td></tr>
+            <tr class="sub-header"><td colspan="2">Activities Requiring Road Closures</td></tr>
+            <tr><td>Sangguniang Panlungsod Ordinance (1 original)</td><td>Sangguniang Panlungsod</td></tr>
+            <tr class="sub-header"><td colspan="2">Cockfight / Derby</td></tr>
+            <tr><td>Business Permit of Cockpit (1 photocopy) + SP Ordinance (1 original)</td><td>Business Bureau / Sangguniang Panlungsod</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Login to <em>specialpermit.davaocity.gov.ph</em>, create application, fill in required info, and upload required documents.</td><td>Pre-assess correctness and completeness of application. If complete, tag for approval, indicate amount to be paid, and route electronically for Regulatory Offices' approval.</td><td><span class="fee-tag">See fee schedule below</span></td><td>20 Minutes</td><td>Licensing Officer I / SMP Personnel</td></tr>
+            <tr><td>2. Pay online or proceed to City Treasurer's Office as alternative. Wait for SMS/e-mail notification of approval. Download Special Permit upon approval.</td><td>Check special permit portal for paid applications, verify receipts and uploaded documents, encode event details, tag for Supervisor's Approval.</td><td><span class="fee-none">None (after payment)</span></td><td>30 Minutes</td><td>Licensing Officer I / SMP Personnel</td></tr>
+            <tr><td></td><td>Supervisor approves the Special Permit online (Final Approval).</td><td><span class="fee-none">None</span></td><td>20 Minutes</td><td>Mrs. Maribel T. Paguican, Business Bureau Chief</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">See schedule</span></td><td><strong>1 Hr 10 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-fees-block">
+        <h4>Schedule of Fees</h4>
+        <ul>
+          <li><span class="fee-name">Meetings, Incentives, Conference, Sports Events &amp; Exhibits</span><span class="fee-amount">Php 500/Day</span></li>
+          <li><span class="fee-name">Recorrida</span><span class="fee-amount">Php 150/Day</span></li>
+          <li><span class="fee-name">Sampling</span><span class="fee-amount">Php 300/Day</span></li>
+          <li><span class="fee-name">Motorcade (9am–4pm only)</span><span class="fee-amount">Php 500/Day</span></li>
+          <li><span class="fee-name">Blockscreening / Moviescreening</span><span class="fee-amount">Php 500/Day</span></li>
+          <li><span class="fee-name">Procession</span><span class="fee-amount">Free</span></li>
+          <li><span class="fee-name">Parade</span><span class="fee-amount">Php 200/Day</span></li>
+          <li><span class="fee-name">Mahjong</span><span class="fee-amount">Php 700/annum (minimum)</span></li>
+          <li><span class="fee-name">Signage Installation</span><span class="fee-amount">Php 150/Activity</span></li>
+          <li><span class="fee-name">Circus, Carnivals, and the like</span><span class="fee-amount">Php 500 first 5 days + Php 100/day thereafter</span></li>
+          <li><span class="fee-name">Bazaar/Exhibit – Organizer from Davao</span><span class="fee-amount">Php 500/Day per location</span></li>
+          <li><span class="fee-name">Bazaar/Exhibit – Outside Davao (&lt;30 exhibitors)</span><span class="fee-amount">Php 1,000/Day</span></li>
+          <li><span class="fee-name">Bazaar/Exhibit – Outside Davao (31–60 exhibitors)</span><span class="fee-amount">Php 2,000/Day</span></li>
+          <li><span class="fee-name">Bazaar/Exhibit – Outside Davao (61–100 exhibitors)</span><span class="fee-amount">Php 3,000/Day</span></li>
+          <li><span class="fee-name">Bazaar/Exhibit – Outside Davao (&gt;100 exhibitors)</span><span class="fee-amount">Php 5,000/Day</span></li>
+          <li><span class="fee-name">Selling Display Exhibitors</span><span class="fee-amount">Php 300/Day per stall</span></li>
+          <li><span class="fee-name">Non-Selling Display Exhibitors</span><span class="fee-amount">Php 150/Day per stall</span></li>
+          <li><span class="fee-name">Recruitment – Overseas</span><span class="fee-amount">Php 1,000/Schedule</span></li>
+          <li><span class="fee-name">Recruitment – Local</span><span class="fee-amount">Php 1,200/Schedule</span></li>
+          <li><span class="fee-name">Special Cockfights (Pintakasi) – First 3 days</span><span class="fee-amount">Php 3,000</span></li>
+          <li><span class="fee-name">Special Cockfights – Succeeding days</span><span class="fee-amount">Php 2,000/day</span></li>
+          <li><span class="fee-name">Derby – Two-Cock</span><span class="fee-amount">Php 2,000</span></li>
+          <li><span class="fee-name">Derby – Three-Cock</span><span class="fee-amount">Php 4,000</span></li>
+          <li><span class="fee-name">Derby – Four-Cock</span><span class="fee-amount">Php 7,000</span></li>
+          <li><span class="fee-name">Derby – Five-Cock</span><span class="fee-amount">Php 8,000</span></li>
+          <li><span class="fee-name">Derby – More than Five-Cock</span><span class="fee-amount">Php 18,000</span></li>
+        </ul>
+      </div>
+    </div><!-- end SERVICE 3 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 4 – OCCUPATIONAL PERMIT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s4">
+      <div class="cc-service-header">
+        <span class="service-num">04</span>
+        <h2>Occupational Permit</h2>
+      </div>
+      <div class="cc-service-desc">
+        Issued to any worker or employee who is not a holder of a validly issued Professional Tax Receipt, whether working on a temporary or permanent basis. Renewed annually on or before January 31. Late renewal is subject to a 25% penalty.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen</td></tr>
+          <tr><th>Who May Avail</th><td>Any employee or worker who is a Filipino citizen, 18 years of age at time of application. Foreigners must present an Alien Employment Permit from DOLE. For workers below 18 years of age, an Affidavit of Consent from a parent or guardian is required.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Checklist of Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr><td>1. Application Form</td><td>Business Bureau Office, Window 1 or at the Public Assistance Desk</td></tr>
+            <tr><td>2. Certificate of Employment</td><td>Applicant</td></tr>
+            <tr><td>3. Official Receipt (for service crew)</td><td>City Treasurer's Office</td></tr>
+            <tr><td>4. Affidavit of Consent for minors (below 18); for Night Clubs and similar establishments, consent for ages 18–20</td><td>Applicant, notarized</td></tr>
+            <tr class="sub-header"><td colspan="2">Additional Requirements for Entertainers, Masseurs, Bar Attendants</td></tr>
+            <tr><td>a. Birth Certificate</td><td>Philippine Statistics Authority</td></tr>
+            <tr><td>b. Valid ID of parent or qualified guardian for parent's consent with appearance</td><td>Any Notary Public</td></tr>
+            <tr><td>c. Health ID</td><td>Health ID</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Request Order of Payment and application form (walk-in). Pay the specified amount at the City Treasurer's Office.</td><td>Give application form, checklist of requirements, and Order of Payment.</td><td><span class="fee-tag">Php 125.00 new/renewal; Php 156.25 late renewal</span></td><td>5 Minutes</td><td>Mr. Marco A. Maglana, Occupational Permit Section Head</td></tr>
+            <tr><td>2. Fill out application form and submit required documents including official receipt. (Walk-in or via <em>occupationalpermit.davaocity.gov.ph</em>). Entertainers/Masseurs/Bar Attendants 18–20 or below 18 must appear for interview.</td><td>Receive application form and supporting documents including official receipt, verify applicant information. Conduct interview if applicable.</td><td><span class="fee-none">None</span></td><td>14 Minutes</td><td>Occupational Permit Section Head and Personnel</td></tr>
+            <tr><td>3. Receive Occupational Permit (approved) or returned documents (denied). Download Online Permit or claim hard copy for walk-in applicants.</td><td>Approve and release or deny application. Online permits are digitally signed. Print, sign, and release hard copy for walk-in applicants.</td><td><span class="fee-none">None</span></td><td>14 Minutes</td><td>Occupational Permit Section Head and Personnel</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Php 125.00 / Php 156.25</span></td><td><strong>33 Minutes</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 4 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 5 – ISSUANCE OF CERTIFICATIONS
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s5">
+      <div class="cc-service-header">
+        <span class="service-num">05</span>
+        <h2>Issuance of Certifications / Certified True Copy</h2>
+      </div>
+      <div class="cc-service-desc">
+        Certifications or Certified True Copy is issued to any natural or juridical entity, government agencies or offices who wish to secure any copy of a Business Permit or who wish to know any status or record of a Taxpayer.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple (Certification, CTC, Master List without modified parameters); Highly Technical (Master List requiring technical parameters and format modification)</td></tr>
+          <tr><th>Type of Transaction</th><td>G2B – Government to Business; G2G – Government to Government; G2C – Government to Citizen</td></tr>
+          <tr><th>Who May Avail</th><td>Natural or juridical entity, government agencies and offices, or any other concerned individual or entity.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Checklist of Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr><td>1. Letter Request stating the purpose (1 original)</td><td>Applicant</td></tr>
+            <tr><td>2. Special Power of Attorney if represented – Sole Proprietorship (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>3. Partnership Resolution indicating reason and authorized representative (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>4. Secretary's Certificate indicating reason and authorized representative (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>5. Valid ID of the requisitioner (1 photocopy)</td><td>Applicant</td></tr>
+            <tr><td>6. Data Use Privacy Agreement (if applicable)</td><td>Applicant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Fill out and submit Request Form and requirements. Receive Order of Payment to be paid to the City Treasurer's Office.</td><td>Check required documents and issue Order of Payment.</td><td><span class="fee-tag">Php 50.00 (Certification); Php 100.00 (CTC); +Php 35.00/additional copy; Php 50.00 + Php 20/page (Master List)</span></td><td>3 Minutes</td><td>Records Staff, Business Bureau</td></tr>
+            <tr><td>2. Submit Official Receipt, Order of Payment, and pertinent documents.</td><td>Receive Official Receipt, Order of Payment, and pertinent documents.</td><td><span class="fee-none">None</span></td><td>3 Minutes</td><td>Records / EDP Personnel</td></tr>
+            <tr><td>3. Receive Certificate or Certified True Copy.</td><td>Verify record / generate Master List data. Prepare Certification / CTC / Master List. Affix signature. Release documents.</td><td><span class="fee-none">None</span></td><td>41 Minutes (+2 days for Master List without format modification; +13 days with format modification)</td><td>Ms. Marygel Babia / Mrs. Maribel T. Paguican</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Php 50.00 – Php 100.00+</span></td><td><strong>47 Minutes</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 5 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 6 – FULL RETIREMENT OF BUSINESS PERMIT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s6">
+      <div class="cc-service-header">
+        <span class="service-num">06</span>
+        <h2>Full Retirement of Business Permit</h2>
+      </div>
+      <div class="cc-service-desc">
+        Full retirement of Business Permit is issued to any natural or juridical entity whose business operations have permanently ceased.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen</td></tr>
+          <tr><th>Who May Avail</th><td>Any natural or juridical entity who is a holder of a valid business permit but whose business operations have ceased.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Checklist of Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr><td>1. Latest Business Permit (1 original or 1 certified copy)</td><td>Applicant or Records Section, Business Bureau</td></tr>
+            <tr><td>2. Affidavit of Full Retirement indicating reason and effective date – Single Proprietorship (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>3. Partnership Resolution duly signed by all Partners stating reason, effective date, and authorized representative – Partnership (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>4. Board Resolution or Secretary's Certificate stating reason, effective date, and authorized representative – Other ownership (1 original)</td><td>Applicant, notarized</td></tr>
+            <tr><td>5. Valid ID of the authorized representative, if newly designated (1 photocopy)</td><td>Applicant</td></tr>
+            <tr><td>6. Special Power of Attorney for Single Proprietorship if represented (1 original)</td><td>Any Notary Public / Applicant</td></tr>
+            <tr><td>7. Business Identification Plate</td><td>Applicant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr class="step-header"><td colspan="5">PRE-ASSESSMENT</td></tr>
+            <tr><td>1. Submit requirements for pre-assessment. Receive and sign application for retirement. Proceed to City Treasurer's Office for assessment of dues and approval.</td><td>Pre-assess pertinent documents and validate details on the Affidavit of Retirement. Print and sign the application for retirement.</td><td><span class="fee-none">None</span></td><td>15 Minutes</td><td>Licensing Officer, Business Bureau</td></tr>
+            <tr class="step-header"><td colspan="5">PROCESS PROPER</td></tr>
+            <tr><td>2. Submit recommended approved application for retirement and Business Identification Plate. Receive claim stub.</td><td>Receive documents, issue claim stub. Check &amp; approve application. Segregate office file and applicant's copy. Tag and print RETIRED annotation.</td><td><span class="fee-none">None</span></td><td>1 Hr 5 Min</td><td>Processing Section / Ms. Marygel Babia (Records Section Head)</td></tr>
+            <tr><td>3. Receive the retired business permit and other applicant's copy of required documents.</td><td>Process Staff receives claim stub and releases retired business permit and applicant's copy of required documents.</td><td><span class="fee-none">None</span></td><td>5 Minutes</td><td>Processing Section Personnel</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">Tax obligation based on gross sales. Late filing fee: Php 1,000–5,000 if filed &gt;30 days from cessation.</span></td><td><strong>1 Hr 45 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 6 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 7 – CANCELLATION OF BUSINESS PERMIT
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s7">
+      <div class="cc-service-header">
+        <span class="service-num">07</span>
+        <h2>Cancellation of Business Permit</h2>
+      </div>
+      <div class="cc-service-desc">
+        Offered to any natural or juridical entity whose application for Business Permit has been encoded in the system but the applicant later decided not to push through the said application for any valid reason. Cancellation must be applied within three (3) months from the date of application. Not available to applicants with records at the City Treasurer's Office.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen</td></tr>
+          <tr><th>Who May Avail</th><td>Any natural or juridical entity with a valid reason to cancel a duly processed application for new business permit.</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Checklist of Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr><td>1. Application Form (1 photocopy)</td><td>Business Bureau, Window 7</td></tr>
+            <tr><td>2. Affidavit of Cancellation stating reason – Sole Proprietorship (2 originals)</td><td>Taxpayer</td></tr>
+            <tr><td>3. ID of Taxpayer (1 photocopy)</td><td>Taxpayer</td></tr>
+            <tr><td>4. Special Power of Attorney (1 original + 1 photocopy)</td><td>Applicant, notarized</td></tr>
+            <tr><td>5. Partnership Resolution – Partnership (1 original + 1 photocopy)</td><td>Applicant, notarized</td></tr>
+            <tr><td>6. Board Resolution or Secretary's Certificate – Other ownership (1 original + 1 photocopy)</td><td>Applicant, notarized</td></tr>
+            <tr><td>7. IDs of Partners (1 photocopy each)</td><td>Taxpayer</td></tr>
+            <tr><td>8. ID of authorized signatory for other form of ownership (1 photocopy)</td><td>Taxpayer</td></tr>
+            <tr><td>9. ID of authorized representative (1 photocopy)</td><td>Taxpayer</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. Submit complete requirements to EDP Head and receive Claim Stub.</td><td>EDP Head receives and checks requirements, fills out application form for approval. Business Bureau OIC approves application. EDP Head endorses to City Treasurer's Office.</td><td><span class="fee-none">None</span></td><td>5 Minutes</td><td>EDP Head / Mrs. Maribel T. Paguican, OIC</td></tr>
+            <tr><td>2. Client waits for further notice.</td><td>LTOO IV-CTO District recommends cancellation or retirement. If recommended for cancellation, client returns to Business Bureau. If recommended for retirement, client is advised to process under retirement service.</td><td><span class="fee-none">None</span></td><td>2 Hours</td><td>Local Treasury Operations Officer IV – District Treasurer's Office</td></tr>
+            <tr><td>3. Client receives approval or disapproval of cancellation.</td><td>EDP Head endorses application form and required documents to City Information Technology Center (CITC).</td><td><span class="fee-none">None</span></td><td>5 Hours</td><td>EDP Head, Business Bureau</td></tr>
+            <tr><td>4. If approved, client claims duly canceled application and other documents.</td><td>CITC Employee cancels Business Permit record from the database and returns attached documents to Business Bureau.</td><td><span class="fee-none">None</span></td><td>—</td><td>CITC Employee</td></tr>
+            <tr><td>5. If recommended for retirement, receive application and documents for re-processing under retirement service.</td><td>EDP Head contacts client upon successful cancellation, releases duly canceled application or returns documents with retirement service checklist.</td><td><span class="fee-none">None</span></td><td>—</td><td>EDP Head, Business Bureau</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-none">None</span></td><td><strong>7 Hrs 5 Min</strong></td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 7 -->
+
+
+    <!-- ════════════════════════════════════════════════
+      SERVICE 8 – OCULAR INSPECTION & ICAB
+    ════════════════════════════════════════════════ -->
+    <div class="cc-service" id="s8">
+      <div class="cc-service-header">
+        <span class="service-num">08</span>
+        <h2>Ocular Inspection &amp; ICAB Inspection</h2>
+      </div>
+      <div class="cc-service-desc">
+        Business activities being applied for will be validated through ocular inspections. For Internet Cafes, this procedure issues Internet Café Accreditation (ICAB) to internet cafes and coin-operated internet machine business operators who are compliant with internet café regulation requirements. ICAB Accreditation is a specific requirement for the issuance of a Business Permit.
+      </div>
+
+      <div class="table-wrap">
+        <table class="cc-info-table">
+          <tr><th>Office / Division</th><td>City Mayor's Office – Permits &amp; Licenses Division</td></tr>
+          <tr><th>Classification</th><td>Simple (Regular), Complex (Complaint), Highly Technical (ICAB Accreditation)</td></tr>
+          <tr><th>Type of Transaction</th><td>G2C – Government to Citizen; G2B – Government to Business</td></tr>
+          <tr><th>Who May Avail</th><td>Any business owners operating in Davao City (Regular); any natural or juridical entities whose welfare, security, and safety are threatened by any business activities (Complaint); Internet Café and Coin Operated Internet Machine Business Operators within Davao City (ICAB).</td></tr>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Requirements</div>
+      <div class="table-wrap">
+        <table class="cc-req-table">
+          <thead><tr><th>Requirement</th><th>Where to Secure</th></tr></thead>
+          <tbody>
+            <tr class="sub-header"><td colspan="2">Regular</td></tr>
+            <tr><td>No requirement needed</td><td>—</td></tr>
+            <tr class="sub-header"><td colspan="2">Complaint</td></tr>
+            <tr><td>1. Letter of complaint (2 copies)</td><td>Complainant</td></tr>
+            <tr><td>2. Sketch (1 copy)</td><td>Complainant</td></tr>
+            <tr class="sub-header"><td colspan="2">ICAB (Internet Café Accreditation)</td></tr>
+            <tr><td>1. Letter Request for Inspection (1 original + 1 duplicate copy)</td><td>Applicant</td></tr>
+            <tr><td>2. Duly filled-out application form for New Business Permit (1 photocopy)</td><td>Applicant, notarized</td></tr>
+            <tr><td>3. Official Receipt for ICAB Accreditation (1 original)</td><td>Revenue Collection Officer, City Treasurer's Office</td></tr>
+            <tr><td>4. Sketch Map of Business Location (1 original)</td><td>Applicant</td></tr>
+            <tr><td>5. Compliance with ICAB requirements: ISP Contract/Receipt, half-closed cubicle, proper lighting (25 Lux min fluorescent; 50 Lux min incandescent), warning signs, content filtering system, webcams, no intoxicating drinks/cigarettes, headphones, urinal/CR requirements</td><td>Applicant</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cc-section-label">Process Steps</div>
+      <div class="table-wrap">
+        <table class="cc-process-table">
+          <thead>
+            <tr><th style="width:28%">Client Steps</th><th style="width:34%">Agency Action</th><th style="width:12%">Fees</th><th style="width:13%">Processing Time</th><th style="width:13%">Person Responsible</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1. File the letter of complaint / Submit letter of request for inspection, sketch map, and photocopy.</td><td>Receive letter complaint / request for ICAB accreditation and other pertinent documents.</td><td><span class="fee-none">None</span></td><td>3 Minutes</td><td>Receiving of Communications Personnel</td></tr>
+            <tr><td>2. Receive copy of complaint / application.</td><td>Give received copy to complainant / applicant.</td><td><span class="fee-none">None</span></td><td>2 Minutes</td><td>—</td></tr>
+            <tr><td>3. Wait for scheduled inspection.</td><td>Route complaint / request for inspection. Assign to Inspection Team.</td><td><span class="fee-none">None</span></td><td>2 Hours</td><td>Mrs. Maribel T. Paguican, Licensing Officer IV</td></tr>
+            <tr><td>4. Receive Inspection Report / 1st Notice of Violation / ICAB Accreditation.</td><td>Conduct Ocular Inspection. Issue Inspection Report (no violation) or 1st Notice (with violation). Issue ICAB Accreditation with Order of Payment if compliant.</td><td><span class="fee-none">None</span></td><td>2 Days</td><td>Licensing Officer with massive inspectors</td></tr>
+            <tr><td>5. (Internet Café / Pisonet only) Proceed to City Treasurer's Office for ICAB Accreditation fee.</td><td>Receive payment and issue Official Receipt.</td><td><span class="fee-tag">Php 100.00 first 10 units + Php 10.00 per unit thereafter</span></td><td>10 Minutes</td><td>Local Revenue Collection Officer</td></tr>
+            <tr><td>6. Submit ICAB O.R. prior to printing of Business Permit.</td><td>Endorse copy to appropriate regulatory offices. Issue 2nd and Final Notice with Cease-and-Desist Order if violations are not complied upon reinspection. Serve Closure Order if still no compliance after 2nd and Final Notice.</td><td><span class="fee-none">None (penalties depend on violation)</span></td><td>15 Days after 1st inspection (if 2nd inspection needed); 1 Day after 2nd inspection (if closure needed)</td><td>Licensing Officer with massive inspectors</td></tr>
+            <tr class="total-row"><td colspan="2" style="text-align:right;">TOTAL</td><td><span class="fee-tag">ICAB: Php 100.00 + Php 10.00/unit in excess of 10</span></td><td><strong>2 Days, 2 Hrs, 5 Min</strong> (+ additional days if re-inspection needed)</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div><!-- end SERVICE 8 -->
 
   </main>
 
 
-  <!-- ============================================================
-    FOOTER – same on every page. Copy from business-bureau.html.
-  ============================================================ -->
+  <!-- FOOTER -->
   <footer id="contact">
     <div class="footer-inner">
-
       <div class="footer-col">
         <h4>Business Bureau</h4>
         <p>Streamlining business registration through reliable, technology-driven systems for an efficient and impartial licensing process.</p>
       </div>
-
       <div class="footer-col">
         <h4>Contact</h4>
         <div class="contact-row">
@@ -146,15 +957,9 @@
         </div>
         <div class="contact-row">
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          <a href="#" style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
-             onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Facebook Page</a>
-        </div>
-        <div class="footer-map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
-            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Business Bureau Location"></iframe>
+          <a href="#" style="color:rgba(255,255,255,0.85);transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Facebook Page</a>
         </div>
       </div>
-
       <div class="footer-col footer-logos">
         <div class="logo-grid">
           <div class="logo-placeholder">
@@ -173,16 +978,13 @@
           </div>
         </div>
       </div>
-
     </div>
     <div class="footer-bottom">
       &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
-
   <script>
-    /* Hamburger menu */
     const hamburger  = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');
     hamburger.addEventListener('click', () => {
