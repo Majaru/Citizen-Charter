@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Citizen's Charter – Business Bureau</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ============================================================
+      CITIZEN'S CHARTER – PDF VIEWER WITH TOC SIDEBAR
+    ============================================================ */
+
+    .cc-layout {
+      max-width: 1200px;
+      margin: 32px auto 64px;
+      padding: 0 24px;
+      display: grid;
+      /* Sidebar | PDF viewer */
+      grid-template-columns: 260px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ── Sidebar ── */
+    .cc-sidebar {
+      position: sticky;
+      top: calc(var(--nav-height) + 16px);
+      background: var(--white);
+      border: 1px solid #d0d5df;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .cc-sidebar-header {
+      background: var(--navy);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cc-sidebar-header svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .cc-sidebar-header h3 {
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    /* TOC list */
+    .cc-toc-list {
+      list-style: none;
+      padding: 8px 0;
+      margin: 0;
+    }
+    .cc-toc-list li { border-bottom: 1px solid #f0f2f8; }
+    .cc-toc-list li:last-child { border-bottom: none; }
+
+    .cc-toc-list button {
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      transition: background 0.15s;
+    }
+    .cc-toc-list button:hover { background: #f0f2f8; }
+    .cc-toc-list button.active { background: #e8ecf8; }
+    .cc-toc-list button.active .toc-num { background: var(--gold); }
+    .cc-toc-list button.active .toc-label { color: var(--navy); font-weight: 700; }
+
+    /* Number badge */
+    .toc-num {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      background: var(--navy);
+      color: var(--white);
+      border-radius: 4px;
+      font-family: var(--font-heading);
+      font-size: 0.72rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+    }
+
+    .toc-label {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.35;
+      transition: color 0.15s;
+    }
+
+    /* Page number hint */
+    .toc-page {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    /* Download button inside sidebar */
+    .cc-sidebar-footer {
+      padding: 12px 16px;
+      border-top: 1px solid #e0e3ec;
+      background: #f8f9fc;
+    }
+    .btn-download-sm {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 9px 16px;
+      background: var(--gold);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-download-sm:hover { background: var(--navy); }
+    .btn-download-sm svg { width: 14px; height: 14px; }
+
+    /* ── PDF viewer column ── */
+    .cc-viewer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Toolbar above the PDF */
+    .pdf-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pdf-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* Current page label */
+    .pdf-current-label {
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      background: #e8ecf8;
+      border-radius: 4px;
+      padding: 5px 12px;
+    }
+    /* Safari notice */
+    .safari-notice {
+      display: none;
+      font-size: 0.78rem;
+      color: #856404;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 4px;
+      padding: 5px 10px;
+    }
+
+    /* PDF wrapper */
+    .pdf-wrapper {
+      border: 1px solid #d0d5df;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      background: #525659;
+    }
+    .pdf-wrapper iframe {
+      display: block;
+      width: 100%;
+      height: calc(100vh - 72px - 80px);
+      min-height: 620px;
+      border: none;
+    }
+
+    /* Fallback for unsupported browsers */
+    .pdf-fallback {
+      display: none;
+      padding: 48px 24px;
+      text-align: center;
+      background: var(--light);
+    }
+    .pdf-fallback p { font-size: 0.95rem; color: var(--muted); margin-bottom: 16px; }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: var(--font-heading);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-download:hover { background: var(--teal); }
+    .btn-download svg { width: 16px; height: 16px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 820px) {
+      .cc-layout {
+        grid-template-columns: 1fr;
+      }
+      /* On mobile: sidebar is no longer sticky, sits above the viewer */
+      .cc-sidebar { position: static; }
+      /* Make TOC list horizontal scroll on mobile */
+      .cc-toc-list {
+        display: flex;
+        overflow-x: auto;
+        padding: 8px;
+        gap: 6px;
+      }
+      .cc-toc-list li { border-bottom: none; flex-shrink: 0; }
+      .cc-toc-list button {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px 12px;
+        border: 1px solid #d0d5df;
+        border-radius: var(--radius);
+        gap: 6px;
+        min-width: 110px;
+      }
+      .cc-toc-list button.active { border-color: var(--gold); }
+      .toc-page { margin-left: 0; }
+      .pdf-wrapper iframe { height: 70vh; min-height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+    HEADER
+  ============================================================ -->
+  <header>
+    <div class="nav-inner">
+      <a href="business-bureau.html" style="display:flex;align-items:center;gap:14px;text-decoration:none;">
+        <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
+          <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
+          <text x="26" y="30" font-family="serif" font-size="10" fill="#0d1f4e" text-anchor="middle" font-weight="bold">BB</text>
+        </svg>
+        <div class="logo-text"><span>BUSINESS</span><span>BUREAU</span></div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="business-bureau.html">Home</a></li>
+        <li><a href="citizens-charter.html" class="active">Citizen's Charter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="business-bureau.html"  class="mobile-link">Home</a>
+      <a href="citizens-charter.html" class="mobile-link active">Citizen's Charter</a>
+      <a href="about.html"            class="mobile-link">About</a>
+      <a href="contact.html"          class="mobile-link">Contact</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero hero-inner">
+    <div class="hero-content"><h1>Citizen's Charter</h1></div>
+  </section>
+
+
+  <!-- ============================================================
+    MAIN LAYOUT: Sidebar + PDF Viewer
+  ============================================================ -->
+  <div class="cc-layout">
+
+    <!-- ── Sidebar: Table of Contents ──
+         To add/change a service entry:
+           - Add/edit a <li> inside .cc-toc-list
+           - Set data-page to the PDF page number
+           - Update the label text
+    -->
+    <aside class="cc-sidebar">
+      <div class="cc-sidebar-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <line x1="8" y1="6"  x2="21" y2="6"/>
+          <line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6"  x2="3.01" y2="6"/>
+          <line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        <h3>Table of Contents</h3>
+      </div>
+
+      <ul class="cc-toc-list" id="tocList">
+
+        <!-- Each <li> has a button with data-page = PDF page number -->
+
+        <li>
+          <button data-page="1" class="toc-btn active">
+            <span class="toc-num">—</span>
+            <span class="toc-label">Cover Page</span>
+            <span class="toc-page">p.1</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="2" class="toc-btn">
+            <span class="toc-num">1</span>
+            <span class="toc-label">Pre-Assessment</span>
+            <span class="toc-page">p.2</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="14" class="toc-btn">
+            <span class="toc-num">2</span>
+            <span class="toc-label">Issuance of Business Permit</span>
+            <span class="toc-page">p.14</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="55" class="toc-btn">
+            <span class="toc-num">3</span>
+            <span class="toc-label">Special Permit</span>
+            <span class="toc-page">p.55</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="63" class="toc-btn">
+            <span class="toc-num">4</span>
+            <span class="toc-label">Occupational Permit</span>
+            <span class="toc-page">p.63</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="66" class="toc-btn">
+            <span class="toc-num">5</span>
+            <span class="toc-label">Issuance of Certifications</span>
+            <span class="toc-page">p.66</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="69" class="toc-btn">
+            <span class="toc-num">6</span>
+            <span class="toc-label">Full Retirement of Business Permit</span>
+            <span class="toc-page">p.69</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="72" class="toc-btn">
+            <span class="toc-num">7</span>
+            <span class="toc-label">Cancellation of Business Permit</span>
+            <span class="toc-page">p.72</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="75" class="toc-btn">
+            <span class="toc-num">8</span>
+            <span class="toc-label">Ocular &amp; ICAB Inspection</span>
+            <span class="toc-page">p.75</span>
+          </button>
+        </li>
+
+        <li>
+          <button data-page="79" class="toc-btn">
+            <span class="toc-num">—</span>
+            <span class="toc-label">List of Licensing Officers</span>
+            <span class="toc-page">p.79</span>
+          </button>
+        </li>
+
+      </ul>
+
+      <!-- Download button -->
+      <div class="cc-sidebar-footer">
+        <a href="BB_CC2025_03-18-2026.pdf" download class="btn-download-sm">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </a>
+      </div>
+    </aside>
+
+
+    <!-- ── PDF Viewer ── -->
+    <div class="cc-viewer">
+
+      <!-- Toolbar -->
+      <div class="pdf-toolbar">
+        <div class="pdf-toolbar-left">
+          <span class="pdf-current-label" id="currentLabel">Cover Page — p.1</span>
+          <!-- Safari warning shown by JS -->
+          <span class="safari-notice" id="safariNotice">
+            ⚠️ Page jumping may not work in Safari. Use the PDF's own navigation instead.
+          </span>
+        </div>
+      </div>
+
+      <!-- PDF iframe
+           src is set dynamically by JavaScript below.
+           To change the PDF file, update PDF_FILE in the <script> section. -->
+      <div class="pdf-wrapper" id="pdfWrapper">
+        <iframe
+          id="pdfFrame"
+          src="BB_CC2025_03-18-2026.pdf#page=1"
+          title="Business Bureau Citizen's Charter 2025">
+        </iframe>
+
+        <!-- Fallback shown for unsupported browsers -->
+        <div class="pdf-fallback" id="pdfFallback">
+          <p>Your browser does not support inline PDF viewing.</p>
+          <a href="BB_CC2025_03-18-2026.pdf" download class="btn-download">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF instead
+          </a>
+        </div>
+      </div>
+
+    </div><!-- end .cc-viewer -->
+
+  </div><!-- end .cc-layout -->
+
+
+  <!-- ============================================================
+    FOOTER
+  ============================================================ -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div class="footer-col">
+        <h4>Business Bureau</h4>
+        <p>Streamlining business registration through reliable, technology-driven systems for an efficient and impartial licensing process.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+          <span>G/F Sangguniang Panlungsod Bldg., Davao City</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+          <span>241-1000 Local 378</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          <span>busbureau@davaocity.gov.ph</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          <a href="#" style="color:rgba(255,255,255,0.85);transition:color 0.2s;"
+             onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Facebook Page</a>
+        </div>
+      </div>
+      <div class="footer-col footer-logos">
+        <div class="logo-grid">
+          <div class="logo-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
+              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            </svg>
+          </div>
+          <div class="logo-placeholder">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
+              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+    JAVASCRIPT
+    ── PDF_FILE : filename of the PDF (must be in the same folder)
+    ── TOC buttons update the iframe src with #page=N to jump pages
+    ── Safari detection shows a warning (Safari ignores #page=)
+    ── iOS fallback hides the iframe and shows a download button
+  ============================================================ -->
+  <script>
+    /* ── Config ──
+       Change PDF_FILE if you rename or replace the PDF. */
+    const PDF_FILE = 'BB_CC2025_03-18-2026.pdf';
+
+    const frame        = document.getElementById('pdfFrame');
+    const currentLabel = document.getElementById('currentLabel');
+    const tocBtns      = document.querySelectorAll('.toc-btn');
+    const safariNotice = document.getElementById('safariNotice');
+    const fallback     = document.getElementById('pdfFallback');
+
+    /* ── Browser detection ── */
+    const isIOS    = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+    /* Show Safari warning (page jumping unreliable in Safari desktop too) */
+    if (isSafari && !isIOS) {
+      safariNotice.style.display = 'inline-block';
+    }
+
+    /* iOS: hide iframe, show fallback download */
+    if (isIOS) {
+      frame.style.display    = 'none';
+      fallback.style.display = 'block';
+    }
+
+    /* ── TOC click handler ──
+       The trick: we must remove the iframe from the DOM, update src,
+       then re-append it — this forces the browser to actually navigate
+       to the new page instead of ignoring the src change. */
+    tocBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page    = btn.getAttribute('data-page');
+        const label   = btn.querySelector('.toc-label').textContent;
+        const pg      = btn.querySelector('.toc-page').textContent;
+        const wrapper = document.getElementById('pdfWrapper');
+
+        /* Update the label above the viewer */
+        currentLabel.textContent = `${label} — ${pg}`;
+
+        /* Highlight the active button */
+        tocBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        /* Force reload by removing and re-inserting the iframe */
+        const oldFrame = document.getElementById('pdfFrame');
+        const newFrame = document.createElement('iframe');
+        newFrame.id    = 'pdfFrame';
+        newFrame.title = 'Business Bureau Citizen\'s Charter 2025';
+        newFrame.src   = `${PDF_FILE}#page=${page}`;
+        oldFrame.replaceWith(newFrame);
+      });
+    });
+
+    /* ── Generic embed fallback ──
+       If the iframe collapses after load (unsupported browser),
+       show the download button. */
+    window.addEventListener('load', () => {
+      if (!isIOS) {
+        setTimeout(() => {
+          if (frame.clientHeight < 10) {
+            frame.style.display    = 'none';
+            fallback.style.display = 'block';
+          }
+        }, 1200);
+      }
+    });
+
+    /* ── Hamburger menu ── */
+    const hamburger  = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen);
+      mobileMenu.setAttribute('aria-hidden', !isOpen);
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+      }
+    });
+  </script>
+
+</body>
+</html>
