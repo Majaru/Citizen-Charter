@@ -146,19 +146,6 @@
           <a href="mailto:busbureau@davaocity.gov.ph">busbureau@davaocity.gov.ph</a>
         </div>
       </div>
-
-      <!-- Facebook – update href as needed -->
-      <div class="contact-item">
-        <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="#0d1f4e" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-        </div>
-        <div class="contact-item-body">
-          <strong>Facebook</strong>
-          <!-- Replace href with your actual Facebook page URL -->
-          <a href="#" target="_blank" rel="noopener">Visit our Facebook Page</a>
-        </div>
       </div>
 
     </div><!-- end .contact-details -->
@@ -206,11 +193,6 @@
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           <span>busbureau@davaocity.gov.ph</span>
-        </div>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-          <a href="#" style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
-             onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Facebook Page</a>
         </div>
       </div>
 
@@ -276,10 +258,44 @@
 
     /* ── Open / Closed Badge ──
        Change OPEN_HOUR and CLOSE_HOUR (24-hour format) to adjust hours.
-       Change OPEN_DAYS to the days the office is open (0=Sun, 1=Mon … 6=Sat). */
+       Change OPEN_DAYS to the days the office is open (0=Sun, 1=Mon … 6=Sat).
+       HOLIDAYS: list of Philippine public holidays (YYYY-MM-DD) the office is closed.
+       Update this list each year or when proclamations are issued. */
     const OPEN_HOUR  = 8;    /* 8:00 AM  */
     const CLOSE_HOUR = 17;   /* 5:00 PM  */
     const OPEN_DAYS  = [1, 2, 3, 4, 5]; /* Monday to Friday */
+
+    /* ── Philippine Public Holidays 2025 ──
+       Sources: RA 9492, Proclamation No. 727 s. 2024
+       Includes Regular Holidays and Special Non-Working Days.
+       Add or remove dates as new proclamations are issued. */
+    const HOLIDAYS = new Set([
+      /* Regular Holidays */
+      '2025-01-01', /* New Year's Day */
+      '2025-04-09', /* Araw ng Kagitingan (Day of Valor) */
+      '2025-04-17', /* Maundy Thursday */
+      '2025-04-18', /* Good Friday */
+      '2025-05-01', /* Labor Day */
+      '2025-06-12', /* Independence Day */
+      '2025-08-25', /* National Heroes Day (last Monday of August) */
+      '2025-11-30', /* Bonifacio Day */
+      '2025-12-25', /* Christmas Day */
+      '2025-12-30', /* Rizal Day */
+
+      /* Special Non-Working Days */
+      '2025-01-29', /* Chinese New Year */
+      '2025-02-25', /* EDSA People Power Revolution Anniversary */
+      '2025-04-19', /* Black Saturday */
+      '2025-08-21', /* Ninoy Aquino Day */
+      '2025-11-01', /* All Saints' Day */
+      '2025-11-02', /* All Souls' Day (special non-working) */
+      '2025-12-08', /* Feast of the Immaculate Conception */
+      '2025-12-24', /* Christmas Eve (special non-working) */
+      '2025-12-31', /* New Year's Eve (special non-working) */
+
+      /* Additional Davao City local holidays — add as proclaimed */
+      /* '2025-03-XX', Araw ng Davao – update date when proclaimed */
+    ]);
 
     function updateBadge() {
       const badge = document.getElementById('hoursBadge');
@@ -288,17 +304,29 @@
       /* Get current time in Philippine Standard Time (UTC+8) */
       const now = new Date();
       const phTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
-      const day  = phTime.getDay();   /* 0 = Sunday */
+      const day  = phTime.getDay();
       const hour = phTime.getHours();
       const min  = phTime.getMinutes();
       const totalMinutes = hour * 60 + min;
 
-      const isWeekday = OPEN_DAYS.includes(day);
-      const isDuringHours = totalMinutes >= OPEN_HOUR * 60 && totalMinutes < CLOSE_HOUR * 60;
-      const isOpen = isWeekday && isDuringHours;
+      /* Format today's date as YYYY-MM-DD for holiday lookup */
+      const yyyy = phTime.getFullYear();
+      const mm   = String(phTime.getMonth() + 1).padStart(2, '0');
+      const dd   = String(phTime.getDate()).padStart(2, '0');
+      const todayStr = `${yyyy}-${mm}-${dd}`;
 
-      badge.textContent = isOpen ? 'Open Now' : 'Closed Now';
-      badge.className   = 'hours-badge ' + (isOpen ? 'open' : 'closed');
+      const isWeekday     = OPEN_DAYS.includes(day);
+      const isDuringHours = totalMinutes >= OPEN_HOUR * 60 && totalMinutes < CLOSE_HOUR * 60;
+      const isHoliday     = HOLIDAYS.has(todayStr);
+      const isOpen        = isWeekday && isDuringHours && !isHoliday;
+
+      if (isHoliday) {
+        badge.textContent = 'Closed — Public Holiday';
+        badge.className   = 'hours-badge closed';
+      } else {
+        badge.textContent = isOpen ? 'Open Now' : 'Closed Now';
+        badge.className   = 'hours-badge ' + (isOpen ? 'open' : 'closed');
+      }
     }
 
     updateBadge();
