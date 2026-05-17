@@ -109,7 +109,7 @@
         </div>
         <h3>Pre-Assessment</h3>
         <p>Initial evaluation of business requirements and documents before permit processing to ensure compliance with local regulations.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('pre-assessment')">View Details</button>
       </div>
 
       <!-- CARD 2 – Teal -->
@@ -123,7 +123,7 @@
         </div>
         <h3>Issuance of Business Permit</h3>
         <p>Processing and release of official permits allowing businesses to legally operate within the city.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('business-permit')">View Details</button>
       </div>
 
       <!-- CARD 3 – Gold -->
@@ -136,7 +136,7 @@
         </div>
         <h3>Special Permit</h3>
         <p>Issuance of temporary or special authorization for specific business activities, events, or operations requiring additional approval.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('special-permit')">View Details</button>
       </div>
 
       <!-- CARD 4 – Teal -->
@@ -149,7 +149,7 @@
         </div>
         <h3>Occupational Permit</h3>
         <p>Processing of permits for employees and workers as proof of compliance with health, safety, and city requirements.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('occupational-permit')">View Details</button>
       </div>
 
       <!-- CARD 5 – Gold -->
@@ -162,7 +162,7 @@
         </div>
         <h3>Issuance of Certifications</h3>
         <p>Preparation and release of official certifications related to business records, permits, and compliance documents.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('certifications')">View Details</button>
       </div>
 
       <!-- CARD 6 – Teal -->
@@ -176,7 +176,7 @@
         </div>
         <h3>Full Retirement of Business Permit</h3>
         <p>Processing the permanent closure or discontinuation of a business and cancellation of its active permit records.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('full-retirement')">View Details</button>
       </div>
 
       <!-- CARD 7 – Gold -->
@@ -190,7 +190,7 @@
         </div>
         <h3>Cancellation of Business Permit</h3>
         <p>Termination or revocation of a business permit due to request, non-operation, or non-compliance with regulations.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('cancellation')">View Details</button>
       </div>
 
       <!-- CARD 8 – Teal -->
@@ -203,7 +203,7 @@
         </div>
         <h3>Ocular Inspection</h3>
         <p>On-site inspection of business establishments to verify compliance with safety, sanitation, zoning, and operational requirements.</p>
-        <a href="#" class="btn-card">View Details</a>
+        <button class="btn-card" onclick="openServiceModal('ocular-inspection')">View Details</button>
       </div>
 
     </div><!-- end .services-grid -->
@@ -255,16 +255,6 @@
           <span>busbureau@davaocity.gov.ph</span>
         </div>
 
-        <!-- Facebook – replace href with your Facebook page URL -->
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-          <a href="#" style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
-             onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">
-            Facebook Page
-          </a>
-        </div>
       </div>
 
       <!-- Column 3: Logo placeholders
@@ -302,6 +292,47 @@
       &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
+
+
+  <!-- ============================================================
+    SERVICE DETAIL MODAL
+    Infographic-style popup for each Main Service card.
+    Content is injected by JavaScript below.
+    To close: click ×, click backdrop, or press Escape.
+  ============================================================ -->
+  <div class="modal-backdrop" id="serviceModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <div class="modal service-modal">
+
+      <!-- Modal header – color set dynamically by JS -->
+      <div class="service-modal-header" id="serviceModalHeader">
+        <div class="service-modal-header-left">
+          <div class="service-modal-icon" id="serviceModalIcon"></div>
+          <div>
+            <div class="service-modal-tag" id="serviceModalTag"></div>
+            <h2 id="serviceModalTitle"></h2>
+          </div>
+        </div>
+        <button class="modal-close" id="serviceModalClose" aria-label="Close">&times;</button>
+      </div>
+
+      <!-- Infographic body -->
+      <div class="service-modal-body" id="serviceModalBody"></div>
+
+      <!-- Footer with View More link -->
+      <div class="service-modal-footer">
+        <span class="service-modal-note">For complete requirements and process steps:</span>
+        <a href="#" id="serviceModalLink" class="btn-view-more" target="_blank">
+          View Full Details in Citizen's Charter
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
 
 
   <!-- ============================================================
@@ -449,6 +480,351 @@
     // Close with Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) closeModal();
+    });
+
+    /* ============================================================
+      SERVICE DETAIL MODAL
+      Data for all 8 services. Each entry has:
+        - title, tag, color (header background)
+        - desc: short description
+        - who: who may avail
+        - classification & type
+        - fee & time (key stats)
+        - steps: process flow array
+        - requirements: checklist (top items)
+        - page: PDF page number for the "View More" link
+    ============================================================ */
+    const SERVICE_DATA = {
+
+      'pre-assessment': {
+        title: 'Pre-Assessment',
+        tag: 'Service 1 of 8',
+        color: '#b8973a',
+        desc: 'The Business Bureau assists clients in complying with prerequisites required by Regulatory Offices prior to applying for a New Business Permit or certain Amendments.',
+        classification: 'Simple',
+        type: 'G2C / G2B',
+        who: 'Any natural or juridical person engaging in business within Davao City.',
+        fee: 'None',
+        time: '20 Minutes',
+        page: 2,
+        steps: [
+          { num: '1', title: 'Submit / Apply', desc: 'Submit documents onsite or apply online via appbts.davaocity.gov.ph', time: '10 min' },
+          { num: '2', title: 'Verification', desc: 'Licensing Officer verifies history, documents, and application completeness', time: '10 min' },
+          { num: '3', title: 'Result', desc: 'Tagged as Accepted, Pending with Deficiency, or referred to Regulatory Offices', time: '' },
+        ],
+        requirements: [
+          'Duly filled-out Unified Application Form (1 original)',
+          'Sketch / Google Map of Business location with photos (1 original)',
+          'Certified List of Employees or Certification of No Employee (1 original)',
+          'Valid DTI / SEC / CDA Registration (1 photocopy)',
+          'FSIC for Occupancy Permit valid within the last 9 months',
+          'Affidavit of Undertaking (no substantial building changes)',
+          'Valid IDs of owners / representatives (1 photocopy each)',
+        ],
+      },
+
+      'business-permit': {
+        title: 'Issuance of Business Permit',
+        tag: 'Service 2 of 8',
+        color: '#1a5276',
+        desc: 'Processes and releases official permits allowing businesses to legally operate within Davao City. Permits are valid for one (1) year and must be renewed every January.',
+        classification: 'Simple',
+        type: 'G2C / G2B',
+        who: 'Any natural or juridical person engaging in business within Davao City.',
+        fee: 'Mayor\'s Permit Fee based on asset size & nature of business',
+        time: '1 Hr 9 Min (Online) / 2 Hr 19 Min (Onsite)',
+        page: 14,
+        steps: [
+          { num: '1', title: 'Application', desc: 'Receive Business ID number; encode additional business details', time: '24 min' },
+          { num: '2', title: 'Payment', desc: 'Proceed to City Treasurer\'s Office for Mayor\'s Permit Fee payment', time: '9 min' },
+          { num: '3', title: 'Release', desc: 'Upload/submit remaining documents; claim Business Permit, plate, and sticker; sign logbook', time: '36 min' },
+        ],
+        requirements: [
+          'Pre-assessed application with Business ID number',
+          'Official Receipt from City Treasurer\'s Office',
+          'Business-line specific documents (FSIC, DTI, SEC, etc.)',
+          'Valid IDs of owners / representatives',
+          'List of Employees (for renewal)',
+          'Valid Fire Safety Inspection Certificate',
+        ],
+      },
+
+      'special-permit': {
+        title: 'Special Permit',
+        tag: 'Service 3 of 8',
+        color: '#b8973a',
+        desc: 'Issued to any natural or juridical entity for the conduct of events or activities involving the grouping of people — bazaars, exhibits, fun-runs, motorcades, parades, and similar activities within Davao City.',
+        classification: 'Simple',
+        type: 'G2C / G2B',
+        who: 'Any natural or entity conducting programs/activities involving the grouping of people within Davao City.',
+        fee: 'Varies by activity (see Citizen\'s Charter for full schedule)',
+        time: '1 Hour 10 Minutes',
+        page: 55,
+        steps: [
+          { num: '1', title: 'Apply Online', desc: 'Login to specialpermit.davaocity.gov.ph, fill in event details, upload required documents', time: '20 min' },
+          { num: '2', title: 'Payment', desc: 'Pay online or proceed to City Treasurer\'s Office as an alternative', time: '' },
+          { num: '3', title: 'Approval', desc: 'Employee reviews and tags for Supervisor\'s approval; permit digitally approved', time: '30 min' },
+          { num: '4', title: 'Download', desc: 'Receive SMS/e-mail notification; download Special Permit from the portal', time: '20 min' },
+        ],
+        requirements: [
+          'Security Clearance from Public Safety and Security Office',
+          'Business Permit (private agency / organizer)',
+          'Affidavit of Undertaking to follow recommendations',
+          'Barangay Resolution (for open area concerts/events)',
+          'SP Ordinance (for road closures or cockfight/derby)',
+          'Detailed Plan / Floor Plan (for exhibits)',
+        ],
+      },
+
+      'occupational-permit': {
+        title: 'Occupational Permit',
+        tag: 'Service 4 of 8',
+        color: '#1a5276',
+        desc: 'Issued to any worker or employee not holding a Professional Tax Receipt, whether working temporarily or permanently. Renewed annually on or before January 31. Late renewal carries a 25% penalty.',
+        classification: 'Simple',
+        type: 'G2C',
+        who: 'Filipino employees or workers 18 years of age and above. Foreigners must present an Alien Employment Permit from DOLE.',
+        fee: 'Php 125.00 (new/renewal) · Php 156.25 (late renewal)',
+        time: '33 Minutes',
+        page: 63,
+        steps: [
+          { num: '1', title: 'Order of Payment', desc: 'Request form and Order of Payment; pay Php 125.00 at City Treasurer\'s Office', time: '5 min' },
+          { num: '2', title: 'Submit Documents', desc: 'Fill out application form and submit with official receipt (walk-in or online)', time: '14 min' },
+          { num: '3', title: 'Release', desc: 'Permit is approved and released digitally (online) or as hard copy (walk-in)', time: '14 min' },
+        ],
+        requirements: [
+          'Application Form (from Business Bureau or online)',
+          'Certificate of Employment',
+          'Official Receipt of payment (Php 125.00)',
+          'Affidavit of Consent for minors below 18 years old',
+          'Birth Certificate (for entertainers, masseurs, bar attendants)',
+          'Health ID (for entertainers, masseurs, bar attendants)',
+        ],
+      },
+
+      'certifications': {
+        title: 'Issuance of Certifications',
+        tag: 'Service 5 of 8',
+        color: '#b8973a',
+        desc: 'Issues certifications or Certified True Copies (CTC) to any natural or juridical entity, government agencies, or offices who wish to secure copies of business permits or verify taxpayer records.',
+        classification: 'Simple (CTC) · Highly Technical (Master List with format modification)',
+        type: 'G2B / G2G / G2C',
+        who: 'Natural or juridical entities, government agencies, and offices, or any other concerned individual.',
+        fee: 'Php 50.00 (Certification) · Php 100.00 (CTC) · +Php 35.00/additional copy · Php 50.00 + Php 20.00/page (Master List)',
+        time: '47 Minutes (+2 days for Master List)',
+        page: 66,
+        steps: [
+          { num: '1', title: 'Submit Request', desc: 'Fill out Request Form; receive Order of Payment from Records Staff', time: '3 min' },
+          { num: '2', title: 'Payment', desc: 'Pay fees at City Treasurer\'s Office; submit Official Receipt', time: '3 min' },
+          { num: '3', title: 'Preparation', desc: 'Records Staff verifies records, prepares and signs the Certification / CTC / Master List', time: '38 min' },
+          { num: '4', title: 'Release', desc: 'Documents released to client by Processing / EDP Personnel', time: '3 min' },
+        ],
+        requirements: [
+          'Letter Request stating the purpose (1 original)',
+          'Special Power of Attorney if represented — Sole Proprietorship (1 original)',
+          'Partnership Resolution — Partnership (1 original)',
+          'Secretary\'s Certificate — Corporation (1 original)',
+          'Valid ID of the requisitioner (1 photocopy)',
+          'Data Use Privacy Agreement (if applicable)',
+        ],
+      },
+
+      'full-retirement': {
+        title: 'Full Retirement of Business Permit',
+        tag: 'Service 6 of 8',
+        color: '#1a5276',
+        desc: 'Issued to any natural or juridical entity whose business operations have permanently ceased, cancelling all active permit records.',
+        classification: 'Simple',
+        type: 'G2C',
+        who: 'Any natural or juridical entity holding a valid business permit whose business operations have permanently ceased.',
+        fee: 'Tax obligation based on gross sales. Late filing penalty: Php 1,000–5,000 if filed more than 30 days from cessation.',
+        time: '1 Hour 45 Minutes',
+        page: 69,
+        steps: [
+          { num: '1', title: 'Pre-Assessment', desc: 'Submit requirements; Licensing Officer validates Affidavit of Retirement; receive signed application', time: '15 min' },
+          { num: '2', title: 'CTO Assessment', desc: 'Proceed to City Treasurer\'s Office for assessment and settlement of tax dues', time: '—' },
+          { num: '3', title: 'Submission', desc: 'Submit approved application and Business Identification Plate; receive claim stub', time: '15 min' },
+          { num: '4', title: 'Processing', desc: 'Records Section tags and prints RETIRED annotation on the permit', time: '1 hr' },
+          { num: '5', title: 'Release', desc: 'Claim retired business permit and copies of required documents', time: '5 min' },
+        ],
+        requirements: [
+          'Latest Business Permit (1 original or certified copy)',
+          'Affidavit of Full Retirement stating reason and effective date — Sole Proprietorship',
+          'Partnership Resolution signed by all partners — Partnership',
+          'Board Resolution or Secretary\'s Certificate — Corporation/Cooperative',
+          'Valid ID of authorized representative (1 photocopy)',
+          'Business Identification Plate',
+        ],
+      },
+
+      'cancellation': {
+        title: 'Cancellation of Business Permit',
+        tag: 'Service 7 of 8',
+        color: '#b8973a',
+        desc: 'For applicants who have a Business Permit application already encoded in the system but decided not to proceed, for any valid reason. Must be filed within 3 months from date of application. Not available to applicants with City Treasurer\'s Office records.',
+        classification: 'Simple',
+        type: 'G2C',
+        who: 'Any natural or juridical entity with a valid reason to cancel a duly processed application for a new business permit.',
+        fee: 'None',
+        time: '7 Hours 5 Minutes',
+        page: 72,
+        steps: [
+          { num: '1', title: 'Submit Requirements', desc: 'Submit complete documents to EDP Head; Business Bureau OIC approves; endorsed to CTO', time: '5 min' },
+          { num: '2', title: 'CTO Evaluation', desc: 'LTOO IV-CTO recommends cancellation or retirement of the application', time: '2 hrs' },
+          { num: '3', title: 'CITC Processing', desc: 'EDP Head endorses to City Information Technology Center (CITC) for record cancellation', time: '5 hrs' },
+          { num: '4', title: 'Release', desc: 'Client claims duly canceled application and documents, or receives retirement checklist', time: '' },
+        ],
+        requirements: [
+          'Application Form from Business Bureau Window 7 (1 photocopy)',
+          'Affidavit of Cancellation stating reason — Sole Proprietorship (2 originals)',
+          'Valid ID of Taxpayer (1 photocopy)',
+          'Special Power of Attorney (1 original + 1 photocopy)',
+          'Partnership Resolution or Board Resolution / Secretary\'s Certificate',
+          'Valid IDs of Partners / authorized signatories',
+        ],
+      },
+
+      'ocular-inspection': {
+        title: 'Ocular Inspection & ICAB',
+        tag: 'Service 8 of 8',
+        color: '#1a5276',
+        desc: 'Business activities are validated through ocular inspections. For Internet Cafes and Pisonet operators, this issues Internet Café Accreditation (ICAB) — a required document for Business Permit issuance.',
+        classification: 'Simple (Regular) · Complex (Complaint) · Highly Technical (ICAB)',
+        type: 'G2C / G2B',
+        who: 'Business owners in Davao City (Regular); complainants (Complaint); Internet Café and Coin-Operated Internet Machine operators (ICAB).',
+        fee: 'ICAB: Php 100.00 (first 10 units) + Php 10.00 per additional unit. Violations: depends on offense.',
+        time: '2 Days, 2 Hours, 5 Minutes (+ additional days if violations found)',
+        page: 75,
+        steps: [
+          { num: '1', title: 'File Request', desc: 'Submit letter request or complaint to Business Bureau; receive copy', time: '5 min' },
+          { num: '2', title: 'Assignment', desc: 'Licensing Officer IV routes and assigns to Inspection Team', time: '2 hrs' },
+          { num: '3', title: 'Inspection', desc: 'Inspection Team conducts ocular inspection at the establishment', time: '2 days' },
+          { num: '4', title: 'Result', desc: 'Issue Inspection Report (compliant), 1st Notice of Violation, or ICAB Accreditation', time: '' },
+          { num: '5', title: 'ICAB Payment', desc: 'Pay ICAB fee at City Treasurer\'s Office; submit OR before Business Permit printing', time: '10 min' },
+        ],
+        requirements: [
+          'Letter Request for Inspection — ICAB (1 original + 1 duplicate)',
+          'Filled-out Application Form for New Business Permit (1 photocopy) — ICAB',
+          'Official Receipt for ICAB Accreditation fee',
+          'Sketch Map of Business Location (1 original)',
+          'Compliance with ICAB requirements (half-closed cubicles, proper lighting, warning signs, content filter, etc.)',
+          'Letter of Complaint + Sketch — Complaint type only',
+        ],
+      },
+    };
+
+    /* ── Service Modal open / close ── */
+    const serviceBackdrop = document.getElementById('serviceModalBackdrop');
+    const serviceClose    = document.getElementById('serviceModalClose');
+
+    function openServiceModal(key) {
+      const d = SERVICE_DATA[key];
+      if (!d) return;
+
+      /* Header */
+      document.getElementById('serviceModalHeader').style.background = d.color;
+      document.getElementById('serviceModalTag').textContent   = d.tag;
+      document.getElementById('serviceModalTitle').textContent = d.title;
+
+      /* Header icon (generic document SVG) */
+      document.getElementById('serviceModalIcon').innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="13" x2="15" y2="13"/>
+          <line x1="9" y1="17" x2="15" y2="17"/>
+        </svg>`;
+
+      /* View More link */
+      document.getElementById('serviceModalLink').href =
+        `citizens-charter.html#page=${d.page}`;
+
+      /* Build infographic body */
+      const stepsHTML = d.steps.map((s, i) => `
+        ${i > 0 ? '<span class="svc-step-arrow">›</span>' : ''}
+        <div class="svc-step">
+          <div class="svc-step-box">
+            <div class="svc-step-num">${s.num}</div>
+            <div class="svc-step-title">${s.title}</div>
+            <div class="svc-step-desc">${s.desc}</div>
+            ${s.time ? `<span class="svc-step-time">${s.time}</span>` : ''}
+          </div>
+        </div>`).join('');
+
+      const reqHTML = d.requirements.map(r =>
+        `<li>${r}</li>`).join('');
+
+      document.getElementById('serviceModalBody').innerHTML = `
+        <p class="svc-desc">${d.desc}</p>
+
+        <div class="svc-pills">
+          <span class="svc-pill"><strong>Classification:</strong> ${d.classification}</span>
+          <span class="svc-pill"><strong>Type:</strong> ${d.type}</span>
+          <span class="svc-pill"><strong>Who may avail:</strong> ${d.who}</span>
+        </div>
+
+        <div class="svc-key-info">
+          <div class="svc-key-box">
+            <div class="svc-key-box-icon gold-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="1" x2="12" y2="23"/>
+                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-key-label">Fees</div>
+              <div class="svc-key-value">${d.fee}</div>
+            </div>
+          </div>
+          <div class="svc-key-box">
+            <div class="svc-key-box-icon navy-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+                   stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-key-label">Processing Time</div>
+              <div class="svc-key-value">${d.time}</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="svc-section-label">Process Flow</div>
+          <div class="svc-steps">${stepsHTML}</div>
+        </div>
+
+        <div>
+          <div class="svc-section-label">Key Requirements</div>
+          <ul class="svc-req-list">${reqHTML}</ul>
+        </div>`;
+
+      /* Show modal */
+      serviceBackdrop.style.display = 'flex';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        serviceBackdrop.classList.add('visible');
+      }));
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeServiceModal() {
+      serviceBackdrop.classList.remove('visible');
+      serviceBackdrop.addEventListener('transitionend', () => {
+        serviceBackdrop.style.display = 'none';
+        document.body.style.overflow  = '';
+      }, { once: true });
+    }
+
+    serviceClose.addEventListener('click', closeServiceModal);
+    serviceBackdrop.addEventListener('click', e => {
+      if (e.target === serviceBackdrop) closeServiceModal();
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && serviceBackdrop.classList.contains('visible')) closeServiceModal();
     });
   </script>
 
