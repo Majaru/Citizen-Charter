@@ -3,6 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Business Bureau – City Government of Davao. Apply for business permits, occupational permits, and special permits online or onsite."/>
+  <meta name="keywords" content="Business Bureau, Davao City, business permit, occupational permit, special permit, Mayor's permit"/>
+  <meta name="author" content="Business Bureau – City Government of Davao"/>
+  <meta property="og:title" content="Business Bureau – City of Davao"/>
+  <meta property="og:description" content="Apply for business permits, occupational permits, and special permits in Davao City. Fast, efficient, and transparent service."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><circle cx='26' cy='26' r='26' fill='%230d1f4e'/><text x='26' y='33' font-family='serif' font-size='20' fill='%23b8973a' text-anchor='middle' font-weight='bold'>BB</text></svg>"/>
   <title>Business Bureau – City of Davao</title>
 
   <!-- ============================================================
@@ -411,41 +418,12 @@
 
 
   <!-- ============================================================
-    JAVASCRIPT – Hamburger menu + Modal
-    No library needed — pure vanilla JS.
-    To trigger the modal from any other button, call openModal().
+    JAVASCRIPT – Modals
+    Hamburger menu is handled by main.js (loaded below).
+    To trigger the application modal from any button, call openModal().
   ============================================================ -->
   <script>
-    /* ── Hamburger / mobile menu ── */
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-
-    hamburger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      mobileMenu.setAttribute('aria-hidden', !isOpen);
-    });
-
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      });
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-
-    /* ── Modal ── */
+    /* ── Application type chooser Modal ── */
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalClose    = document.getElementById('modalClose');
 
@@ -827,6 +805,9 @@
       if (e.key === 'Escape' && serviceBackdrop.classList.contains('visible')) closeServiceModal();
     });
   </script>
+
+  <!-- Shared JS (hamburger menu + PDF loader) -->
+  <script src="main.js"></script>
 
 </body>
 </html>
