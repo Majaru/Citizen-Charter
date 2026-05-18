@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="About the Business Bureau – City Government of Davao. Learn about our mandate, mission, vision, and organizational outcomes."/>
+  <meta property="og:title" content="About – Business Bureau, City of Davao"/>
+  <meta property="og:description" content="Learn about the Business Bureau of Davao City — our mandate, mission, vision, and commitment to efficient public service."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><circle cx='26' cy='26' r='26' fill='%230d1f4e'/><text x='26' y='33' font-family='serif' font-size='20' fill='%23b8973a' text-anchor='middle' font-weight='bold'>BB</text></svg>"/>
   <title>About – Business Bureau</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -19,7 +24,7 @@
   <header>
     <div class="nav-inner">
 
-      <a href="business-bureau.html" style="display:flex; align-items:center; gap:14px; text-decoration:none;">
+      <a href="business-bureau.html" class="logo-link">
         <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
           <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
@@ -204,33 +209,8 @@
     </div>
   </footer>
 
-
-  <script>
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      mobileMenu.setAttribute('aria-hidden', !isOpen);
-    });
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      }
-    });
-  </script>
+  <!-- Shared JS: hamburger menu + PDF loading overlay + iOS/Safari detection -->
+  <script src="main.js"></script>
 
 </body>
 </html>
