@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Citizen's Charter – Business Bureau, City of Davao. View the full guide to business permits, occupational permits, special permits, and more."/>
+  <meta property="og:title" content="Citizen's Charter – Business Bureau, City of Davao"/>
+  <meta property="og:description" content="Full Citizen's Charter for the Business Bureau of Davao City — requirements, fees, processing times, and step-by-step procedures for all 8 services."/>
+  <meta property="og:type" content="website"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><circle cx='26' cy='26' r='26' fill='%230d1f4e'/><text x='26' y='33' font-family='serif' font-size='20' fill='%23b8973a' text-anchor='middle' font-weight='bold'>BB</text></svg>"/>
   <title>Citizen's Charter – Business Bureau</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -187,6 +192,7 @@
       overflow: hidden;
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
       background: #525659;
+      position: relative;  /* needed for loading overlay absolute positioning */
     }
     .pdf-wrapper iframe {
       display: block;
@@ -261,7 +267,7 @@
   ============================================================ -->
   <header>
     <div class="nav-inner">
-      <a href="business-bureau.html" style="display:flex;align-items:center;gap:14px;text-decoration:none;">
+      <a href="business-bureau.html" class="logo-link">
         <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
           <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
@@ -440,10 +446,31 @@
            src is set dynamically by JavaScript below.
            To change the PDF file, update PDF_FILE in the <script> section. -->
       <div class="pdf-wrapper" id="pdfWrapper">
+
+        <!-- Loading overlay – fades out once PDF is loaded (handled by main.js) -->
+        <div id="pdfLoadingOverlay" style="
+          position:absolute; inset:0; z-index:10;
+          background:#525659;
+          display:flex; flex-direction:column;
+          align-items:center; justify-content:center;
+          gap:14px; color:rgba(255,255,255,0.7);
+          font-family:'Source Sans 3',sans-serif; font-size:0.9rem;">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
+               stroke="rgba(255,255,255,0.5)" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round"
+               style="animation:pdf-spin 1s linear infinite;">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2" stroke="rgba(255,255,255,0.9)"/>
+          </svg>
+          <span>Loading Citizen's Charter…</span>
+          <style>@keyframes pdf-spin { to { transform: rotate(360deg); } }</style>
+        </div>
+
         <iframe
           id="pdfFrame"
           src="BB_CC2025_03-18-2026.pdf#page=1"
-          title="Business Bureau Citizen's Charter 2025">
+          title="Business Bureau Citizen's Charter 2025"
+          style="position:relative; z-index:1;">
         </iframe>
 
         <!-- Fallback shown for unsupported browsers -->
@@ -518,104 +545,47 @@
   <!-- ============================================================
     JAVASCRIPT
     ── PDF_FILE : filename of the PDF (must be in the same folder)
-    ── TOC buttons update the iframe src with #page=N to jump pages
-    ── Safari detection shows a warning (Safari ignores #page=)
-    ── iOS fallback hides the iframe and shows a download button
+    ── TOC buttons force-reload the iframe to the correct page
+    ── iOS/Safari detection and hamburger menu handled by main.js
   ============================================================ -->
   <script>
-    /* ── Config ──
-       Change PDF_FILE if you rename or replace the PDF. */
-    const PDF_FILE = 'BB_CC2025_03-18-2026.pdf';
-
-    const frame        = document.getElementById('pdfFrame');
+    /* Change PDF_FILE if you rename or replace the PDF */
+    const PDF_FILE     = 'BB_CC2025_03-18-2026.pdf';
     const currentLabel = document.getElementById('currentLabel');
     const tocBtns      = document.querySelectorAll('.toc-btn');
-    const safariNotice = document.getElementById('safariNotice');
-    const fallback     = document.getElementById('pdfFallback');
-
-    /* ── Browser detection ── */
-    const isIOS    = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-    /* Show Safari warning (page jumping unreliable in Safari desktop too) */
-    if (isSafari && !isIOS) {
-      safariNotice.style.display = 'inline-block';
-    }
-
-    /* iOS: hide iframe, show fallback download */
-    if (isIOS) {
-      frame.style.display    = 'none';
-      fallback.style.display = 'block';
-    }
 
     /* ── TOC click handler ──
-       The trick: we must remove the iframe from the DOM, update src,
-       then re-append it — this forces the browser to actually navigate
-       to the new page instead of ignoring the src change. */
+       Force-reload the iframe by replacing it in the DOM so the
+       browser actually navigates to the new #page=N anchor. */
     tocBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        const page    = btn.getAttribute('data-page');
-        const label   = btn.querySelector('.toc-label').textContent;
-        const pg      = btn.querySelector('.toc-page').textContent;
-        const wrapper = document.getElementById('pdfWrapper');
+        const page  = btn.getAttribute('data-page');
+        const label = btn.querySelector('.toc-label').textContent;
+        const pg    = btn.querySelector('.toc-page').textContent;
 
-        /* Update the label above the viewer */
+        /* Update the current section label */
         currentLabel.textContent = `${label} — ${pg}`;
 
-        /* Highlight the active button */
+        /* Highlight active TOC button */
         tocBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        /* Force reload by removing and re-inserting the iframe */
+        /* Replace iframe to force navigation to the correct page */
         const oldFrame = document.getElementById('pdfFrame');
+        if (!oldFrame) return;
         const newFrame = document.createElement('iframe');
         newFrame.id    = 'pdfFrame';
-        newFrame.title = 'Business Bureau Citizen\'s Charter 2025';
+        newFrame.title = "Business Bureau Citizen's Charter 2025";
         newFrame.src   = `${PDF_FILE}#page=${page}`;
+        newFrame.style.position = 'relative';
+        newFrame.style.zIndex   = '1';
         oldFrame.replaceWith(newFrame);
       });
     });
-
-    /* ── Generic embed fallback ──
-       If the iframe collapses after load (unsupported browser),
-       show the download button. */
-    window.addEventListener('load', () => {
-      if (!isIOS) {
-        setTimeout(() => {
-          if (frame.clientHeight < 10) {
-            frame.style.display    = 'none';
-            fallback.style.display = 'block';
-          }
-        }, 1200);
-      }
-    });
-
-    /* ── Hamburger menu ── */
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    hamburger.addEventListener('click', () => {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      mobileMenu.setAttribute('aria-hidden', !isOpen);
-    });
-    document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!hamburger.contains(e.target) && !mobileMenu.contains(e.target)) {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-      }
-    });
   </script>
+
+  <!-- Shared JS: hamburger menu + PDF loading overlay + iOS/Safari detection -->
+  <script src="main.js"></script>
 
 </body>
 </html>
