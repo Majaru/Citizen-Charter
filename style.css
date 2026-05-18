@@ -82,6 +82,14 @@ header {
   padding: 4px 0;
 }
 .nav-links a:hover { color: var(--gold); }
+/* Logo link wrapper – used on inner pages so clicking logo returns to home */
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
 /* Active page indicator – add class="active" to the current page's nav link */
 .nav-links a.active {
   color: var(--gold);
@@ -221,42 +229,6 @@ header {
 .btn-cta:hover { background: var(--white); color: var(--navy); }
 
 /* ============================================================
-  CITIZEN'S CHARTER SECTION
-============================================================ */
-.charter {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-.charter h2 {
-  font-family: var(--font-heading);
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--navy);
-  padding-bottom: 10px;
-  border-bottom: 1px solid #d0d5df;
-  margin-bottom: 20px;
-}
-.charter-card { display: flex; gap: 16px; align-items: flex-start; }
-.charter-icon {
-  width: 52px; height: 52px;
-  flex-shrink: 0;
-  background: var(--light);
-  border: 2px solid var(--navy);
-  border-radius: var(--radius);
-  display: flex; align-items: center; justify-content: center;
-}
-.charter-icon svg { width: 28px; height: 28px; }
-.charter-body h3 {
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 6px;
-}
-.charter-body p { font-size: 0.92rem; color: var(--muted); }
-
-/* ============================================================
   MAIN SERVICES SECTION
   Add a card by duplicating a .service-card block.
   Use class "gold" or "teal" for color.
@@ -345,18 +317,6 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 .contact-row svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; fill: var(--gold); }
 .footer-map { margin-top: 14px; border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(255,255,255,0.1); }
 .footer-map iframe { width: 100%; height: 150px; border: none; display: block; }
-.social-links { display: flex; flex-direction: column; gap: 4px; }
-.social-links a {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.88rem;
-  color: rgba(255,255,255,0.8);
-  transition: color 0.2s;
-  min-height: 44px; /* touch target */
-}
-.social-links a:hover { color: var(--gold); }
-.social-links svg { width: 18px; height: 18px; flex-shrink: 0; }
 .footer-bottom {
   text-align: center;
   padding: 14px 20px;
@@ -932,8 +892,6 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 @media (max-width: 380px) {
   .logo-text { font-size: 1.05rem; }
   .logo-seal { width: 38px; height: 38px; }
-  /* Stack charter icon + text vertically */
-  .charter-card { flex-direction: column; }
 }
 
 /* ============================================================
