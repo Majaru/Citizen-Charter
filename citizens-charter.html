@@ -200,6 +200,8 @@
       height: calc(100vh - 72px - 80px);
       min-height: 620px;
       border: none;
+      position: relative;
+      z-index: 1;
     }
 
     /* Fallback for unsupported browsers */
@@ -330,17 +332,7 @@
       <ul class="cc-toc-list" id="tocList">
 
         <!-- Each <li> has a button with data-page = PDF page number -->
-
-        <li>
-          <button data-page="1" class="toc-btn active">
-            <span class="toc-num">—</span>
-            <span class="toc-label">Cover Page</span>
-            <span class="toc-page">p.1</span>
-          </button>
-        </li>
-
-        <li>
-          <button data-page="2" class="toc-btn">
+          <button data-page="2" class="toc-btn active">
             <span class="toc-num">1</span>
             <span class="toc-label">Pre-Assessment</span>
             <span class="toc-page">p.2</span>
@@ -434,7 +426,7 @@
       <!-- Toolbar -->
       <div class="pdf-toolbar">
         <div class="pdf-toolbar-left">
-          <span class="pdf-current-label" id="currentLabel">Cover Page — p.1</span>
+          <span class="pdf-current-label" id="currentLabel">Pre-Assessment — p.2</span>
           <!-- Safari warning shown by JS -->
           <span class="safari-notice" id="safariNotice">
             ⚠️ Page jumping may not work in Safari. Use the PDF's own navigation instead.
@@ -468,7 +460,7 @@
 
         <iframe
           id="pdfFrame"
-          src="BB_CC2025_03-18-2026.pdf#page=1"
+          src="BB_CC2025_03-18-2026.pdf#page=2"
           title="Business Bureau Citizen's Charter 2025"
           style="position:relative; z-index:1;">
         </iframe>
@@ -516,6 +508,19 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
           <span>busbureau@davaocity.gov.ph</span>
         </div>
+        <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
+          </svg>
+          <a href="https://m.me/YourPageName"
+             target="_blank" rel="noopener"
+             style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
+             onmouseover="this.style.color='#b8973a'"
+             onmouseout="this.style.color='rgba(255,255,255,0.85)'">
+            Message us on Messenger
+          </a>
+        </div>
       </div>
       <div class="footer-col footer-logos">
         <div class="logo-grid">
@@ -555,31 +560,42 @@
     const tocBtns      = document.querySelectorAll('.toc-btn');
 
     /* ── TOC click handler ──
-       Force-reload the iframe by replacing it in the DOM so the
-       browser actually navigates to the new #page=N anchor. */
+       Uses a timestamp cache-buster on the PDF URL so the browser
+       treats every click as a completely fresh request, preventing
+       any cached scroll position from overriding the #page= anchor. */
     tocBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         const page  = btn.getAttribute('data-page');
         const label = btn.querySelector('.toc-label').textContent;
         const pg    = btn.querySelector('.toc-page').textContent;
 
-        /* Update the current section label */
+        /* Update label and highlight */
         currentLabel.textContent = `${label} — ${pg}`;
-
-        /* Highlight active TOC button */
         tocBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        /* Replace iframe to force navigation to the correct page */
+        /* Build a cache-busted URL so every click is a fresh load */
+        const bust = Date.now();
+        const url  = `${PDF_FILE}?v=${bust}#page=${page}`;
+
+        /* Remove the old iframe entirely */
         const oldFrame = document.getElementById('pdfFrame');
-        if (!oldFrame) return;
-        const newFrame = document.createElement('iframe');
-        newFrame.id    = 'pdfFrame';
-        newFrame.title = "Business Bureau Citizen's Charter 2025";
-        newFrame.src   = `${PDF_FILE}#page=${page}`;
-        newFrame.style.position = 'relative';
-        newFrame.style.zIndex   = '1';
-        oldFrame.replaceWith(newFrame);
+        if (oldFrame) oldFrame.remove();
+
+        /* Short pause lets the browser fully detach the old iframe
+           before the new one is inserted, preventing scroll bleed */
+        setTimeout(() => {
+          const newFrame          = document.createElement('iframe');
+          newFrame.id             = 'pdfFrame';
+          newFrame.title          = "Business Bureau Citizen's Charter 2025";
+          newFrame.style.position = 'relative';
+          newFrame.style.zIndex   = '1';
+          newFrame.style.width    = '100%';
+          newFrame.style.border   = 'none';
+          newFrame.style.display  = 'block';
+          newFrame.src            = url;
+          document.getElementById('pdfWrapper').appendChild(newFrame);
+        }, 80);
       });
     });
   </script>
