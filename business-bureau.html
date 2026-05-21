@@ -262,6 +262,20 @@
           <span>busbureau@davaocity.gov.ph</span>
         </div>
 
+        <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
+          </svg>
+          <a href="https://m.me/YourPageName"
+             target="_blank" rel="noopener"
+             style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
+             onmouseover="this.style.color='#b8973a'"
+             onmouseout="this.style.color='rgba(255,255,255,0.85)'">
+            Message us on Messenger
+          </a>
+        </div>
+
       </div>
 
       <!-- Column 3: Logo placeholders
@@ -480,7 +494,7 @@
         color: '#b8973a',
         desc: 'The Business Bureau assists clients in complying with prerequisites required by Regulatory Offices prior to applying for a New Business Permit or certain Amendments.',
         classification: 'Simple',
-        type: 'G2C / G2B',
+        type: 'Government to Citizen / Government to Business',
         who: 'Any natural or juridical person engaging in business within Davao City.',
         fee: 'None',
         time: '20 Minutes',
@@ -507,7 +521,7 @@
         color: '#1a5276',
         desc: 'Processes and releases official permits allowing businesses to legally operate within Davao City. Permits are valid for one (1) year and must be renewed every January.',
         classification: 'Simple',
-        type: 'G2C / G2B',
+        type: 'Government to Citizen / Government to Business',
         who: 'Any natural or juridical person engaging in business within Davao City.',
         fee: 'Mayor\'s Permit Fee based on asset size & nature of business',
         time: '1 Hr 9 Min (Online) / 2 Hr 19 Min (Onsite)',
@@ -533,7 +547,7 @@
         color: '#b8973a',
         desc: 'Issued to any natural or juridical entity for the conduct of events or activities involving the grouping of people — bazaars, exhibits, fun-runs, motorcades, parades, and similar activities within Davao City.',
         classification: 'Simple',
-        type: 'G2C / G2B',
+        type: 'Government to Citizen / Government to Business',
         who: 'Any natural or entity conducting programs/activities involving the grouping of people within Davao City.',
         fee: 'Varies by activity (see Citizen\'s Charter for full schedule)',
         time: '1 Hour 10 Minutes',
@@ -560,7 +574,7 @@
         color: '#1a5276',
         desc: 'Issued to any worker or employee not holding a Professional Tax Receipt, whether working temporarily or permanently. Renewed annually on or before January 31. Late renewal carries a 25% penalty.',
         classification: 'Simple',
-        type: 'G2C',
+        type: 'Government to Citizen',
         who: 'Filipino employees or workers 18 years of age and above. Foreigners must present an Alien Employment Permit from DOLE.',
         fee: 'Php 125.00 (new/renewal) · Php 156.25 (late renewal)',
         time: '33 Minutes',
@@ -586,7 +600,7 @@
         color: '#b8973a',
         desc: 'Issues certifications or Certified True Copies (CTC) to any natural or juridical entity, government agencies, or offices who wish to secure copies of business permits or verify taxpayer records.',
         classification: 'Simple (CTC) · Highly Technical (Master List with format modification)',
-        type: 'G2B / G2G / G2C',
+        type: 'Government to Business / Government to Government / Government to Citizen',
         who: 'Natural or juridical entities, government agencies, and offices, or any other concerned individual.',
         fee: 'Php 50.00 (Certification) · Php 100.00 (CTC) · +Php 35.00/additional copy · Php 50.00 + Php 20.00/page (Master List)',
         time: '47 Minutes (+2 days for Master List)',
@@ -613,7 +627,7 @@
         color: '#1a5276',
         desc: 'Issued to any natural or juridical entity whose business operations have permanently ceased, cancelling all active permit records.',
         classification: 'Simple',
-        type: 'G2C',
+        type: 'Government to Citizen',
         who: 'Any natural or juridical entity holding a valid business permit whose business operations have permanently ceased.',
         fee: 'Tax obligation based on gross sales. Late filing penalty: Php 1,000–5,000 if filed more than 30 days from cessation.',
         time: '1 Hour 45 Minutes',
@@ -641,7 +655,7 @@
         color: '#b8973a',
         desc: 'For applicants who have a Business Permit application already encoded in the system but decided not to proceed, for any valid reason. Must be filed within 3 months from date of application. Not available to applicants with City Treasurer\'s Office records.',
         classification: 'Simple',
-        type: 'G2C',
+        type: 'Government to Citizen',
         who: 'Any natural or juridical entity with a valid reason to cancel a duly processed application for a new business permit.',
         fee: 'None',
         time: '7 Hours 5 Minutes',
@@ -668,7 +682,7 @@
         color: '#1a5276',
         desc: 'Business activities are validated through ocular inspections. For Internet Cafes and Pisonet operators, this issues Internet Café Accreditation (ICAB) — a required document for Business Permit issuance.',
         classification: 'Simple (Regular) · Complex (Complaint) · Highly Technical (ICAB)',
-        type: 'G2C / G2B',
+        type: 'Government to Citizen / Government to Business',
         who: 'Business owners in Davao City (Regular); complainants (Complaint); Internet Café and Coin-Operated Internet Machine operators (ICAB).',
         fee: 'ICAB: Php 100.00 (first 10 units) + Php 10.00 per additional unit. Violations: depends on offense.',
         time: '2 Days, 2 Hours, 5 Minutes (+ additional days if violations found)',
@@ -738,7 +752,7 @@
 
         <div class="svc-pills">
           <span class="svc-pill"><strong>Classification:</strong> ${d.classification}</span>
-          <span class="svc-pill"><strong>Type:</strong> ${d.type}</span>
+          <span class="svc-pill"><strong>Type of Transaction:</strong> ${d.type}</span>
           <span class="svc-pill"><strong>Who may avail:</strong> ${d.who}</span>
         </div>
 
@@ -747,8 +761,10 @@
             <div class="svc-key-box-icon gold-bg">
               <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="1" x2="12" y2="23"/>
-                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                <!-- Philippine Peso sign (₱) -->
+                <text x="12" y="17" font-family="Arial, sans-serif" font-size="16"
+                      font-weight="bold" fill="#b8973a" stroke="none"
+                      text-anchor="middle">₱</text>
               </svg>
             </div>
             <div>
