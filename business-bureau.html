@@ -27,6 +27,12 @@
     Keep both files in the same folder, or update this path.
   ============================================================ -->
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Hide navbar hours badge on mobile — hero badge covers it there */
+    @media (max-width: 600px) {
+      #navHoursBadge { display: none; }
+    }
+  </style>
 </head>
 <body>
 
@@ -50,6 +56,9 @@
         <span>BUSINESS</span>
         <span>BUREAU</span>
       </div>
+
+      <!-- Live open/closed badge – sits between logo and nav links -->
+      <span class="hours-badge" id="navHoursBadge" style="font-size:0.9rem; padding:4px 14px; font-family:'Oswald',sans-serif; font-weight:600; letter-spacing:0.05em; border-radius:4px;">Checking...</span>
 
       <!-- Desktop navigation – hidden on mobile -->
       <ul class="nav-links">
@@ -225,26 +234,20 @@
   <footer id="contact">
     <div class="footer-inner">
 
-      <!-- Column 1: About -->
+      <!-- Column 1: Visit Us -->
       <div class="footer-col">
-        <h4>Business Bureau</h4>
-        <p>
-          Streamlining business registration through reliable, technology-driven
-          systems for an efficient and impartial licensing process.
-        </p>
-      </div>
-
-      <!-- Column 2: Contact -->
-      <div class="footer-col">
-        <h4>Contact</h4>
-
-        <!-- Address – update the span text -->
+        <h4>Visit Us</h4>
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>G/F Sangguniang Panlungsod Bldg., Davao City</span>
+          <span>Ground Floor, Sangguniang Panlungsod, San Pedro Street, Poblacion, Davao City, 8000, Philippines</span>
         </div>
+      </div>
+
+      <!-- Column 2: Contact -->
+      <div class="footer-col">
+        <h4>Contact Us</h4>
 
         <!-- Phone – update the number -->
         <div class="contact-row">
@@ -824,6 +827,42 @@
 
   <!-- Shared JS (hamburger menu + PDF loader) -->
   <script src="main.js"></script>
+
+  <!-- ============================================================
+    HOURS BADGE
+    Live open/closed indicator based on Philippine Time (UTC+8).
+    Office hours: Monday–Friday, 8:00 AM – 5:00 PM.
+    To change hours, update OPEN_HOUR and CLOSE_HOUR below.
+  ============================================================ -->
+  <script>
+    const OPEN_HOUR  = 8;              /* 8:00 AM  */
+    const CLOSE_HOUR = 17;             /* 5:00 PM  */
+    const OPEN_DAYS  = [1, 2, 3, 4, 5]; /* Monday to Friday */
+
+    function updateBadge() {
+      const badge    = document.getElementById('navHoursBadge');
+      if (!badge) return;
+
+      /* Get current time in Philippine Standard Time (UTC+8) */
+      const now    = new Date();
+      const phTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
+      const day    = phTime.getDay();
+      const totalMinutes = phTime.getHours() * 60 + phTime.getMinutes();
+
+      const isWeekday     = OPEN_DAYS.includes(day);
+      const isDuringHours = totalMinutes >= OPEN_HOUR * 60 && totalMinutes < CLOSE_HOUR * 60;
+      const isOpen        = isWeekday && isDuringHours;
+
+      const text = isOpen ? 'Open Now' : 'Closed Now';
+      const cls  = 'hours-badge ' + (isOpen ? 'open' : 'closed');
+
+      badge.textContent = text;
+      badge.className   = cls;
+    }
+
+    updateBadge();
+    setInterval(updateBadge, 60000); /* re-check every minute */
+  </script>
 
 </body>
 </html>
