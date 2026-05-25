@@ -91,7 +91,7 @@
           </svg>
         </div>
         <div class="contact-item-body">
-          <strong>Office Hours</strong>
+          <strong>Regular Office Hours</strong>
           <div class="hours-grid">
             <!-- Update days/times here as needed -->
             <div class="hours-row">
@@ -103,8 +103,7 @@
               <span class="time">Closed</span>
             </div>
           </div>
-          <!-- Badge is updated live by JavaScript below -->
-          <span class="hours-badge" id="hoursBadge">Checking...</span>
+
         </div>
       </div>
 
@@ -119,7 +118,7 @@
         </div>
         <div class="contact-item-body">
           <strong>Address</strong>
-          <span>G/F Sangguniang Panlungsod Bldg.,<br>Davao City, Philippines</span>
+          <span>Ground Floor, Sangguniang Panlungsod, San Pedro Street, Poblacion, Davao City, 8000, Philippines</span>
         </div>
       </div>
 
@@ -196,16 +195,13 @@
     <div class="footer-inner">
 
       <div class="footer-col">
-        <h4>Business Bureau</h4>
-        <p>Streamlining business registration through reliable, technology-driven systems for an efficient and impartial licensing process.</p>
+        <h4>Visit Us</h4>
+
       </div>
 
       <div class="footer-col">
-        <h4>Contact</h4>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-          <span>G/F Sangguniang Panlungsod Bldg., Davao City</span>
-        </div>
+        <h4>Contact Us</h4>
+
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
           <span>241-1000 Local 378</span>
@@ -260,80 +256,33 @@
     1. Hamburger menu
     2. Live open/closed badge based on Philippine Time (UTC+8)
        Office hours: Monday–Friday, 8:00 AM – 5:00 PM
+       The badge renders on business-bureau.html (homepage).
        To change hours, update OPEN_HOUR and CLOSE_HOUR below.
   ============================================================ -->
   <script>
     /* ── Open / Closed Badge ──
        Change OPEN_HOUR and CLOSE_HOUR (24-hour format) to adjust hours.
-       Change OPEN_DAYS to the days the office is open (0=Sun, 1=Mon … 6=Sat).
-       HOLIDAYS: list of Philippine public holidays (YYYY-MM-DD) the office is closed.
-       Update this list each year or when proclamations are issued. */
+       Change OPEN_DAYS to the days the office is open (0=Sun, 1=Mon … 6=Sat). */
     const OPEN_HOUR  = 8;    /* 8:00 AM  */
     const CLOSE_HOUR = 17;   /* 5:00 PM  */
     const OPEN_DAYS  = [1, 2, 3, 4, 5]; /* Monday to Friday */
-
-    /* ── Philippine Public Holidays 2025 ──
-       Sources: RA 9492, Proclamation No. 727 s. 2024
-       Includes Regular Holidays and Special Non-Working Days.
-       Add or remove dates as new proclamations are issued. */
-    const HOLIDAYS = new Set([
-      /* Regular Holidays */
-      '2025-01-01', /* New Year's Day */
-      '2025-04-09', /* Araw ng Kagitingan (Day of Valor) */
-      '2025-04-17', /* Maundy Thursday */
-      '2025-04-18', /* Good Friday */
-      '2025-05-01', /* Labor Day */
-      '2025-06-12', /* Independence Day */
-      '2025-08-25', /* National Heroes Day (last Monday of August) */
-      '2025-11-30', /* Bonifacio Day */
-      '2025-12-25', /* Christmas Day */
-      '2025-12-30', /* Rizal Day */
-
-      /* Special Non-Working Days */
-      '2025-01-29', /* Chinese New Year */
-      '2025-02-25', /* EDSA People Power Revolution Anniversary */
-      '2025-04-19', /* Black Saturday */
-      '2025-08-21', /* Ninoy Aquino Day */
-      '2025-11-01', /* All Saints' Day */
-      '2025-11-02', /* All Souls' Day (special non-working) */
-      '2025-12-08', /* Feast of the Immaculate Conception */
-      '2025-12-24', /* Christmas Eve (special non-working) */
-      '2025-12-31', /* New Year's Eve (special non-working) */
-
-      /* Additional Davao City local holidays — add as proclaimed */
-      /* '2025-03-XX', Araw ng Davao – update date when proclaimed */
-    ]);
 
     function updateBadge() {
       const badge = document.getElementById('hoursBadge');
       if (!badge) return;
 
       /* Get current time in Philippine Standard Time (UTC+8) */
-      const now = new Date();
+      const now    = new Date();
       const phTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Manila' }));
-      const day  = phTime.getDay();
-      const hour = phTime.getHours();
-      const min  = phTime.getMinutes();
-      const totalMinutes = hour * 60 + min;
-
-      /* Format today's date as YYYY-MM-DD for holiday lookup */
-      const yyyy = phTime.getFullYear();
-      const mm   = String(phTime.getMonth() + 1).padStart(2, '0');
-      const dd   = String(phTime.getDate()).padStart(2, '0');
-      const todayStr = `${yyyy}-${mm}-${dd}`;
+      const day    = phTime.getDay();
+      const totalMinutes = phTime.getHours() * 60 + phTime.getMinutes();
 
       const isWeekday     = OPEN_DAYS.includes(day);
       const isDuringHours = totalMinutes >= OPEN_HOUR * 60 && totalMinutes < CLOSE_HOUR * 60;
-      const isHoliday     = HOLIDAYS.has(todayStr);
-      const isOpen        = isWeekday && isDuringHours && !isHoliday;
+      const isOpen        = isWeekday && isDuringHours;
 
-      if (isHoliday) {
-        badge.textContent = 'Closed — Public Holiday';
-        badge.className   = 'hours-badge closed';
-      } else {
-        badge.textContent = isOpen ? 'Open Now' : 'Closed Now';
-        badge.className   = 'hours-badge ' + (isOpen ? 'open' : 'closed');
-      }
+      badge.textContent = isOpen ? 'Open Now' : 'Closed Now';
+      badge.className   = 'hours-badge ' + (isOpen ? 'open' : 'closed');
     }
 
     updateBadge();
