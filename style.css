@@ -584,7 +584,54 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 /* Stack modal cards on narrow screens – applies to both 2 and 3 card layouts */
 @media (max-width: 560px) {
   .modal-body,
-  .modal-body--3 { grid-template-columns: 1fr; }
+  .modal-body--3 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  /* Compact horizontal card on mobile */
+  .permit-card {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 14px 16px;
+    gap: 14px;
+  }
+
+  /* Smaller icon */
+  .permit-card .permit-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+  .permit-card .permit-icon svg { width: 22px; height: 22px; }
+
+  /* Hide description on mobile */
+  .permit-card p { display: none; }
+
+  /* Title left-aligned, no margin */
+  .permit-card h3 {
+    font-size: 0.95rem;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Select pill pushed to the right */
+  .permit-card .permit-select {
+    margin-top: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+    padding: 6px 14px;
+    font-size: 0.72rem;
+    min-height: 34px;
+  }
+
+  /* Modal max-height so it never overflows screen */
+  #modalBackdrop .modal {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }
 
 /* ============================================================
