@@ -40,6 +40,9 @@
       -webkit-appearance: none;
       appearance: none;
     }
+    @media (max-width: 560px) {
+      button.permit-card { text-align: left; }
+    }
     button.permit-card:hover {
       border-color: var(--navy);
       box-shadow: 0 6px 20px rgba(13,31,78,0.12);
@@ -1037,7 +1040,7 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <!-- Back button -->
-          <button onclick="closeBPModal()" aria-label="Back"
+          <button onclick="closeBPModal(true)" aria-label="Back"
                   style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.8);font-family:'Oswald',sans-serif;font-size:0.85rem;letter-spacing:0.05em;padding:0;margin-bottom:0.4rem;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1201,7 +1204,7 @@
     // Close with Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) closeModal();
-      if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal();
+      if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal(true);
     });
 
     /* ── Business Permit sub-modal ── */
@@ -1220,15 +1223,19 @@
       }, 300);
     }
 
-    function closeBPModal() {
+    function closeBPModal(goBack = false) {
       bpModalBackdrop.classList.remove('visible');
       bpModalBackdrop.addEventListener('transitionend', () => {
         bpModalBackdrop.style.display = 'none';
-        document.body.style.overflow = '';
+        if (goBack) {
+          openModal();
+        } else {
+          document.body.style.overflow = '';
+        }
       }, { once: true });
     }
 
-    bpModalClose.addEventListener('click', closeBPModal);
+    bpModalClose.addEventListener('click', () => closeBPModal(false));
 
     bpModalBackdrop.addEventListener('click', (e) => {
       if (e.target === bpModalBackdrop) closeBPModal();
