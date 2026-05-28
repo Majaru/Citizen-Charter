@@ -53,6 +53,50 @@
       <a href="citizens-charter.html" class="mobile-link">Citizen's Charter</a>
       <a href="about.html"            class="mobile-link">About</a>
       <a href="contact.html"          class="mobile-link active">Contact</a>
+          <!-- Settings section inside mobile menu -->
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Filipino <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Admin Mode <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+
     </nav>
   </header>
 
@@ -288,7 +332,137 @@
 
 
   <!-- Shared JS: hamburger menu + PDF loading overlay + iOS/Safari detection -->
+  
+  <!-- Settings – fixed to right edge of viewport, desktop only -->
+  <div class="settings-wrap" id="settingsWrap">
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+    <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
+
+      <!-- Appearance -->
+      <div class="settings-label">Appearance</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Dark Mode
+        </span>
+        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Language -->
+      <div class="settings-label">Language</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Filipino
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Translation coming soon</div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Admin -->
+      <div class="settings-label">Admin</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Enter Admin Mode
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Admin features coming soon</div>
+
+    </div>
+  </div>
+
   <script src="main.js"></script>
+
+  <!-- Settings dropdown + Dark mode JS -->
+  <script>
+    (function () {
+      const settingsBtn      = document.getElementById('settingsBtn');
+      const settingsDropdown = document.getElementById('settingsDropdown');
+      const darkToggle       = document.getElementById('darkModeToggle');
+      const darkToggleMobile = document.getElementById('darkModeToggleMobile');
+
+      /* ── Persist dark mode across page loads ── */
+      function applyDark(on) {
+        document.body.classList.toggle('dark', on);
+        [darkToggle, darkToggleMobile].forEach(btn => {
+          if (btn) btn.setAttribute('aria-checked', String(on));
+        });
+        localStorage.setItem('bb-dark', on ? '1' : '0');
+      }
+
+      /* Load saved preference on page load */
+      const saved = localStorage.getItem('bb-dark');
+      if (saved === '1') applyDark(true);
+
+      /* Toggle dark mode */
+      function handleDarkToggle() {
+        applyDark(!document.body.classList.contains('dark'));
+      }
+      if (darkToggle)       darkToggle.addEventListener('click', handleDarkToggle);
+      if (darkToggleMobile) darkToggleMobile.addEventListener('click', handleDarkToggle);
+
+      /* ── Settings dropdown open/close ── */
+      function openSettings() {
+        settingsDropdown.classList.add('open');
+        settingsBtn.setAttribute('aria-expanded', 'true');
+        settingsDropdown.setAttribute('aria-hidden', 'false');
+      }
+      function closeSettings() {
+        settingsDropdown.classList.remove('open');
+        settingsBtn.setAttribute('aria-expanded', 'false');
+        settingsDropdown.setAttribute('aria-hidden', 'true');
+      }
+
+      settingsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsDropdown.classList.contains('open') ? closeSettings() : openSettings();
+      });
+
+      /* Close when clicking outside */
+      document.addEventListener('click', (e) => {
+        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
+          closeSettings();
+        }
+      });
+
+      /* Close with Escape */
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSettings();
+      });
+    })();
+  </script>
+
+
 
   <!-- ============================================================
     MESSENGER CHAT BUBBLE
