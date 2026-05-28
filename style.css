@@ -170,6 +170,271 @@ header {
 .mobile-menu a:hover { color: var(--gold); }
 
 /* ============================================================
+  DARK MODE VARIABLES  – cement-gray theme
+  Page bg : #606366  (medium cement)
+  Panels  : #737679  (lighter cement for cards/modals)
+  Header  : #595c5e  (darker cement)
+  Footer  : unchanged navy (#0d1f4e)
+  Text    : #ffffff  (pure white)
+  Service cards: keep original gold + teal (post-it style)
+============================================================ */
+body.dark {
+  --white:  #737679;   /* panel / card backgrounds */
+  --light:  #606366;   /* page background */
+  --text:   #ffffff;
+  --muted:  #e8e8e8;
+  --navy:   #ffffff;   /* headings & nav text go white */
+  --gold:   #d4aa50;   /* keep gold accent */
+  background: #606366;
+  color: #ffffff;
+}
+
+/* ── Header: darker cement strip ── */
+body.dark header                    { background: #0d1f4e; border-bottom-color: var(--gold); }
+body.dark .nav-links a              { color: #ffffff; }
+body.dark .nav-links a:hover        { color: var(--gold); }
+body.dark .nav-links a.active       { color: var(--gold); border-bottom-color: var(--gold); }
+body.dark .logo-text                { color: #ffffff; }
+body.dark .logo-seal circle:first-child { fill: #0d1f4e; }
+
+/* ── Mobile menu: same darker cement ── */
+body.dark .mobile-menu              { background: #0d1f4e; border-top-color: #1a3a6e; }
+body.dark .mobile-menu a            { color: #ffffff; border-bottom-color: #1a3a6e; }
+body.dark .mobile-menu a:hover      { color: var(--gold); }
+
+/* ── Service cards: keep gold + teal (post-it look) ── */
+body.dark .service-card.gold        { background: var(--gold); color: #ffffff; }
+body.dark .service-card.teal        { background: #1a5276;     color: #ffffff; }
+body.dark .service-card h3          { color: #ffffff; }
+body.dark .service-card p           { color: rgba(255,255,255,0.88); }
+body.dark .btn-card                 { background: #ffffff; color: #0d1f4e; }
+
+/* ── Footer: keep original navy blue ── */
+body.dark footer                    { background: #0d1f4e; color: rgba(255,255,255,0.85); }
+
+/* ── Hero: ensure text stays white and readable in dark mode ── */
+body.dark .hero                     { background: linear-gradient(110deg, #0d1f4e 0%, #1a3a6e 45%, #2a5298 70%, #8faecf 100%); }
+body.dark .hero h1                  { color: #ffffff; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
+body.dark .btn-cta                  { border-color: #ffffff; color: #ffffff; }
+body.dark .btn-cta:hover            { background: #ffffff; color: #3a3d3f; }
+
+/* ── General content areas ── */
+body.dark .services h2              { color: #ffffff; }
+body.dark .about-card               { background: #737679; border-color: #888b8d; }
+body.dark .about-card h3            { color: #ffffff; }
+body.dark .about-card p             { color: #e8e8e8; }
+body.dark .about-card-icon          { background: #606366; }
+body.dark .about-block h2           { color: #ffffff; }
+body.dark .about-block p            { color: #e8e8e8; }
+body.dark .charter-entry            { border-bottom-color: #888b8d; }
+body.dark .charter-entry-icon       { background: #606366; border-color: #ffffff; }
+body.dark .charter-entry-body h2    { color: #ffffff; }
+body.dark .charter-entry-body p,
+body.dark .charter-entry-body ul    { color: #e8e8e8; }
+body.dark .charter-intro            { color: #e8e8e8; border-bottom-color: #888b8d; }
+body.dark .contact-details h2,
+body.dark .contact-map h2           { color: #ffffff; }
+body.dark .contact-item             { border-bottom-color: #888b8d; }
+body.dark .contact-item-icon        { background: #606366; border-color: #ffffff; }
+body.dark .contact-item-body strong { color: #e8e8e8; }
+body.dark .contact-item-body span,
+body.dark .contact-item-body a      { color: #ffffff; }
+body.dark .hours-row .day           { color: #e8e8e8; }
+body.dark .hours-row .time          { color: #ffffff; }
+body.dark .contact-map-embed        { border-color: #888b8d; }
+
+/* ── Modals ── */
+body.dark .modal                    { background: #737679; }
+body.dark .svc-pill                 { background: #606366; border-color: #888b8d; color: #ffffff; }
+body.dark .svc-pill strong          { color: #ffffff; }
+body.dark .svc-desc                 { color: #e8e8e8; border-bottom-color: #888b8d; }
+body.dark .svc-step-box             { background: #606366; border-color: #888b8d; }
+body.dark .svc-step-title           { color: #ffffff; }
+body.dark .svc-step-desc            { color: #e8e8e8; }
+body.dark .svc-key-box              { background: #606366; border-color: #888b8d; }
+body.dark .svc-key-label            { color: #e8e8e8; }
+body.dark .svc-key-value            { color: #ffffff; }
+body.dark .svc-req-list li          { color: #ffffff; }
+body.dark .service-modal-footer     { background: #606366; border-top-color: #888b8d; }
+body.dark .service-modal-note       { color: #e8e8e8; }
+body.dark .permit-card              { background: #606366; border-color: #888b8d; color: #ffffff; }
+body.dark .permit-card h3           { color: #ffffff; }
+body.dark .permit-card p            { color: #e8e8e8; }
+
+/* ── Settings panel ── */
+body.dark .settings-btn             { background: #595c5e; color: #ffffff; border-color: #888b8d; }
+body.dark .settings-btn:hover       { background: #484b4d; color: var(--gold); }
+body.dark .settings-dropdown        { background: #595c5e; border-color: #888b8d; }
+body.dark .settings-label           { color: #d0d0d0; }
+body.dark .settings-row             { color: #ffffff; }
+body.dark .settings-divider         { background: #888b8d; }
+body.dark .settings-coming-soon     { color: #d0d0d0; }
+body.dark .mobile-settings          { border-top-color: #888b8d; }
+body.dark .mobile-settings-label    { color: #d0d0d0; }
+body.dark .mobile-settings-text     { color: #ffffff; }
+
+/* ============================================================
+  SETTINGS BUTTON + DROPDOWN (desktop)
+============================================================ */
+.settings-wrap {
+  position: fixed;
+  right: 0;
+  top: 12px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.settings-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--white);
+  border: 1.5px solid #e5e7eb;
+  border-right: none;
+  border-radius: 8px 0 0 8px;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: -2px 2px 8px rgba(0,0,0,0.1);
+}
+.settings-btn:hover { background: var(--light); color: var(--gold); }
+
+.settings-dropdown {
+  position: absolute;
+  top: 36px;       /* opens downward from the button */
+  right: 0;
+  min-width: 220px;
+  background: #fff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 0 0 10px 10px;
+  box-shadow: -4px 4px 20px rgba(0,0,0,0.12);
+  padding: 10px 0;
+  z-index: 300;
+  display: none;
+  flex-direction: column;
+}
+.settings-dropdown.open { display: flex; }
+
+.settings-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  padding: 4px 16px 6px;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  color: var(--text);
+  gap: 12px;
+}
+.settings-row-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.settings-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin: 6px 0;
+}
+.settings-coming-soon {
+  font-size: 0.72rem;
+  color: #9ca3af;
+  padding: 0 16px 6px;
+  font-style: italic;
+}
+
+/* Toggle switch */
+.settings-toggle {
+  position: relative;
+  width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  background: #d1d5db;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.25s;
+  padding: 0;
+}
+.settings-toggle[aria-checked="true"] { background: var(--navy); }
+.settings-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.25s;
+  pointer-events: none;
+}
+.settings-toggle[aria-checked="true"] .settings-toggle-thumb { transform: translateX(16px); }
+.settings-toggle--disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Hide settings button on mobile — it lives inside hamburger menu instead */
+@media (max-width: 768px) {
+  .settings-wrap { display: none; }
+}
+
+/* ============================================================
+  SETTINGS SECTION INSIDE MOBILE MENU
+============================================================ */
+.mobile-settings {
+  border-top: 1px solid #f0f0f0;
+  margin-top: 6px;
+  padding-top: 12px;
+}
+.mobile-settings-label {
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  padding: 0 0 8px;
+}
+.mobile-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+}
+.mobile-settings-row:last-child { border-bottom: none; }
+.mobile-settings-row--disabled { opacity: 0.5; }
+.mobile-settings-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.mobile-soon-badge {
+  font-size: 0.6rem;
+  background: #e5e7eb;
+  color: #6b7280;
+  border-radius: 4px;
+  padding: 1px 5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
   HERO SECTION
   To use a real background photo, replace the gradient with:
     background: url('photo.jpg') center/cover no-repeat;
@@ -682,7 +947,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   font-family: var(--font-heading);
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 0.02em;
 }
 
