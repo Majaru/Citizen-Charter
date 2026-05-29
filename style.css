@@ -220,10 +220,25 @@ body.dark .btn-cta:hover            { background: #ffffff; color: #3a3d3f; }
 
 /* ── General content areas ── */
 body.dark .services h2              { color: #ffffff; }
-body.dark .about-card               { background: #737679; border-color: #888b8d; }
-body.dark .about-card h3            { color: #ffffff; }
-body.dark .about-card p             { color: #e8e8e8; }
-body.dark .about-card-icon          { background: #606366; }
+/* ── Dark mode: about cards — card bg = icon color, icon bg = white, svg = white ── */
+body.dark .about-card                              { border-color: transparent; }
+body.dark .about-card h3                           { color: #ffffff; }
+body.dark .about-card p                            { color: rgba(255,255,255,0.88); }
+
+/* Mission card — gold */
+body.dark .about-columns--3 .about-card:nth-child(1)            { background: #b8973a; }
+body.dark .about-columns--3 .about-card:nth-child(1) .about-card-icon { background: rgba(255,255,255,0.2); }
+body.dark .about-columns--3 .about-card:nth-child(1) .about-card-icon svg { stroke: #ffffff; }
+
+/* Vision card — teal */
+body.dark .about-columns--3 .about-card:nth-child(2)            { background: #1a5276; }
+body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon { background: rgba(255,255,255,0.2); }
+body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon svg { stroke: #ffffff; }
+
+/* Organizational Outcome card — navy */
+body.dark .about-columns--3 .about-card:nth-child(3)            { background: #0d1f4e; }
+body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon { background: rgba(255,255,255,0.2); }
+body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon svg { stroke: #ffffff; }
 body.dark .about-block h2           { color: #ffffff; }
 body.dark .about-block p            { color: #e8e8e8; }
 body.dark .charter-entry            { border-bottom-color: #888b8d; }
@@ -257,9 +272,24 @@ body.dark .svc-key-value            { color: #ffffff; }
 body.dark .svc-req-list li          { color: #ffffff; }
 body.dark .service-modal-footer     { background: #606366; border-top-color: #888b8d; }
 body.dark .service-modal-note       { color: #e8e8e8; }
-body.dark .permit-card              { background: #606366; border-color: #888b8d; color: #ffffff; }
-body.dark .permit-card h3           { color: #ffffff; }
-body.dark .permit-card p            { color: #e8e8e8; }
+/* ── Dark mode permit cards: card bg = button color, button = white ── */
+body.dark .permit-card                             { border-color: transparent; color: #ffffff; }
+body.dark .permit-card h3                          { color: #ffffff; }
+body.dark .permit-card p                           { color: rgba(255,255,255,0.85); }
+
+body.dark .permit-card.business                    { background: #b8973a; }
+body.dark .permit-card.business    .permit-icon    { background: rgba(255,255,255,0.15); color: #ffffff; }
+body.dark .permit-card.business    .permit-select  { background: #ffffff; color: #b8973a; }
+
+body.dark .permit-card.occupational                { background: #1a5276; }
+body.dark .permit-card.occupational .permit-icon   { background: rgba(255,255,255,0.15); color: #ffffff; }
+body.dark .permit-card.occupational .permit-select { background: #ffffff; color: #1a5276; }
+
+body.dark .permit-card.special                     { background: #6b4c11; }
+body.dark .permit-card.special     .permit-icon    { background: rgba(255,255,255,0.15); color: #ffffff; }
+body.dark .permit-card.special     .permit-select  { background: #ffffff; color: #6b4c11; }
+
+body.dark .permit-card:hover .permit-select        { filter: brightness(0.92); }
 
 /* ── Settings panel ── */
 body.dark .settings-btn             { background: #595c5e; color: #ffffff; border-color: #888b8d; }
@@ -272,6 +302,23 @@ body.dark .settings-coming-soon     { color: #d0d0d0; }
 body.dark .mobile-settings          { border-top-color: #888b8d; }
 body.dark .mobile-settings-label    { color: #d0d0d0; }
 body.dark .mobile-settings-text     { color: #ffffff; }
+
+/* ── Dark mode: citizens-charter TOC sidebar ── */
+body.dark .cc-sidebar                              { background: #0d1f4e !important; border-color: #1a3a6e !important; }
+body.dark .cc-sidebar-header                       { background: #091836 !important; border-bottom-color: #1a3a6e !important; }
+body.dark .cc-sidebar-header svg                   { color: #ffffff !important; }
+body.dark .cc-sidebar-header h3                    { color: #ffffff !important; }
+body.dark .cc-toc-list li                          { border-bottom-color: #1a3a6e !important; }
+body.dark .cc-toc-list button                      { background: transparent !important; }
+body.dark .cc-toc-list button:hover                { background: rgba(255,255,255,0.08) !important; }
+body.dark .cc-toc-list button.active               { background: rgba(255,255,255,0.13) !important; }
+body.dark .cc-toc-list button.active .toc-num      { background: #b8973a !important; color: #ffffff !important; }
+body.dark .cc-toc-list button.active .toc-label    { color: #ffffff !important; font-weight: 700 !important; }
+body.dark .cc-toc-list button.active .toc-page     { color: rgba(255,255,255,0.85) !important; }
+body.dark .toc-num                                 { background: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
+body.dark .toc-label                               { color: rgba(255,255,255,0.85) !important; }
+body.dark .toc-page                                { color: rgba(255,255,255,0.5) !important; }
+body.dark .cc-sidebar-footer                       { background: #091836 !important; border-top-color: #1a3a6e !important; }
 
 /* ============================================================
   SETTINGS BUTTON + DROPDOWN (desktop)
@@ -677,7 +724,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 
 /* Coloured top bar – change background to restyle the header strip */
 .modal-header {
-  background: var(--navy);
+  background: #0d1f4e;
   padding: 22px 24px 18px;
   display: flex;
   align-items: flex-start;
@@ -688,7 +735,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   font-family: var(--font-heading);
   font-size: 1.2rem;
   font-weight: 700;
-  color: var(--white);
+  color: #ffffff;
   letter-spacing: 0.03em;
 }
 .modal-header p {
@@ -755,9 +802,9 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   align-items: center;
   justify-content: center;
 }
-.permit-card.business    .permit-icon { background: rgba(184,151,58,0.12); }  /* gold tint */
-.permit-card.occupational .permit-icon { background: rgba(26,82,118,0.1); }   /* teal tint */
-.permit-card.special      .permit-icon { background: rgba(107,76,17,0.1); }   /* dark gold tint */
+.permit-card.business    .permit-icon { background: rgba(184,151,58,0.12); color: #b8973a; }
+.permit-card.occupational .permit-icon { background: rgba(26,82,118,0.1);  color: #1a5276; }
+.permit-card.special      .permit-icon { background: rgba(107,76,17,0.1);  color: #6b4c11; }
 .permit-card .permit-icon svg { width: 28px; height: 28px; }
 .permit-card h3 {
   font-family: var(--font-heading);
@@ -1193,8 +1240,8 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   align-items: center;
   gap: 8px;
   padding: 9px 18px;
-  background: var(--navy);
-  color: var(--white);
+  background: #0d1f4e;
+  color: #ffffff;
   font-family: var(--font-heading);
   font-size: 0.78rem;
   font-weight: 700;
@@ -1202,9 +1249,9 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   text-transform: uppercase;
   border-radius: 6px;
   text-decoration: none;
-  transition: background 0.2s;
+  transition: background 0.2s, filter 0.2s;
 }
-.btn-view-more:hover { background: var(--teal); }
+.btn-view-more:hover { filter: brightness(1.4); }
 .btn-view-more svg { width: 14px; height: 14px; }
 
 @media (max-width: 500px) {
