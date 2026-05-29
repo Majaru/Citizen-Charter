@@ -886,12 +886,12 @@
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
           </svg>
-          <a href="https://m.me/YourPageName"
+          <a href="https://m.me/busbureaudavao"
              target="_blank" rel="noopener"
              style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
              onmouseover="this.style.color='#b8973a'"
              onmouseout="this.style.color='rgba(255,255,255,0.85)'">
-            Message us on Messenger
+            Business Bureau - Davao City
           </a>
         </div>
 
@@ -1010,7 +1010,7 @@
         <!-- OPTION 1: Business Permit – opens sub-modal for New/Renewal choice -->
         <button onclick="openBPModal()" class="permit-card business">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2"/>
               <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
@@ -1026,7 +1026,7 @@
         <!-- OPTION 2: Occupational Permit -->
         <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card occupational">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1a5276" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
@@ -1041,7 +1041,7 @@
         <!-- OPTION 3: Special Permit -->
         <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card special">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#6b4c11" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -1531,14 +1531,29 @@
         `citizens-charter.html#page=${d.page}`;
 
       /* Build infographic body */
+      const c      = d.color;
+      const isDark = document.body.classList.contains('dark');
+      const cLight = c + '22';
+
+      /* Light: colored border + tint bg | Dark: solid colored bg + white text */
+      const boxBg      = isDark ? c           : c + '22';
+      const boxBorder  = isDark ? c           : c;
+      const numBg      = isDark ? '#ffffff'   : c;
+      const numColor   = isDark ? c           : '#ffffff';
+      const titleColor = isDark ? '#ffffff'   : c;
+      const descColor  = isDark ? 'rgba(255,255,255,0.85)' : '';
+      const timeBg     = isDark ? '#ffffff'   : c;
+      const timeColor  = isDark ? c           : '#ffffff';
+      const arrowColor = isDark ? '#ffffff'   : c;
+
       const stepsHTML = d.steps.map((s, i) => `
-        ${i > 0 ? '<span class="svc-step-arrow">›</span>' : ''}
+        ${i > 0 ? `<span class="svc-step-arrow" style="color:${arrowColor}">›</span>` : ''}
         <div class="svc-step">
-          <div class="svc-step-box">
-            <div class="svc-step-num">${s.num}</div>
-            <div class="svc-step-title">${s.title}</div>
-            <div class="svc-step-desc">${s.desc}</div>
-            ${s.time ? `<span class="svc-step-time">${s.time}</span>` : ''}
+          <div class="svc-step-box" style="border-color:${boxBorder}; background:${boxBg};">
+            <div class="svc-step-num" style="background:${numBg}; color:${numColor};">${s.num}</div>
+            <div class="svc-step-title" style="color:${titleColor};">${s.title}</div>
+            <div class="svc-step-desc" style="color:${descColor};">${s.desc}</div>
+            ${s.time ? `<span class="svc-step-time" style="background:${timeBg}; color:${timeColor};">${s.time}</span>` : ''}
           </div>
         </div>`).join('');
 
@@ -1556,12 +1571,11 @@
 
         <div class="svc-key-info">
           <div class="svc-key-box">
-            <div class="svc-key-box-icon gold-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${cLight};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
-                <!-- Philippine Peso sign (₱) -->
                 <text x="12" y="17" font-family="Arial, sans-serif" font-size="16"
-                      font-weight="bold" fill="#b8973a" stroke="none"
+                      font-weight="bold" fill="${c}" stroke="none"
                       text-anchor="middle">₱</text>
               </svg>
             </div>
@@ -1571,8 +1585,8 @@
             </div>
           </div>
           <div class="svc-key-box">
-            <div class="svc-key-box-icon navy-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${cLight};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
@@ -1586,12 +1600,12 @@
         </div>
 
         <div>
-          <div class="svc-section-label">Process Flow</div>
+          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Process Flow</div>
           <div class="svc-steps">${stepsHTML}</div>
         </div>
 
         <div>
-          <div class="svc-section-label">Key Requirements</div>
+          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Key Requirements</div>
           <ul class="svc-req-list">${reqHTML}</ul>
         </div>`;
 
