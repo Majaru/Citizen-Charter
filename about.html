@@ -16,69 +16,168 @@
   <link rel="stylesheet" href="style.css"/>
   <style>
     /* ── Organizational Chart Section ── */
-    .about-block--orgchart {
-      margin-top: 3rem;
-    }
-
+    /* ── Organizational Chart ── */
     .orgchart-wrapper {
       margin-top: 1.75rem;
       border: 2px solid #e2e5ef;
       border-radius: 8px;
       overflow: hidden;
       background: #f5f6fa;
+      padding: 1rem 0.5rem;
+      position: relative;
     }
 
-    /* Actual chart image – fills the wrapper naturally */
-    .orgchart-img {
-      display: block;
-      width: 100%;
-      height: auto;
-      object-fit: contain;
+    /* Zoom controls */
+    .org-zoom-controls {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      display: flex;
+      gap: 4px;
+      z-index: 10;
     }
-
-    /* Placeholder shown when the PNG is missing */
-    .orgchart-placeholder {
-      display: flex;          /* toggled to flex by JS onerror */
-      flex-direction: column;
+    .org-zoom-btn {
+      width: 26px;
+      height: 26px;
+      border: 1.5px solid #0d1f4e;
+      border-radius: 5px;
+      background: #fff;
+      color: #0d1f4e;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      padding: 3.5rem 2rem;
-      text-align: center;
-      /* Hidden by default; shown only when image fails to load */
+      line-height: 1;
+      transition: background 0.15s;
+    }
+    .org-zoom-btn:hover { background: #0d1f4e; color: #fff; }
+
+    /* Centering shell */
+    .org-chart-shell {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Scalable container — centered via left offset trick */
+    .org-chart-scaler {
+      display: inline-block;
+      transform-origin: top center;
+      transition: transform 0.2s ease;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .org-chart {
       display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .orgchart-placeholder svg {
-      width: 96px;
-      height: 96px;
-      opacity: 0.55;
+    /* Vertical connector line */
+    .org-connector-down {
+      width: 2px;
+      height: 12px;
+      background: #b8973a;
+      margin: 0 auto;
+      flex-shrink: 0;
     }
 
-    .orgchart-placeholder p {
+    /* Row wrapper */
+    .org-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      width: 100%;
+    }
+
+    /* Inner flex row with horizontal connector bar */
+    .org-row-inner {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 8px;
+      position: relative;
+    }
+
+    .org-row-inner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: calc(100% - 60px);
+      height: 2px;
+      background: #b8973a;
+      transform: translate(-50%, -8px);
+    }
+
+    .org-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .org-col-connector {
+      width: 2px;
+      height: 10px;
+      background: #b8973a;
+      flex-shrink: 0;
+    }
+
+    /* Node card */
+    .org-node {
+      background: #fff;
+      border: 1.5px solid #0d1f4e;
+      border-radius: 6px;
+      padding: 7px 8px;
+      text-align: center;
+      width: 118px;
+      box-shadow: 0 1px 4px rgba(13,31,78,0.08);
+    }
+
+    .org-node--head {
+      background: #0d1f4e;
+      border-color: #b8973a;
+      width: 170px;
+    }
+    .org-node--head .org-node-name  { color: #fff; }
+    .org-node--head .org-node-title { color: #b8973a; }
+
+    .org-node--head-section {
+      background: #1a3a6e;
+      border-color: #b8973a;
+    }
+    .org-node--head-section .org-node-name  { color: #fff; }
+    .org-node--head-section .org-node-title { color: #b8973a; }
+
+    .org-node--section {
+      background: #b8973a;
+      border-color: #b8973a;
+    }
+    .org-node--section .org-node-name { color: #fff; }
+
+    .org-node--staff {
+      border-color: #b8973a;
+      border-width: 1px;
+    }
+
+    .org-node-name {
       font-family: 'Oswald', sans-serif;
-      font-size: 1rem;
+      font-size: 0.68rem;
       font-weight: 600;
       color: #0d1f4e;
-      margin: 0;
-      letter-spacing: 0.02em;
+      line-height: 1.25;
+      margin-bottom: 2px;
     }
 
-    .orgchart-placeholder span {
+    .org-node-title {
       font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.875rem;
+      font-size: 0.6rem;
       color: #64748b;
-      max-width: 340px;
-      line-height: 1.5;
-    }
-
-    .orgchart-placeholder code {
-      background: #e2e5ef;
-      color: #0d1f4e;
-      font-size: 0.8rem;
-      padding: 0.1em 0.4em;
-      border-radius: 3px;
-      font-family: monospace;
+      line-height: 1.25;
     }
   </style>
 </head>
@@ -323,45 +422,17 @@
         />
 
         <!-- Placeholder shown when org-chart.png is not yet available -->
-        <div class="orgchart-placeholder" aria-label="Organizational chart placeholder">
-          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Top node -->
-            <rect x="20" y="2" width="24" height="14" rx="3" fill="#0d1f4e" opacity="0.15"/>
-            <rect x="20" y="2" width="24" height="14" rx="3" stroke="#0d1f4e" stroke-width="1.5"/>
-            <!-- Vertical line down from top -->
-            <line x1="32" y1="16" x2="32" y2="26" stroke="#b8973a" stroke-width="1.5"/>
-            <!-- Horizontal connector -->
-            <line x1="12" y1="26" x2="52" y2="26" stroke="#b8973a" stroke-width="1.5"/>
-            <!-- Left branch line -->
-            <line x1="12" y1="26" x2="12" y2="34" stroke="#b8973a" stroke-width="1.5"/>
-            <!-- Center branch line -->
-            <line x1="32" y1="26" x2="32" y2="34" stroke="#b8973a" stroke-width="1.5"/>
-            <!-- Right branch line -->
-            <line x1="52" y1="26" x2="52" y2="34" stroke="#b8973a" stroke-width="1.5"/>
-            <!-- Left node -->
-            <rect x="2" y="34" width="20" height="12" rx="3" fill="#0d1f4e" opacity="0.1"/>
-            <rect x="2" y="34" width="20" height="12" rx="3" stroke="#0d1f4e" stroke-width="1.5"/>
-            <!-- Center node -->
-            <rect x="22" y="34" width="20" height="12" rx="3" fill="#0d1f4e" opacity="0.1"/>
-            <rect x="22" y="34" width="20" height="12" rx="3" stroke="#0d1f4e" stroke-width="1.5"/>
-            <!-- Right node -->
-            <rect x="42" y="34" width="20" height="12" rx="3" fill="#0d1f4e" opacity="0.1"/>
-            <rect x="42" y="34" width="20" height="12" rx="3" stroke="#0d1f4e" stroke-width="1.5"/>
-            <!-- Bottom left branch -->
-            <line x1="8" y1="46" x2="8" y2="54" stroke="#b8973a" stroke-width="1" stroke-dasharray="3 2"/>
-            <rect x="2" y="54" width="12" height="8" rx="2" fill="#b8973a" opacity="0.15"/>
-            <rect x="2" y="54" width="12" height="8" rx="2" stroke="#b8973a" stroke-width="1"/>
-            <!-- Bottom center branch -->
-            <line x1="32" y1="46" x2="32" y2="54" stroke="#b8973a" stroke-width="1" stroke-dasharray="3 2"/>
-            <rect x="26" y="54" width="12" height="8" rx="2" fill="#b8973a" opacity="0.15"/>
-            <rect x="26" y="54" width="12" height="8" rx="2" stroke="#b8973a" stroke-width="1"/>
-            <!-- Bottom right branch -->
-            <line x1="56" y1="46" x2="56" y2="54" stroke="#b8973a" stroke-width="1" stroke-dasharray="3 2"/>
-            <rect x="50" y="54" width="12" height="8" rx="2" fill="#b8973a" opacity="0.15"/>
-            <rect x="50" y="54" width="12" height="8" rx="2" stroke="#b8973a" stroke-width="1"/>
-          </svg>
-          <p>Organizational chart image not yet available.</p>
-          <span>Replace <code>org-chart.png</code> in the same folder with your chart image.</span>
+        <div class="orgchart-wrapper" id="orgchartWrapper">
+          <div class="org-zoom-controls">
+            <button class="org-zoom-btn" id="orgZoomIn"  title="Zoom in">+</button>
+            <button class="org-zoom-btn" id="orgZoomOut" title="Zoom out">−</button>
+            <button class="org-zoom-btn" id="orgZoomReset" title="Reset zoom" style="width:auto; padding:0 6px; font-size:0.6rem;">Reset</button>
+          </div>
+          <div class="org-chart-shell" id="orgChartShell">
+            <div class="org-chart-scaler" id="orgChartScaler">
+              <div class="org-chart" id="orgChart"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -413,12 +484,12 @@
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
           </svg>
-          <a href="https://m.me/YourPageName"
+          <a href="https://m.me/busbureaudavao"
              target="_blank" rel="noopener"
              style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
              onmouseover="this.style.color='#b8973a'"
              onmouseout="this.style.color='rgba(255,255,255,0.85)'">
-            Message us on Messenger
+            Business Bureau - Davao City
           </a>
         </div>
 
@@ -598,8 +669,207 @@
         if (e.key === 'Escape') closeSettings();
       });
     })();
-  </script>
+   <!-- Org Chart JS -->
+    const orgData = {
+      name: 'Maribel T. Paguican',
+      title: 'Officer-In-Charge / Licensing Officer IV',
+      type: 'head',
+      children: [
+        {
+          name: 'Jayquiel Balite',
+          title: 'Assistant Head / Licensing Officer II',
+          type: 'head',
+          children: [
+            {
+              name: 'EDP Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Helen C. Pore', title: 'Local Treasury Officer II' },
+              children: [
+                { name: 'Delmar Jake Hamoy', title: 'EDP Officer / Licensing Officer I', type: 'staff' }
+              ]
+            },
+            {
+              name: 'Processing Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Karen Angelica D. Lintapan', title: 'Licensing Officer I' },
+              children: []
+            },
+            {
+              name: 'Inspection and Assessment Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Maria Elena Orzales', title: 'Team Leader / Licensing Officer I' },
+              children: [
+                { name: 'Neil Michael Q. Galaura', title: 'Licensing Officer I', type: 'staff' },
+                { name: 'Jonathan Villafuerte', title: 'Licensing Officer I', type: 'staff' },
+                { name: 'Dionisio Jr. O. Enfestan', title: 'Licensing Officer I', type: 'staff' },
+                { name: 'Andrew Abrasaldo', title: 'Inspector / Field Driver', type: 'staff' },
+                { name: 'Chris May Lao', title: 'Licensing Officer I', type: 'staff' }
+              ]
+            },
+            {
+              name: 'Occupational Permit Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Marco Maglana', title: 'Licensing Officer I' },
+              children: []
+            },
+            {
+              name: 'Special Permit Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Ma. Adoracion G. Japson', title: 'Licensing Officer I' },
+              children: []
+            },
+            {
+              name: 'Records Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Marygel Babia', title: 'Section Chief / Licensing Officer I' },
+              children: [
+                { name: 'Rey V. Galia', title: 'Field Driver II', type: 'staff' }
+              ]
+            },
+            {
+              name: 'Administrative Support Section',
+              title: '',
+              type: 'section',
+              head: { name: 'Elizabeth B. Ulac', title: 'Acting Section Chief / Licensing Officer I' },
+              children: [
+                { name: 'Lynett Galido', title: 'Property / Supply Officer', type: 'staff' },
+                { name: 'Hannah Krystal Danielle Lou A. Nemaria', title: 'Licensing Officer I', type: 'staff' },
+                { name: 'Mabel Grace Ravina', title: 'Section Caretaker / Utility Worker II', type: 'staff' }
+              ]
+            }
+          ]
+        }
+      ]
+    };
 
+    function makeNode(person) {
+      const node = document.createElement('div');
+      node.className = `org-node org-node--${person.type}`;
+      node.innerHTML = `
+        <div class="org-node-name">${person.name}</div>
+        ${person.title ? `<div class="org-node-title">${person.title}</div>` : ''}
+      `;
+      return node;
+    }
+
+    function connector() {
+      const d = document.createElement('div');
+      d.className = 'org-connector-down';
+      return d;
+    }
+
+    function colConnector() {
+      const d = document.createElement('div');
+      d.className = 'org-col-connector';
+      return d;
+    }
+
+    function buildSectionCol(section) {
+      const sCol = document.createElement('div');
+      sCol.className = 'org-col';
+      sCol.appendChild(colConnector());
+
+      // Section label node
+      sCol.appendChild(makeNode(section));
+
+      // Section head
+      if (section.head) {
+        sCol.appendChild(connector());
+        const headNode = makeNode({ ...section.head, type: 'head-section' });
+        sCol.appendChild(headNode);
+      }
+
+      // Subordinates stacked vertically
+      if (section.children && section.children.length) {
+        section.children.forEach(staff => {
+          sCol.appendChild(connector());
+          sCol.appendChild(makeNode(staff));
+        });
+      }
+
+      return sCol;
+    }
+
+    function buildSectionsRow(sections) {
+      const row = document.createElement('div');
+      row.className = 'org-row';
+      const inner = document.createElement('div');
+      inner.className = 'org-row-inner';
+      sections.forEach(s => inner.appendChild(buildSectionCol(s)));
+      row.appendChild(inner);
+      return row;
+    }
+
+    function renderChart(data, container) {
+      // Level 1: OIC
+      const l1col = document.createElement('div');
+      l1col.className = 'org-col';
+      l1col.appendChild(makeNode(data));
+      container.appendChild(l1col);
+
+      if (!data.children || !data.children.length) return;
+
+      // Level 2: Assistant Head
+      container.appendChild(connector());
+      const l2 = data.children[0];
+      const l2col = document.createElement('div');
+      l2col.className = 'org-col';
+      l2col.appendChild(makeNode(l2));
+      container.appendChild(l2col);
+
+      if (!l2.children || !l2.children.length) return;
+
+      // ALL sections in one horizontal row
+      container.appendChild(connector());
+      container.appendChild(buildSectionsRow(l2.children));
+    }
+
+    renderChart(orgData, document.getElementById('orgChart'));
+
+    /* ── Zoom controls ── */
+    (function() {
+      const scaler   = document.getElementById('orgChartScaler');
+      const btnIn    = document.getElementById('orgZoomIn');
+      const btnOut   = document.getElementById('orgZoomOut');
+      const btnReset = document.getElementById('orgZoomReset');
+      let scale = 1.0;
+      const MIN = 0.3, MAX = 1.5, STEP = 0.1;
+
+      const shell = document.getElementById('orgChartShell');
+
+      function applyScale() {
+        // translateX(-50%) keeps the chart centered regardless of scale
+        scaler.style.transform       = `translateX(-50%) scale(${scale})`;
+        scaler.style.transformOrigin = 'top center';
+        // Adjust shell height so container doesn't clip bottom
+        shell.style.height = (scaler.scrollHeight * scale + 24) + 'px';
+      }
+
+      // Auto-fit: pick largest scale where chart fits in shell width
+      function fitToScreen() {
+        // Temporarily reset transform to measure natural width
+        scaler.style.transform = 'translateX(-50%) scale(1)';
+        const natural   = scaler.scrollWidth;
+        const available = shell.clientWidth - 8;
+        scale = natural > available
+          ? Math.max(MIN, parseFloat((available / natural).toFixed(2)))
+          : 1.0;
+        applyScale();
+      }
+
+      requestAnimationFrame(() => requestAnimationFrame(fitToScreen));
+
+      btnIn.addEventListener('click',    () => { scale = Math.min(MAX, +(scale + STEP).toFixed(2)); applyScale(); });
+      btnOut.addEventListener('click',   () => { scale = Math.max(MIN, +(scale - STEP).toFixed(2)); applyScale(); });
+      btnReset.addEventListener('click', () => { scale = 0.72; applyScale(); });
+    })();
+  </script>
 
 
 </body>
