@@ -219,7 +219,7 @@ body.dark .btn-cta                  { border-color: #ffffff; color: #ffffff; }
 body.dark .btn-cta:hover            { background: #ffffff; color: #3a3d3f; }
 
 /* ── General content areas ── */
-body.dark .services h2              { color: #ffffff; }
+body.dark .services h2              { color: #b8973a; }
 /* ── Dark mode: about cards — card bg = icon color, icon bg = white, svg = white ── */
 body.dark .about-card                              { border-color: transparent; }
 body.dark .about-card h3                           { color: #ffffff; }
@@ -239,7 +239,7 @@ body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon svg { stro
 body.dark .about-columns--3 .about-card:nth-child(3)            { background: #0d1f4e; }
 body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon { background: rgba(255,255,255,0.2); }
 body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon svg { stroke: #ffffff; }
-body.dark .about-block h2           { color: #ffffff; }
+body.dark .about-block h2           { color: #b8973a; }
 body.dark .about-block p            { color: #e8e8e8; }
 body.dark .charter-entry            { border-bottom-color: #888b8d; }
 body.dark .charter-entry-icon       { background: #606366; border-color: #ffffff; }
@@ -248,9 +248,9 @@ body.dark .charter-entry-body p,
 body.dark .charter-entry-body ul    { color: #e8e8e8; }
 body.dark .charter-intro            { color: #e8e8e8; border-bottom-color: #888b8d; }
 body.dark .contact-details h2,
-body.dark .contact-map h2           { color: #ffffff; }
+body.dark .contact-map h2           { color: #b8973a; }
 body.dark .contact-item             { border-bottom-color: #888b8d; }
-body.dark .contact-item-icon        { background: #606366; border-color: #ffffff; }
+body.dark .contact-item-icon        { background: #1a5276; border-color: #1a5276; color: #ffffff; }
 body.dark .contact-item-body strong { color: #e8e8e8; }
 body.dark .contact-item-body span,
 body.dark .contact-item-body a      { color: #ffffff; }
@@ -291,6 +291,16 @@ body.dark .permit-card.special     .permit-select  { background: #ffffff; color:
 
 body.dark .permit-card:hover .permit-select        { filter: brightness(0.92); }
 
+/* BP sub-modal option cards – dark mode reversed colors matching permit cards */
+body.dark .bp-option-card              { border-color: transparent; color: #ffffff; }
+body.dark .bp-option-new               { background: #b8973a; }
+body.dark .bp-option-renew             { background: #1a5276; }
+body.dark .bp-option-card:hover        { filter: brightness(1.08); }
+body.dark .bp-option-icon              { background: rgba(255,255,255,0.15); color: #ffffff; }
+body.dark .bp-option-text strong       { color: #ffffff; }
+body.dark .bp-option-text span         { color: rgba(255,255,255,0.85); }
+body.dark .bp-option-arrow             { opacity: 0.7; }
+
 /* ── Settings panel ── */
 body.dark .settings-btn             { background: #595c5e; color: #ffffff; border-color: #888b8d; }
 body.dark .settings-btn:hover       { background: #484b4d; color: var(--gold); }
@@ -319,6 +329,8 @@ body.dark .toc-num                                 { background: rgba(255,255,25
 body.dark .toc-label                               { color: rgba(255,255,255,0.85) !important; }
 body.dark .toc-page                                { color: rgba(255,255,255,0.5) !important; }
 body.dark .cc-sidebar-footer                       { background: #091836 !important; border-top-color: #1a3a6e !important; }
+body.dark .btn-download-sm                         { color: #ffffff !important; }
+body.dark .btn-download                            { color: #ffffff !important; }
 
 /* ============================================================
   SETTINGS BUTTON + DROPDOWN (desktop)
@@ -1115,7 +1127,13 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   font-size: 0.71rem;
   color: var(--muted);
   line-height: 1.45;
-  flex: 1;           /* pushes the time badge to the bottom */
+  flex: 1;
+}
+.svc-step-content {
+  display: contents; /* invisible on desktop, title+desc slot naturally into column */
+}
+.svc-step-time-placeholder {
+  display: none; /* hidden on desktop */
 }
 .svc-step-time {
   display: inline-block;
@@ -1140,15 +1158,68 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   padding-bottom: 2px; /* optical centre */
 }
 
-/* On very narrow screens, allow horizontal scroll for services with many steps */
-@media (max-width: 500px) {
+/* On narrow screens: stack steps vertically for readability */
+@media (max-width: 600px) {
   .svc-steps {
-    overflow-x: auto;
-    padding-bottom: 6px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: unset;
+    padding-bottom: 0;
   }
   .svc-step {
-    min-width: 100px;
+    width: 100%;
+    min-width: unset;
+    flex-shrink: unset;
+    flex: unset;
+  }
+  /* 3-column row: [num] [content] [time] */
+  .svc-step-box {
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .svc-step-num {
+    margin: 0;
     flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 2px;
+  }
+  /* Middle: title + desc stacked */
+  .svc-step-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+  }
+  .svc-step-title {
+    font-size: 0.76rem;
+    margin-bottom: 3px;
+  }
+  .svc-step-desc {
+    font-size: 0.72rem;
+    flex: unset;
+  }
+  /* Right column: time badge or empty placeholder — same width so desc aligns */
+  .svc-step-time {
+    flex-shrink: 0;
+    min-width: 48px;
+    text-align: center;
+    margin-top: 0;
+    align-self: center;
+  }
+  .svc-step-time-placeholder {
+    display: block;
+    flex-shrink: 0;
+    min-width: 48px;
+  }
+  /* Arrow points down */
+  .svc-step-arrow {
+    transform: rotate(90deg);
+    align-self: center;
+    padding: 0;
   }
 }
 
@@ -1336,7 +1407,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 .about-block {
   margin-bottom: 40px;
   padding-bottom: 40px;
-  border-bottom: 1px solid #e8eaf0;
+  border-bottom: 1px solid #c8ccd8;
 }
 .about-block:last-child { border-bottom: none; }
 .about-block h2 {
@@ -1457,6 +1528,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--navy);
 }
 .contact-item-icon svg { width: 20px; height: 20px; }
 
@@ -1550,4 +1622,56 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
     margin: 28px auto 40px;
   }
   .contact-map-embed iframe { height: 280px; }
+}
+
+/* ============================================================
+   ORG CHART FIXES
+============================================================ */
+
+/* Main horizontal row */
+.org-row-inner {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+/* Each department column */
+.org-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-width: 120px;
+  max-width: 150px;
+}
+
+/* Connector line spacing */
+.org-col > .org-node {
+  margin-bottom: 12px;
+}
+
+/* Individual boxes */
+.org-node {
+  width: 140px;
+  min-height: 54px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Optional: make long titles cleaner */
+.org-node-title {
+  line-height: 1.2;
+}
+
+/* Mobile responsive */
+@media (max-width: 900px) {
+  .org-row-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
