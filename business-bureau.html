@@ -545,6 +545,11 @@
         flex-shrink: 0;
       }
       .ann-bell-nav:hover { background: rgba(13,31,78,0.07); }
+
+      /* Dark mode: make bell icon visible against dark navbar */
+      body.dark .ann-bell-nav       { color: #ffffff; }
+      body.dark .ann-bell-nav:hover { background: rgba(255,255,255,0.10); }
+      body.dark .ann-fab-badge      { border-color: #1a2a4a; }
       .ann-fab-badge {
         position: absolute;
         top: 4px;
@@ -1090,9 +1095,9 @@
         <!-- Option A: Pre-Assessment / New Business Permit -->
         <!-- Replace href="#" with your actual pre-assessment / new application URL -->
         <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
-           class="bp-option-card">
+           class="bp-option-card bp-option-new">
           <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="16"/>
@@ -1112,9 +1117,9 @@
         <!-- Option B: Renew Existing Business Permit -->
         <!-- Replace href="#" with your actual renewal URL -->
         <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
-           class="bp-option-card">
+           class="bp-option-card bp-option-renew">
           <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
               <polyline points="23 4 23 10 17 10"/>
               <polyline points="1 20 1 14 7 14"/>
@@ -1164,6 +1169,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #b8973a; /* default icon color in light mode */
     }
     .bp-option-text {
       flex: 1;
@@ -1545,15 +1551,20 @@
       const timeBg     = isDark ? '#ffffff'   : c;
       const timeColor  = isDark ? c           : '#ffffff';
       const arrowColor = isDark ? '#ffffff'   : c;
+      const iconBg     = isDark ? c           : c + '22';
+      const iconStroke = isDark ? '#ffffff'   : c;
+      const iconFill   = isDark ? '#ffffff'   : c;
 
       const stepsHTML = d.steps.map((s, i) => `
         ${i > 0 ? `<span class="svc-step-arrow" style="color:${arrowColor}">›</span>` : ''}
         <div class="svc-step">
           <div class="svc-step-box" style="border-color:${boxBorder}; background:${boxBg};">
             <div class="svc-step-num" style="background:${numBg}; color:${numColor};">${s.num}</div>
-            <div class="svc-step-title" style="color:${titleColor};">${s.title}</div>
-            <div class="svc-step-desc" style="color:${descColor};">${s.desc}</div>
-            ${s.time ? `<span class="svc-step-time" style="background:${timeBg}; color:${timeColor};">${s.time}</span>` : ''}
+            <div class="svc-step-content">
+              <div class="svc-step-title" style="color:${titleColor};">${s.title}</div>
+              <div class="svc-step-desc" style="color:${descColor};">${s.desc}</div>
+            </div>
+            ${s.time ? `<span class="svc-step-time" style="background:${timeBg}; color:${timeColor};">${s.time}</span>` : `<span class="svc-step-time-placeholder"></span>`}
           </div>
         </div>`).join('');
 
@@ -1571,11 +1582,11 @@
 
         <div class="svc-key-info">
           <div class="svc-key-box">
-            <div class="svc-key-box-icon" style="background:${cLight};">
-              <svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${iconBg};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
                 <text x="12" y="17" font-family="Arial, sans-serif" font-size="16"
-                      font-weight="bold" fill="${c}" stroke="none"
+                      font-weight="bold" fill="${iconFill}" stroke="none"
                       text-anchor="middle">₱</text>
               </svg>
             </div>
@@ -1585,8 +1596,8 @@
             </div>
           </div>
           <div class="svc-key-box">
-            <div class="svc-key-box-icon" style="background:${cLight};">
-              <svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${iconBg};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
