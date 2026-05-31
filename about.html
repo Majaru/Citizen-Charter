@@ -61,20 +61,22 @@
       position: relative;
     }
 
-    /* Scalable container — centered via left offset trick */
+    /* Scalable container — positioned by JS */
     .org-chart-scaler {
       display: inline-block;
-      transform-origin: top center;
-      transition: transform 0.2s ease;
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%) scale(1);
+      transform-origin: top left;
+      position: absolute;
+      top: 0;
+      left: 0;
+      /* Never shrink below this — shell scrolls instead of squishing */
+      min-width: 900px;
     }
 
     .org-chart {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 12px 16px 16px;
     }
 
     /* Vertical connector line */
@@ -94,24 +96,13 @@
       width: 100%;
     }
 
-    /* Inner flex row with horizontal connector bar */
+    /* Inner flex row — horizontal line drawn as border-top on each col */
     .org-row-inner {
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      gap: 8px;
+      gap: 0;               /* no gap — cols manage their own spacing */
       position: relative;
-    }
-
-    .org-row-inner::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: calc(100% - 60px);
-      height: 2px;
-      background: #b8973a;
-      transform: translate(-50%, -8px);
     }
 
     .org-col {
@@ -120,12 +111,32 @@
       align-items: center;
     }
 
-    .org-col-connector {
-      width: 2px;
-      height: 10px;
-      background: #b8973a;
-      flex-shrink: 0;
+    /* Horizontal connecting line — ONLY for section-row columns */
+    .org-row-inner > .org-col {
+      border-top: 2px solid #b8973a;
+      padding-top: 10px;
+      padding-left: 4px;
+      padding-right: 4px;
     }
+
+    /* First col: border starts at centre (right half only) */
+    .org-row-inner > .org-col:first-child {
+      border-image: linear-gradient(to right, transparent 50%, #b8973a 50%) 1;
+    }
+
+    /* Last col: border ends at centre (left half only) */
+    .org-row-inner > .org-col:last-child {
+      border-image: linear-gradient(to right, #b8973a 50%, transparent 50%) 1;
+    }
+
+    /* Only child: no horizontal line needed */
+    .org-row-inner > .org-col:only-child {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    /* Remove the old JS-drawn hbar — no longer needed */
+    .org-hbar { display: none; }
 
     /* Node card */
     .org-node {
@@ -163,6 +174,24 @@
       border-color: #b8973a;
       border-width: 1px;
     }
+
+    /* Placeholder photo */
+    .org-node-photo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #e8ecf5;
+      border: 1.5px solid #c5cde0;
+      margin: 0 auto 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .org-node--head    .org-node-photo { background: rgba(255,255,255,0.12); border-color: #b8973a; }
+    .org-node--head-section .org-node-photo { background: rgba(255,255,255,0.12); border-color: #b8973a; }
+    .org-node--section .org-node-photo { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.4); }
 
     .org-node-name {
       font-family: 'Oswald', sans-serif;
@@ -346,7 +375,7 @@
     </div>
 
     <!-- ── Mandate ── -->
-    <div class="about-block">
+    <div class="about-block" style="border-bottom:none; margin-bottom:0; padding-bottom:0;">
       <h2>Mandate</h2>
       <p>
         To provide efficient delivery of services to the public by reducing bureaucratic
@@ -404,7 +433,7 @@
     </div>
 
     <!-- ── Organizational Chart ── -->
-    <div class="about-block about-block--orgchart">
+    <div class="about-block about-block--orgchart" style="border-top: 1px solid #c8ccd8; padding-top:40px;">
       <h2>Organizational Chart</h2>
       <p>
         The Business Bureau operates under the City Mayor's Office – Permits &amp; Licenses Division,
@@ -684,7 +713,7 @@
               name: 'EDP Section',
               title: '',
               type: 'section',
-              head: { name: 'Helen C. Pore', title: 'Local Treasury Officer II' },
+              head: { name: 'Helen C. Pore', title: 'Section Head / Local Treasury Officer II' },
               children: [
                 { name: 'Delmar Jake Hamoy', title: 'EDP Officer / Licensing Officer I', type: 'staff' }
               ]
@@ -693,14 +722,14 @@
               name: 'Processing Section',
               title: '',
               type: 'section',
-              head: { name: 'Karen Angelica D. Lintapan', title: 'Licensing Officer I' },
+              head: { name: 'Karen Angelica D. Lintapan', title: 'Section Head / Licensing Officer I' },
               children: []
             },
             {
               name: 'Inspection and Assessment Section',
               title: '',
               type: 'section',
-              head: { name: 'Maria Elena Orzales', title: 'Team Leader / Licensing Officer I' },
+              head: { name: 'Maria Elena Orzales', title: 'Section Head / Licensing Officer I' },
               children: [
                 { name: 'Neil Michael Q. Galaura', title: 'Licensing Officer I', type: 'staff' },
                 { name: 'Jonathan Villafuerte', title: 'Licensing Officer I', type: 'staff' },
@@ -713,21 +742,21 @@
               name: 'Occupational Permit Section',
               title: '',
               type: 'section',
-              head: { name: 'Marco Maglana', title: 'Licensing Officer I' },
+              head: { name: 'Marco Maglana', title: 'Section Head / Licensing Officer I' },
               children: []
             },
             {
               name: 'Special Permit Section',
               title: '',
               type: 'section',
-              head: { name: 'Ma. Adoracion G. Japson', title: 'Licensing Officer I' },
+              head: { name: 'Ma. Adoracion G. Japson', title: 'Section Head / Licensing Officer I' },
               children: []
             },
             {
               name: 'Records Section',
               title: '',
               type: 'section',
-              head: { name: 'Marygel Babia', title: 'Section Chief / Licensing Officer I' },
+              head: { name: 'Marygel Babia', title: 'Section Head / Licensing Officer I' },
               children: [
                 { name: 'Rey V. Galia', title: 'Field Driver II', type: 'staff' }
               ]
@@ -736,7 +765,7 @@
               name: 'Administrative Support Section',
               title: '',
               type: 'section',
-              head: { name: 'Elizabeth B. Ulac', title: 'Acting Section Chief / Licensing Officer I' },
+              head: { name: 'Elizabeth B. Ulac', title: 'Acting Section Head / Licensing Officer I' },
               children: [
                 { name: 'Lynett Galido', title: 'Property / Supply Officer', type: 'staff' },
                 { name: 'Hannah Krystal Danielle Lou A. Nemaria', title: 'Licensing Officer I', type: 'staff' },
@@ -748,10 +777,15 @@
       ]
     };
 
+    /* Generic person silhouette SVG used as photo placeholder */
+    const PLACEHOLDER_SVG = `<svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" width="44" height="44"><circle cx="22" cy="17" r="7" fill="#a0aec0"/><ellipse cx="22" cy="36" rx="12" ry="8" fill="#a0aec0"/></svg>`;
+
     function makeNode(person) {
       const node = document.createElement('div');
       node.className = `org-node org-node--${person.type}`;
+      const showPhoto = person.type !== 'section';
       node.innerHTML = `
+        ${showPhoto ? `<div class="org-node-photo">${PLACEHOLDER_SVG}</div>` : ''}
         <div class="org-node-name">${person.name}</div>
         ${person.title ? `<div class="org-node-title">${person.title}</div>` : ''}
       `;
@@ -773,7 +807,7 @@
     function buildSectionCol(section) {
       const sCol = document.createElement('div');
       sCol.className = 'org-col';
-      sCol.appendChild(colConnector());
+      // No colConnector() needed — CSS border-top on .org-col draws the horizontal line
 
       // Section label node
       sCol.appendChild(makeNode(section));
@@ -832,45 +866,185 @@
 
     renderChart(orgData, document.getElementById('orgChart'));
 
-    /* ── Zoom controls ── */
-    (function() {
-      const scaler   = document.getElementById('orgChartScaler');
-      const btnIn    = document.getElementById('orgZoomIn');
-      const btnOut   = document.getElementById('orgZoomOut');
-      const btnReset = document.getElementById('orgZoomReset');
-      let scale = 1.0;
-      const MIN = 0.3, MAX = 1.5, STEP = 0.1;
+    /* ── Zoom + Drag ── */
+(function() {
+  const shell  = document.getElementById('orgChartShell');
+  const scaler = document.getElementById('orgChartScaler');
+  const btnIn  = document.getElementById('orgZoomIn');
+  const btnOut = document.getElementById('orgZoomOut');
+  const btnReset = document.getElementById('orgZoomReset');
 
-      const shell = document.getElementById('orgChartShell');
+  const MIN = 0.3, MAX = 2.0, STEP = 0.1;
 
-      function applyScale() {
-        // translateX(-50%) keeps the chart centered regardless of scale
-        scaler.style.transform       = `translateX(-50%) scale(${scale})`;
-        scaler.style.transformOrigin = 'top center';
-        // Adjust shell height so container doesn't clip bottom
-        shell.style.height = (scaler.scrollHeight * scale + 24) + 'px';
-      }
+  let scale = 1.0;
+  let panX  = 0, panY = 0;
+  let natW  = 0, natH = 0;
+  let fittedH = 0; // shell height locked at fit-time, never grows on zoom
 
-      // Auto-fit: pick largest scale where chart fits in shell width
-      function fitToScreen() {
-        // Temporarily reset transform to measure natural width
-        scaler.style.transform = 'translateX(-50%) scale(1)';
-        const natural   = scaler.scrollWidth;
-        const available = shell.clientWidth - 8;
-        scale = natural > available
-          ? Math.max(MIN, parseFloat((available / natural).toFixed(2)))
-          : 1.0;
-        applyScale();
-      }
+  function clampPan(x, y) {
+    const sw = natW * scale;
+    const sh = natH * scale;
+    const vw = shell.clientWidth;
 
-      requestAnimationFrame(() => requestAnimationFrame(fitToScreen));
+    // When chart fits: keep it centred
+    // When chart is wider than shell: allow panning from left edge to right edge
+    const minX = sw <= vw ? (vw - sw) / 2 : vw - sw;  // pan left until right edge visible
+    const maxX = sw <= vw ? (vw - sw) / 2 : 0;         // pan right until left edge visible
 
-      btnIn.addEventListener('click',    () => { scale = Math.min(MAX, +(scale + STEP).toFixed(2)); applyScale(); });
-      btnOut.addEventListener('click',   () => { scale = Math.max(MIN, +(scale - STEP).toFixed(2)); applyScale(); });
-      btnReset.addEventListener('click', () => { scale = 0.72; applyScale(); });
-    })();
+    const minY = sh <= fittedH ? 0 : -(sh - fittedH);
+    const maxY = 0;
+
+    return [
+      Math.min(maxX, Math.max(minX, x)),
+      Math.min(maxY, Math.max(minY, y))
+    ];
+  }
+
+  function applyTransform(animated) {
+    scaler.style.transition =
+      animated ? 'transform 0.18s ease' : 'none';
+
+    scaler.style.transform =
+      `translate(${panX}px, ${panY}px) scale(${scale})`;
+
+    scaler.style.transformOrigin = 'top left';
+
+    // Shell height stays fixed — no vertical expansion on zoom
+    shell.style.height = fittedH + 'px';
+  }
+
+  function fitToScreen() {
+    scaler.style.transition = 'none';
+    scaler.style.transform  = 'none';
+    scaler.style.width      = '';
+    shell.style.height      = '';
+
+    natW = scaler.offsetWidth;
+    natH = scaler.offsetHeight;
+
+    const availW = shell.clientWidth - 8;
+
+    // On small screens: use scale 1 and let the shell scroll horizontally
+    // On large screens: scale down to fit width, never scale up beyond 1
+    const fitScale = availW >= natW ? Math.min(availW / natW, 1.0) : 1.0;
+    scale = Math.max(MIN, parseFloat(fitScale.toFixed(2)));
+
+    // Center horizontally always
+    panX = Math.round((shell.clientWidth - natW * scale) / 2);
+    panY = 0;
+
+    fittedH = Math.round(natH * scale + 32);
+
+    applyTransform(false);
+  }
+
+  // Defer until after the browser has fully laid out the chart nodes
+  setTimeout(fitToScreen, 0);
+
+  // Re-center on window resize
+  window.addEventListener('resize', fitToScreen);
+
+  /* Zoom buttons */
+  function zoomBy(delta, cx, cy) {
+    const newScale = Math.min(
+      MAX,
+      Math.max(MIN,
+      parseFloat((scale + delta).toFixed(2)))
+    );
+
+    if (newScale === scale) return;
+
+    const ox = cx !== undefined
+      ? cx
+      : shell.clientWidth / 2;
+
+    const oy = cy !== undefined
+      ? cy
+      : shell.clientHeight / 2;
+
+    panX = ox - (ox - panX) * (newScale / scale);
+    panY = oy - (oy - panY) * (newScale / scale);
+
+    scale = newScale;
+
+    [panX, panY] = clampPan(panX, panY);
+
+    applyTransform(true);
+  }
+
+  btnIn.addEventListener('click',
+    () => zoomBy(+STEP));
+
+  btnOut.addEventListener('click',
+    () => zoomBy(-STEP));
+
+  btnReset.addEventListener('click',
+    () => fitToScreen());
+
+  /* Mouse wheel zoom */
+  shell.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    const rect = shell.getBoundingClientRect();
+
+    zoomBy(
+      e.deltaY < 0 ? STEP : -STEP,
+      e.clientX - rect.left,
+      e.clientY - rect.top
+    );
+
+  }, { passive: false });
+
+  /* Dragging */
+  let dragging = false;
+
+  let startX = 0;
+  let startY = 0;
+
+  let startPanX = 0;
+  let startPanY = 0;
+
+  shell.addEventListener('mousedown', (e) => {
+
+    if (e.button !== 0) return;
+
+    dragging = true;
+
+    startX = e.clientX;
+    startY = e.clientY;
+
+    startPanX = panX;
+    startPanY = panY;
+
+    shell.classList.add('dragging');
+
+    scaler.style.transition = 'none';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+
+    if (!dragging) return;
+
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    [panX, panY] =
+      clampPan(startPanX + dx, startPanY + dy);
+
+    scaler.style.transform =
+      `translate(${panX}px, ${panY}px) scale(${scale})`;
+  });
+
+  window.addEventListener('mouseup', () => {
+
+    dragging = false;
+
+    shell.classList.remove('dragging');
+  });
+
+})();
   </script>
-
+  
 
 </body>
 </html>
