@@ -7,7 +7,10 @@
   <meta property="og:title" content="Contact – Business Bureau, City of Davao"/>
   <meta property="og:description" content="Get in touch with the Business Bureau of Davao City. Visit us at G/F Sangguniang Panlungsod Bldg., Monday–Friday, 8AM–5PM."/>
   <meta property="og:type" content="website"/>
-  <!-- TODO: Replace logo.png with the official logo to update the browser tab icon -->
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="contact.html"/>
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
   <link rel="icon" type="image/png" href="logo.png"/>
   <title>Contact – Business Bureau</title>
 
@@ -15,6 +18,132 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* ── Contact Inquiry Form ── */
+    .contact-form-wrap {
+      margin-top: 32px;
+      padding-top: 28px;
+      border-top: 1px solid #e8eaf0;
+    }
+    body.dark .contact-form-wrap { border-top-color: #888b8d; }
+    .contact-form-wrap h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 18px;
+    }
+    body.dark .contact-form-wrap h3 { color: #b8973a; }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cf-row {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .cf-row label {
+      font-family: var(--font-heading);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+    }
+    body.dark .cf-row label { color: #d0d0d0; }
+    .cf-req { color: #e53e3e; }
+    .cf-row input,
+    .cf-row select,
+    .cf-row textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #d0d5df;
+      border-radius: 6px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    body.dark .cf-row input,
+    body.dark .cf-row select,
+    body.dark .cf-row textarea {
+      background: #595c5e;
+      border-color: #888b8d;
+      color: #ffffff;
+    }
+    .cf-row input:focus,
+    .cf-row select:focus,
+    .cf-row textarea:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(13,31,78,0.1);
+    }
+    .cf-row input.invalid,
+    .cf-row select.invalid,
+    .cf-row textarea.invalid {
+      border-color: #e53e3e;
+    }
+    .cf-row textarea { resize: vertical; min-height: 100px; }
+    .cf-error {
+      font-size: 0.75rem;
+      color: #e53e3e;
+      min-height: 16px;
+    }
+    .cf-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 20px;
+      background: var(--navy);
+      color: #ffffff;
+      font-family: var(--font-heading);
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, filter 0.2s;
+      margin-top: 4px;
+    }
+    .cf-submit:hover { filter: brightness(1.3); }
+    .cf-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .cf-privacy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    body.dark .cf-privacy { color: #d0d0d0; }
+    .cf-success {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 32px 24px;
+      text-align: center;
+      background: #f0fdf4;
+      border: 1.5px solid #86efac;
+      border-radius: 10px;
+      margin-top: 20px;
+      color: #065f46;
+    }
+    body.dark .cf-success { background: #0f3d22; border-color: #16a34a; color: #86efac; }
+    .cf-success h3 { font-family: var(--font-heading); font-size: 1.1rem; margin-top: 4px; }
+    .cf-success p  { font-size: 0.9rem; line-height: 1.5; }
+    .cf-success svg { color: #16a34a; }
+    body.dark .cf-success svg { color: #86efac; }
+  </style>
 </head>
 <body>
 
@@ -26,7 +155,6 @@
     <div class="nav-inner">
 
       <a href="business-bureau.html" class="logo-link">
-        <!-- TODO: Replace logo.png with the official Business Bureau logo file -->
         <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
         <div class="logo-text">
           <span>BUSINESS</span>
@@ -120,6 +248,84 @@
   <main class="contact-page">
 
     <!-- ── Left: Contact Details ── -->
+    <div class="contact-map">
+      <h2>Our Location</h2>
+      <div class="contact-map-embed">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Business Bureau – Sangguniang Panlungsod ng Dabaw">
+        </iframe>
+      </div>
+    </div>
+
+
+      <!-- ── Contact Inquiry Form ── -->
+      <div class="contact-form-wrap">
+        <h3>Send Us a Message</h3>
+        <form id="contactForm" class="contact-form" novalidate>
+          <div class="cf-row">
+            <label for="cfName">Full Name <span class="cf-req">*</span></label>
+            <input type="text" id="cfName" name="name" placeholder="e.g. Juan Dela Cruz" required autocomplete="name"/>
+            <span class="cf-error" id="cfNameErr"></span>
+          </div>
+          <div class="cf-row">
+            <label for="cfEmail">Email Address <span class="cf-req">*</span></label>
+            <input type="email" id="cfEmail" name="email" placeholder="e.g. juan@email.com" required autocomplete="email"/>
+            <span class="cf-error" id="cfEmailErr"></span>
+          </div>
+          <div class="cf-row">
+            <label for="cfSubject">Subject <span class="cf-req">*</span></label>
+            <select id="cfSubject" name="subject" required>
+              <option value="" disabled selected>Select a topic…</option>
+              <option>Business Permit – New Application</option>
+              <option>Business Permit – Renewal</option>
+              <option>Business Permit – Amendment</option>
+              <option>Occupational Permit</option>
+              <option>Special Permit</option>
+              <option>Certification / Certified True Copy</option>
+              <option>Retirement / Cancellation</option>
+              <option>Ocular / ICAB Inspection</option>
+              <option>General Inquiry</option>
+            </select>
+            <span class="cf-error" id="cfSubjectErr"></span>
+          </div>
+          <div class="cf-row">
+            <label for="cfMessage">Message <span class="cf-req">*</span></label>
+            <textarea id="cfMessage" name="message" rows="4" placeholder="Describe your concern or question…" required></textarea>
+            <span class="cf-error" id="cfMessageErr"></span>
+          </div>
+          <button type="submit" class="cf-submit" id="cfSubmit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+            Send Message
+          </button>
+          <p class="cf-privacy">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Your information is kept confidential and used only to respond to your inquiry.
+          </p>
+        </form>
+        <!-- Success message (hidden by default) -->
+        <div class="cf-success" id="cfSuccess" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+               stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <h3>Message Sent!</h3>
+          <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
+          <button onclick="document.getElementById('cfSuccess').style.display='none';document.getElementById('contactForm').style.display='flex';document.getElementById('contactForm').reset();" class="cf-submit" style="margin-top:1rem;width:auto;padding:10px 24px;">Send Another</button>
+        </div>
+      </div>
+
+
+    <!-- ── Right: Map ── -->
     <div class="contact-details">
       <h2>Get in Touch</h2>
 
@@ -160,7 +366,7 @@
         </div>
         <div class="contact-item-body">
           <strong>Address</strong>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
@@ -192,8 +398,6 @@
           <a href="mailto:busbureau@davaocity.gov.ph">busbureau@davaocity.gov.ph</a>
         </div>
       </div>
-
-      <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
       <div class="contact-item">
         <div class="contact-item-icon">
           <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -208,24 +412,6 @@
         </div>
       </div>
       </div>
-
-    </div><!-- end .contact-details -->
-
-
-    <!-- ── Right: Map ── -->
-    <div class="contact-map">
-      <h2>Our Location</h2>
-      <!-- Replace iframe src with your own Google Maps embed URL if needed -->
-      <div class="contact-map-embed">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Business Bureau – Sangguniang Panlungsod ng Dabaw">
-        </iframe>
-      </div>
-    </div>
 
   </main><!-- end .contact-page -->
 
@@ -243,7 +429,7 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
@@ -266,8 +452,6 @@
           </svg>
           <span>busbureau@davaocity.gov.ph</span>
         </div>
-
-        <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
         <div class="contact-row">
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
@@ -289,18 +473,12 @@
       -->
       <div class="footer-col footer-logos">
         <div class="logo-grid">
-
-          <!-- Logo placeholder 1 – swap with <img src="logo1.png" alt="Logo 1" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 2 – swap with <img src="logo2.png" alt="Logo 2" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 3 – swap with <img src="logo3.png" alt="Logo 3" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
           </div>
@@ -312,7 +490,7 @@
 
     <!-- Update copyright year and org name here -->
     <div class="footer-bottom">
-      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
@@ -387,63 +565,70 @@
     </div>
   </div>
 
+  
+
   <script src="main.js"></script>
-
-  <!-- Settings dropdown + Dark mode JS -->
   <script>
+    /* ── Contact form validation + mailto submit ── */
     (function () {
-      const settingsBtn      = document.getElementById('settingsBtn');
-      const settingsDropdown = document.getElementById('settingsDropdown');
-      const darkToggle       = document.getElementById('darkModeToggle');
-      const darkToggleMobile = document.getElementById('darkModeToggleMobile');
+      const form    = document.getElementById('contactForm');
+      const success = document.getElementById('cfSuccess');
+      if (!form) return;
 
-      /* ── Persist dark mode across page loads ── */
-      function applyDark(on) {
-        document.body.classList.toggle('dark', on);
-        [darkToggle, darkToggleMobile].forEach(btn => {
-          if (btn) btn.setAttribute('aria-checked', String(on));
+      function validate() {
+        let ok = true;
+        const fields = [
+          { id: 'cfName',    err: 'cfNameErr',    msg: 'Please enter your name.' },
+          { id: 'cfEmail',   err: 'cfEmailErr',   msg: 'Please enter a valid email.' },
+          { id: 'cfSubject', err: 'cfSubjectErr', msg: 'Please select a subject.' },
+          { id: 'cfMessage', err: 'cfMessageErr', msg: 'Please enter your message.' },
+        ];
+        fields.forEach(f => {
+          const el  = document.getElementById(f.id);
+          const err = document.getElementById(f.err);
+          const val = el.value.trim();
+          let invalid = !val;
+          if (f.id === 'cfEmail' && val) {
+            invalid = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+          }
+          el.classList.toggle('invalid', invalid);
+          err.textContent = invalid ? f.msg : '';
+          if (invalid) ok = false;
         });
-        localStorage.setItem('bb-dark', on ? '1' : '0');
+        return ok;
       }
 
-      /* Load saved preference on page load */
-      const saved = localStorage.getItem('bb-dark');
-      if (saved === '1') applyDark(true);
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!validate()) return;
 
-      /* Toggle dark mode */
-      function handleDarkToggle() {
-        applyDark(!document.body.classList.contains('dark'));
-      }
-      if (darkToggle)       darkToggle.addEventListener('click', handleDarkToggle);
-      if (darkToggleMobile) darkToggleMobile.addEventListener('click', handleDarkToggle);
+        const name    = document.getElementById('cfName').value.trim();
+        const email   = document.getElementById('cfEmail').value.trim();
+        const subject = document.getElementById('cfSubject').value;
+        const message = document.getElementById('cfMessage').value.trim();
 
-      /* ── Settings dropdown open/close ── */
-      function openSettings() {
-        settingsDropdown.classList.add('open');
-        settingsBtn.setAttribute('aria-expanded', 'true');
-        settingsDropdown.setAttribute('aria-hidden', 'false');
-      }
-      function closeSettings() {
-        settingsDropdown.classList.remove('open');
-        settingsBtn.setAttribute('aria-expanded', 'false');
-        settingsDropdown.setAttribute('aria-hidden', 'true');
-      }
+        /* Open mailto as primary action — works without a server */
+        const body = encodeURIComponent(
+          'Name: ' + name + '\nEmail: ' + email + '\n\n' + message
+        );
+        window.location.href =
+          'mailto:busbureau@davaocity.gov.ph'
+          + '?subject=' + encodeURIComponent('[Inquiry] ' + subject)
+          + '&body=' + body;
 
-      settingsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        settingsDropdown.classList.contains('open') ? closeSettings() : openSettings();
+        /* Show success state */
+        form.style.display = 'none';
+        success.style.display = 'flex';
       });
 
-      /* Close when clicking outside */
-      document.addEventListener('click', (e) => {
-        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
-          closeSettings();
-        }
-      });
-
-      /* Close with Escape */
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeSettings();
+      /* Clear error on input */
+      form.querySelectorAll('input, select, textarea').forEach(el => {
+        el.addEventListener('input', function () {
+          this.classList.remove('invalid');
+          const errId = this.id + 'Err';
+          const errEl = document.getElementById(errId);
+          if (errEl) errEl.textContent = '';
+        });
       });
     })();
   </script>
