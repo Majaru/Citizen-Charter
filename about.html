@@ -6,8 +6,9 @@
   <meta name="description" content="About the Business Bureau – City Government of Davao. Learn about our mandate, mission, vision, and organizational outcomes."/>
   <meta property="og:title" content="About – Business Bureau, City of Davao"/>
   <meta property="og:description" content="Learn about the Business Bureau of Davao City — our mandate, mission, vision, and commitment to efficient public service."/>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="about.html"/>
   <meta property="og:type" content="website"/>
-  <!-- TODO: Replace logo.png with the official logo to update the browser tab icon -->
   <link rel="icon" type="image/png" href="logo.png"/>
   <title>About – Business Bureau</title>
 
@@ -213,6 +214,9 @@
       line-height: 1.25;
     }
   </style>
+
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
 </head>
 <body>
 
@@ -224,7 +228,6 @@
     <div class="nav-inner">
 
       <a href="business-bureau.html" class="logo-link">
-        <!-- TODO: Replace logo.png with the official Business Bureau logo file -->
         <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
         <div class="logo-text">
           <span>BUSINESS</span>
@@ -432,8 +435,6 @@
         staffed by a dedicated team of licensing officers and support personnel committed to
         efficient and impartial public service.
       </p>
-
-      <!-- Replace org-chart.png with the actual filename of your organizational chart image -->
       <div class="orgchart-wrapper">
         <img
           src="org-chart.png"
@@ -476,7 +477,7 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
@@ -522,18 +523,12 @@
       -->
       <div class="footer-col footer-logos">
         <div class="logo-grid">
-
-          <!-- Logo placeholder 1 – swap with <img src="logo1.png" alt="Logo 1" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 2 – swap with <img src="logo2.png" alt="Logo 2" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 3 – swap with <img src="logo3.png" alt="Logo 3" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
           </div>
@@ -545,7 +540,7 @@
 
     <!-- Update copyright year and org name here -->
     <div class="footer-bottom">
-      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
@@ -620,65 +615,11 @@
   </div>
 
   <script src="main.js"></script>
+  
 
-  <!-- Settings dropdown + Dark mode JS -->
+
+  <!-- Org Chart JS -->
   <script>
-    (function () {
-      const settingsBtn      = document.getElementById('settingsBtn');
-      const settingsDropdown = document.getElementById('settingsDropdown');
-      const darkToggle       = document.getElementById('darkModeToggle');
-      const darkToggleMobile = document.getElementById('darkModeToggleMobile');
-
-      /* ── Persist dark mode across page loads ── */
-      function applyDark(on) {
-        document.body.classList.toggle('dark', on);
-        [darkToggle, darkToggleMobile].forEach(btn => {
-          if (btn) btn.setAttribute('aria-checked', String(on));
-        });
-        localStorage.setItem('bb-dark', on ? '1' : '0');
-      }
-
-      /* Load saved preference on page load */
-      const saved = localStorage.getItem('bb-dark');
-      if (saved === '1') applyDark(true);
-
-      /* Toggle dark mode */
-      function handleDarkToggle() {
-        applyDark(!document.body.classList.contains('dark'));
-      }
-      if (darkToggle)       darkToggle.addEventListener('click', handleDarkToggle);
-      if (darkToggleMobile) darkToggleMobile.addEventListener('click', handleDarkToggle);
-
-      /* ── Settings dropdown open/close ── */
-      function openSettings() {
-        settingsDropdown.classList.add('open');
-        settingsBtn.setAttribute('aria-expanded', 'true');
-        settingsDropdown.setAttribute('aria-hidden', 'false');
-      }
-      function closeSettings() {
-        settingsDropdown.classList.remove('open');
-        settingsBtn.setAttribute('aria-expanded', 'false');
-        settingsDropdown.setAttribute('aria-hidden', 'true');
-      }
-
-      settingsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        settingsDropdown.classList.contains('open') ? closeSettings() : openSettings();
-      });
-
-      /* Close when clicking outside */
-      document.addEventListener('click', (e) => {
-        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
-          closeSettings();
-        }
-      });
-
-      /* Close with Escape */
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeSettings();
-      });
-    })();
-   <!-- Org Chart JS -->
     const orgData = {
       name: 'Maribel T. Paguican',
       title: 'Officer-In-Charge / Licensing Officer IV',
@@ -1026,7 +967,5 @@
 
 })();
   </script>
-  
-
 </body>
 </html>
