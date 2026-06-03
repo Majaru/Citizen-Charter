@@ -8,8 +8,9 @@
   <meta name="author" content="Business Bureau – City Government of Davao"/>
   <meta property="og:title" content="Business Bureau – City of Davao"/>
   <meta property="og:description" content="Apply for business permits, occupational permits, and special permits in Davao City. Fast, efficient, and transparent service."/>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="business-bureau.html"/>
   <meta property="og:type" content="website"/>
-  <!-- TODO: Replace logo.png with the official logo to update the browser tab icon -->
   <link rel="icon" type="image/png" href="logo.png"/>
   <title>Business Bureau – City of Davao</title>
 
@@ -56,6 +57,9 @@
       #navHoursBadge { display: none; }
     }
   </style>
+
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
 </head>
 <body>
 
@@ -66,8 +70,6 @@
   ============================================================ -->
   <header>
     <div class="nav-inner">
-
-      <!-- TODO: Replace logo.png with the official Business Bureau logo file -->
       <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
 
       <!-- Logo text – change the two <span> contents -->
@@ -160,7 +162,7 @@
       <!-- Text + CTA -->
       <div class="hero-content-text">
         <h1>Empowering<br>Your Business</h1>
-        <a href="#" class="btn-cta">Start Your Application</a>
+        <a href="javascript:void(0)" class="btn-cta" role="button">Start Your Application</a>
       </div>
 
     <!-- ============================================================
@@ -859,7 +861,7 @@
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
@@ -905,18 +907,12 @@
       -->
       <div class="footer-col footer-logos">
         <div class="logo-grid">
-
-          <!-- Logo placeholder 1 – swap with <img src="logo1.png" alt="Logo 1" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 2 – swap with <img src="logo2.png" alt="Logo 2" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 3 – swap with <img src="logo3.png" alt="Logo 3" class="partner-logo"> -->
           <div class="logo-placeholder">
             <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
           </div>
@@ -928,7 +924,7 @@
 
     <!-- Update copyright year and org name here -->
     <div class="footer-bottom">
-      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
@@ -960,7 +956,7 @@
       <!-- Footer with View More link -->
       <div class="service-modal-footer">
         <span class="service-modal-note">For complete requirements and process steps:</span>
-        <a href="#" id="serviceModalLink" class="btn-view-more" target="_blank">
+        <a href="citizens-charter.html" id="serviceModalLink" class="btn-view-more" target="_blank">
           View Full Details in Citizen's Charter
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
@@ -989,7 +985,6 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <h2 id="modalTitle">Start Your Application</h2>
-          <!-- Change this subtitle as needed -->
           <p>Select the type of permit you want to apply for.</p>
         </div>
         <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
@@ -1078,7 +1073,6 @@
       <div class="modal-body" style="display:flex;flex-direction:column;gap:1rem;padding:1.5rem 2rem 2rem;">
 
         <!-- Option A: Pre-Assessment / New Business Permit -->
-        <!-- Replace href="#" with your actual pre-assessment / new application URL -->
         <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
            class="bp-option-card bp-option-new">
           <div class="bp-option-icon">
@@ -1100,7 +1094,6 @@
         </a>
 
         <!-- Option B: Renew Existing Business Permit -->
-        <!-- Replace href="#" with your actual renewal URL -->
         <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
            class="bp-option-card bp-option-renew">
           <div class="bp-option-icon">
@@ -1696,62 +1689,17 @@
   <!-- Shared JS (hamburger menu + PDF loader) -->
   <script src="main.js"></script>
 
-  <!-- Settings dropdown + Dark mode JS -->
+
   <script>
-    (function () {
-      const settingsBtn      = document.getElementById('settingsBtn');
-      const settingsDropdown = document.getElementById('settingsDropdown');
-      const darkToggle       = document.getElementById('darkModeToggle');
-      const darkToggleMobile = document.getElementById('darkModeToggleMobile');
-
-      /* ── Persist dark mode across page loads ── */
-      function applyDark(on) {
-        document.body.classList.toggle('dark', on);
-        [darkToggle, darkToggleMobile].forEach(btn => {
-          if (btn) btn.setAttribute('aria-checked', String(on));
-        });
-        localStorage.setItem('bb-dark', on ? '1' : '0');
+    /* Dynamic announcement badge: counts actual slides */
+    document.addEventListener('DOMContentLoaded', function () {
+      var slides = document.querySelectorAll('.announcement-slide');
+      var badge  = document.getElementById('annBellNavBadge');
+      if (badge && slides.length) {
+        badge.textContent = slides.length;
+        if (slides.length === 0) badge.style.display = 'none';
       }
-
-      /* Load saved preference */
-      const saved = localStorage.getItem('bb-dark');
-      if (saved === '1') applyDark(true);
-
-      /* Toggle dark mode */
-      function handleDarkToggle() {
-        applyDark(!document.body.classList.contains('dark'));
-      }
-      if (darkToggle)       darkToggle.addEventListener('click', handleDarkToggle);
-      if (darkToggleMobile) darkToggleMobile.addEventListener('click', handleDarkToggle);
-
-      /* ── Settings dropdown open/close ── */
-      function openSettings() {
-        settingsDropdown.classList.add('open');
-        settingsBtn.setAttribute('aria-expanded', 'true');
-      }
-      function closeSettings() {
-        settingsDropdown.classList.remove('open');
-        settingsBtn.setAttribute('aria-expanded', 'false');
-      }
-
-      settingsBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        settingsDropdown.classList.contains('open') ? closeSettings() : openSettings();
-      });
-
-      /* Close when clicking outside */
-      document.addEventListener('click', (e) => {
-        if (!settingsBtn.contains(e.target) && !settingsDropdown.contains(e.target)) {
-          closeSettings();
-        }
-      });
-
-      /* Close with Escape */
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeSettings();
-      });
-    })();
+    });
   </script>
-
 </body>
 </html>
