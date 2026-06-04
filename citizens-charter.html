@@ -9,8 +9,13 @@
   <meta property="og:image" content="Images/business bureau logo.png"/>
   <link rel="canonical" href="citizens-charter.html"/>
   <meta property="og:type" content="website"/>
-  <link rel="icon" type="image/png" href="logo.png"/>
-  <title>Citizen's Charter – Business Bureau</title>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Business Bureau – City of Davao</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
@@ -382,21 +387,6 @@
           <line x1="3" y1="18" x2="3.01" y2="18"/>
         </svg>
         <h3>Table of Contents</h3>
-      </div>
-
-      
-      <!-- ── Search the Citizens Charter ── -->
-      <div class="cc-search-wrap">
-        <label for="ccSearch" class="sr-only">Search Citizens Charter</label>
-        <div class="cc-search-inner">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round" width="16" height="16" class="cc-search-icon">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="search" id="ccSearch" placeholder="Search services, requirements, fees…" autocomplete="off"/>
-          <button id="ccSearchClear" class="cc-search-clear" aria-label="Clear search" style="display:none;">✕</button>
-        </div>
-        <div id="ccSearchResults" class="cc-search-results" role="listbox" aria-label="Search results" style="display:none;"></div>
       </div>
 
       <ul class="cc-toc-list" id="tocList">
@@ -771,163 +761,5 @@
   </div>
 
   <script src="main.js"></script>
-
-
-
-
-  <style>
-    .sr-only { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0); }
-    .cc-search-wrap { padding: 12px 16px 0; position: relative; }
-    .cc-search-inner {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.08);
-      border: 1.5px solid rgba(255,255,255,0.2);
-      border-radius: 8px; padding: 8px 12px;
-    }
-    body:not(.dark) .cc-search-inner {
-      background: #f5f6fa;
-      border-color: #d0d5df;
-    }
-    .cc-search-icon { color: rgba(255,255,255,0.5); flex-shrink:0; }
-    body:not(.dark) .cc-search-icon { color: #9ca3af; }
-    #ccSearch {
-      flex:1; background:none; border:none; outline:none;
-      font-family: var(--font-body); font-size:0.85rem;
-      color:#ffffff; min-width:0;
-    }
-    body:not(.dark) #ccSearch { color: var(--text); }
-    #ccSearch::placeholder { color: rgba(255,255,255,0.4); }
-    body:not(.dark) #ccSearch::placeholder { color: #9ca3af; }
-    .cc-search-clear {
-      background:none;border:none;cursor:pointer;
-      color:rgba(255,255,255,0.5);font-size:0.8rem;padding:0 2px;
-    }
-    body:not(.dark) .cc-search-clear { color: #9ca3af; }
-    .cc-search-results {
-      position:absolute; top:calc(100% - 4px); left:16px; right:16px;
-      background:#fff; border:1.5px solid #d0d5df;
-      border-radius:0 0 10px 10px; box-shadow:0 8px 24px rgba(0,0,0,0.12);
-      max-height:320px; overflow-y:auto; z-index:100;
-    }
-    body.dark .cc-search-results { background:#595c5e; border-color:#888b8d; }
-    .cc-sr-item {
-      padding:12px 16px; cursor:pointer; border-bottom:1px solid #f0f0f0;
-      display:flex; flex-direction:column; gap:3px;
-    }
-    body.dark .cc-sr-item { border-bottom-color:#737679; }
-    .cc-sr-item:last-child { border-bottom:none; }
-    .cc-sr-item:hover, .cc-sr-item.focused { background:#f0f4ff; }
-    body.dark .cc-sr-item:hover, body.dark .cc-sr-item.focused { background:#484b4d; }
-    .cc-sr-title { font-family:var(--font-heading); font-size:0.82rem; font-weight:700; color:var(--navy); }
-    body.dark .cc-sr-title { color:#ffffff; }
-    .cc-sr-snippet { font-size:0.75rem; color:#6b7280; line-height:1.4; }
-    body.dark .cc-sr-snippet { color:#d0d0d0; }
-    mark { background:#fef9c3; color:inherit; border-radius:2px; }
-    body.dark mark { background:#854d0e; }
-    .cc-sr-empty { padding:16px; text-align:center; font-size:0.85rem; color:#9ca3af; }
-  </style>
-  <script>
-    /* ── Citizens Charter Search ── */
-    (function () {
-      var searchInput   = document.getElementById('ccSearch');
-      var searchResults = document.getElementById('ccSearchResults');
-      var clearBtn      = document.getElementById('ccSearchClear');
-      if (!searchInput) return;
-
-      /* Build index from TOC buttons */
-      var index = [];
-      document.querySelectorAll('.toc-btn').forEach(function (btn) {
-        var label   = btn.querySelector('.toc-label');
-        var page    = btn.querySelector('.toc-page');
-        var num     = btn.querySelector('.toc-num');
-        if (!label) return;
-        index.push({
-          title:    label.textContent.trim(),
-          page:     page  ? page.textContent.trim()  : '',
-          num:      num   ? num.textContent.trim()   : '',
-          btn:      btn
-        });
-      });
-
-      function highlight(text, q) {
-        if (!q) return text;
-        var escaped = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        var re = new RegExp('(' + escaped + ')', 'gi');
-        return text.replace(re, '<mark>$1</mark>');
-      }
-
-      function render(query) {
-        var q = query.trim().toLowerCase();
-        if (!q) { searchResults.style.display = 'none'; return; }
-
-        var hits = index.filter(function (item) {
-          return item.title.toLowerCase().includes(q);
-        });
-
-        searchResults.innerHTML = '';
-        if (!hits.length) {
-          searchResults.innerHTML = '<p class="cc-sr-empty">No results for "<strong>' + query + '</strong>"</p>';
-        } else {
-          hits.forEach(function (item, i) {
-            var div = document.createElement('div');
-            div.className = 'cc-sr-item';
-            div.setAttribute('role', 'option');
-            div.innerHTML =
-              '<span class="cc-sr-title">' + highlight(item.title, query.trim()) + '</span>' +
-              (item.page ? '<span class="cc-sr-snippet">PDF page ' + item.page + '</span>' : '');
-            div.addEventListener('click', function () {
-              item.btn.click();
-              searchInput.value = '';
-              searchResults.style.display = 'none';
-              clearBtn.style.display = 'none';
-            });
-            searchResults.appendChild(div);
-          });
-        }
-        searchResults.style.display = 'block';
-      }
-
-      searchInput.addEventListener('input', function () {
-        clearBtn.style.display = this.value ? 'block' : 'none';
-        render(this.value);
-      });
-
-      clearBtn.addEventListener('click', function () {
-        searchInput.value = '';
-        clearBtn.style.display = 'none';
-        searchResults.style.display = 'none';
-        searchInput.focus();
-      });
-
-      /* Keyboard navigation */
-      searchInput.addEventListener('keydown', function (e) {
-        var items = searchResults.querySelectorAll('.cc-sr-item');
-        var focused = searchResults.querySelector('.cc-sr-item.focused');
-        var idx = Array.from(items).indexOf(focused);
-        if (e.key === 'ArrowDown') {
-          e.preventDefault();
-          if (focused) focused.classList.remove('focused');
-          var next = items[idx + 1] || items[0];
-          if (next) next.classList.add('focused');
-        } else if (e.key === 'ArrowUp') {
-          e.preventDefault();
-          if (focused) focused.classList.remove('focused');
-          var prev = items[idx - 1] || items[items.length - 1];
-          if (prev) prev.classList.add('focused');
-        } else if (e.key === 'Enter') {
-          if (focused) { e.preventDefault(); focused.click(); }
-        } else if (e.key === 'Escape') {
-          searchResults.style.display = 'none';
-        }
-      });
-
-      /* Close on outside click */
-      document.addEventListener('click', function (e) {
-        if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-          searchResults.style.display = 'none';
-        }
-      });
-    })();
-  </script>
 </body>
 </html>
