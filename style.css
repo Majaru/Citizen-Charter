@@ -235,8 +235,8 @@ body.dark .about-columns--3 .about-card:nth-child(2)            { background: #1
 body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon { background: rgba(255,255,255,0.2); }
 body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon svg { stroke: #ffffff; }
 
-/* Organizational Outcome card — navy */
-body.dark .about-columns--3 .about-card:nth-child(3)            { background: #0d1f4e; }
+/* Organizational Outcome card — brown */
+body.dark .about-columns--3 .about-card:nth-child(3)            { background: #6b4c11; }
 body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon { background: rgba(255,255,255,0.2); }
 body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon svg { stroke: #ffffff; }
 body.dark .about-block h2           { color: #b8973a; }
