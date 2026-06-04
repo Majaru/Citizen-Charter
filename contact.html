@@ -11,139 +11,18 @@
   <link rel="canonical" href="contact.html"/>
   <!-- Dark mode flash prevention: apply class before first paint -->
   <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
-  <link rel="icon" type="image/png" href="logo.png"/>
-  <title>Contact – Business Bureau</title>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Business Bureau – City of Davao</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
-  <style>
-    /* ── Contact Inquiry Form ── */
-    .contact-form-wrap {
-      margin-top: 32px;
-      padding-top: 28px;
-      border-top: 1px solid #e8eaf0;
-    }
-    body.dark .contact-form-wrap { border-top-color: #888b8d; }
-    .contact-form-wrap h3 {
-      font-family: var(--font-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 18px;
-    }
-    body.dark .contact-form-wrap h3 { color: #b8973a; }
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-    .cf-row {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .cf-row label {
-      font-family: var(--font-heading);
-      font-size: 0.75rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-    }
-    body.dark .cf-row label { color: #d0d0d0; }
-    .cf-req { color: #e53e3e; }
-    .cf-row input,
-    .cf-row select,
-    .cf-row textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1.5px solid #d0d5df;
-      border-radius: 6px;
-      font-family: var(--font-body);
-      font-size: 0.9rem;
-      color: var(--text);
-      background: var(--white);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-    }
-    body.dark .cf-row input,
-    body.dark .cf-row select,
-    body.dark .cf-row textarea {
-      background: #595c5e;
-      border-color: #888b8d;
-      color: #ffffff;
-    }
-    .cf-row input:focus,
-    .cf-row select:focus,
-    .cf-row textarea:focus {
-      border-color: var(--navy);
-      box-shadow: 0 0 0 3px rgba(13,31,78,0.1);
-    }
-    .cf-row input.invalid,
-    .cf-row select.invalid,
-    .cf-row textarea.invalid {
-      border-color: #e53e3e;
-    }
-    .cf-row textarea { resize: vertical; min-height: 100px; }
-    .cf-error {
-      font-size: 0.75rem;
-      color: #e53e3e;
-      min-height: 16px;
-    }
-    .cf-submit {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 12px 20px;
-      background: var(--navy);
-      color: #ffffff;
-      font-family: var(--font-heading);
-      font-size: 0.88rem;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s, filter 0.2s;
-      margin-top: 4px;
-    }
-    .cf-submit:hover { filter: brightness(1.3); }
-    .cf-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-    .cf-privacy {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      color: var(--muted);
-      line-height: 1.4;
-    }
-    body.dark .cf-privacy { color: #d0d0d0; }
-    .cf-success {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-      padding: 32px 24px;
-      text-align: center;
-      background: #f0fdf4;
-      border: 1.5px solid #86efac;
-      border-radius: 10px;
-      margin-top: 20px;
-      color: #065f46;
-    }
-    body.dark .cf-success { background: #0f3d22; border-color: #16a34a; color: #86efac; }
-    .cf-success h3 { font-family: var(--font-heading); font-size: 1.1rem; margin-top: 4px; }
-    .cf-success p  { font-size: 0.9rem; line-height: 1.5; }
-    .cf-success svg { color: #16a34a; }
-    body.dark .cf-success svg { color: #86efac; }
-  </style>
 </head>
 <body>
 
@@ -248,84 +127,6 @@
   <main class="contact-page">
 
     <!-- ── Left: Contact Details ── -->
-    <div class="contact-map">
-      <h2>Our Location</h2>
-      <div class="contact-map-embed">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Business Bureau – Sangguniang Panlungsod ng Dabaw">
-        </iframe>
-      </div>
-    </div>
-
-
-      <!-- ── Contact Inquiry Form ── -->
-      <div class="contact-form-wrap">
-        <h3>Send Us a Message</h3>
-        <form id="contactForm" class="contact-form" novalidate>
-          <div class="cf-row">
-            <label for="cfName">Full Name <span class="cf-req">*</span></label>
-            <input type="text" id="cfName" name="name" placeholder="e.g. Juan Dela Cruz" required autocomplete="name"/>
-            <span class="cf-error" id="cfNameErr"></span>
-          </div>
-          <div class="cf-row">
-            <label for="cfEmail">Email Address <span class="cf-req">*</span></label>
-            <input type="email" id="cfEmail" name="email" placeholder="e.g. juan@email.com" required autocomplete="email"/>
-            <span class="cf-error" id="cfEmailErr"></span>
-          </div>
-          <div class="cf-row">
-            <label for="cfSubject">Subject <span class="cf-req">*</span></label>
-            <select id="cfSubject" name="subject" required>
-              <option value="" disabled selected>Select a topic…</option>
-              <option>Business Permit – New Application</option>
-              <option>Business Permit – Renewal</option>
-              <option>Business Permit – Amendment</option>
-              <option>Occupational Permit</option>
-              <option>Special Permit</option>
-              <option>Certification / Certified True Copy</option>
-              <option>Retirement / Cancellation</option>
-              <option>Ocular / ICAB Inspection</option>
-              <option>General Inquiry</option>
-            </select>
-            <span class="cf-error" id="cfSubjectErr"></span>
-          </div>
-          <div class="cf-row">
-            <label for="cfMessage">Message <span class="cf-req">*</span></label>
-            <textarea id="cfMessage" name="message" rows="4" placeholder="Describe your concern or question…" required></textarea>
-            <span class="cf-error" id="cfMessageErr"></span>
-          </div>
-          <button type="submit" class="cf-submit" id="cfSubmit">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-              <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Send Message
-          </button>
-          <p class="cf-privacy">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
-              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-            </svg>
-            Your information is kept confidential and used only to respond to your inquiry.
-          </p>
-        </form>
-        <!-- Success message (hidden by default) -->
-        <div class="cf-success" id="cfSuccess" style="display:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-               stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-          <h3>Message Sent!</h3>
-          <p>Thank you for reaching out. We'll get back to you as soon as possible.</p>
-          <button onclick="document.getElementById('cfSuccess').style.display='none';document.getElementById('contactForm').style.display='flex';document.getElementById('contactForm').reset();" class="cf-submit" style="margin-top:1rem;width:auto;padding:10px 24px;">Send Another</button>
-        </div>
-      </div>
-
-
-    <!-- ── Right: Map ── -->
     <div class="contact-details">
       <h2>Get in Touch</h2>
 
@@ -412,6 +213,20 @@
         </div>
       </div>
       </div>
+
+
+<div class="contact-map">
+      <h2>Our Location</h2>
+      <div class="contact-map-embed">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Business Bureau – Sangguniang Panlungsod ng Dabaw">
+        </iframe>
+      </div>
+    </div>
 
   </main><!-- end .contact-page -->
 
@@ -568,69 +383,5 @@
   
 
   <script src="main.js"></script>
-  <script>
-    /* ── Contact form validation + mailto submit ── */
-    (function () {
-      const form    = document.getElementById('contactForm');
-      const success = document.getElementById('cfSuccess');
-      if (!form) return;
-
-      function validate() {
-        let ok = true;
-        const fields = [
-          { id: 'cfName',    err: 'cfNameErr',    msg: 'Please enter your name.' },
-          { id: 'cfEmail',   err: 'cfEmailErr',   msg: 'Please enter a valid email.' },
-          { id: 'cfSubject', err: 'cfSubjectErr', msg: 'Please select a subject.' },
-          { id: 'cfMessage', err: 'cfMessageErr', msg: 'Please enter your message.' },
-        ];
-        fields.forEach(f => {
-          const el  = document.getElementById(f.id);
-          const err = document.getElementById(f.err);
-          const val = el.value.trim();
-          let invalid = !val;
-          if (f.id === 'cfEmail' && val) {
-            invalid = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-          }
-          el.classList.toggle('invalid', invalid);
-          err.textContent = invalid ? f.msg : '';
-          if (invalid) ok = false;
-        });
-        return ok;
-      }
-
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!validate()) return;
-
-        const name    = document.getElementById('cfName').value.trim();
-        const email   = document.getElementById('cfEmail').value.trim();
-        const subject = document.getElementById('cfSubject').value;
-        const message = document.getElementById('cfMessage').value.trim();
-
-        /* Open mailto as primary action — works without a server */
-        const body = encodeURIComponent(
-          'Name: ' + name + '\nEmail: ' + email + '\n\n' + message
-        );
-        window.location.href =
-          'mailto:busbureau@davaocity.gov.ph'
-          + '?subject=' + encodeURIComponent('[Inquiry] ' + subject)
-          + '&body=' + body;
-
-        /* Show success state */
-        form.style.display = 'none';
-        success.style.display = 'flex';
-      });
-
-      /* Clear error on input */
-      form.querySelectorAll('input, select, textarea').forEach(el => {
-        el.addEventListener('input', function () {
-          this.classList.remove('invalid');
-          const errId = this.id + 'Err';
-          const errEl = document.getElementById(errId);
-          if (errEl) errEl.textContent = '';
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
