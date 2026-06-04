@@ -11,7 +11,12 @@
   <meta property="og:image" content="Images/business bureau logo.png"/>
   <link rel="canonical" href="business-bureau.html"/>
   <meta property="og:type" content="website"/>
-  <link rel="icon" type="image/png" href="logo.png"/>
+  <!-- Favicons -->
+ <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+ <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+ <link rel="shortcut icon" href="favicon.ico"/>
+ <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+ <link rel="manifest" href="site.webmanifest"/>
   <title>Business Bureau – City of Davao</title>
 
   <!-- ============================================================
@@ -69,14 +74,11 @@
     .mobile-menu (mobile) so they stay in sync.
   ============================================================ -->
   <header>
-    <div class="nav-inner">
-      <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
-
-      <!-- Logo text – change the two <span> contents -->
-      <div class="logo-text">
-        <span>BUSINESS</span>
-        <span>BUREAU</span>
-      </div>
+    <div class="nav-inner" href="business-bureau.html">
+      <a href="business-bureau.html" class="logo-link">
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
+        <div class="logo-text"><span>BUSINESS</span><span>BUREAU</span></div>
+      </a>
 
       <!-- Desktop navigation – hidden on mobile -->
       <ul class="nav-links">
@@ -1073,7 +1075,7 @@
       <div class="modal-body" style="display:flex;flex-direction:column;gap:1rem;padding:1.5rem 2rem 2rem;">
 
         <!-- Option A: Pre-Assessment / New Business Permit -->
-        <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
+        <a href="https://appbts.davaocity.gov.ph/new" target="_blank" rel="noopener"
            class="bp-option-card bp-option-new">
           <div class="bp-option-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1094,7 +1096,7 @@
         </a>
 
         <!-- Option B: Renew Existing Business Permit -->
-        <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
+        <a href="https://appbts.davaocity.gov.ph/access" target="_blank" rel="noopener"
            class="bp-option-card bp-option-renew">
           <div class="bp-option-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
