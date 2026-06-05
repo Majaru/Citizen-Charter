@@ -7,8 +7,17 @@
   <meta property="og:title" content="Contact – Business Bureau, City of Davao"/>
   <meta property="og:description" content="Get in touch with the Business Bureau of Davao City. Visit us at G/F Sangguniang Panlungsod Bldg., Monday–Friday, 8AM–5PM."/>
   <meta property="og:type" content="website"/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><circle cx='26' cy='26' r='26' fill='%230d1f4e'/><text x='26' y='33' font-family='serif' font-size='20' fill='%23b8973a' text-anchor='middle' font-weight='bold'>BB</text></svg>"/>
-  <title>Contact – Business Bureau</title>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="contact.html"/>
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Business Bureau – City of Davao</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -25,11 +34,7 @@
     <div class="nav-inner">
 
       <a href="business-bureau.html" class="logo-link">
-        <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
-          <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
-          <text x="26" y="30" font-family="serif" font-size="10" fill="#0d1f4e" text-anchor="middle" font-weight="bold">BB</text>
-        </svg>
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
         <div class="logo-text">
           <span>BUSINESS</span>
           <span>BUREAU</span>
@@ -53,6 +58,50 @@
       <a href="citizens-charter.html" class="mobile-link">Citizen's Charter</a>
       <a href="about.html"            class="mobile-link">About</a>
       <a href="contact.html"          class="mobile-link active">Contact</a>
+          <!-- Settings section inside mobile menu -->
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Filipino <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Admin Mode <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+
     </nav>
   </header>
 
@@ -84,7 +133,7 @@
       <!-- Office Hours – moved to top per request -->
       <div class="contact-item">
         <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <polyline points="12 6 12 12 16 14"/>
@@ -110,7 +159,7 @@
       <!-- Address – update span text as needed -->
       <div class="contact-item">
         <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
             <circle cx="12" cy="10" r="3"/>
@@ -118,14 +167,14 @@
         </div>
         <div class="contact-item-body">
           <strong>Address</strong>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
       <!-- Phone – update span text as needed -->
       <div class="contact-item">
         <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.6a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.5 16l.42.92z"/>
           </svg>
@@ -139,7 +188,7 @@
       <!-- Email – update href and span text as needed -->
       <div class="contact-item">
         <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
             <polyline points="22,6 12,13 2,6"/>
@@ -150,30 +199,24 @@
           <a href="mailto:busbureau@davaocity.gov.ph">busbureau@davaocity.gov.ph</a>
         </div>
       </div>
-
-      <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
       <div class="contact-item">
         <div class="contact-item-icon">
-          <svg viewBox="0 0 24 24" fill="#0d1f4e" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
           </svg>
         </div>
         <div class="contact-item-body">
           <strong>Messenger</strong>
-          <a href="https://m.me/YourPageName" target="_blank" rel="noopener">
-            Message us on Messenger
+          <a href="https://m.me/busbureaudavao" target="_blank" rel="noopener">
+            Business Bureau - Davao City
           </a>
         </div>
       </div>
       </div>
 
-    </div><!-- end .contact-details -->
 
-
-    <!-- ── Right: Map ── -->
-    <div class="contact-map">
+<div class="contact-map">
       <h2>Our Location</h2>
-      <!-- Replace iframe src with your own Google Maps embed URL if needed -->
       <div class="contact-map-embed">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1399.9033709772648!2d125.60829519889074!3d7.0649984873102225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x32f96d78b1059b7f%3A0xf8ba49843a3c25b3!2sSangguniang%20Panlungsod%20ng%20Dabaw!5e0!3m2!1sen!2sph!4v1778730251891!5m2!1sen!2sph"
@@ -194,20 +237,38 @@
   <footer>
     <div class="footer-inner">
 
-      <!-- Column 1: Visit Us -->
+      
+      <!-- Column 1: Links -->
       <div class="footer-col">
-        <h4>Visit Us</h4>
+        <h4>Links</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
+        </div>
+      </div>
+
+      <!-- Column 2: Location -->
+      <div class="footer-col">
+        <h4>Location</h4>
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
-      <!-- Column 2: Contact -->
+      <!-- Column 3: Contact Information -->
       <div class="footer-col">
-        <h4>Contact Us</h4>
+        <h4>Contact Information</h4>
 
         <!-- Phone -->
         <div class="contact-row">
@@ -224,18 +285,16 @@
           </svg>
           <span>busbureau@davaocity.gov.ph</span>
         </div>
-
-        <!-- Messenger – replace href with your actual m.me/YourPageName URL -->
         <div class="contact-row">
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
           </svg>
-          <a href="https://m.me/YourPageName"
+          <a href="https://m.me/busbureaudavao"
              target="_blank" rel="noopener"
              style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
              onmouseover="this.style.color='#b8973a'"
              onmouseout="this.style.color='rgba(255,255,255,0.85)'">
-            Message us on Messenger
+            Business Bureau - Davao City
           </a>
         </div>
 
@@ -247,32 +306,14 @@
       -->
       <div class="footer-col footer-logos">
         <div class="logo-grid">
-
-          <!-- Logo placeholder 1 – swap with <img src="logo1.png" alt="Logo 1" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 2 – swap with <img src="logo2.png" alt="Logo 2" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 3 – swap with <img src="logo3.png" alt="Logo 3" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
           </div>
 
         </div>
@@ -282,47 +323,83 @@
 
     <!-- Update copyright year and org name here -->
     <div class="footer-bottom">
-      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
 
   <!-- Shared JS: hamburger menu + PDF loading overlay + iOS/Safari detection -->
-  <script src="main.js"></script>
+  
+  <!-- Settings – fixed to right edge of viewport, desktop only -->
+  <div class="settings-wrap" id="settingsWrap">
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+    <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
 
-  <!-- ============================================================
-    MESSENGER CHAT BUBBLE
-    Replace YOUR_PAGE_ID with your actual Facebook Page ID.
-    To find your Page ID: go to your Facebook Page → About → Page ID.
-    The bubble appears as a floating button in the bottom-right corner.
-    To remove it, delete this entire block.
-  ============================================================ -->
-  <div id="fb-root"></div>
-  <script>
-    window.fbAsyncInit = function() {
-      FB.init({
-        xfbml      : true,
-        version    : 'v18.0'
-      });
-    };
-    (function(d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      /* Replace YOUR_PAGE_ID below with your actual Facebook Page ID */
-      js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
+      <!-- Appearance -->
+      <div class="settings-label">Appearance</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Dark Mode
+        </span>
+        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
 
-  <!-- Replace YOUR_PAGE_ID with your Facebook Page ID e.g. page_id="123456789" -->
-  <div class="fb-customerchat"
-       attribution="biz_inbox"
-       page_id="YOUR_PAGE_ID"
-       theme_color="#0d1f4e"
-       logged_in_greeting="Hi! How can we help you?"
-       logged_out_greeting="Hi! How can we help you?">
+      <div class="settings-divider"></div>
+
+      <!-- Language -->
+      <div class="settings-label">Language</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Filipino
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Translation coming soon</div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Admin -->
+      <div class="settings-label">Admin</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Enter Admin Mode
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Admin features coming soon</div>
+
+    </div>
   </div>
 
+  
+
+  <script src="main.js"></script>
 </body>
 </html>
