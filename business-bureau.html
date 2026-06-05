@@ -8,8 +8,15 @@
   <meta name="author" content="Business Bureau – City Government of Davao"/>
   <meta property="og:title" content="Business Bureau – City of Davao"/>
   <meta property="og:description" content="Apply for business permits, occupational permits, and special permits in Davao City. Fast, efficient, and transparent service."/>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="business-bureau.html"/>
   <meta property="og:type" content="website"/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 52 52'><circle cx='26' cy='26' r='26' fill='%230d1f4e'/><text x='26' y='33' font-family='serif' font-size='20' fill='%23b8973a' text-anchor='middle' font-weight='bold'>BB</text></svg>"/>
+  <!-- Favicons -->
+ <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+ <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+ <link rel="shortcut icon" href="favicon.ico"/>
+ <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+ <link rel="manifest" href="site.webmanifest"/>
   <title>Business Bureau – City of Davao</title>
 
   <!-- ============================================================
@@ -40,6 +47,9 @@
       -webkit-appearance: none;
       appearance: none;
     }
+    @media (max-width: 560px) {
+      button.permit-card { text-align: left; }
+    }
     button.permit-card:hover {
       border-color: var(--navy);
       box-shadow: 0 6px 20px rgba(13,31,78,0.12);
@@ -52,6 +62,9 @@
       #navHoursBadge { display: none; }
     }
   </style>
+
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
 </head>
 <body>
 
@@ -61,20 +74,11 @@
     .mobile-menu (mobile) so they stay in sync.
   ============================================================ -->
   <header>
-    <div class="nav-inner">
-
-      <!-- Logo seal – replace with: <img src="logo.png" class="logo-seal" alt="Business Bureau"> -->
-      <svg class="logo-seal" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="26" cy="26" r="25" stroke="#0d1f4e" stroke-width="2" fill="#f5f6fa"/>
-        <circle cx="26" cy="26" r="19" stroke="#b8973a" stroke-width="1.5" fill="none"/>
-        <text x="26" y="30" font-family="serif" font-size="10" fill="#0d1f4e" text-anchor="middle" font-weight="bold">BB</text>
-      </svg>
-
-      <!-- Logo text – change the two <span> contents -->
-      <div class="logo-text">
-        <span>BUSINESS</span>
-        <span>BUREAU</span>
-      </div>
+    <div class="nav-inner" href="business-bureau.html">
+      <a href="business-bureau.html" class="logo-link">
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
+        <div class="logo-text"><span>BUSINESS</span><span>BUREAU</span></div>
+      </a>
 
       <!-- Desktop navigation – hidden on mobile -->
       <ul class="nav-links">
@@ -114,6 +118,37 @@
       <a href="citizens-charter.html" class="mobile-link">Citizen's Charter</a>
       <a href="about.html"            class="mobile-link">About</a>
       <a href="contact.html"          class="mobile-link">Contact</a>
+
+      <!-- Settings section inside mobile menu -->
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Filipino <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
 
@@ -129,7 +164,7 @@
       <!-- Text + CTA -->
       <div class="hero-content-text">
         <h1>Empowering<br>Your Business</h1>
-        <a href="#" class="btn-cta">Start Your Application</a>
+        <a href="javascript:void(0)" class="btn-cta" role="button">Start Your Application</a>
       </div>
 
     <!-- ============================================================
@@ -511,6 +546,11 @@
         flex-shrink: 0;
       }
       .ann-bell-nav:hover { background: rgba(13,31,78,0.07); }
+
+      /* Dark mode: make bell icon visible against dark navbar */
+      body.dark .ann-bell-nav       { color: #ffffff; }
+      body.dark .ann-bell-nav:hover { background: rgba(255,255,255,0.10); }
+      body.dark .ann-fab-badge      { border-color: #1a2a4a; }
       .ann-fab-badge {
         position: absolute;
         top: 4px;
@@ -816,20 +856,38 @@
   <footer id="contact">
     <div class="footer-inner">
 
-      <!-- Column 1: Visit Us -->
+      
+      <!-- Column 1: Links -->
       <div class="footer-col">
-        <h4>Visit Us</h4>
+        <h4>Links</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
+        </div>
+      </div>
+
+      <!-- Column 2: Location -->
+      <div class="footer-col">
+        <h4>Location</h4>
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
           </svg>
-          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton St.), Poblacion District, Davao City</span>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
         </div>
       </div>
 
-      <!-- Column 2: Contact -->
+      <!-- Column 3: Contact Information -->
       <div class="footer-col">
-        <h4>Contact Us</h4>
+        <h4>Contact Information</h4>
 
         <!-- Phone – update the number -->
         <div class="contact-row">
@@ -852,12 +910,12 @@
           <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
             <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
           </svg>
-          <a href="https://m.me/YourPageName"
+          <a href="https://m.me/busbureaudavao"
              target="_blank" rel="noopener"
              style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
              onmouseover="this.style.color='#b8973a'"
              onmouseout="this.style.color='rgba(255,255,255,0.85)'">
-            Message us on Messenger
+            Business Bureau - Davao City
           </a>
         </div>
 
@@ -869,32 +927,14 @@
       -->
       <div class="footer-col footer-logos">
         <div class="logo-grid">
-
-          <!-- Logo placeholder 1 – swap with <img src="logo1.png" alt="Logo 1" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 2 – swap with <img src="logo2.png" alt="Logo 2" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
           </div>
-
-          <!-- Logo placeholder 3 – swap with <img src="logo3.png" alt="Logo 3" class="partner-logo"> -->
           <div class="logo-placeholder">
-            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="100" height="100" rx="50" fill="rgba(255,255,255,0.06)"/>
-              <circle cx="50" cy="38" r="16" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-              <path d="M22 76c0-15.464 12.536-28 28-28s28 12.536 28 28" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
-            </svg>
+            <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
           </div>
 
         </div>
@@ -904,7 +944,7 @@
 
     <!-- Update copyright year and org name here -->
     <div class="footer-bottom">
-      &copy; 2025 Business Bureau – City Government of Davao. All rights reserved.
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
     </div>
   </footer>
 
@@ -936,7 +976,7 @@
       <!-- Footer with View More link -->
       <div class="service-modal-footer">
         <span class="service-modal-note">For complete requirements and process steps:</span>
-        <a href="#" id="serviceModalLink" class="btn-view-more" target="_blank">
+        <a href="citizens-charter.html" id="serviceModalLink" class="btn-view-more" target="_blank">
           View Full Details in Citizen's Charter
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                stroke-linecap="round" stroke-linejoin="round">
@@ -965,7 +1005,6 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <h2 id="modalTitle">Start Your Application</h2>
-          <!-- Change this subtitle as needed -->
           <p>Select the type of permit you want to apply for.</p>
         </div>
         <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
@@ -976,7 +1015,7 @@
         <!-- OPTION 1: Business Permit – opens sub-modal for New/Renewal choice -->
         <button onclick="openBPModal()" class="permit-card business">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2"/>
               <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
@@ -992,7 +1031,7 @@
         <!-- OPTION 2: Occupational Permit -->
         <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card occupational">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1a5276" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
@@ -1007,7 +1046,7 @@
         <!-- OPTION 3: Special Permit -->
         <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card special">
           <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#6b4c11" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -1037,7 +1076,7 @@
       <div class="modal-header">
         <div class="modal-header-text">
           <!-- Back button -->
-          <button onclick="closeBPModal()" aria-label="Back"
+          <button onclick="closeBPModal(true)" aria-label="Back"
                   style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.8);font-family:'Oswald',sans-serif;font-size:0.85rem;letter-spacing:0.05em;padding:0;margin-bottom:0.4rem;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                  stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1053,12 +1092,31 @@
 
       <div class="modal-body" style="display:flex;flex-direction:column;gap:1rem;padding:1.5rem 2rem 2rem;">
 
-        <!-- Option A: Pre-Assessment / New Business Permit -->
-        <!-- Replace href="#" with your actual pre-assessment / new application URL -->
-        <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
-           class="bp-option-card">
+        <!-- Option A: Pre-Assessment of Business – update href once page is created -->
+        <a href="pre-assessment.html"
+           class="bp-option-card bp-option-preassess">
           <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <path d="M9 11l3 3L22 4"/>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Pre-Assessment of Business</strong>
+            <span>Check compliance with regulatory requirements before submitting a formal permit application.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Option B: Create New Business Permit -->
+        <a href="https://appbts.davaocity.gov.ph/new" target="_blank" rel="noopener"
+           class="bp-option-card bp-option-new">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="16"/>
@@ -1066,7 +1124,7 @@
             </svg>
           </div>
           <div class="bp-option-text">
-            <strong>Request Pre-Assessment / New Business Permit</strong>
+            <strong>Create New Business Permit</strong>
             <span>First-time applicants. Comply with documentary requirements before issuance of a new permit.</span>
           </div>
           <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -1075,12 +1133,11 @@
           </svg>
         </a>
 
-        <!-- Option B: Renew Existing Business Permit -->
-        <!-- Replace href="#" with your actual renewal URL -->
-        <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener"
-           class="bp-option-card">
+        <!-- Option C: Renew Existing Business Permit -->
+        <a href="https://appbts.davaocity.gov.ph/access" target="_blank" rel="noopener"
+           class="bp-option-card bp-option-renew">
           <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
               <polyline points="23 4 23 10 17 10"/>
               <polyline points="1 20 1 14 7 14"/>
@@ -1130,6 +1187,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      color: #b8973a; /* default icon color in light mode */
     }
     .bp-option-text {
       flex: 1;
@@ -1157,6 +1215,31 @@
       opacity: 0.8;
       transform: translateX(3px);
     }
+
+    /* ── Dark mode: solid colour cards with white text/icons ── */
+    body.dark .bp-option-card {
+      border-color: transparent;
+      color: #fff;
+    }
+    body.dark .bp-option-card .bp-option-text span { color: rgba(255,255,255,0.75); }
+    body.dark .bp-option-card .bp-option-icon {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    body.dark .bp-option-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.35); }
+    body.dark .bp-option-card:hover .bp-option-arrow { opacity: 1; }
+
+    /* Pre-Assessment → gold (#b8973a matches --gold and permit-card.business) */
+    body.dark .bp-option-preassess              { background: #b8973a; }
+    body.dark .bp-option-preassess:hover        { background: #a8872e; border-color: transparent; }
+
+    /* Create New → teal/blue (#1a5276 matches --teal and permit-card.occupational) */
+    body.dark .bp-option-new                    { background: #1a5276; }
+    body.dark .bp-option-new:hover              { background: #154466; border-color: transparent; }
+
+    /* Renew Existing → brown (#6b4c11 matches permit-card.special and about-card:nth-child(3)) */
+    body.dark .bp-option-renew                  { background: #6b4c11; }
+    body.dark .bp-option-renew:hover            { background: #5c400e; border-color: transparent; }
   </style>
 
 
@@ -1201,7 +1284,7 @@
     // Close with Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) closeModal();
-      if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal();
+      if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal(true);
     });
 
     /* ── Business Permit sub-modal ── */
@@ -1220,15 +1303,19 @@
       }, 300);
     }
 
-    function closeBPModal() {
+    function closeBPModal(goBack = false) {
       bpModalBackdrop.classList.remove('visible');
       bpModalBackdrop.addEventListener('transitionend', () => {
         bpModalBackdrop.style.display = 'none';
-        document.body.style.overflow = '';
+        if (goBack) {
+          openModal();
+        } else {
+          document.body.style.overflow = '';
+        }
       }, { once: true });
     }
 
-    bpModalClose.addEventListener('click', closeBPModal);
+    bpModalClose.addEventListener('click', () => closeBPModal(false));
 
     bpModalBackdrop.addEventListener('click', (e) => {
       if (e.target === bpModalBackdrop) closeBPModal();
@@ -1493,14 +1580,34 @@
         `citizens-charter.html#page=${d.page}`;
 
       /* Build infographic body */
+      const c      = d.color;
+      const isDark = document.body.classList.contains('dark');
+      const cLight = c + '22';
+
+      /* Light: colored border + tint bg | Dark: solid colored bg + white text */
+      const boxBg      = isDark ? c           : c + '22';
+      const boxBorder  = isDark ? c           : c;
+      const numBg      = isDark ? '#ffffff'   : c;
+      const numColor   = isDark ? c           : '#ffffff';
+      const titleColor = isDark ? '#ffffff'   : c;
+      const descColor  = isDark ? 'rgba(255,255,255,0.85)' : '';
+      const timeBg     = isDark ? '#ffffff'   : c;
+      const timeColor  = isDark ? c           : '#ffffff';
+      const arrowColor = isDark ? '#ffffff'   : c;
+      const iconBg     = isDark ? c           : c + '22';
+      const iconStroke = isDark ? '#ffffff'   : c;
+      const iconFill   = isDark ? '#ffffff'   : c;
+
       const stepsHTML = d.steps.map((s, i) => `
-        ${i > 0 ? '<span class="svc-step-arrow">›</span>' : ''}
+        ${i > 0 ? `<span class="svc-step-arrow" style="color:${arrowColor}">›</span>` : ''}
         <div class="svc-step">
-          <div class="svc-step-box">
-            <div class="svc-step-num">${s.num}</div>
-            <div class="svc-step-title">${s.title}</div>
-            <div class="svc-step-desc">${s.desc}</div>
-            ${s.time ? `<span class="svc-step-time">${s.time}</span>` : ''}
+          <div class="svc-step-box" style="border-color:${boxBorder}; background:${boxBg};">
+            <div class="svc-step-num" style="background:${numBg}; color:${numColor};">${s.num}</div>
+            <div class="svc-step-content">
+              <div class="svc-step-title" style="color:${titleColor};">${s.title}</div>
+              <div class="svc-step-desc" style="color:${descColor};">${s.desc}</div>
+            </div>
+            ${s.time ? `<span class="svc-step-time" style="background:${timeBg}; color:${timeColor};">${s.time}</span>` : `<span class="svc-step-time-placeholder"></span>`}
           </div>
         </div>`).join('');
 
@@ -1518,12 +1625,11 @@
 
         <div class="svc-key-info">
           <div class="svc-key-box">
-            <div class="svc-key-box-icon gold-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${iconBg};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
-                <!-- Philippine Peso sign (₱) -->
                 <text x="12" y="17" font-family="Arial, sans-serif" font-size="16"
-                      font-weight="bold" fill="#b8973a" stroke="none"
+                      font-weight="bold" fill="${iconFill}" stroke="none"
                       text-anchor="middle">₱</text>
               </svg>
             </div>
@@ -1533,8 +1639,8 @@
             </div>
           </div>
           <div class="svc-key-box">
-            <div class="svc-key-box-icon navy-bg">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2"
+            <div class="svc-key-box-icon" style="background:${iconBg};">
+              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
                    stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
@@ -1548,12 +1654,12 @@
         </div>
 
         <div>
-          <div class="svc-section-label">Process Flow</div>
+          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Process Flow</div>
           <div class="svc-steps">${stepsHTML}</div>
         </div>
 
         <div>
-          <div class="svc-section-label">Key Requirements</div>
+          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Key Requirements</div>
           <ul class="svc-req-list">${reqHTML}</ul>
         </div>`;
 
@@ -1582,8 +1688,83 @@
     });
   </script>
 
+  <!-- Settings – fixed to right edge of viewport beside scrollbar, desktop only -->
+  <div class="settings-wrap" id="settingsWrap">
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+    <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
+      <div class="settings-label">Appearance</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Dark Mode
+        </span>
+        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-label">Language</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Filipino
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Translation coming soon</div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Admin -->
+      <div class="settings-label">Admin</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Enter Admin Mode
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Admin features coming soon</div>
+
+    </div>
+  </div>
+
   <!-- Shared JS (hamburger menu + PDF loader) -->
   <script src="main.js"></script>
 
+
+  <script>
+    /* Dynamic announcement badge: counts actual slides */
+    document.addEventListener('DOMContentLoaded', function () {
+      var slides = document.querySelectorAll('.announcement-slide');
+      var badge  = document.getElementById('annBellNavBadge');
+      if (badge && slides.length) {
+        badge.textContent = slides.length;
+        if (slides.length === 0) badge.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
