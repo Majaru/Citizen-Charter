@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Pre-Assessment of Business – Business Bureau, City Government of Davao. Check your compliance with regulatory requirements before applying for a new business permit."/>
+  <meta property="og:title" content="Pre-Assessment – Business Bureau, City of Davao"/>
+  <meta property="og:description" content="Complete the Unified Application Form for Business Permit pre-assessment at the Business Bureau of Davao City."/>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="pre-assessment.html"/>
+  <meta property="og:type" content="website"/>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Pre-Assessment – Business Bureau, City of Davao</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ── Pre-Assessment Page Styles ── */
+
+    .pa-page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 20px 64px;
+    }
+
+    /* ── Step indicator ── */
+    .pa-steps {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: 40px;
+    }
+    .pa-step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      position: relative;
+    }
+    .pa-step:not(:last-child)::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: #e2e5ef;
+      margin: 0 12px;
+    }
+    body.dark .pa-step:not(:last-child)::after { background: rgba(255,255,255,0.12); }
+    .pa-step.active:not(:last-child)::after    { background: var(--gold); }
+
+    .pa-step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid #e2e5ef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #aab0c0;
+      flex-shrink: 0;
+      background: #fff;
+      transition: all 0.25s;
+    }
+    body.dark .pa-step-num { background: #0d1f4e; border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.35); }
+    .pa-step.active .pa-step-num  { background: var(--gold); border-color: var(--gold); color: #fff; }
+    .pa-step.done   .pa-step-num  { background: #0d1f4e; border-color: #0d1f4e; color: #fff; }
+    body.dark .pa-step.done .pa-step-num { background: var(--gold); border-color: var(--gold); }
+
+    .pa-step-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #aab0c0;
+      white-space: nowrap;
+    }
+    .pa-step.active .pa-step-label { color: var(--gold); }
+    .pa-step.done   .pa-step-label { color: #0d1f4e; }
+    body.dark .pa-step.done .pa-step-label { color: rgba(255,255,255,0.7); }
+
+    /* ── Info banner ── */
+    .pa-info-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(184,151,58,0.08);
+      border: 1.5px solid rgba(184,151,58,0.3);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 32px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #5a4a1a;
+    }
+    body.dark .pa-info-banner { background: rgba(184,151,58,0.1); border-color: rgba(184,151,58,0.35); color: rgba(255,255,255,0.8); }
+    .pa-info-banner svg { flex-shrink: 0; margin-top: 1px; color: var(--gold); }
+
+    /* ── Section headers ── */
+    .pa-section-head {
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 14px;
+      border-radius: 4px 4px 0 0;
+      margin-top: 28px;
+    }
+    body.dark .pa-section-head { background: #1a3a6e; }
+
+    /* ── Form card ── */
+    .pa-form-card {
+      background: #fff;
+      border: 1.5px solid #e2e5ef;
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      padding: 20px 20px 8px;
+      margin-bottom: 0;
+    }
+    body.dark .pa-form-card { background: #0f1b35; border-color: rgba(255,255,255,0.1); }
+
+    /* ── Form rows & fields ── */
+    .pa-row {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .pa-field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex: 1;
+      min-width: 140px;
+    }
+    .pa-field.full  { flex: 1 1 100%; }
+    .pa-field.w-half { flex: 1 1 calc(50% - 8px); }
+    .pa-field.w-third { flex: 1 1 calc(33% - 12px); }
+    .pa-field.w-quarter { flex: 1 1 calc(25% - 12px); }
+    .pa-field.w-auto { flex: 0 0 auto; }
+
+    .pa-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #5a6070;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    body.dark .pa-label { color: rgba(255,255,255,0.55); }
+
+    .pa-label .req { color: #c0392b; margin-left: 2px; }
+
+    .pa-input,
+    .pa-select,
+    .pa-textarea {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.93rem;
+      color: #0d1f4e;
+      background: #f8f9fc;
+      border: 1.5px solid #d8dce8;
+      border-radius: 5px;
+      padding: 8px 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    body.dark .pa-input,
+    body.dark .pa-select,
+    body.dark .pa-textarea {
+      background: #0d1f4e;
+      border-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+    .pa-input:focus,
+    .pa-select:focus,
+    .pa-textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(184,151,58,0.15);
+      background: #fff;
+    }
+    body.dark .pa-input:focus,
+    body.dark .pa-select:focus,
+    body.dark .pa-textarea:focus { background: #132040; }
+
+    .pa-input::placeholder,
+    .pa-textarea::placeholder { color: #b0b8cc; }
+    body.dark .pa-input::placeholder,
+    body.dark .pa-textarea::placeholder { color: rgba(255,255,255,0.25); }
+
+    .pa-textarea { resize: vertical; min-height: 90px; }
+
+    /* ── App type table (NEW/RENEWAL/ADDITIONAL × Annual/Bi-annually/Quarterly) ── */
+    .pa-type-table {
+      border: 1.5px solid #d8dce8;
+      border-radius: 5px;
+      overflow: hidden;
+      font-size: 0.85rem;
+      width: 100%;
+    }
+    body.dark .pa-type-table { border-color: rgba(255,255,255,0.15); }
+    .pa-type-table td, .pa-type-table th {
+      padding: 6px 12px;
+      border: 1px solid #e8ebf2;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    body.dark .pa-type-table td,
+    body.dark .pa-type-table th { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+    .pa-type-table .cell-label { font-weight: 600; color: #0d1f4e; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    body.dark .pa-type-table .cell-label { color: rgba(255,255,255,0.9); }
+
+    /* ── Checkbox group ── */
+    .pa-check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 20px;
+      align-items: center;
+      padding: 6px 0;
+    }
+    .pa-check-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      color: #0d1f4e;
+      cursor: pointer;
+      user-select: none;
+    }
+    body.dark .pa-check-item { color: rgba(255,255,255,0.85); }
+    .pa-check-item input[type="checkbox"],
+    .pa-check-item input[type="radio"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    /* ── Divider inside form card ── */
+    .pa-divider {
+      height: 1px;
+      background: #e8ebf2;
+      margin: 12px 0 16px;
+    }
+    body.dark .pa-divider { background: rgba(255,255,255,0.08); }
+
+    /* ── Inline note ── */
+    .pa-note {
+      font-size: 0.8rem;
+      color: #8a94a8;
+      font-style: italic;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    body.dark .pa-note { color: rgba(255,255,255,0.4); }
+
+    /* ── Line of Business table ── */
+    .pa-lob-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .pa-lob-table th {
+      background: #f0f2f8;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #0d1f4e;
+      padding: 8px 10px;
+      border: 1px solid #d8dce8;
+      text-align: left;
+    }
+    body.dark .pa-lob-table th { background: #0d1830; color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    .pa-lob-table td {
+      padding: 4px 6px;
+      border: 1px solid #e2e5ef;
+      vertical-align: top;
+    }
+    body.dark .pa-lob-table td { border-color: rgba(255,255,255,0.08); }
+    .pa-lob-table td input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      color: #0d1f4e;
+      padding: 4px 6px;
+      outline: none;
+    }
+    body.dark .pa-lob-table td input { color: rgba(255,255,255,0.9); }
+    .pa-lob-table td input:focus { background: rgba(184,151,58,0.06); border-radius: 3px; }
+
+    /* ── Declaration box ── */
+    .pa-declaration {
+      background: #f8f9fc;
+      border: 1.5px solid #d8dce8;
+      border-radius: 6px;
+      padding: 16px 20px;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: #4a5068;
+      font-family: 'Source Sans 3', sans-serif;
+      margin-top: 24px;
+    }
+    body.dark .pa-declaration { background: #0d1830; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); }
+
+    /* ── Signature row ── */
+    .pa-sig-row {
+      display: flex;
+      gap: 32px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+    .pa-sig-block {
+      flex: 1;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pa-sig-line {
+      border-bottom: 1.5px solid #0d1f4e;
+      height: 40px;
+    }
+    body.dark .pa-sig-line { border-color: rgba(255,255,255,0.4); }
+    .pa-sig-caption {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #8a94a8;
+      text-align: center;
+    }
+
+    /* ── Tracking fields (top-right box) ── */
+    .pa-tracking-box {
+      border: 1.5px solid #d8dce8;
+      border-radius: 6px;
+      padding: 12px 16px;
+      background: #f8f9fc;
+      font-size: 0.85rem;
+      font-family: 'Source Sans 3', sans-serif;
+      color: #4a5068;
+    }
+    body.dark .pa-tracking-box { background: #0d1830; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); }
+    .pa-tracking-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 4px 0;
+      border-bottom: 1px dashed #e2e5ef;
+    }
+    body.dark .pa-tracking-row { border-color: rgba(255,255,255,0.08); }
+    .pa-tracking-row:last-child { border-bottom: none; }
+    .pa-tracking-key {
+      font-weight: 600;
+      min-width: 100px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .pa-tracking-val {
+      flex: 1;
+      border: none;
+      border-bottom: 1px solid #c8cdd8;
+      background: transparent;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #0d1f4e;
+      padding: 2px 4px;
+      outline: none;
+    }
+    body.dark .pa-tracking-val { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.2); }
+
+    /* ── Submit bar ── */
+    .pa-submit-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 2px solid #e2e5ef;
+      flex-wrap: wrap;
+    }
+    body.dark .pa-submit-bar { border-color: rgba(255,255,255,0.1); }
+
+    .pa-btn-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #0d1f4e;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .pa-btn-back:hover { border-color: #0d1f4e; background: #f0f2f8; }
+    body.dark .pa-btn-back { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.2); }
+    body.dark .pa-btn-back:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+
+    .pa-btn-submit {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      border: none;
+      border-radius: 6px;
+      padding: 11px 28px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .pa-btn-submit:hover { background: #a8872e; box-shadow: 0 4px 16px rgba(184,151,58,0.35); }
+
+    .pa-required-note {
+      font-size: 0.82rem;
+      color: #8a94a8;
+      font-family: 'Source Sans 3', sans-serif;
+    }
+    .pa-required-note span { color: #c0392b; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .pa-field.w-third,
+      .pa-field.w-quarter { flex: 1 1 calc(50% - 8px); }
+      .pa-step-label { display: none; }
+      .pa-sig-row { gap: 20px; }
+    }
+
+    /* ── Success screen ── */
+    .pa-success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 60px 20px;
+      gap: 20px;
+    }
+    .pa-success-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(184,151,58,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+    }
+    .pa-success h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      color: var(--navy);
+      margin: 0;
+    }
+    body.dark .pa-success h2 { color: #fff; }
+    .pa-success p { color: #5a6070; max-width: 480px; font-family: 'Source Sans 3', sans-serif; line-height: 1.7; }
+    body.dark .pa-success p { color: rgba(255,255,255,0.65); }
+    .pa-success-ref {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      color: var(--gold);
+      border: 1.5px dashed var(--gold);
+      border-radius: 6px;
+      padding: 10px 24px;
+      letter-spacing: 0.1em;
+    }
+    /* ── Signature widget ── */
+    .sig-tabs {
+      display: flex;
+      gap: 0;
+      border: 1.5px solid #d8dce8;
+      border-radius: 6px 6px 0 0;
+      overflow: hidden;
+      width: fit-content;
+    }
+    body.dark .sig-tabs { border-color: rgba(255,255,255,0.15); }
+
+    .sig-tab {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 18px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border: none;
+      background: #f0f2f8;
+      color: #8a94a8;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-right: 1.5px solid #d8dce8;
+    }
+    .sig-tab:last-child { border-right: none; }
+    body.dark .sig-tab { background: #0d1830; color: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.1); }
+    .sig-tab.active { background: #fff; color: var(--gold); }
+    body.dark .sig-tab.active { background: #0f1b35; color: var(--gold); }
+    .sig-tab:hover:not(.active) { background: #e8ebf4; color: #0d1f4e; }
+    body.dark .sig-tab:hover:not(.active) { background: #111d38; color: rgba(255,255,255,0.7); }
+
+    .sig-panel {
+      border: 1.5px solid #d8dce8;
+      border-top: none;
+      border-radius: 0 6px 6px 6px;
+      overflow: hidden;
+      background: #fff;
+    }
+    body.dark .sig-panel { border-color: rgba(255,255,255,0.15); background: #0f1b35; }
+
+    #sigCanvas {
+      background: #fafbfd;
+      cursor: crosshair;
+      display: block;
+      width: 100%;
+      border-bottom: 1.5px dashed #e2e5ef;
+    }
+    body.dark #sigCanvas { background: #0d1830; border-color: rgba(255,255,255,0.1); }
+
+    .sig-canvas-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: #c8cdd8;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    body.dark .sig-canvas-hint { color: rgba(255,255,255,0.15); }
+
+    .sig-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 8px 12px;
+      background: #f8f9fc;
+      border-top: 1px solid #e8ebf2;
+    }
+    body.dark .sig-actions { background: #0d1830; border-color: rgba(255,255,255,0.08); }
+
+    .sig-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 4px;
+      padding: 5px 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      color: #5a6070;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sig-action-btn:hover { border-color: #c0392b; color: #c0392b; }
+    body.dark .sig-action-btn { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.15); }
+    body.dark .sig-action-btn:hover { border-color: #e07070; color: #e07070; }
+
+    .sig-upload-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 36px 20px;
+      cursor: pointer;
+      color: #8a94a8;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      text-align: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .sig-upload-area:hover { background: rgba(184,151,58,0.05); color: var(--gold); }
+    body.dark .sig-upload-area { color: rgba(255,255,255,0.4); }
+    body.dark .sig-upload-area:hover { color: var(--gold); }
+    .sig-upload-area.dragover { background: rgba(184,151,58,0.1); color: var(--gold); border-color: var(--gold); }
+
+    .sig-save-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      border: none;
+      border-radius: 5px;
+      padding: 6px 16px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      margin-left: auto;
+    }
+    .sig-save-btn:hover { background: #a8872e; }
+    .sig-save-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .sig-saved-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      background: rgba(39,174,96,0.08);
+      border-top: 1.5px solid rgba(39,174,96,0.25);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+    }
+    body.dark .sig-saved-bar { background: rgba(39,174,96,0.1); border-color: rgba(39,174,96,0.2); }
+
+    .sig-saved-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 600;
+      color: #27ae60;
+    }
+
+    .sig-edit-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: none;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      color: #5a6070;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .sig-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+    body.dark .sig-edit-btn { color: rgba(255,255,255,0.55); border-color: rgba(255,255,255,0.15); }
+    body.dark .sig-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* Saved state: canvas locked */
+    #sigCanvas.locked { cursor: default; pointer-events: none; opacity: 0.85; }
+
+    /* ── Sub-group label inside form card ── */
+    .pa-group-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .pa-group-label svg { flex-shrink: 0; stroke: var(--gold); }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- ── Dark mode flash prevention ── -->
+  <script>
+    if (localStorage.getItem('bb-dark') === '1') {
+      document.documentElement.classList.add('dark-early');
+      document.body && document.body.classList.add('dark');
+    }
+  </script>
+
+  <!-- ============================================================
+    HEADER / NAV
+  ============================================================ -->
+  <header>
+    <div class="nav-inner">
+      <a href="business-bureau.html" class="logo-link">
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
+        <div class="logo-text">
+          <span>BUSINESS</span>
+          <span>BUREAU</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="business-bureau.html">Home</a></li>
+        <li><a href="citizens-charter.html">Citizen's Charter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="business-bureau.html"  class="mobile-link">Home</a>
+      <a href="citizens-charter.html" class="mobile-link">Citizen's Charter</a>
+      <a href="about.html"            class="mobile-link">About</a>
+      <a href="contact.html"          class="mobile-link">Contact</a>
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Filipino <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Admin Mode <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+    PAGE HERO
+  ============================================================ -->
+  <section class="hero hero-inner">
+    <div class="hero-content">
+      <h1>Pre-Assessment of Business</h1>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+    MAIN CONTENT
+  ============================================================ -->
+  <main class="pa-page" id="paMain">
+
+    <!-- Step indicator -->
+    <div class="pa-steps" id="paSteps">
+      <div class="pa-step active" id="step1Indicator">
+        <div class="pa-step-num">1</div>
+        <span class="pa-step-label">Business Info</span>
+      </div>
+      <div class="pa-step" id="step2Indicator">
+        <div class="pa-step-num">2</div>
+        <span class="pa-step-label">Operations</span>
+      </div>
+      <div class="pa-step" id="step3Indicator">
+        <div class="pa-step-num">3</div>
+        <span class="pa-step-label">Declaration</span>
+      </div>
+    </div>
+
+    <!-- Info banner -->
+    <div class="pa-info-banner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>This is the <strong>Unified Application Form for Business Permit (Annex 1)</strong>. Complete all required fields accurately. The Business Bureau will review your submission and assess your compliance with regulatory requirements prior to permit issuance.</span>
+    </div>
+
+    <form id="paForm" novalidate>
+
+      <!-- ══════════════════════════════════════
+           STEP 1 – Business Information
+      ══════════════════════════════════════ -->
+      <div id="paStep1">
+
+        <!-- Application type + tracking -->
+        <div class="pa-row" style="align-items:flex-start;">
+
+          <!-- Application type table -->
+          <div class="pa-field" style="flex:0 0 auto;">
+            <div class="pa-label">Application Type</div>
+            <table class="pa-type-table">
+              <tr>
+                <td><label class="pa-check-item"><input type="radio" name="appType" value="new" required> <span class="cell-label">New</span></label></td>
+                <td><label class="pa-check-item"><input type="radio" name="appFreq" value="annual"> <span>Annual</span></label></td>
+              </tr>
+              <tr>
+                <td><label class="pa-check-item"><input type="radio" name="appType" value="renewal"> <span class="cell-label">Renewal</span></label></td>
+                <td><label class="pa-check-item"><input type="radio" name="appFreq" value="biannual"> <span>Bi-annually</span></label></td>
+              </tr>
+              <tr>
+                <td><label class="pa-check-item"><input type="radio" name="appType" value="additional"> <span class="cell-label">Additional</span></label></td>
+                <td><label class="pa-check-item"><input type="radio" name="appFreq" value="quarterly"> <span>Quarterly</span></label></td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Tracking fields (office use) -->
+          <div class="pa-field" style="flex:1; min-width:220px;">
+            <div class="pa-label">For Office Use Only</div>
+            <div class="pa-tracking-box">
+              <div class="pa-tracking-row">
+                <span class="pa-tracking-key">Date of Receipt</span>
+                <input class="pa-tracking-val" type="text" disabled placeholder="—">
+              </div>
+              <div class="pa-tracking-row">
+                <span class="pa-tracking-key">Tracking No.</span>
+                <input class="pa-tracking-val" type="text" disabled placeholder="—">
+              </div>
+              <div class="pa-tracking-row">
+                <span class="pa-tracking-key">Business ID No.</span>
+                <input class="pa-tracking-val" type="text" disabled placeholder="—">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section A -->
+        <div class="pa-section-head">A. Business Information and Registration</div>
+        <div class="pa-form-card">
+
+          <!-- Business structure dropdown -->
+          <div class="pa-row">
+            <div class="pa-field w-half">
+              <label class="pa-label" for="bizStructure">Type of Business <span class="req">*</span></label>
+              <select class="pa-select" id="bizStructure" name="bizStructure" required onchange="onBizStructureChange(this.value)">
+                <option value="" disabled selected>— Select type —</option>
+                <option value="sole">Sole Proprietorship</option>
+                <option value="opc">One Person Corporation (OPC)</option>
+                <option value="partnership">Partnership</option>
+                <option value="corporation">Corporation</option>
+                <option value="cooperative">Cooperative</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Sole Proprietorship: gender + owner name -->
+          <div id="block-sole" style="display:none;">
+            <div class="pa-row">
+              <div class="pa-field w-half">
+                <div class="pa-label">Gender of Owner</div>
+                <div class="pa-check-group">
+                  <label class="pa-check-item"><input type="radio" name="spGender" value="female"> Female</label>
+                  <label class="pa-check-item"><input type="radio" name="spGender" value="male"> Male</label>
+                </div>
+              </div>
+            </div>
+            <div class="pa-divider"></div>
+            <div class="pa-row">
+              <div class="pa-field full">
+                <div class="pa-label">Name of Owner <span class="req">*</span></div>
+              </div>
+            </div>
+            <div class="pa-row">
+              <div class="pa-field w-third">
+                <label class="pa-label" for="ownerSurname">Surname</label>
+                <input class="pa-input" type="text" id="ownerSurname" name="ownerSurname">
+              </div>
+              <div class="pa-field w-third">
+                <label class="pa-label" for="ownerGiven">Given Name</label>
+                <input class="pa-input" type="text" id="ownerGiven" name="ownerGiven">
+              </div>
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="ownerMiddle">Middle Name</label>
+                <input class="pa-input" type="text" id="ownerMiddle" name="ownerMiddle">
+              </div>
+              <div class="pa-field w-auto">
+                <label class="pa-label" for="ownerSuffix">Suffix</label>
+                <input class="pa-input" type="text" id="ownerSuffix" name="ownerSuffix" placeholder="Jr./Sr." style="width:80px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- OPC: gender + owner name -->
+          <div id="block-opc" style="display:none;">
+            <div class="pa-row">
+              <div class="pa-field w-half">
+                <div class="pa-label">Gender</div>
+                <div class="pa-check-group">
+                  <label class="pa-check-item"><input type="radio" name="opcGender" value="male"> Male</label>
+                  <label class="pa-check-item"><input type="radio" name="opcGender" value="female"> Female</label>
+                </div>
+              </div>
+            </div>
+            <div class="pa-divider"></div>
+            <div class="pa-row">
+              <div class="pa-field full">
+                <div class="pa-label">Name of Owner <span class="req">*</span></div>
+              </div>
+            </div>
+            <div class="pa-row">
+              <div class="pa-field w-third">
+                <label class="pa-label" for="opcSurname">Surname</label>
+                <input class="pa-input" type="text" id="opcSurname" name="opcSurname">
+              </div>
+              <div class="pa-field w-third">
+                <label class="pa-label" for="opcGiven">Given Name</label>
+                <input class="pa-input" type="text" id="opcGiven" name="opcGiven">
+              </div>
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="opcMiddle">Middle Name</label>
+                <input class="pa-input" type="text" id="opcMiddle" name="opcMiddle">
+              </div>
+              <div class="pa-field w-auto">
+                <label class="pa-label" for="opcSuffix">Suffix</label>
+                <input class="pa-input" type="text" id="opcSuffix" name="opcSuffix" placeholder="Jr./Sr." style="width:80px;">
+              </div>
+            </div>
+          </div>
+
+          <!-- Corporation / Cooperative / Partnership: officer name + nationality (corp only) -->
+          <div id="block-officer" style="display:none;">
+            <div class="pa-divider"></div>
+            <div class="pa-row">
+              <div class="pa-field full">
+                <div class="pa-label" id="officerLabel">Name of President / Officer in Charge <span class="req">*</span></div>
+              </div>
+            </div>
+            <div class="pa-row">
+              <div class="pa-field w-third">
+                <label class="pa-label" for="offSurname">Surname</label>
+                <input class="pa-input" type="text" id="offSurname" name="offSurname">
+              </div>
+              <div class="pa-field w-third">
+                <label class="pa-label" for="offGiven">Given Name</label>
+                <input class="pa-input" type="text" id="offGiven" name="offGiven">
+              </div>
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="offMiddle">Middle Name</label>
+                <input class="pa-input" type="text" id="offMiddle" name="offMiddle">
+              </div>
+              <div class="pa-field w-auto">
+                <label class="pa-label" for="offSuffix">Suffix</label>
+                <input class="pa-input" type="text" id="offSuffix" name="offSuffix" placeholder="Jr./Sr." style="width:80px;">
+              </div>
+            </div>
+            <!-- Nationality — only for Corporation -->
+            <div id="block-corpnat" style="display:none;">
+              <div class="pa-row">
+                <div class="pa-field full">
+                  <div class="pa-label">Nationality</div>
+                  <div class="pa-check-group">
+                    <label class="pa-check-item"><input type="radio" name="corpNat" value="filipino"> Filipino</label>
+                    <label class="pa-check-item"><input type="radio" name="corpNat" value="foreign"> Foreign</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Registration numbers -->
+          <div class="pa-row">
+            <div class="pa-field w-half">
+              <label class="pa-label" for="dtiReg">DTI / SEC / CDA Registration Number <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="dtiReg" name="dtiReg" placeholder="e.g. 2024-12345" required>
+            </div>
+            <div class="pa-field w-half">
+              <label class="pa-label" for="tin">Tax Identification Number (TIN) <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="tin" name="tin" placeholder="e.g. 123-456-789-000" required>
+            </div>
+          </div>
+
+          <!-- Business name -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <label class="pa-label" for="bizName">Business Name <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="bizName" name="bizName" placeholder="Registered business name" required>
+            </div>
+          </div>
+
+          <!-- Trade name -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <label class="pa-label" for="tradeName">Trade Name / Franchise (if applicable)</label>
+              <input class="pa-input" type="text" id="tradeName" name="tradeName" placeholder="Leave blank if not applicable">
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Main office address -->
+          <div class="pa-row">
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="houseNo">House / Bldg. No. <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="houseNo" name="houseNo" required>
+            </div>
+            <div class="pa-field" style="flex:2;">
+              <label class="pa-label" for="bldgName">Name of Building</label>
+              <input class="pa-input" type="text" id="bldgName" name="bldgName">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="lotNo">Lot No.</label>
+              <input class="pa-input" type="text" id="lotNo" name="lotNo">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="blockNo">Block No.</label>
+              <input class="pa-input" type="text" id="blockNo" name="blockNo">
+            </div>
+          </div>
+
+          <div class="pa-row">
+            <div class="pa-field" style="flex:2;">
+              <label class="pa-label" for="street">Street <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="street" name="street" required>
+            </div>
+            <div class="pa-field" style="flex:2;">
+              <label class="pa-label" for="barangay">Barangay <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="barangay" name="barangay" required>
+            </div>
+            <div class="pa-field" style="flex:2;">
+              <label class="pa-label" for="subdivision">Subdivision</label>
+              <input class="pa-input" type="text" id="subdivision" name="subdivision">
+            </div>
+          </div>
+
+          <div class="pa-row">
+            <div class="pa-field w-third">
+              <label class="pa-label" for="cityMun">City / Municipality <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="cityMun" name="cityMun" value="Davao City" required>
+            </div>
+            <div class="pa-field w-third">
+              <label class="pa-label" for="province">Province</label>
+              <input class="pa-input" type="text" id="province" name="province" value="Davao del Sur">
+            </div>
+            <div class="pa-field w-third">
+              <label class="pa-label" for="zipCode">Zip Code <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="zipCode" name="zipCode" placeholder="8000" required>
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Contact -->
+          <div class="pa-row">
+            <div class="pa-field w-third">
+              <label class="pa-label" for="telNo">Telephone No.</label>
+              <input class="pa-input" type="tel" id="telNo" name="telNo" placeholder="(082) 000-0000">
+            </div>
+            <div class="pa-field w-third">
+              <label class="pa-label" for="mobileNo">Mobile No. <span class="req">*</span></label>
+              <input class="pa-input" type="tel" id="mobileNo" name="mobileNo" placeholder="09XX-XXX-XXXX" required>
+            </div>
+            <div class="pa-field w-third">
+              <label class="pa-label" for="email">Email Address <span class="req">*</span></label>
+              <input class="pa-input" type="email" id="email" name="email" placeholder="you@example.com" required>
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+        </div><!-- end pa-form-card Section A -->
+
+        <!-- Next button -->
+        <div class="pa-submit-bar">
+          <span class="pa-required-note"><span>*</span> Required fields</span>
+          <button type="button" class="pa-btn-submit" onclick="goStep(2)">
+            Next: Business Operations
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </button>
+        </div>
+
+      </div><!-- end #paStep1 -->
+
+
+      <!-- ══════════════════════════════════════
+           STEP 2 – Business Operations
+      ══════════════════════════════════════ -->
+      <div id="paStep2" style="display:none;">
+
+        <div class="pa-section-head">B. Business Operation</div>
+        <div class="pa-form-card">
+
+          <!-- Group 1: Area -->
+          <div class="pa-group-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            Area
+          </div>
+          <div class="pa-row">
+            <div class="pa-field w-half">
+              <label class="pa-label" for="bizArea">Business Area (sq.m.)</label>
+              <input class="pa-input" type="number" id="bizArea" name="bizArea" min="0" placeholder="0">
+            </div>
+            <div class="pa-field w-half">
+              <label class="pa-label" for="floorArea">Total Floor Area (sq.m.)</label>
+              <input class="pa-input" type="number" id="floorArea" name="floorArea" min="0" placeholder="0">
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Group 2: Employees -->
+          <div class="pa-group-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Employees
+          </div>
+          <div class="pa-row">
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="empTotal">Total No. of Employees</label>
+              <input class="pa-input" type="number" id="empTotal" name="empTotal" min="0" placeholder="0">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="empMale">Male</label>
+              <input class="pa-input" type="number" id="empMale" name="empMale" min="0" placeholder="0">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="empFemale">Female</label>
+              <input class="pa-input" type="number" id="empFemale" name="empFemale" min="0" placeholder="0">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="empResiding">Residing Within</label>
+              <input class="pa-input" type="number" id="empResiding" name="empResiding" min="0" placeholder="0">
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Group 3: Delivery Vehicles -->
+          <div class="pa-group-label">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            Delivery Vehicles
+          </div>
+          <div class="pa-row">
+            <div class="pa-field w-half">
+              <label class="pa-label" for="dvVan">Van / Truck</label>
+              <input class="pa-input" type="number" id="dvVan" name="dvVan" min="0" placeholder="0">
+            </div>
+            <div class="pa-field w-half">
+              <label class="pa-label" for="dvMoto">Motorcycle</label>
+              <input class="pa-input" type="number" id="dvMoto" name="dvMoto" min="0" placeholder="0">
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Owned/Rented -->
+          <div class="pa-row">
+            <div class="pa-field" style="flex: 0 0 160px;">
+              <label class="pa-label" for="ownership">Owned? <span class="req">*</span></label>
+              <select class="pa-select" id="ownership" name="ownership" required onchange="toggleOwnershipFields(this.value)" style="width:160px;">
+                <option value="" disabled selected>— Select —</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <div id="ownershipFields" style="display:none; flex:1; min-width:0; display:none;" class="pa-field">
+              <!-- spacer so the two fields below appear in the same pa-row -->
+            </div>
+          </div>
+
+          <div id="ownershipExtraFields" style="display:none;">
+            <div class="pa-row">
+              <div class="pa-field w-half">
+                <label class="pa-label" for="taxDecNo">Tax Declaration No.</label>
+                <input class="pa-input" type="text" id="taxDecNo" name="taxDecNo">
+              </div>
+              <div class="pa-field w-half">
+                <label class="pa-label" for="propIdNo">Property Identification No.</label>
+                <input class="pa-input" type="text" id="propIdNo" name="propIdNo">
+              </div>
+            </div>
+          </div>
+
+          <!-- Tax incentives -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <div class="pa-label">Do you have tax incentives from any Government Entity?</div>
+              <div class="pa-check-group">
+                <label class="pa-check-item"><input type="radio" name="taxIncentive" value="yes"> Yes (please attach a copy of your certificate)</label>
+                <label class="pa-check-item"><input type="radio" name="taxIncentive" value="no"> No</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Business activity -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <div class="pa-label">Business Activity (please check one) <span class="req">*</span></div>
+              <div class="pa-check-group" style="display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; max-width:480px;">
+                <label class="pa-check-item"><input type="radio" name="bizActivity" value="main" required> Main Office</label>
+                <label class="pa-check-item"><input type="radio" name="bizActivity" value="admin"> Admin Office Only</label>
+                <label class="pa-check-item"><input type="radio" name="bizActivity" value="branch"> Branch Office</label>
+                <label class="pa-check-item"><input type="radio" name="bizActivity" value="warehouse"> Warehouse</label>
+                <label class="pa-check-item" style="grid-column:1/-1;">
+                  <input type="radio" name="bizActivity" value="others"> Others, please specify:
+                  <input class="pa-input" type="text" id="bizActivityOther" name="bizActivityOther" style="width:180px; flex:none; margin-left:6px;" placeholder="Specify…">
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Business location -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <label class="pa-check-item" style="gap:8px;">
+                <input type="checkbox" id="sameAsMain" name="sameAsMain" onchange="toggleBizLocation(this)">
+                <span class="pa-label" style="text-transform:none; font-size:0.9rem; font-weight:600; color:#0d1f4e;">Same as Main Office Address</span>
+              </label>
+            </div>
+          </div>
+
+          <div id="bizLocationFields">
+            <div class="pa-row">
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="blHouseNo">House / Bldg. No.</label>
+                <input class="pa-input" type="text" id="blHouseNo" name="blHouseNo">
+              </div>
+              <div class="pa-field" style="flex:2;">
+                <label class="pa-label" for="blBldgName">Name of Building</label>
+                <input class="pa-input" type="text" id="blBldgName" name="blBldgName">
+              </div>
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="blLotNo">Lot No.</label>
+                <input class="pa-input" type="text" id="blLotNo" name="blLotNo">
+              </div>
+              <div class="pa-field w-quarter">
+                <label class="pa-label" for="blBlockNo">Block No.</label>
+                <input class="pa-input" type="text" id="blBlockNo" name="blBlockNo">
+              </div>
+            </div>
+            <div class="pa-row">
+              <div class="pa-field" style="flex:2;">
+                <label class="pa-label" for="blStreet">Street</label>
+                <input class="pa-input" type="text" id="blStreet" name="blStreet">
+              </div>
+              <div class="pa-field" style="flex:2;">
+                <label class="pa-label" for="blBarangay">Barangay</label>
+                <input class="pa-input" type="text" id="blBarangay" name="blBarangay">
+              </div>
+              <div class="pa-field" style="flex:2;">
+                <label class="pa-label" for="blSubdivision">Subdivision</label>
+                <input class="pa-input" type="text" id="blSubdivision" name="blSubdivision">
+              </div>
+            </div>
+            <div class="pa-row">
+              <div class="pa-field w-third">
+                <label class="pa-label" for="blCity">City / Municipality</label>
+                <input class="pa-input" type="text" id="blCity" name="blCity" value="Davao City">
+              </div>
+              <div class="pa-field w-third">
+                <label class="pa-label" for="blProvince">Province</label>
+                <input class="pa-input" type="text" id="blProvince" name="blProvince" value="Davao del Sur">
+              </div>
+              <div class="pa-field w-third">
+                <label class="pa-label" for="blZip">Zip Code</label>
+                <input class="pa-input" type="text" id="blZip" name="blZip" placeholder="8000">
+              </div>
+            </div>
+          </div>
+
+          <div class="pa-divider"></div>
+
+          <!-- Line of Business table -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <div class="pa-label">Line of Business <span class="req">*</span></div>
+              <table class="pa-lob-table">
+                <thead>
+                  <tr>
+                    <th style="width:80px;">Line of Business (Code)</th>
+                    <th style="width:120px;">Philippine Standard Industrial Code (if available)</th>
+                    <th>Products / Services</th>
+                    <th style="width:90px;">No. of Units</th>
+                    <th style="width:160px;">Last Year's Gross Sales / Receipts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><input type="text" name="lobCode1" placeholder="Code"></td>
+                    <td><input type="text" name="lobPsic1" placeholder="PSIC"></td>
+                    <td><input type="text" name="lobProd1" placeholder="Products/Services"></td>
+                    <td><input type="number" name="lobUnits1" placeholder="0" min="0"></td>
+                    <td><input type="number" name="lobSales1" placeholder="0.00" min="0" step="0.01"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" name="lobCode2"></td>
+                    <td><input type="text" name="lobPsic2"></td>
+                    <td><input type="text" name="lobProd2"></td>
+                    <td><input type="number" name="lobUnits2" min="0"></td>
+                    <td><input type="number" name="lobSales2" min="0" step="0.01"></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" name="lobCode3"></td>
+                    <td><input type="text" name="lobPsic3"></td>
+                    <td><input type="text" name="lobProd3"></td>
+                    <td><input type="number" name="lobUnits3" min="0"></td>
+                    <td><input type="number" name="lobSales3" min="0" step="0.01"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Business description -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <label class="pa-label" for="bizDesc">Line of Business: Business Description <span class="req">*</span></label>
+              <textarea class="pa-textarea" id="bizDesc" name="bizDesc" rows="5" placeholder="Describe the nature of your business activities…" required style="min-height:120px;"></textarea>
+            </div>
+          </div>
+
+        </div><!-- end pa-form-card Section B -->
+
+        <!-- Navigation -->
+        <div class="pa-submit-bar">
+          <button type="button" class="pa-btn-back" onclick="goStep(1)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <button type="button" class="pa-btn-submit" onclick="goStep(3)">
+            Next: Declaration
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+
+      </div><!-- end #paStep2 -->
+
+
+      <!-- ══════════════════════════════════════
+           STEP 3 – Declaration & Signature
+      ══════════════════════════════════════ -->
+      <div id="paStep3" style="display:none;">
+
+        <div class="pa-section-head">Declaration and Signature</div>
+        <div class="pa-form-card" style="border-radius:0 0 6px 6px; padding-bottom:20px;">
+
+          <div class="pa-declaration">
+            I DECLARE UNDER PENALTY OF PERJURY that all information in this application are true and correct based on my personal knowledge and authentic records submitted to the City/Municipal Government. Any false or misleading information supplied, or production of fake/falsified documents shall be grounds for appropriate legal action against me and automatically revokes the permit. I hereby agree that all personal data (as defined under the <strong>Data Privacy Act of 2012</strong> and its Implementing Rules and Regulations) and account transaction information or records with the City/Municipal Government may be processed, profiled or shared to requesting parties or for the purpose of any court, legal process, examination, inquiry and audit or investigation of any authority.
+          </div>
+
+          <!-- Printed name + date -->
+          <div class="pa-row" style="margin-top:24px;">
+            <div class="pa-field w-half">
+              <label class="pa-label" for="printedName">Full Name (Printed) <span class="req">*</span></label>
+              <input class="pa-input" type="text" id="printedName" name="printedName" placeholder="As it appears on valid ID" required>
+              <label class="pa-label" for="designation" style="margin-top:10px;">Designation / Position / Title</label>
+              <input class="pa-input" type="text" id="designation" name="designation" placeholder="Owner / President…">
+            </div>
+            <div class="pa-field w-quarter">
+              <label class="pa-label" for="signDate">Date <span class="req">*</span></label>
+              <input class="pa-input" type="date" id="signDate" name="signDate" required>
+            </div>
+          </div>
+
+          <!-- Signature widget -->
+          <div style="margin-top:20px;">
+            <div class="pa-label" style="margin-bottom:10px;">Signature of Applicant / Owner <span class="req">*</span></div>
+
+            <!-- Tab switcher -->
+            <div class="sig-tabs">
+              <button type="button" class="sig-tab active" id="tabDraw" onclick="switchSigTab('draw')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                Draw Signature
+              </button>
+              <button type="button" class="sig-tab" id="tabUpload" onclick="switchSigTab('upload')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                Upload Signature
+              </button>
+            </div>
+
+            <!-- Draw panel -->
+            <div id="sigDrawPanel" class="sig-panel">
+              <div style="position:relative;">
+                <canvas id="sigCanvas" width="600" height="160" style="display:block; width:100%; touch-action:none;"></canvas>
+                <div class="sig-canvas-hint" id="sigCanvasHint">Sign here</div>
+              </div>
+              <div class="sig-actions">
+                <button type="button" class="sig-action-btn" onclick="clearSignature()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+                  Clear
+                </button>
+                <button type="button" class="sig-save-btn" id="sigSaveBtn" onclick="saveSignature()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Save Signature
+                </button>
+              </div>
+
+              <!-- Saved confirmation -->
+              <div class="sig-saved-bar" id="sigSavedBar" style="display:none;">
+                <div class="sig-saved-left">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Signature saved
+                </div>
+                <button type="button" class="sig-edit-btn" onclick="editSignature()">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  Edit
+                </button>
+              </div>
+            </div>
+
+            <!-- Upload panel -->
+            <div id="sigUploadPanel" class="sig-panel" style="display:none;">
+              <div class="sig-upload-area" id="sigUploadArea"
+                   onclick="document.getElementById('sigFileInput').click()"
+                   ondragover="onSigDragOver(event)"
+                   ondrop="onSigDrop(event)">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                <span>Click to upload or drag &amp; drop<br><small style="opacity:0.65;">PNG, JPG, or GIF</small></span>
+                <input type="file" id="sigFileInput" accept="image/*" style="display:none;" onchange="onSigFileSelect(this)">
+              </div>
+              <div id="sigUploadPreview" style="display:none; text-align:center; margin-top:12px;">
+                <img id="sigUploadImg" src="" alt="Signature preview"
+                     style="max-height:120px; max-width:100%; border:1.5px solid #e2e5ef; border-radius:6px; padding:8px; background:#fff;">
+                <div style="margin-top:8px;">
+                  <button type="button" class="sig-action-btn" onclick="clearUpload()">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pa-divider" style="margin-top:28px;"></div>
+
+          <!-- Consent checkbox -->
+          <div class="pa-row">
+            <div class="pa-field full">
+              <label class="pa-check-item" style="align-items:flex-start; gap:10px;">
+                <input type="checkbox" id="consentCheck" name="consentCheck" required style="margin-top:3px;">
+                <span style="font-family:'Source Sans 3',sans-serif; font-size:0.88rem; line-height:1.6; color:#4a5068;">
+                  I have read and understood the declaration above. I consent to the collection and processing of my personal data as described.
+                </span>
+              </label>
+            </div>
+          </div>
+
+        </div><!-- end pa-form-card Declaration -->
+
+        <!-- Final navigation -->
+        <div class="pa-submit-bar">
+          <button type="button" class="pa-btn-back" onclick="goStep(2)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            Back
+          </button>
+          <div style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
+            <button type="submit" class="pa-btn-submit" id="submitBtn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Submit Pre-Assessment
+            </button>
+            <span class="pa-required-note"><span>*</span> All required fields must be completed before submitting</span>
+          </div>
+        </div>
+
+      </div><!-- end #paStep3 -->
+
+    </form><!-- end #paForm -->
+
+    <!-- ── Success screen ── -->
+    <div class="pa-success" id="paSuccess">
+      <div class="pa-success-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Application Submitted</h2>
+      <p>Your Pre-Assessment form has been successfully submitted. The Business Bureau will review your information and contact you regarding the next steps.</p>
+      <div class="pa-success-ref" id="paRefNo">Reference No.: PA-2025-000001</div>
+      <p class="pa-note">Please keep this reference number for follow-up. You may also visit our office at the Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, Davao City.</p>
+      <a href="business-bureau.html" class="pa-btn-submit" style="text-decoration:none; margin-top:8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Return to Home
+      </a>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+    FOOTER
+  ============================================================ -->
+  <footer id="contact">
+    <div class="footer-inner">
+
+      <!-- Column 1: Links -->
+      <div class="footer-col">
+        <h4>Links</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
+        </div>
+      </div>
+
+      <!-- Column 2: Location -->
+      <div class="footer-col">
+        <h4>Location</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>Taxpayers' Lounge, Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
+        </div>
+      </div>
+
+      <!-- Column 3: Contact Information -->
+      <div class="footer-col">
+        <h4>Contact Information</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+          <span>(082) 241-1000 Loc 377/378</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <span>busbureau@davaocity.gov.ph</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
+          </svg>
+          <a href="https://m.me/busbureaudavao" target="_blank" rel="noopener"
+             style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
+             onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">
+            Business Bureau - Davao City
+          </a>
+        </div>
+      </div>
+
+      <!-- Column 4: Logos -->
+      <div class="footer-col footer-logos">
+        <div class="logo-grid">
+          <div class="logo-placeholder">
+            <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
+          </div>
+          <div class="logo-placeholder">
+            <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
+          </div>
+          <div class="logo-placeholder">
+            <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end .footer-inner -->
+
+    <div class="footer-bottom">
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- Settings widget -->
+  <div class="settings-wrap" id="settingsWrap">
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+    <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
+      <div class="settings-label">Appearance</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Dark Mode
+        </span>
+        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-divider"></div>
+      <div class="settings-label">Language</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Filipino
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Translation coming soon</div>
+      <div class="settings-divider"></div>
+      <div class="settings-label">Admin</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Enter Admin Mode
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Admin features coming soon</div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+
+  <script>
+    /* ── Signature: tab switching ── */
+    function switchSigTab(tab) {
+      document.getElementById('tabDraw').classList.toggle('active', tab === 'draw');
+      document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
+      document.getElementById('sigDrawPanel').style.display  = tab === 'draw'   ? 'block' : 'none';
+      document.getElementById('sigUploadPanel').style.display = tab === 'upload' ? 'block' : 'none';
+    }
+
+    /* ── Signature: draw on canvas ── */
+    (function initCanvas() {
+      const canvas  = document.getElementById('sigCanvas');
+      const ctx     = canvas.getContext('2d');
+      const hint    = document.getElementById('sigCanvasHint');
+      let drawing   = false;
+      let hasMark   = false;
+
+      function pos(e) {
+        const r = canvas.getBoundingClientRect();
+        const scaleX = canvas.width  / r.width;
+        const scaleY = canvas.height / r.height;
+        const src = e.touches ? e.touches[0] : e;
+        return { x: (src.clientX - r.left) * scaleX, y: (src.clientY - r.top) * scaleY };
+      }
+
+      function startDraw(e) {
+        e.preventDefault();
+        drawing = true;
+        const p = pos(e);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        if (!hasMark) { hint.style.opacity = '0'; hasMark = true; }
+      }
+      function draw(e) {
+        if (!drawing) return;
+        e.preventDefault();
+        const p = pos(e);
+        ctx.lineWidth   = 2;
+        ctx.lineCap     = 'round';
+        ctx.lineJoin    = 'round';
+        ctx.strokeStyle = document.body.classList.contains('dark') ? '#ffffff' : '#0d1f4e';
+        ctx.lineTo(p.x, p.y);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+      }
+      function endDraw() { drawing = false; ctx.beginPath(); }
+
+      canvas.addEventListener('mousedown',  startDraw);
+      canvas.addEventListener('mousemove',  draw);
+      canvas.addEventListener('mouseup',    endDraw);
+      canvas.addEventListener('mouseleave', endDraw);
+      canvas.addEventListener('touchstart', startDraw, { passive: false });
+      canvas.addEventListener('touchmove',  draw,      { passive: false });
+      canvas.addEventListener('touchend',   endDraw);
+    })();
+
+    function clearSignature() {
+      const canvas = document.getElementById('sigCanvas');
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      canvas.classList.remove('locked');
+      document.getElementById('sigCanvasHint').style.opacity = '1';
+      document.getElementById('sigSavedBar').style.display = 'none';
+      document.getElementById('sigSaveBtn').style.display  = 'flex';
+    }
+
+    function saveSignature() {
+      const canvas = document.getElementById('sigCanvas');
+      // Check canvas has actual marks (not blank)
+      const ctx   = canvas.getContext('2d');
+      const px    = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      const blank = px.every(v => v === 0);
+      if (blank) {
+        canvas.style.outline = '2px solid #c0392b';
+        setTimeout(() => canvas.style.outline = '', 1200);
+        return;
+      }
+      // Lock the canvas and show confirmation
+      canvas.classList.add('locked');
+      document.getElementById('sigCanvasHint').style.opacity = '0';
+      document.getElementById('sigSaveBtn').style.display    = 'none';
+      document.getElementById('sigSavedBar').style.display   = 'flex';
+    }
+
+    function editSignature() {
+      const canvas = document.getElementById('sigCanvas');
+      canvas.classList.remove('locked');
+      document.getElementById('sigSavedBar').style.display = 'none';
+      document.getElementById('sigSaveBtn').style.display  = 'flex';
+    }
+
+    /* ── Signature: file upload ── */
+    function onSigFileSelect(input) {
+      if (!input.files || !input.files[0]) return;
+      const reader = new FileReader();
+      reader.onload = function(e) { showUploadPreview(e.target.result); };
+      reader.readAsDataURL(input.files[0]);
+    }
+    function showUploadPreview(src) {
+      document.getElementById('sigUploadImg').src    = src;
+      document.getElementById('sigUploadArea').style.display    = 'none';
+      document.getElementById('sigUploadPreview').style.display = 'block';
+    }
+    function clearUpload() {
+      document.getElementById('sigFileInput').value  = '';
+      document.getElementById('sigUploadImg').src    = '';
+      document.getElementById('sigUploadArea').style.display    = 'flex';
+      document.getElementById('sigUploadPreview').style.display = 'none';
+    }
+    function onSigDragOver(e) {
+      e.preventDefault();
+      document.getElementById('sigUploadArea').classList.add('dragover');
+    }
+    function onSigDrop(e) {
+      e.preventDefault();
+      document.getElementById('sigUploadArea').classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = ev => showUploadPreview(ev.target.result);
+        reader.readAsDataURL(file);
+      }
+    }
+
+    /* ── Owned? dropdown → show/hide tax fields ── */
+    function toggleOwnershipFields(val) {
+      document.getElementById('ownershipExtraFields').style.display = val === 'yes' ? 'block' : 'none';
+    }
+
+    /* ── Auto-set today's date on the declaration ── */
+    const _today = new Date();
+    const _yyyy  = _today.getFullYear();
+    const _mm    = String(_today.getMonth() + 1).padStart(2, '0');
+    const _dd    = String(_today.getDate()).padStart(2, '0');
+    document.getElementById('signDate').value = `${_yyyy}-${_mm}-${_dd}`;
+
+    /* ── Business structure dropdown → conditional blocks ── */
+    function onBizStructureChange(val) {
+      // Hide all conditional blocks first
+      ['block-sole', 'block-opc', 'block-officer', 'block-corpnat'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+
+      if (val === 'sole') {
+        document.getElementById('block-sole').style.display = 'block';
+      } else if (val === 'opc') {
+        document.getElementById('block-opc').style.display = 'block';
+      } else if (val === 'corporation') {
+        document.getElementById('officerLabel').textContent = 'Name of President / Officer in Charge *';
+        document.getElementById('block-officer').style.display = 'block';
+        document.getElementById('block-corpnat').style.display = 'block';
+      } else if (val === 'partnership') {
+        document.getElementById('officerLabel').textContent = 'Name of Officer in Charge *';
+        document.getElementById('block-officer').style.display = 'block';
+      } else if (val === 'cooperative') {
+        document.getElementById('officerLabel').textContent = 'Name of Chairperson / Officer in Charge *';
+        document.getElementById('block-officer').style.display = 'block';
+      }
+    }
+
+    /* ── Step navigation ── */
+    function goStep(n) {
+      [1, 2, 3].forEach(i => {
+        document.getElementById('paStep' + i).style.display = i === n ? 'block' : 'none';
+        const ind = document.getElementById('step' + i + 'Indicator');
+        ind.classList.toggle('active', i === n);
+        ind.classList.toggle('done',   i < n);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── Toggle business location fields ── */
+    function toggleBizLocation(cb) {
+      const fields = document.getElementById('bizLocationFields');
+      fields.style.display = cb.checked ? 'none' : 'block';
+    }
+
+    /* ── Form submit ── */
+    document.getElementById('paForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const consent = document.getElementById('consentCheck');
+      if (!consent.checked) {
+        consent.reportValidity();
+        return;
+      }
+
+      // Generate reference number
+      const now = new Date();
+      const ref = 'PA-' + now.getFullYear() + '-' + String(Math.floor(Math.random() * 900000) + 100000);
+      document.getElementById('paRefNo').textContent = 'Reference No.: ' + ref;
+
+      // Show success
+      document.getElementById('paForm').style.display  = 'none';
+      document.getElementById('paSteps').style.display = 'none';
+      document.querySelector('.pa-info-banner').style.display = 'none';
+      document.getElementById('paSuccess').style.display = 'flex';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+
+</body>
+</html>
