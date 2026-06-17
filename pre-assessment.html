@@ -1940,12 +1940,19 @@
       fields.style.display = cb.checked ? 'none' : 'block';
     }
 
-    /* ── Form submit ── */
-    document.getElementById('paForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const consent = document.getElementById('consentCheck');
-      if (!consent.checked) { consent.reportValidity(); return; }
-      openReview();
+    /* ── Form submit (deferred until DOM ready) ── */
+    document.addEventListener('DOMContentLoaded', function() {
+      var pf = document.getElementById('paForm');
+      if (pf) pf.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const consent = document.getElementById('consentCheck');
+        if (!consent.checked) { consent.reportValidity(); return; }
+        openReview();
+      });
+      var rm = document.getElementById('reviewModal');
+      if (rm) rm.addEventListener('click', function(e) {
+        if (e.target === this) closeReview();
+      });
     });
 
     /* ── Review modal helpers ── */
@@ -2203,26 +2210,34 @@
       doc.setFillColor(210,210,210); doc.rect(ML,y,CW,6,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,6);
       S(8); B(); T('A.  BUSINESS INFORMATION AND REGISTRATION', ML+2, y+4.2); y+=6;
 
-      /* Business structure */
-      R(ML,y,CW,13,0.25);
-      S(7); B(); T('Please choose one', ML+2, y+3.5);
+      /* Business structure — fit-to-content height */
       const structVal = document.getElementById('bizStructure')?.value||'';
       const structs=[['sole','Sole Proprietorship'],['opc','One Person Corporation (OPC)'],
                      ['partnership','Partnership'],['corporation','Corporation'],['cooperative','Cooperative']];
-      S(7); N();
-      // Row 1: first 3 options
-      let sx = ML+36;
-      structs.slice(0,3).forEach(([v,l]) => { T(chk(structVal,v)+' '+l, sx, y+3.5); sx += doc.getTextWidth(chk(structVal,v)+' '+l)+6; });
-      // Row 2: last 2 options
-      sx = ML+36;
-      structs.slice(3).forEach(([v,l]) => { T(chk(structVal,v)+' '+l, sx, y+7.5); sx += doc.getTextWidth(chk(structVal,v)+' '+l)+6; });
-
-      /* gender row */
       const spG=rv('spGender'), opcG=rv('opcGender'), corpNat=rv('corpNat');
+      // Measure row 1 height at size 7, row 2 height at size 6.5, plus padding
+      const structLineH1 = 7 * 0.352 + 1.2;  // ~3.66mm per line at size 7
+      const structLineH2 = 6.5 * 0.352 + 1.2; // ~3.49mm per line at size 6.5
+      const structPadTop = 2.5, structPadBot = 2.5, structRowGap = 2;
+      const structH = structPadTop + structLineH1 + structRowGap + structLineH2 + structPadBot;
+      R(ML,y,CW,structH,0.25);
+      const row1Y = y + structPadTop + structLineH1;
+      const row2Y = row1Y + structRowGap + structLineH2;
+      S(7); B(); T('Please choose one', ML+2, row1Y);
+      S(7); N();
+      // Row 1: all 5 options on one line — track x positions for gender alignment
+      const structPositions = {};
+      let sx = ML+36;
+      structs.forEach(([v,l]) => {
+        structPositions[v] = sx;
+        T(chk(structVal,v)+' '+l, sx, row1Y);
+        sx += doc.getTextWidth(chk(structVal,v)+' '+l)+6;
+      });
+      // Row 2: gender sub-labels aligned under Sole Proprietorship and OPC
       S(6.5); N();
-      T(chk(spG,'female')+' Female  '+chk(spG,'male')+' Male', ML+2, y+11.5);
-      T('One Person Corp:  '+chk(opcG,'male')+' Male  '+chk(opcG,'female')+' Female', ML+70, y+11.5);
-      y+=13;
+      T(chk(spG,'male')+' Male  '+chk(spG,'female')+' Female', structPositions['sole'], row2Y);
+      T(chk(opcG,'male')+' Male  '+chk(opcG,'female')+' Female', structPositions['opc'], row2Y);
+      y += structH;
 
       /* DTI / TIN */
       R(ML,y,CW/2,7,0.25); R(ML+CW/2,y,CW/2,7,0.25);
@@ -2283,14 +2298,26 @@
       const dataW     = CW - labelColW;
       const colW      = [dataW*0.27, dataW*0.27, dataW*0.27, dataW*0.19]; // Surname, Given, Middle, Suffix
       function nameRow(line1, line2, vals) {
-        const h = 14;
+        // Split label lines to fit within labelColW, then size row to content
+        S(6); B();
+        const line1Parts = doc.splitTextToSize(line1, labelColW - 4);
+        const line2Parts = doc.splitTextToSize(line2, labelColW - 4);
+        const allLabelLines = [...line1Parts, ...line2Parts];
+        const lineH = 3.6; // mm per line at size 6
+        const labelContentH = allLabelLines.length * lineH + 2;
+        const minH = 14;
+        const h = Math.max(minH, labelContentH + 6); // +6 for header row + value row
+
         R(ML, y, CW, h, 0.25);
         VL(ML+labelColW, y, y+h, 0.25);
-        // Label col: two lines of text
+
+        // Draw label lines vertically centered
+        const labelStartY = y + (h - allLabelLines.length * lineH) / 2 + lineH;
         S(6); B();
-        T(line1, ML+2, y+4);
-        T(line2, ML+2, y+8);
-        // Header row for data cols
+        line1Parts.forEach((ln, i) => T(ln, ML+2, labelStartY + i * lineH));
+        line2Parts.forEach((ln, i) => T(ln, ML+2, labelStartY + line1Parts.length * lineH + i * lineH));
+
+        // Header row for data cols — positioned in top portion
         let nx = ML+labelColW;
         const headers = ['Surname','Given Name','Middle Name','Suffix'];
         S(6.5); B();
@@ -2299,10 +2326,10 @@
           nx += w;
           if (i < 3) VL(nx, y, y+h, 0.25);
         });
-        // Values
+        // Values — positioned near bottom
         nx = ML+labelColW;
         N(); S(7);
-        vals.forEach((v,i) => { T(v, nx+2, y+12); nx += colW[i]; });
+        vals.forEach((v,i) => { T(v, nx+2, y+h-3); nx += colW[i]; });
         y += h;
       }
       const ownerVals = structVal==='sole' ? [fv('ownerSurname'),fv('ownerGiven'),fv('ownerMiddle'),fv('ownerSuffix')]
@@ -2311,7 +2338,7 @@
       const offVals = ['corporation','partnership','cooperative'].includes(structVal)
                       ? [fv('offSurname'),fv('offGiven'),fv('offMiddle'),fv('offSuffix')] : ['','','',''];
       nameRow('(For Sole Proprietorship)', 'Name of Owner', ownerVals);
-      nameRow('(For Corps/Coop/Partnerships)', 'Name of President/Officer in Charge', offVals);
+      nameRow('(For Corporations/Cooperatives/Partnerships)', 'Name of President/Officer in Charge', offVals);
 
       /* Corp nationality */
       R(ML,y,CW,6,0.25); S(6.5); B(); T('For Corporation:', ML+2, y+4);
@@ -2323,10 +2350,10 @@
 
       /* ── B. Business Operation — 4 columns ── */
       // Col1: Area | Col2: Total Employees + Male/Female | Col3: Residing within | Col4: Delivery Vehicles
-      const c1x = ML,      c1w = 46;
-      const c2x = ML+46,   c2w = 60;
-      const c3x = ML+106,  c3w = 42;
-      const c4x = ML+148,  c4w = CW-148;
+      const c1x = ML,       c1w = 44;
+      const c2x = ML+44,    c2w = 48;
+      const c3x = ML+92,    c3w = 40;
+      const c4x = ML+132,   c4w = CW-132;
       const opH = 14;
 
       R(ML, y, CW, opH, 0.25);
@@ -2340,27 +2367,30 @@
       B(); T('Business Area (in sq.m.):', c1x+2, y+4);
       N(); T(fv('bizArea'), c1x+36, y+4); HL(y+4.5, c1x+36, c1x+c1w-2, 0.15);
 
-      B(); T('Total No. of Employees in Establishment', c2x+2, y+4);
+      S(6); B(); T('Total No. of Employees', c2x+2, y+3.5);
+      B(); T('in Establishment', c2x+2, y+6.5);
 
-      B(); T('No. of Employees Residing within', c3x+2, y+4);
+      S(6); B(); T('No. of Employees', c3x+2, y+3.5);
+      B(); T('Residing within', c3x+2, y+6.5);
 
-      B(); T('No. of Delivery Vehicles (If applicable)', c4x+2, y+4);
+      S(6); B(); T('No. of Delivery Vehicles', c4x+2, y+3.5);
+      B(); T('(If applicable)', c4x+2, y+6.5);
 
       // Row 2
       B(); T('Total Floor Area (in sq.m.):', c1x+2, y+11);
       N(); T(fv('floorArea'), c1x+36, y+11); HL(y+11.5, c1x+36, c1x+c1w-2, 0.15);
 
       B(); T('Male', c2x+2, y+11);
-      N(); T(fv('empMale'), c2x+12, y+11); HL(y+11.5, c2x+12, c2x+30, 0.15);
-      B(); T('Female', c2x+32, y+11);
-      N(); T(fv('empFemale'), c2x+44, y+11); HL(y+11.5, c2x+44, c2x+c2w-2, 0.15);
+      N(); T(fv('empMale'), c2x+12, y+11); HL(y+11.5, c2x+12, c2x+22, 0.15);
+      B(); T('Female', c2x+24, y+11);
+      N(); T(fv('empFemale'), c2x+36, y+11); HL(y+11.5, c2x+36, c2x+c2w-2, 0.15);
 
       N(); T(fv('empResiding'), c3x+2, y+11); HL(y+11.5, c3x+2, c3x+c3w-2, 0.15);
 
       B(); T('Van/Truck', c4x+2, y+11);
-      N(); T(fv('dvVan'), c4x+16, y+11); HL(y+11.5, c4x+16, c4x+30, 0.15);
-      B(); T('Motorcycle', c4x+32, y+11);
-      N(); T(fv('dvMoto'), c4x+46, y+11); HL(y+11.5, c4x+46, c4x+c4w-2, 0.15);
+      N(); T(fv('dvVan'), c4x+16, y+11); HL(y+11.5, c4x+16, c4x+26, 0.15);
+      B(); T('Motorcycle', c4x+28, y+11);
+      N(); T(fv('dvMoto'), c4x+40, y+11); HL(y+11.5, c4x+40, c4x+c4w-1, 0.15);
 
       y += opH;
 
@@ -2396,16 +2426,16 @@
       B(); T('Zip Code', ML+132, y+19.5); N(); T(bl.z, ML+144, y+19.5); HL(y+20,ML+144,ML+CW,0.15);
       y += blH;
 
-      /* Owned */
+      /* Owned + Tax Declaration + Property ID — single row */
       const ownedVal = document.getElementById('ownership')?.value||'';
       R(ML,y,CW,7,0.25); S(6.5);
       B(); T('Owned?', ML+2, y+4.5); N();
       T(chk(ownedVal,'yes')+' Yes', ML+18, y+4.5);
-      T(chk(ownedVal,'no')+' No',   ML+36, y+4.5);
-      if(ownedVal==='yes'){
-        B(); T('Tax Declaration No.:', ML+50, y+4.5); N(); T(fv('taxDecNo'), ML+84, y+4.5); HL(y+5,ML+84,ML+128,0.15);
-        B(); T('Property Identification No.:', ML+130, y+4.5); N(); T(fv('propIdNo'), ML+168, y+4.5); HL(y+5,ML+168,ML+CW,0.15);
-      }
+      T(chk(ownedVal,'no')+' No',   ML+34, y+4.5);
+      B(); T('If Yes, Tax Declaration No', ML+50, y+4.5);
+      N(); T(ownedVal==='yes'?fv('taxDecNo'):'', ML+90, y+4.5); HL(y+5, ML+90, ML+118, 0.15);
+      B(); T('or Property Identification No.', ML+120, y+4.5);
+      N(); T(ownedVal==='yes'?fv('propIdNo'):'', ML+162, y+4.5); HL(y+5, ML+162, ML+CW, 0.15);
       y+=7;
 
       /* Tax incentives */
@@ -2432,7 +2462,7 @@
         {l:'No. of\nUnits',                     w:20},
         {l:"Last Year's Gross\nSales/Receipts", w:CW-136}
       ];
-      const lRowH=9, lHdrH=14, lTotalH=lHdrH+3*lRowH;
+      const lRowH=7, lHdrH=14, lTotalH=lHdrH+1*lRowH;
       R(ML,y,CW,lTotalH,0.25);
       let lx=ML; S(5.5); B();
       lCols.forEach((c,i)=>{
@@ -2440,7 +2470,7 @@
         lx+=c.w; if(i<lCols.length-1) VL(lx,y,y+lTotalH,0.25);
       });
       HL(y+lHdrH,ML,ML+CW,0.25);
-      for(let i=1;i<=3;i++){
+      for(let i=1;i<=1;i++){
         const ry=y+lHdrH+(i-1)*lRowH;
         if(i>1) HL(ry,ML,ML+CW,0.15);
         lx=ML; N(); S(7);  // reset lx for each row
@@ -2522,10 +2552,6 @@
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    // Close modal on overlay click
-    document.getElementById('reviewModal').addEventListener('click', function(e) {
-      if (e.target === this) closeReview();
-    });
     // Close on Escape
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closeReview();
