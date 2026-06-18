@@ -2137,7 +2137,7 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [215.9, 330.2] });
 
-      const PW = 215.9, ML = 14, MR = 14, MT = 12;
+      const PW = 215.9, ML = 10, MR = 10, MT = 8;
       const CW = PW - ML - MR;
       let y = MT;
 
@@ -2155,37 +2155,36 @@
       const R  = (x,yy,w,h,lw)   => { doc.setLineWidth(lw||0.25); doc.rect(x,yy,w,h); };
 
       function fieldVal(label, value, x, yy, lineEnd) {
-        S(6.5); B(); T(label+':', x, yy);
+        S(6); B(); T(label+':', x, yy);
         N(); T(value, x + doc.getTextWidth(label+': ') + 1, yy);
         HL(yy+0.8, x + doc.getTextWidth(label+': '), lineEnd, 0.15);
       }
 
-      /* ══ LOGOS ══ */
-      const sqSize = 18;
-      const artaW  = 36;
-      const artaH  = 13;
-      const gap    = 10;
+      /* ══ LOGOS (reduced size) ══ */
+      const sqSize = 12;
+      const artaW  = 24;
+      const artaH  = 9;
+      const gap    = 7;
       const totalW = artaW + gap + sqSize + gap + sqSize + gap + sqSize;
       const startX = (PW - totalW) / 2;
-      const rowH   = sqSize; // tallest element sets row height
-      // Vertically center each logo within the row
+      const rowH   = sqSize;
       const logoPositions = [
-        { src: LOGO_ARTA, w: artaW, h: artaH, x: startX,                          y: y + (rowH - artaH) / 2 },
-        { src: LOGO_DTI,  w: sqSize, h: sqSize, x: startX + artaW + gap,           y: y },
-        { src: LOGO_DILG, w: sqSize, h: sqSize, x: startX + artaW + gap*2 + sqSize,  y: y },
-        { src: LOGO_DICT, w: sqSize, h: sqSize, x: startX + artaW + gap*3 + sqSize*2, y: y },
+        { src: LOGO_ARTA, w: artaW, h: artaH, x: startX,                               y: y + (rowH - artaH) / 2 },
+        { src: LOGO_DTI,  w: sqSize, h: sqSize, x: startX + artaW + gap,                y: y },
+        { src: LOGO_DILG, w: sqSize, h: sqSize, x: startX + artaW + gap*2 + sqSize,     y: y },
+        { src: LOGO_DICT, w: sqSize, h: sqSize, x: startX + artaW + gap*3 + sqSize*2,   y: y },
       ];
       logoPositions.forEach(({ src, w, h, x, y: ly }) => {
         try { doc.addImage(src.split(',')[1], 'PNG', x, ly, w, h); } catch(e) {}
       });
-      y += rowH + 5;
+      y += rowH + 3;
 
       /* ══ TITLE ══ */
-      S(8); N(); T('Annex 1', PW/2, y, {align:'center'}); y += 5;
-      S(10); B(); T('UNIFIED APPLICATION FORM FOR BUSINESS PERMIT', PW/2, y, {align:'center'}); y += 10;
+      S(7); N(); T('Annex 1', PW/2, y, {align:'center'}); y += 4;
+      S(9); B(); T('UNIFIED APPLICATION FORM FOR BUSINESS PERMIT', PW/2, y, {align:'center'}); y += 7;
 
       /* ══ APP TYPE TABLE ══ */
-      const tW = 56, tH = 20;
+      const tW = 52, tH = 17;
       R(ML, y, tW, tH, 0.3);
       HL(y+tH/3, ML, ML+tW); HL(y+tH*2/3, ML, ML+tW);
       VL(ML+tW/2, y, y+tH);
@@ -2193,71 +2192,72 @@
       const appType = rv('appType'), appFreq = rv('appFreq');
       const typeRows = [['new','NEW'],['renewal','RENEWAL'],['additional','ADDITIONAL']];
       const freqRows = [['annual','Annual'],['biannual','Bi-annually'],['quarterly','Quarterly']];
-      S(7); N();
-      typeRows.forEach(([k,l],i) => T(chk(appType,k)+' '+l, ML+1.5, y+5+i*(tH/3)));
-      freqRows.forEach(([k,l],i) => T(chk(appFreq,k)+' '+l, ML+tW/2+1.5, y+5+i*(tH/3)));
+      S(6.5); N();
+      typeRows.forEach(([k,l],i) => T(chk(appType,k)+' '+l, ML+1.5, y+4.5+i*(tH/3)));
+      freqRows.forEach(([k,l],i) => T(chk(appFreq,k)+' '+l, ML+tW/2+1.5, y+4.5+i*(tH/3)));
 
-      /* tracking fields (right of table) */
-      const trX = ML+tW+8;
-      S(7); N();
-      ['Date of Receipt','Tracking Number','Business ID Number'].forEach((lbl,i) => {
-        T(lbl+':', trX, y+5+i*(tH/3));
-        HL(y+6+i*(tH/3), trX+35, PW-MR, 0.2);
+      /* tracking fields (right-aligned, labels left-aligned as a group) */
+      const lineLen = 46;
+      const lineEnd = PW - MR;
+      const trackLabels = ['Date of Receipt','Tracking Number','Business ID Number'];
+      const maxLblW = Math.max(...trackLabels.map(l => doc.getTextWidth(l + ': ')));
+      const blockX = lineEnd - maxLblW - lineLen;
+      S(6.5); N();
+      trackLabels.forEach((lbl, i) => {
+        const rowY = y + 4.5 + i * (tH / 3);
+        T(lbl + ': ', blockX, rowY);
+        HL(rowY + 1, blockX + maxLblW, lineEnd, 0.2);
       });
-      y += tH+6;
+      y += tH + 4;
 
       /* ══ SECTION A HEADER ══ */
-      doc.setFillColor(210,210,210); doc.rect(ML,y,CW,6,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,6);
-      S(8); B(); T('A.  BUSINESS INFORMATION AND REGISTRATION', ML+2, y+4.2); y+=6;
+      doc.setFillColor(210,210,210); doc.rect(ML,y,CW,5,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,5);
+      S(7); B(); T('A.  BUSINESS INFORMATION AND REGISTRATION', ML+2, y+3.5); y+=5;
 
-      /* Business structure — fit-to-content height */
+      /* Business structure */
       const structVal = document.getElementById('bizStructure')?.value||'';
       const structs=[['sole','Sole Proprietorship'],['opc','One Person Corporation (OPC)'],
                      ['partnership','Partnership'],['corporation','Corporation'],['cooperative','Cooperative']];
       const spG=rv('spGender'), opcG=rv('opcGender'), corpNat=rv('corpNat');
-      // Measure row 1 height at size 7, row 2 height at size 6.5, plus padding
-      const structLineH1 = 7 * 0.352 + 1.2;  // ~3.66mm per line at size 7
-      const structLineH2 = 6.5 * 0.352 + 1.2; // ~3.49mm per line at size 6.5
-      const structPadTop = 2.5, structPadBot = 2.5, structRowGap = 2;
+      const structLineH1 = 6.5 * 0.352 + 1.0;
+      const structLineH2 = 6 * 0.352 + 1.0;
+      const structPadTop = 2, structPadBot = 2, structRowGap = 1.5;
       const structH = structPadTop + structLineH1 + structRowGap + structLineH2 + structPadBot;
       R(ML,y,CW,structH,0.25);
       const row1Y = y + structPadTop + structLineH1;
       const row2Y = row1Y + structRowGap + structLineH2;
-      S(7); B(); T('Please choose one', ML+2, row1Y);
-      S(7); N();
-      // Row 1: all 5 options on one line — track x positions for gender alignment
+      S(6.5); B(); T('Please choose one', ML+2, row1Y);
+      S(6.5); N();
       const structPositions = {};
-      let sx = ML+36;
+      let sx = ML+34;
       structs.forEach(([v,l]) => {
         structPositions[v] = sx;
         T(chk(structVal,v)+' '+l, sx, row1Y);
-        sx += doc.getTextWidth(chk(structVal,v)+' '+l)+6;
+        sx += doc.getTextWidth(chk(structVal,v)+' '+l)+5;
       });
-      // Row 2: gender sub-labels aligned under Sole Proprietorship and OPC
-      S(6.5); N();
+      S(6); N();
       T(chk(spG,'male')+' Male  '+chk(spG,'female')+' Female', structPositions['sole'], row2Y);
       T(chk(opcG,'male')+' Male  '+chk(opcG,'female')+' Female', structPositions['opc'], row2Y);
       y += structH;
 
       /* DTI / TIN */
-      R(ML,y,CW/2,7,0.25); R(ML+CW/2,y,CW/2,7,0.25);
-      S(6.5); B(); T('DTI/SEC/CDA Registration Number:', ML+2, y+3); N(); T(fv('dtiReg'), ML+2, y+6);
-      B(); T('Tax Identification Number (TIN):', ML+CW/2+2, y+3); N(); T(fv('tin'), ML+CW/2+2, y+6); y+=7;
+      R(ML,y,CW/2,6,0.25); R(ML+CW/2,y,CW/2,6,0.25);
+      S(6); B(); T('DTI/SEC/CDA Registration Number:', ML+2, y+2.5); N(); T(fv('dtiReg'), ML+2, y+5.5);
+      B(); T('Tax Identification Number (TIN):', ML+CW/2+2, y+2.5); N(); T(fv('tin'), ML+CW/2+2, y+5.5); y+=6;
 
       /* Business Name */
-      R(ML,y,CW,7,0.25); S(6.5); B(); T('Business Name:', ML+2, y+3); N(); T(fv('bizName'), ML+28, y+6); y+=7;
+      R(ML,y,CW,6,0.25); S(6); B(); T('Business Name:', ML+2, y+2.5); N(); T(fv('bizName'), ML+26, y+5.5); y+=6;
 
       /* Trade Name */
-      R(ML,y,CW,7,0.25); B(); T('Trade Name/Franchise (If applicable):', ML+2, y+3); N(); T(fv('tradeName'), ML+60, y+6); y+=7;
+      R(ML,y,CW,6,0.25); B(); T('Trade Name/Franchise (If applicable):', ML+2, y+2.5); N(); T(fv('tradeName'), ML+58, y+5.5); y+=6;
 
-      /* ── Main Office Address (one grouped cell, 3 internal rows) ── */
-      const addrH = 21; // 3 rows × 7mm
-      R(ML, y, CW, addrH, 0.35); // single outer border
-      S(6.5);
+      /* ── Main Office Address ── */
+      const addrH = 18;
+      R(ML, y, CW, addrH, 0.35);
+      S(6);
 
-      // Row 1: label header top-left + fields
-      const r1y = y+5;
-      B(); T('Main Office Address:', ML+2, y+2.5);
+      const r1y = y+4.5;
+      B(); T('Main Office Address:', ML+2, y+2);
       B(); T('House/Bldg. No.', ML+2, r1y);
       N(); T(fv('houseNo'), ML+26, r1y); HL(r1y+0.8, ML+26, ML+56, 0.15);
       B(); T('Name of Building', ML+58, r1y);
@@ -2267,8 +2267,7 @@
       B(); T('Block No.', ML+160, r1y);
       N(); T(fv('blockNo'), ML+173, r1y); HL(r1y+0.8, ML+173, ML+CW, 0.15);
 
-      // Row 2: Street | Barangay | Subdivision
-      const r2y = y+12;
+      const r2y = y+10;
       B(); T('Street', ML+2, r2y);
       N(); T(fv('street'), ML+14, r2y); HL(r2y+0.8, ML+14, ML+60, 0.15);
       B(); T('Barangay', ML+62, r2y);
@@ -2276,8 +2275,7 @@
       B(); T('Subdivision', ML+128, r2y);
       N(); T(fv('subdivision'), ML+144, r2y); HL(r2y+0.8, ML+144, ML+CW, 0.15);
 
-      // Row 3: City/Municipality | Province | Zip Code
-      const r3y = y+19;
+      const r3y = y+16;
       B(); T('City/Municipality', ML+2, r3y);
       N(); T(fv('cityMun'), ML+30, r3y); HL(r3y+0.8, ML+30, ML+74, 0.15);
       B(); T('Province', ML+76, r3y);
@@ -2296,7 +2294,7 @@
       // 5-column name row: col1=label | col2=Surname | col3=Given Name | col4=Middle Name | col5=Suffix
       const labelColW = 52;
       const dataW     = CW - labelColW;
-      const colW      = [dataW*0.27, dataW*0.27, dataW*0.27, dataW*0.19]; // Surname, Given, Middle, Suffix
+      const colW      = [dataW*0.27, dataW*0.33, dataW*0.27, dataW*0.13]; // Surname, Given, Middle, Suffix
       function nameRow(line1, line2, vals) {
         // Split label lines to fit within labelColW, then size row to content
         S(6); B();
@@ -2341,202 +2339,182 @@
       nameRow('(For Corporations/Cooperatives/Partnerships)', 'Name of President/Officer in Charge', offVals);
 
       /* Corp nationality */
-      R(ML,y,CW,6,0.25); S(6.5); B(); T('For Corporation:', ML+2, y+4);
-      N(); T(chk(corpNat,'filipino')+' Filipino    '+chk(corpNat,'foreign')+' Foreign', ML+30, y+4); y+=6;
+      R(ML,y,CW,5,0.25); S(6); B(); T('For Corporation:', ML+2, y+3.5);
+      N(); T(chk(corpNat,'filipino')+' Filipino    '+chk(corpNat,'foreign')+' Foreign', ML+28, y+3.5); y+=5;
 
       /* ══ SECTION B HEADER ══ */
-      doc.setFillColor(210,210,210); doc.rect(ML,y,CW,6,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,6);
-      S(8); B(); T('B.  BUSINESS OPERATION', ML+2, y+4.2); y+=6;
+      doc.setFillColor(210,210,210); doc.rect(ML,y,CW,5,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,5);
+      S(7); B(); T('B.  BUSINESS OPERATION', ML+2, y+3.5); y+=5;
 
       /* ── B. Business Operation — 4 columns ── */
-      // Col1: Area | Col2: Total Employees + Male/Female | Col3: Residing within | Col4: Delivery Vehicles
-      const c1x = ML,       c1w = 44;
-      const c2x = ML+44,    c2w = 48;
-      const c3x = ML+92,    c3w = 40;
-      const c4x = ML+132,   c4w = CW-132;
-      const opH = 14;
-
-      R(ML, y, CW, opH, 0.25);
-      VL(c2x, y, y+opH, 0.25);
-      VL(c3x, y, y+opH, 0.25);
-      VL(c4x, y, y+opH, 0.25);
-      HL(y+7, ML, ML+CW, 0.2);
-
-      S(6.5);
-      // Row 1
-      B(); T('Business Area (in sq.m.):', c1x+2, y+4);
-      N(); T(fv('bizArea'), c1x+36, y+4); HL(y+4.5, c1x+36, c1x+c1w-2, 0.15);
-
-      S(6); B(); T('Total No. of Employees', c2x+2, y+3.5);
-      B(); T('in Establishment', c2x+2, y+6.5);
-
-      S(6); B(); T('No. of Employees', c3x+2, y+3.5);
-      B(); T('Residing within', c3x+2, y+6.5);
-
-      S(6); B(); T('No. of Delivery Vehicles', c4x+2, y+3.5);
-      B(); T('(If applicable)', c4x+2, y+6.5);
-
-      // Row 2
-      B(); T('Total Floor Area (in sq.m.):', c1x+2, y+11);
-      N(); T(fv('floorArea'), c1x+36, y+11); HL(y+11.5, c1x+36, c1x+c1w-2, 0.15);
-
-      B(); T('Male', c2x+2, y+11);
-      N(); T(fv('empMale'), c2x+12, y+11); HL(y+11.5, c2x+12, c2x+22, 0.15);
-      B(); T('Female', c2x+24, y+11);
-      N(); T(fv('empFemale'), c2x+36, y+11); HL(y+11.5, c2x+36, c2x+c2w-2, 0.15);
-
-      N(); T(fv('empResiding'), c3x+2, y+11); HL(y+11.5, c3x+2, c3x+c3w-2, 0.15);
-
-      B(); T('Van/Truck', c4x+2, y+11);
-      N(); T(fv('dvVan'), c4x+16, y+11); HL(y+11.5, c4x+16, c4x+26, 0.15);
-      B(); T('Motorcycle', c4x+28, y+11);
-      N(); T(fv('dvMoto'), c4x+40, y+11); HL(y+11.5, c4x+40, c4x+c4w-1, 0.15);
-
-      y += opH;
+      const c1x=ML, c1w=44, c2x=ML+44, c2w=48, c3x=ML+92, c3w=40, c4x=ML+132, c4w=CW-132;
+      const opH=12;
+      R(ML,y,CW,opH,0.25);
+      VL(c2x,y,y+opH,0.25); VL(c3x,y,y+opH,0.25); VL(c4x,y,y+opH,0.25);
+      HL(y+6,ML,ML+CW,0.2);
+      S(6);
+      B(); T('Business Area (in sq.m.):', c1x+2, y+3.5);
+      N(); T(fv('bizArea'), c1x+34, y+3.5); HL(y+4, c1x+34, c1x+c1w-2, 0.15);
+      B(); T('Total No. of Employees', c2x+2, y+3); B(); T('in Establishment', c2x+2, y+5.8);
+      B(); T('No. of Employees', c3x+2, y+3); B(); T('Residing within', c3x+2, y+5.8);
+      B(); T('No. of Delivery Vehicles', c4x+2, y+3); B(); T('(If applicable)', c4x+2, y+5.8);
+      B(); T('Total Floor Area (in sq.m.):', c1x+2, y+9.5);
+      N(); T(fv('floorArea'), c1x+34, y+9.5); HL(y+10, c1x+34, c1x+c1w-2, 0.15);
+      B(); T('Male', c2x+2, y+9.5); N(); T(fv('empMale'), c2x+11, y+9.5); HL(y+10, c2x+11, c2x+21, 0.15);
+      B(); T('Female', c2x+23, y+9.5); N(); T(fv('empFemale'), c2x+34, y+9.5); HL(y+10, c2x+34, c2x+c2w-2, 0.15);
+      N(); T(fv('empResiding'), c3x+2, y+9.5); HL(y+10, c3x+2, c3x+c3w-2, 0.15);
+      B(); T('Van/Truck', c4x+2, y+9.5); N(); T(fv('dvVan'), c4x+15, y+9.5); HL(y+10, c4x+15, c4x+25, 0.15);
+      B(); T('Motorcycle', c4x+27, y+9.5); N(); T(fv('dvMoto'), c4x+38, y+9.5); HL(y+10, c4x+38, c4x+c4w-1, 0.15);
+      y+=opH;
 
       /* Same as main */
-      const sameMain = document.getElementById('sameAsMain')?.checked;
-      R(ML,y,CW,6,0.25); S(6.5); N();
-      T(chk(sameMain?'yes':'no','yes')+' Same as Main Office Address', ML+2, y+4); y+=6;
+      const sameMain=document.getElementById('sameAsMain')?.checked;
+      R(ML,y,CW,5,0.25); S(6); N();
+      T(chk(sameMain?'yes':'no','yes')+' Same as Main Office Address', ML+2, y+3.5); y+=5;
 
-      /* Business location address (one grouped cell, no inner borders) */
-      const bl = {
+      /* Business location address */
+      const bl={
         h:sameMain?fv('houseNo'):fv('blHouseNo'), bn:sameMain?fv('bldgName'):fv('blBldgName'),
         l:sameMain?fv('lotNo'):fv('blLotNo'), bk:sameMain?fv('blockNo'):fv('blBlockNo'),
         s:sameMain?fv('street'):fv('blStreet'), br:sameMain?fv('barangay'):fv('blBarangay'),
         sub:sameMain?fv('subdivision'):fv('blSubdivision'), c:sameMain?fv('cityMun'):fv('blCity'),
         p:sameMain?fv('province'):fv('blProvince'), z:sameMain?fv('zipCode'):fv('blZip')
       };
-      const blH = 21;
-      R(ML,y,CW,blH,0.35); S(6.5);
-      // Row 1
-      B(); T('Business Location Address:', ML+2, y+2.5);
-      B(); T('House/Bldg. No.', ML+2, y+6.5);
-      N(); T(bl.h, ML+30, y+6.5); HL(y+7,ML+30,ML+54,0.15);
-      B(); T('Name of Building', ML+56, y+6.5); N(); T(bl.bn, ML+76, y+6.5); HL(y+7,ML+76,ML+118,0.15);
-      B(); T('Lot No.', ML+120, y+6.5); N(); T(bl.l, ML+130, y+6.5); HL(y+7,ML+130,ML+148,0.15);
-      B(); T('Block No.', ML+150, y+6.5); N(); T(bl.bk, ML+162, y+6.5); HL(y+7,ML+162,ML+CW,0.15);
-      // Row 2
-      B(); T('Street', ML+2, y+13); N(); T(bl.s, ML+14, y+13); HL(y+13.5,ML+14,ML+70,0.15);
-      B(); T('Barangay', ML+72, y+13); N(); T(bl.br, ML+84, y+13); HL(y+13.5,ML+84,ML+130,0.15);
-      B(); T('Subdivision', ML+132, y+13); N(); T(bl.sub, ML+148, y+13); HL(y+13.5,ML+148,ML+CW,0.15);
-      // Row 3
-      B(); T('City/Municipality', ML+2, y+19.5); N(); T(bl.c, ML+28, y+19.5); HL(y+20,ML+28,ML+74,0.15);
-      B(); T('Province', ML+76, y+19.5); N(); T(bl.p, ML+88, y+19.5); HL(y+20,ML+88,ML+130,0.15);
-      B(); T('Zip Code', ML+132, y+19.5); N(); T(bl.z, ML+144, y+19.5); HL(y+20,ML+144,ML+CW,0.15);
-      y += blH;
+      const blH=18;
+      R(ML,y,CW,blH,0.35); S(6);
+      B(); T('Business Location Address:', ML+2, y+2);
+      const bl1y=y+4.5;
+      B(); T('House/Bldg. No.', ML+2, bl1y); N(); T(bl.h, ML+28, bl1y); HL(bl1y+0.8,ML+28,ML+54,0.15);
+      B(); T('Name of Building', ML+56, bl1y); N(); T(bl.bn, ML+76, bl1y); HL(bl1y+0.8,ML+76,ML+118,0.15);
+      B(); T('Lot No.', ML+120, bl1y); N(); T(bl.l, ML+130, bl1y); HL(bl1y+0.8,ML+130,ML+148,0.15);
+      B(); T('Block No.', ML+150, bl1y); N(); T(bl.bk, ML+162, bl1y); HL(bl1y+0.8,ML+162,ML+CW,0.15);
+      const bl2y=y+10;
+      B(); T('Street', ML+2, bl2y); N(); T(bl.s, ML+14, bl2y); HL(bl2y+0.8,ML+14,ML+70,0.15);
+      B(); T('Barangay', ML+72, bl2y); N(); T(bl.br, ML+84, bl2y); HL(bl2y+0.8,ML+84,ML+130,0.15);
+      B(); T('Subdivision', ML+132, bl2y); N(); T(bl.sub, ML+148, bl2y); HL(bl2y+0.8,ML+148,ML+CW,0.15);
+      const bl3y=y+15.5;
+      B(); T('City/Municipality', ML+2, bl3y); N(); T(bl.c, ML+28, bl3y); HL(bl3y+0.8,ML+28,ML+74,0.15);
+      B(); T('Province', ML+76, bl3y); N(); T(bl.p, ML+88, bl3y); HL(bl3y+0.8,ML+88,ML+130,0.15);
+      B(); T('Zip Code', ML+132, bl3y); N(); T(bl.z, ML+144, bl3y); HL(bl3y+0.8,ML+144,ML+CW,0.15);
+      y+=blH;
 
-      /* Owned + Tax Declaration + Property ID — single row */
-      const ownedVal = document.getElementById('ownership')?.value||'';
-      R(ML,y,CW,7,0.25); S(6.5);
-      B(); T('Owned?', ML+2, y+4.5); N();
-      T(chk(ownedVal,'yes')+' Yes', ML+18, y+4.5);
-      T(chk(ownedVal,'no')+' No',   ML+34, y+4.5);
-      B(); T('If Yes, Tax Declaration No', ML+50, y+4.5);
-      N(); T(ownedVal==='yes'?fv('taxDecNo'):'', ML+90, y+4.5); HL(y+5, ML+90, ML+118, 0.15);
-      B(); T('or Property Identification No.', ML+120, y+4.5);
-      N(); T(ownedVal==='yes'?fv('propIdNo'):'', ML+162, y+4.5); HL(y+5, ML+162, ML+CW, 0.15);
-      y+=7;
+      /* Owned + Tax Declaration + Property ID */
+      const ownedVal=document.getElementById('ownership')?.value||'';
+      R(ML,y,CW,6,0.25); S(6);
+      B(); T('Owned?', ML+2, y+4); N();
+      T(chk(ownedVal,'yes')+' Yes', ML+16, y+4); T(chk(ownedVal,'no')+' No', ML+30, y+4);
+      B(); T('If Yes, Tax Declaration No', ML+46, y+4);
+      N(); T(ownedVal==='yes'?fv('taxDecNo'):'', ML+86, y+4); HL(y+4.5, ML+86, ML+114, 0.15);
+      B(); T('or Property Identification No.', ML+116, y+4);
+      N(); T(ownedVal==='yes'?fv('propIdNo'):'', ML+156, y+4); HL(y+4.5, ML+156, ML+CW, 0.15);
+      y+=6;
 
       /* Tax incentives */
-      const tiVal = rv('taxIncentive');
-      R(ML,y,CW,7,0.25); S(6.5);
-      B(); T('Do you have tax incentives from any Government Entity?', ML+2, y+4.5); N();
-      T(chk(tiVal,'yes')+' Yes (attach certificate)    '+chk(tiVal,'no')+' No', ML+86, y+4.5); y+=7;
+      const tiVal=rv('taxIncentive');
+      R(ML,y,CW,6,0.25); S(6);
+      B(); T('Do you have tax incentives from any Government Entity?', ML+2, y+4); N();
+      T(chk(tiVal,'yes')+' Yes (attach certificate)    '+chk(tiVal,'no')+' No', ML+84, y+4); y+=6;
 
       /* Business activity */
-      const actVal = rv('bizActivity');
-      R(ML,y,CW,7,0.25); S(6.5); B(); T('Business Activity (Please check one):', ML+2, y+4.5); N();
+      const actVal=rv('bizActivity');
+      R(ML,y,CW,6,0.25); S(6); B(); T('Business Activity (Please check one):', ML+2, y+4); N();
       const acts=[['main','Main Office'],['branch','Branch Office'],['admin','Admin Office Only'],['warehouse','Warehouse']];
-      let ax=ML+62;
-      acts.forEach(([v,l]) => { T(chk(actVal,v)+' '+l, ax, y+4.5); ax+=doc.getTextWidth(chk(actVal,v)+' '+l)+5; });
-      T(chk(actVal,'others')+' Others:', ax, y+4.5);
-      if(actVal==='others') T(fv('bizActivityOther'), ax+20, y+4.5);
-      y+=7;
+      let ax=ML+58;
+      acts.forEach(([v,l])=>{ T(chk(actVal,v)+' '+l, ax, y+4); ax+=doc.getTextWidth(chk(actVal,v)+' '+l)+4; });
+      T(chk(actVal,'others')+' Others:', ax, y+4);
+      if(actVal==='others') T(fv('bizActivityOther'), ax+18, y+4);
+      y+=6;
 
       /* Line of Business table */
       const lCols=[
-        {l:'Line of Business\n(Code)',          w:24},
-        {l:'Philippine Standard\nIndustrial Code\n(If Available)', w:30},
-        {l:'Products / Services',               w:62},
-        {l:'No. of\nUnits',                     w:20},
-        {l:"Last Year's Gross\nSales/Receipts", w:CW-136}
+        {l:'Line of Business\n(Code)',w:24},
+        {l:'Philippine Standard\nIndustrial Code\n(If Available)',w:28},
+        {l:'Products / Services',w:62},
+        {l:'No. of\nUnits',w:18},
+        {l:"Last Year's Gross\nSales/Receipts",w:CW-132}
       ];
-      const lRowH=7, lHdrH=14, lTotalH=lHdrH+1*lRowH;
+      const lRowH=6, lHdrH=12, lTotalH=lHdrH+lRowH;
       R(ML,y,CW,lTotalH,0.25);
       let lx=ML; S(5.5); B();
       lCols.forEach((c,i)=>{
-        c.l.split('\n').forEach((ln,li)=>T(ln,lx+1,y+3.5+li*3.2));
+        c.l.split('\n').forEach((ln,li)=>T(ln,lx+1,y+3+li*3));
         lx+=c.w; if(i<lCols.length-1) VL(lx,y,y+lTotalH,0.25);
       });
       HL(y+lHdrH,ML,ML+CW,0.25);
-      for(let i=1;i<=1;i++){
-        const ry=y+lHdrH+(i-1)*lRowH;
-        if(i>1) HL(ry,ML,ML+CW,0.15);
-        lx=ML; N(); S(7);  // reset lx for each row
-        [fv('lobCode'+i),fv('lobPsic'+i),fv('lobProd'+i),fv('lobUnits'+i),fv('lobSales'+i)].forEach((v,ci)=>{
-          T(v,lx+1,ry+6); lx+=lCols[ci].w; if(ci<4) VL(lx,ry,ry+lRowH,0.15);
-        });
-      }
+      lx=ML; N(); S(6.5);
+      [fv('lobCode1'),fv('lobPsic1'),fv('lobProd1'),fv('lobUnits1'),fv('lobSales1')].forEach((v,ci)=>{
+        T(v,lx+1,y+lHdrH+5); lx+=lCols[ci].w; if(ci<4) VL(lx,y+lHdrH,y+lTotalH,0.15);
+      });
       y+=lTotalH;
 
       /* Business description */
       const descLines=doc.splitTextToSize(fv('bizDesc'), CW-4);
-      const descH=Math.max(24, descLines.length*4+8);
-      R(ML,y,CW,descH,0.25); S(7); B(); T('Line of Business: Business Description', ML+2, y+4.5);
-      N(); S(7); doc.text(descLines, ML+2, y+9); y+=descH;
+      const descH=Math.max(16, descLines.length*3.5+6);
+      R(ML,y,CW,descH,0.25); S(6); B(); T('Line of Business: Business Description', ML+2, y+4);
+      N(); doc.text(descLines, ML+2, y+8); y+=descH;
 
       /* ══ DECLARATION ══ */
       const decl='I DECLARE UNDER PENALTY OF PERJURY that all information in this application are true and correct based on my personal knowledge and authentic records submitted to the _______________. Any false or misleading information supplied, or production of fake/falsified documents shall be grounds for appropriate legal action against me and automatically revokes the permit. I hereby agree that all personal data (as defined under the Data Privacy Act of 2012 and its Implementing Rules and Regulations) and account transaction information or records with the City/Municipal Government may be processed, profiled or shared to requesting parties or for the purpose of any court, legal process, examination, inquiry and audit or investigation of any authority.';
       const declLines=doc.splitTextToSize(decl, CW-4);
-      const declH=declLines.length*3.8+6;
-      const sigH=32;
-
-      // Add new page if declaration + signature won't fit
-      if (y + declH + sigH > 282) {
-        doc.addPage();
-        y = MT;
-      }
-
-      R(ML,y,CW,declH,0.25); S(6.5); N(); doc.text(declLines,ML+2,y+5); y+=declH;
+      const declH=declLines.length*3.2+5;
+      R(ML,y,CW,declH,0.25); S(5.8); N(); doc.text(declLines,ML+2,y+4.5); y+=declH;
 
       /* ══ SIGNATURE BLOCK ══ */
-      // Add new page if signature won't fit
-      if (y + sigH > 282) {
-        doc.addPage();
-        y = MT;
-      }
-      R(ML,y,CW,sigH,0.25);
-      const splitX=ML+CW*0.58;
-      VL(splitX,y,y+sigH,0.25);
+      const sigH = 32;
+      R(ML, y, CW, sigH, 0.25);
 
-      /* signature image */
-      const activeTab=document.getElementById('tabDraw').classList.contains('active')?'draw':'upload';
-      let sigUrl=null;
-      if(activeTab==='draw'){
-        const cv=document.getElementById('sigCanvas');
-        const px=cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data;
-        if(!px.every(v=>v===0)) sigUrl=cv.toDataURL('image/png');
+      const activeTab = document.getElementById('tabDraw').classList.contains('active') ? 'draw' : 'upload';
+      let sigUrl = null;
+      if(activeTab === 'draw'){
+        const cv = document.getElementById('sigCanvas');
+        const px = cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data;
+        if(!px.every(v => v===0)) sigUrl = cv.toDataURL('image/png');
       } else {
-        const src=document.getElementById('sigUploadImg')?.src;
-        if(src&&src.startsWith('data:')) sigUrl=src;
+        const src = document.getElementById('sigUploadImg')?.src;
+        if(src && src.startsWith('data:')) sigUrl = src;
       }
-      if(sigUrl) {
-        try {
-          const sigB64 = sigUrl.split(',')[1];
-          doc.addImage(sigB64, 'PNG', ML+4, y+3, splitX-ML-8, 18);
-        } catch(e) {}
-      }
-      HL(y+23,ML+4,splitX-4,0.4);
-      S(6); B(); T('SIGNATURE OF APPLICANT/OWNER OVER PRINTED NAME',ML+4+(splitX-ML-8)/2,y+27,{align:'center'});
 
-      /* right side: name + designation */
-      S(7.5); N(); T(fv('printedName'), splitX+3, y+12);
-      HL(y+23,splitX+3,ML+CW-3,0.4);
-      S(6.5); N(); T(fv('designation'), splitX+3, y+17);
-      S(6); B(); T('SIGNATURE OF APPLICANT/OWNER OVER PRINTED NAME', splitX+3+(CW*(1-0.58))/2, y+27, {align:'center'});
-      S(6); B(); T('DESIGNATION / POSITION / TITLE', splitX+3+(CW*(1-0.58))/2, y+31, {align:'center'});
-      y+=sigH;
+      const sigLineW = CW * 0.5;
+      const sigLineX = ML + (CW - sigLineW) / 2;
+      const sigCX = ML + CW / 2;
+
+      // Signature image centered above the line — preserve aspect ratio
+      if(sigUrl){
+        try {
+          const imgProps = doc.getImageProperties(sigUrl.split(',')[1]);
+          const maxW = sigLineW;
+          const maxH = 12;
+          const ratio = Math.min(maxW / imgProps.width, maxH / imgProps.height);
+          const iW = imgProps.width * ratio;
+          const iH = imgProps.height * ratio;
+          const iX = sigCX - iW / 2; // centered horizontally
+          doc.addImage(sigUrl.split(',')[1], 'PNG', iX, y+1, iW, iH);
+        } catch(e){}
+      }
+
+      // Printed name — centered, just above the line
+      S(7); N(); T(fv('printedName'), sigCX, y+12, {align:'center'});
+
+      // Signature line
+      HL(y+14, sigLineX, sigLineX+sigLineW, 0.5);
+
+      // SIGNATURE label — below the line
+      S(5.5); B();
+      T('SIGNATURE OF APPLICANT/OWNER OVER PRINTED NAME', sigCX, y+18, {align:'center'});
+
+      // Designation value — centered, above its line
+      const desLineW = CW * 0.35;
+      const desLineX = ML + (CW - desLineW) / 2;
+      S(6); N(); T(fv('designation'), sigCX, y+22, {align:'center'});
+
+      // Designation line
+      HL(y+24, desLineX, desLineX+desLineW, 0.5);
+
+      // DESIGNATION label — below the line
+      S(5.5); B();
+      T('DESIGNATION / POSITION / TITLE', sigCX, y+28, {align:'center'});
+
+      y += sigH;
 
       /* ══ OUTPUT ══ */
       window.open(URL.createObjectURL(doc.output('blob')),'_blank');
