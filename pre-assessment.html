@@ -23,6 +23,9 @@
   <link rel="stylesheet" href="style.css"/>
 
   <style>
+    /* ── Logo size override for this page ── */
+    .logo-seal { width: 56px; height: 56px; }
+
     /* ── Pre-Assessment Page Styles ── */
 
     .pa-page {
@@ -2160,10 +2163,10 @@
         HL(yy+0.8, x + doc.getTextWidth(label+': '), lineEnd, 0.15);
       }
 
-      /* ══ LOGOS (reduced size) ══ */
-      const sqSize = 12;
-      const artaW  = 24;
-      const artaH  = 9;
+      /* ══ LOGOS ══ */
+      const sqSize = 16;
+      const artaW  = 32;
+      const artaH  = 12;
       const gap    = 7;
       const totalW = artaW + gap + sqSize + gap + sqSize + gap + sqSize;
       const startX = (PW - totalW) / 2;
@@ -2449,7 +2452,7 @@
 
       /* Business description */
       const descLines=doc.splitTextToSize(fv('bizDesc'), CW-4);
-      const descH=Math.max(16, descLines.length*3.5+6);
+      const descH=Math.max(32, descLines.length*3.5+6);
       R(ML,y,CW,descH,0.25); S(6); B(); T('Line of Business: Business Description', ML+2, y+4);
       N(); doc.text(descLines, ML+2, y+8); y+=descH;
 
