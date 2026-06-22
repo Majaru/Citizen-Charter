@@ -2353,8 +2353,7 @@
       const c1x=ML, c1w=44, c2x=ML+44, c2w=48, c3x=ML+92, c3w=40, c4x=ML+132, c4w=CW-132;
       const opH=12;
       R(ML,y,CW,opH,0.25);
-      VL(c2x,y,y+opH,0.25); VL(c3x,y,y+opH,0.25); VL(c4x,y,y+opH,0.25);
-      HL(y+6,ML,ML+CW,0.2);
+      VL(c2x,y,y+opH,0.25); VL(c4x,y,y+opH,0.25);
       S(6);
       B(); T('Business Area (in sq.m.):', c1x+2, y+3.5);
       N(); T(fv('bizArea'), c1x+34, y+3.5); HL(y+4, c1x+34, c1x+c1w-2, 0.15);
@@ -2452,19 +2451,26 @@
 
       /* Business description */
       const descLines=doc.splitTextToSize(fv('bizDesc'), CW-4);
-      const descH=Math.max(32, descLines.length*3.5+6);
+      const descH=Math.max(42, descLines.length*3.5+6);
       R(ML,y,CW,descH,0.25); S(6); B(); T('Line of Business: Business Description', ML+2, y+4);
       N(); doc.text(descLines, ML+2, y+8); y+=descH;
 
-      /* ══ DECLARATION ══ */
+      /* ══ SECTION C HEADER ══ */
+      doc.setFillColor(210,210,210); doc.rect(ML,y,CW,5,'F'); doc.setLineWidth(0.25); doc.rect(ML,y,CW,5);
+      S(7); B(); T('C.  DECLARATION', ML+2, y+3.5); y+=5;
+
+      /* ══ DECLARATION + SIGNATURE (one combined box, no border between them) ══ */
       const decl='I DECLARE UNDER PENALTY OF PERJURY that all information in this application are true and correct based on my personal knowledge and authentic records submitted to the _______________. Any false or misleading information supplied, or production of fake/falsified documents shall be grounds for appropriate legal action against me and automatically revokes the permit. I hereby agree that all personal data (as defined under the Data Privacy Act of 2012 and its Implementing Rules and Regulations) and account transaction information or records with the City/Municipal Government may be processed, profiled or shared to requesting parties or for the purpose of any court, legal process, examination, inquiry and audit or investigation of any authority.';
+      const sigH = 28;
+      S(5.5); N();
       const declLines=doc.splitTextToSize(decl, CW-4);
-      const declH=declLines.length*3.2+5;
-      R(ML,y,CW,declH,0.25); S(5.8); N(); doc.text(declLines,ML+2,y+4.5); y+=declH;
+      // Use getTextDimensions to get the ACTUAL rendered height
+      const declTextH = doc.getTextDimensions(declLines).h;
+      const declH = declTextH + 6; // 3mm top + 3mm bottom padding
+      R(ML, y, CW, declH + sigH, 0.25);
+      doc.text(declLines, ML+2, y+3.5); y+=declH;
 
       /* ══ SIGNATURE BLOCK ══ */
-      const sigH = 32;
-      R(ML, y, CW, sigH, 0.25);
 
       const activeTab = document.getElementById('tabDraw').classList.contains('active') ? 'draw' : 'upload';
       let sigUrl = null;
@@ -2491,31 +2497,31 @@
           const iW = imgProps.width * ratio;
           const iH = imgProps.height * ratio;
           const iX = sigCX - iW / 2; // centered horizontally
-          doc.addImage(sigUrl.split(',')[1], 'PNG', iX, y+1, iW, iH);
+          doc.addImage(sigUrl.split(",")[1], "PNG", iX, y+1, iW, iH);
         } catch(e){}
       }
 
       // Printed name — centered, just above the line
-      S(7); N(); T(fv('printedName'), sigCX, y+12, {align:'center'});
+      S(7); N(); T(fv('printedName'), sigCX, y+5, {align:'center'});
 
       // Signature line
-      HL(y+14, sigLineX, sigLineX+sigLineW, 0.5);
+      HL(y+8, sigLineX, sigLineX+sigLineW, 0.5);
 
       // SIGNATURE label — below the line
       S(5.5); B();
-      T('SIGNATURE OF APPLICANT/OWNER OVER PRINTED NAME', sigCX, y+18, {align:'center'});
+      T('SIGNATURE OF APPLICANT/OWNER OVER PRINTED NAME', sigCX, y+12, {align:'center'});
 
       // Designation value — centered, above its line
       const desLineW = CW * 0.35;
       const desLineX = ML + (CW - desLineW) / 2;
-      S(6); N(); T(fv('designation'), sigCX, y+22, {align:'center'});
+      S(6); N(); T(fv('designation'), sigCX, y+17, {align:'center'});
 
       // Designation line
-      HL(y+24, desLineX, desLineX+desLineW, 0.5);
+      HL(y+20, desLineX, desLineX+desLineW, 0.5);
 
       // DESIGNATION label — below the line
       S(5.5); B();
-      T('DESIGNATION / POSITION / TITLE', sigCX, y+28, {align:'center'});
+      T('DESIGNATION / POSITION / TITLE', sigCX, y+24, {align:'center'});
 
       y += sigH;
 
