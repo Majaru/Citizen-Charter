@@ -39,6 +39,7 @@
       display: flex;
       align-items: center;
       gap: 0;
+      width: 100%;
       margin-bottom: 40px;
     }
     .pa-step {
@@ -48,6 +49,7 @@
       flex: 1;
       position: relative;
     }
+    .pa-step:last-child { flex: 0 0 auto; }
     .pa-step:not(:last-child)::after {
       content: '';
       flex: 1;
@@ -263,6 +265,33 @@
     body.dark .pa-textarea::placeholder { color: rgba(255,255,255,0.25); }
 
     .pa-textarea { resize: vertical; min-height: 90px; }
+
+    /* ── Additional Documents upload labels ── */
+    .pa-doc-label {
+      display: block;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1e56b3;
+      margin-bottom: 8px;
+    }
+    body.dark .pa-doc-label { color: #7ba8f0; }
+    body.dark #bizLocationCoords { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.65); }
+    .pa-doc-label .req { color: #c0392b; margin-left: 2px; font-weight: 700; }
+    input.pa-file-input.pa-input { padding: 6px 12px; cursor: pointer; }
+
+    /* Document rows: grid so labels/inputs align across columns regardless of label wrap length */
+    .pa-doc-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 16px;
+      row-gap: 8px;
+      margin-bottom: 16px;
+    }
+    .pa-doc-row > .pa-field { display: contents; }
+    .pa-doc-row .pa-doc-label { grid-row: 1; align-self: start; margin-bottom: 8px; }
+    .pa-doc-row input.pa-file-input { grid-row: 2; align-self: start; }
+
 
     /* ── App type table (NEW/RENEWAL/ADDITIONAL × Annual/Bi-annually/Quarterly) ── */
     .pa-type-table {
@@ -1035,6 +1064,54 @@
 
 
   <!-- ============================================================
+    DOCUMENT PREPARATION MODAL — shown on page load, before the form
+  ============================================================ -->
+  <div id="docPrepModal" class="review-overlay" style="display:flex;" aria-modal="true" role="dialog">
+    <div class="review-modal">
+
+      <div class="review-modal-head">
+        <div class="review-modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Documents to Prepare
+        </div>
+        <button class="review-close-btn" onclick="closeDocPrepModal()" aria-label="Close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="review-modal-body">
+        <p class="pa-note" style="margin:0 0 16px;">Before filling up the Unified Application Form, please prepare scanned copies of the following, as applicable to your business:</p>
+        <ol style="margin:0; padding-left:20px; line-height:1.9; font-size:0.92rem; color:#0d1f4e;">
+          <li>Certified List of Employees / Certification of No Employee</li>
+          <li>Valid I.D. of Representatives, Owners (Sole Proprietor, OPC, Partnership), and Corporate Secretary (Corporation, Cooperative)</li>
+          <li>Fire Safety Inspection Certificate (FSIC) for Occupancy Permit, valid within the last 9 months</li>
+          <li>Affidavit of Undertaking that there had been no substantial changes made on the building</li>
+          <li>Valid DTI Registration <em>(if Sole Proprietorship)</em></li>
+          <li>SEC Registration, Articles of Incorporation <em>(if Partnership, One Person Corporation, or Corporation)</em></li>
+          <li>Certificate of Cooperation, Articles of Cooperation <em>(if Cooperative)</em></li>
+          <li>Special Power of Attorney for Representative <em>(if Sole Proprietorship)</em></li>
+          <li>Partnership Resolution for Representative <em>(if Partnership)</em></li>
+          <li>Secretary's Certificate or Board Resolution <em>(if OPC, Corporation, or Cooperative)</em></li>
+          <li>Contract of Lease and copy of Proof of Ownership by the Lessor <em>(if business location is not owned)</em></li>
+          <li>Any Proof of Ownership <em>(if business location is owned)</em></li>
+          <li>Consent and copy of any Proof of Ownership <em>(if business location is not owned)</em></li>
+          <li>OR/CR of vehicle, per vehicle <em>(if you have delivery vehicles)</em></li>
+          <li>Consent for use of the vehicle, if not owned by the applicant <em>(if you have delivery vehicles)</em></li>
+        </ol>
+      </div>
+
+      <div class="review-modal-foot" style="justify-content:flex-end;">
+        <button type="button" class="pa-btn-submit" onclick="closeDocPrepModal()">
+          Got It, Continue
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
     MAIN CONTENT
   ============================================================ -->
   <main class="pa-page" id="paMain">
@@ -1548,11 +1625,11 @@
           <div class="pa-row">
             <div class="pa-field w-half">
               <label class="pa-label" for="dvVan">Van / Truck</label>
-              <input class="pa-input" type="number" id="dvVan" name="dvVan" min="0" placeholder="0">
+              <input class="pa-input" type="number" id="dvVan" name="dvVan" min="0" placeholder="0" oninput="updateDocRequirements()">
             </div>
             <div class="pa-field w-half">
               <label class="pa-label" for="dvMoto">Motorcycle</label>
-              <input class="pa-input" type="number" id="dvMoto" name="dvMoto" min="0" placeholder="0">
+              <input class="pa-input" type="number" id="dvMoto" name="dvMoto" min="0" placeholder="0" oninput="updateDocRequirements()">
             </div>
           </div>
 
@@ -1649,18 +1726,6 @@
           <div style="margin-top:20px;">
             <div class="pa-label" style="margin-bottom:10px;">Signature of Applicant / Owner <span class="req">*</span></div>
 
-            <!-- Tab switcher -->
-            <div class="sig-tabs">
-              <button type="button" class="sig-tab active" id="tabDraw" onclick="switchSigTab('draw')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                Draw Signature
-              </button>
-              <button type="button" class="sig-tab" id="tabUpload" onclick="switchSigTab('upload')">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                Upload Signature
-              </button>
-            </div>
-
             <!-- Draw panel -->
             <div id="sigDrawPanel" class="sig-panel">
               <div style="position:relative;">
@@ -1688,28 +1753,6 @@
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                   Edit
                 </button>
-              </div>
-            </div>
-
-            <!-- Upload panel -->
-            <div id="sigUploadPanel" class="sig-panel" style="display:none;">
-              <div class="sig-upload-area" id="sigUploadArea"
-                   onclick="document.getElementById('sigFileInput').click()"
-                   ondragover="onSigDragOver(event)"
-                   ondrop="onSigDrop(event)">
-                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
-                <span>Click to upload or drag &amp; drop<br><small style="opacity:0.65;">PNG, JPG, or GIF</small></span>
-                <input type="file" id="sigFileInput" accept="image/*" style="display:none;" onchange="onSigFileSelect(this)">
-              </div>
-              <div id="sigUploadPreview" style="display:none; text-align:center; margin-top:12px;">
-                <img id="sigUploadImg" src="" alt="Signature preview"
-                     style="max-height:120px; max-width:100%; border:1.5px solid #e2e5ef; border-radius:6px; padding:8px; background:#fff;">
-                <div style="margin-top:8px;">
-                  <button type="button" class="sig-action-btn" onclick="clearUpload()">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
-                    Remove
-                  </button>
-                </div>
               </div>
             </div>
 
@@ -1810,26 +1853,342 @@
         </div>
 
         <!-- Online Card -->
-        <div style="flex:1; min-width:260px; max-width:320px; background:#fff; border:1.5px solid #d1d5db; border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:12px; box-shadow:0 2px 12px rgba(0,0,0,0.07); opacity:0.6; pointer-events:none;">
+        <div style="flex:1; min-width:260px; max-width:320px; background:#fff; border:1.5px solid #c9a84c; border-radius:12px; padding:24px; display:flex; flex-direction:column; gap:12px; box-shadow:0 2px 12px rgba(0,0,0,0.07);">
           <div style="display:flex; flex-direction:column; align-items:center; text-align:center; gap:8px;">
-            <div style="width:44px; height:44px; border-radius:50%; background:#6b7280; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <div style="width:44px; height:44px; border-radius:50%; background:#0d1f4e; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
             <div>
-              <div style="font-weight:700; font-size:1.05rem; color:#4a5568;">Online</div>
-              <div style="font-size:0.75rem; color:#888; margin-top:2px;">BPLS Portal</div>
-              <span style="display:inline-block; margin-top:6px; font-size:0.68rem; background:#f3f4f6; color:#6b7280; border:1px solid #d1d5db; border-radius:4px; padding:1px 6px; font-weight:600;">COMING SOON</span>
+              <div class="pa-sub-head" style="font-weight:700; font-size:1.05rem;">Online</div>
+              <div style="font-size:0.75rem; color:#888; margin-top:2px;">Business Bureau Portal</div>
             </div>
           </div>
-          <p style="font-size:0.83rem; color:#6b7280; line-height:1.6; margin:0; text-align:center; max-width:none;">Submit your application online through the Business Permit Licensing System (BPLS) portal. This feature is currently unavailable and will be enabled in a future update.</p>
-          <button disabled style="margin-top:auto; width:100%; padding:10px; border-radius:8px; background:#e5e7eb; color:#9ca3af; border:none; font-weight:600; font-size:0.85rem; cursor:not-allowed;">
-            Not Yet Available
+          <p style="font-size:0.83rem; color:#4a5568; line-height:1.6; margin:0; text-align:center; max-width:none;">Continue filling out your Line of Business details and upload the necessary supporting documents to complete your application online.</p>
+          <button onclick="showLineOfBusiness()" class="pa-btn-submit" style="margin-top:auto; width:100%; justify-content:center;">
+            Proceed with Online
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </button>
         </div>
 
       </div>
 
       <a href="business-bureau.html" class="pa-sub-head" style="text-decoration:none; margin-top:24px; font-size:0.83rem; display:flex; align-items:center; gap:4px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Return to Home
+      </a>
+    </div>
+
+    <!-- ============================================================
+      ONLINE FLOW – STEP B: LINE OF BUSINESS
+    ============================================================ -->
+    <div id="paLineOfBusiness" style="display:none;">
+
+      <div class="pa-steps" id="lobSteps">
+        <div class="pa-step done" id="lobStep1Indicator">
+          <div class="pa-step-num">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="pa-step-label">Unified Application Form</span>
+        </div>
+        <div class="pa-step active" id="lobStep2Indicator">
+          <div class="pa-step-num">2</div>
+          <span class="pa-step-label">Line of Business</span>
+        </div>
+        <div class="pa-step" id="lobStep3Indicator">
+          <div class="pa-step-num">3</div>
+          <span class="pa-step-label">Additional Documents</span>
+        </div>
+      </div>
+
+      <div class="pa-section-head">B. Line of Business</div>
+      <div class="pa-form-card">
+        <p class="pa-note" style="margin:0 0 16px;">Declare each line of business you will operate under this permit, along with the capital investment for that line.</p>
+
+        <div id="lobRows">
+          <div class="lob-activity-block" data-lob-index="1">
+            <div class="pa-sub-head" style="margin:0 0 10px;">Business Activity #1</div>
+            <div class="pa-row lob-row">
+              <div class="pa-field" style="flex:1 1 78%;">
+                <label class="pa-label">Category <span class="req">*</span></label>
+                <select class="pa-select lob-category" onchange="onLobCategoryChange(this)">
+                  <option value="">Select a category</option>
+                </select>
+              </div>
+              <div class="pa-field" style="flex:1 1 18%;">
+                <label class="pa-label">Capital <span class="req">*</span></label>
+                <input type="number" class="pa-input lob-capital" placeholder="e.g. 1000" min="0">
+              </div>
+            </div>
+
+            <p class="pa-note" style="padding-left:24px; margin:0 0 8px;">Please specify and enumerate all the products and/or services offered under this business activity.</p>
+
+            <div class="lob-products" data-product-count="1" style="padding-left:24px;">
+              <div class="pa-row lob-product-row" data-product-index="1">
+                <div class="pa-field" style="flex:1 1 auto;">
+                  <label class="pa-label">Products/Services</label>
+                  <input type="text" class="pa-input lob-product-name" placeholder="e.g. Rice, Canned Goods">
+                </div>
+                <div style="display:flex; gap:6px; flex:0 0 auto;">
+                  <div class="pa-field" style="flex:0 0 140px;">
+                    <label class="pa-label lob-units-label">No. of Units</label>
+                    <input type="number" class="pa-input lob-product-units" placeholder="e.g. 50" min="0">
+                  </div>
+                  <div class="pa-field" style="flex:0 0 auto; min-width:0; align-items:flex-end; visibility:hidden;" aria-hidden="true">
+                    <label class="pa-label">Remove</label>
+                    <button type="button" class="pa-btn-back" style="padding:6px 9px;" tabindex="-1">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" class="pa-btn-back lob-add-product-btn" onclick="addProductRow(this)" style="margin-top:8px; margin-left:24px; padding:6px 14px; font-size:0.78rem;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Product/Service
+            </button>
+          </div>
+        </div>
+
+        <div class="pa-divider"></div>
+
+        <button type="button" class="pa-btn-back" id="lobAddBtn" onclick="addLobRow()" style="margin-top:12px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Another Business Activity
+        </button>
+
+        <div class="pa-required-note" style="margin-top:16px;"><span>*</span> Required field</div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:24px;">
+        <button type="button" class="pa-btn-back" onclick="backToSuccess()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button type="button" class="pa-btn-submit" onclick="submitLineOfBusiness()">
+          Continue
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+      ONLINE FLOW – STEP C: ADDITIONAL DOCUMENTS
+    ============================================================ -->
+    <div id="paAdditionalDocuments" style="display:none;">
+
+      <div class="pa-steps" id="docSteps">
+        <div class="pa-step done" id="docStep1Indicator">
+          <div class="pa-step-num">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="pa-step-label">Unified Application Form</span>
+        </div>
+        <div class="pa-step done" id="docStep2Indicator">
+          <div class="pa-step-num">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <span class="pa-step-label">Line of Business</span>
+        </div>
+        <div class="pa-step active" id="docStep3Indicator">
+          <div class="pa-step-num">3</div>
+          <span class="pa-step-label">Additional Documents</span>
+        </div>
+      </div>
+
+      <div class="pa-section-head">C. Additional Documents</div>
+      <div class="pa-form-card">
+        <div class="pa-sub-head" style="margin:0 0 10px;">Pinpoint Business Location</div>
+        <p class="pa-note" style="margin:0 0 16px;">Search for your business address or use your current location so we can see exactly where your business is situated.</p>
+
+        <div class="pa-row" style="align-items:flex-end;" id="bizLocationControls">
+          <div class="pa-field" style="flex:1 1 60%;">
+            <label class="pa-label" for="bizLocationSearch">Search Address</label>
+            <input type="text" class="pa-input" id="bizLocationSearch" placeholder="e.g. Sangguniang Panlungsod Building, Davao City" onkeydown="if(event.key==='Enter'){event.preventDefault(); searchBusinessLocation();}">
+          </div>
+          <div class="pa-field" style="flex:0 0 auto;">
+            <button type="button" class="pa-btn-back" onclick="searchBusinessLocation()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              Search
+            </button>
+          </div>
+          <div class="pa-field" style="flex:0 0 auto;">
+            <button type="button" class="pa-btn-back" onclick="useCurrentLocation()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+              Use My Current Location
+            </button>
+          </div>
+        </div>
+
+        <div style="border:1.5px solid #e2e5ef; border-radius:8px; overflow:hidden; margin-top:8px;">
+          <iframe id="bizLocationMap" src="https://www.google.com/maps?q=Sangguniang+Panlungsod+Building,+Davao+City&z=15&output=embed" width="100%" height="360" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div id="bizLocationCoords" style="margin:10px 0 0; padding:10px 14px; background:#f4f6fb; border:1px solid #e2e5ef; border-radius:6px; font-size:0.85rem; color:#4a5568; line-height:1.6;">No location selected yet.</div>
+        <input type="hidden" id="bizLat" name="bizLat">
+        <input type="hidden" id="bizLng" name="bizLng">
+        <input type="hidden" id="bizSavedAddress" name="bizSavedAddress">
+
+        <div id="bizLocationSaveRow" style="margin-top:12px;">
+          <button type="button" class="pa-btn-submit" onclick="saveBusinessLocation()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Location
+          </button>
+        </div>
+
+        <div id="bizLocationSavedBanner" style="display:none; margin-top:12px; padding:12px 14px; background:#eef7ee; border:1px solid #bfe3bf; border-radius:8px; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:8px; color:#1a7f37; font-size:0.88rem; font-weight:600;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            <span id="bizLocationSavedText">Business location saved.</span>
+          </div>
+          <button type="button" class="pa-btn-back" style="padding:6px 12px; font-size:0.8rem;" onclick="editBusinessLocation()">Edit Location</button>
+        </div>
+
+        <div class="pa-field" style="margin-top:20px; max-width:400px;">
+          <label class="pa-doc-label">Photo of Actual Business Establishment&nbsp;<span class="req">*</span></label>
+          <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+        </div>
+
+        <div class="pa-divider" style="margin:24px 0;"></div>
+
+        <p class="pa-note" style="margin:0 0 20px;">Upload scanned copy of the following. Accepted file types: JPG, PNG, or PDF only (max 10MB each).</p>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">Certified List of Employees / Certification of No Employee&nbsp;<span class="req">*</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">Valid I.D. of Representatives, Owners (Sole Proprietor, OPC, Partnership), and Corporate Secretary (Corporation, Cooperative)&nbsp;<span class="req">*</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">FSIC for Occupancy Permit (valid within the last 9 months)&nbsp;<span class="req">*</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">Affidavit of Undertaking that There Had Been No Substantial Changes Made on the Building&nbsp;<span class="req">*</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-divider" style="margin:20px 0;"></div>
+        <p class="pa-note" style="margin:0 0 16px;">The following documents are required only if applicable to your business, based on your answers in the Unified Application Form.</p>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-dti" style="display:none;">
+            <label class="pa-doc-label">Valid DTI Registration</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half" id="doc-sec" style="display:none;">
+            <label class="pa-doc-label">SEC Registration, Articles of Incorporation</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-coop" style="display:none;">
+            <label class="pa-doc-label">Certificate of Cooperation, Articles of Cooperation</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half" id="doc-spa" style="display:none;">
+            <label class="pa-doc-label">Special Power of Attorney for Representative</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-partres" style="display:none;">
+            <label class="pa-doc-label">Partnership Resolution for Representative</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half" id="doc-seccert" style="display:none;">
+            <label class="pa-doc-label">Secretary's Certificate or Board Resolution for Other Form of Ownership</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-lease" style="display:none;">
+            <label class="pa-doc-label">Contract of Lease and Copy of Proof of Ownership by the Lessor</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half" id="doc-proofown" style="display:none;">
+            <label class="pa-doc-label">Any Proof of Ownership</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-consent" style="display:none;">
+            <label class="pa-doc-label">Consent and Copy of Any Proof of Ownership</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half" id="doc-orcr" style="display:none;">
+            <label class="pa-doc-label">OR/CR of Vehicle (per vehicle)</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-doc-row">
+          <div class="pa-field w-half" id="doc-consentvehicle" style="display:none;">
+            <label class="pa-doc-label">Consent for Use of the Vehicle (if not owned by the applicant)</label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
+        <div class="pa-required-note" style="margin-top:4px;"><span>*</span> Required field</div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; margin-top:24px;">
+        <button type="button" class="pa-btn-back" onclick="backToLineOfBusiness()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </button>
+        <button type="button" class="pa-btn-submit" onclick="submitAdditionalDocuments()">
+          Submit Application
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+      ONLINE FLOW – FINAL: SUBMISSION SUCCESS
+    ============================================================ -->
+    <div class="pa-success" id="paDocSuccess" style="display:none;">
+      <div class="pa-success-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </div>
+      <h2>Application Submitted</h2>
+      <p>Your online application has been submitted successfully. Please keep your control number for tracking and reference.</p>
+
+      <div style="display:flex; flex-wrap:wrap; gap:24px; justify-content:center; align-items:center; margin-top:20px; background:#fff; border:1.5px solid #e2e5ef; border-radius:12px; padding:28px; max-width:500px;">
+        <div id="docQrCode" style="width:160px; height:160px; flex-shrink:0;"></div>
+        <div style="text-align:left;">
+          <div class="pa-sub-head" style="font-size:0.8rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Control No.</div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div id="docControlNo" style="font-family:'Oswald', sans-serif; font-size:2rem; font-weight:700; color:#0d1f4e; letter-spacing:0.05em;">000000</div>
+            <button type="button" id="copyControlNoBtn" onclick="copyControlNumber()" title="Copy control number" style="background:none; border:1.5px solid #d0d4e0; border-radius:6px; padding:6px; cursor:pointer; color:#0d1f4e; display:flex; align-items:center; justify-content:center;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </button>
+          </div>
+          <p style="font-size:0.8rem; color:#888; margin-top:8px; max-width:240px;">Scan the QR code or search your control number to view your application status.</p>
+        </div>
+      </div>
+
+      <button type="button" class="pa-btn-submit" style="margin-top:20px;" onclick="alert('This feature is coming soon.')">
+        View Application Status
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+
+      <a href="business-bureau.html" class="pa-sub-head" style="text-decoration:none; margin-top:20px; font-size:0.83rem; display:flex; align-items:center; gap:4px;">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Return to Home
       </a>
@@ -1980,14 +2339,6 @@
   <script src="main.js"></script>
 
   <script>
-    /* ── Signature: tab switching ── */
-    function switchSigTab(tab) {
-      document.getElementById('tabDraw').classList.toggle('active', tab === 'draw');
-      document.getElementById('tabUpload').classList.toggle('active', tab === 'upload');
-      document.getElementById('sigDrawPanel').style.display  = tab === 'draw'   ? 'block' : 'none';
-      document.getElementById('sigUploadPanel').style.display = tab === 'upload' ? 'block' : 'none';
-    }
-
     /* ── Signature: draw on canvas ── */
     (function initCanvas() {
       const canvas  = document.getElementById('sigCanvas');
@@ -2019,7 +2370,7 @@
         ctx.lineWidth   = 2;
         ctx.lineCap     = 'round';
         ctx.lineJoin    = 'round';
-        ctx.strokeStyle = document.body.classList.contains('dark') ? '#ffffff' : '#0d1f4e';
+        ctx.strokeStyle = '#0d1f4e';
         ctx.lineTo(p.x, p.y);
         ctx.stroke();
         ctx.beginPath();
@@ -2070,42 +2421,10 @@
       document.getElementById('sigSaveBtn').style.display  = 'flex';
     }
 
-    /* ── Signature: file upload ── */
-    function onSigFileSelect(input) {
-      if (!input.files || !input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function(e) { showUploadPreview(e.target.result); };
-      reader.readAsDataURL(input.files[0]);
-    }
-    function showUploadPreview(src) {
-      document.getElementById('sigUploadImg').src    = src;
-      document.getElementById('sigUploadArea').style.display    = 'none';
-      document.getElementById('sigUploadPreview').style.display = 'block';
-    }
-    function clearUpload() {
-      document.getElementById('sigFileInput').value  = '';
-      document.getElementById('sigUploadImg').src    = '';
-      document.getElementById('sigUploadArea').style.display    = 'flex';
-      document.getElementById('sigUploadPreview').style.display = 'none';
-    }
-    function onSigDragOver(e) {
-      e.preventDefault();
-      document.getElementById('sigUploadArea').classList.add('dragover');
-    }
-    function onSigDrop(e) {
-      e.preventDefault();
-      document.getElementById('sigUploadArea').classList.remove('dragover');
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = ev => showUploadPreview(ev.target.result);
-        reader.readAsDataURL(file);
-      }
-    }
-
     /* ── Owned? dropdown → show/hide tax fields ── */
     function toggleOwnershipFields(val) {
       document.getElementById('ownershipExtraFields').style.display = val === 'yes' ? 'block' : 'none';
+      updateDocRequirements();
     }
 
     /* ── Auto-set today's date on the declaration ── */
@@ -2137,6 +2456,8 @@
         document.getElementById('officerLabel').textContent = 'Name of Chairperson / Officer in Charge *';
         document.getElementById('block-officer').style.display = 'block';
       }
+
+      updateDocRequirements();
     }
 
     /* ── Step navigation ── */
@@ -2266,6 +2587,12 @@
       });
     });
 
+    /* ── Document prep modal (shown on load) ── */
+    function closeDocPrepModal() {
+      const modal = document.getElementById('docPrepModal');
+      if (modal) modal.style.display = 'none';
+    }
+
     /* ── Review modal helpers ── */
     function val(id) {
       const el = document.getElementById(id);
@@ -2336,16 +2663,10 @@
 
       /* ── Signature ── */
       let sigHTML = '';
-      const activeTab = document.getElementById('tabDraw').classList.contains('active') ? 'draw' : 'upload';
-      if (activeTab === 'draw') {
-        const canvas = document.getElementById('sigCanvas');
-        const px = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
-        if (!px.every(v => v === 0)) {
-          sigHTML = `<div class="review-sig-preview"><img src="${canvas.toDataURL()}" alt="Signature"></div>`;
-        }
-      } else {
-        const imgSrc = document.getElementById('sigUploadImg')?.src;
-        if (imgSrc) sigHTML = `<div class="review-sig-preview"><img src="${imgSrc}" alt="Signature"></div>`;
+      const canvas = document.getElementById('sigCanvas');
+      const px = canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+      if (!px.every(v => v === 0)) {
+        sigHTML = `<div class="review-sig-preview"><img src="${canvas.toDataURL()}" alt="Signature"></div>`;
       }
 
       /* ── Ownership ── */
@@ -2440,6 +2761,530 @@
       document.querySelector('.pa-info-banner').style.display = 'none';
       document.getElementById('paSuccess').style.display = 'flex';
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showLineOfBusiness() {
+      document.getElementById('paSuccess').style.display = 'none';
+      document.getElementById('paLineOfBusiness').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToSuccess() {
+      document.getElementById('paLineOfBusiness').style.display = 'none';
+      document.getElementById('paSuccess').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    let lobRowCount = 1;
+
+    /* ── Category → Products/Services starter data (editable) ── */
+    const DEFAULT_LOB_PLACEHOLDER = 'e.g. Rice, Canned Goods';
+    const DEFAULT_LOB_UNITS_LABEL = 'No. of Units';
+
+    const LOB_UNIT_LABELS = {
+      'Dwelling Places': 'No. of Rooms',
+      'Fish Corral and Fish Pens': 'Square Meters',
+      'Fish Hatcheries': 'Square Meters',
+      'Flammable and Combustible Materials and Equipment': 'No. of Gallons',
+      'Quarry Yards': 'Square Meters',
+      'Privately Owned Market': 'No. of Stalls'
+    };
+
+    const LOB_CATEGORIES = {
+      'Agricultural Machineries': 'e.g. Hand Tractors, Heavy Graders, Dump Truck, etc.',
+      'Amusement, Sports, and Recreational Centers and Places': 'e.g. Cockpits, Gymnasium, Basketball Courts, etc.',
+      'Cocktail Lounges, Bars, Clubs, and Similar Places': 'e.g. Bar, Nightclub, Beer Park, etc.',
+      'Communications Companies': 'e.g. Cable and Wireless Communications, TV Station, Radio Station, etc.',
+      'Delivery Vehicles': 'e.g. Motorized Tricycle, Jeepney, Six-Wheeler Truck, etc.',
+      'Dwelling Places': 'e.g. Boarding House, Hotels, Drive-ins',
+      'Electrical and Power Companies': 'e.g. Electric Company',
+      'Financial Institutions': 'e.g. Commercial Bank, Pawnshop, Insurance, etc.',
+      'Fish Corral and Fish Pens': 'e.g. Freshwater Fish Corral, Seawater Fish Pen, etc.',
+      'Fish Hatcheries': 'e.g. Milkfish (Bangus) Hatchery',
+      'Flammable and Combustible Materials and Equipment': 'e.g. Diesel, Crude Oil, Liquefied Petroleum Gas, etc.',
+      'Food Handling': 'e.g. Cafe, Restaurant, Refreshment Parlor, etc.',
+      'Manufacturers': 'e.g. Cement, Liquor, Animal Feeds, etc.',
+      'Membership Clubs, Sports Clubs, Country Clubs, and Other Exclusive Places': 'e.g. Membership Club, Sports Club, Country Club, etc.',
+      'Memorial Parks and Private Cemeteries': 'e.g. Memorial Park, Private Cemetery, Crematorium, etc.',
+      'Printing and Publications': 'e.g. Print Media - Books, Print Media - Newspapers, Publisher, etc.',
+      'Privately Owned Market': 'e.g. Private Commercial Building',
+      'Producers and Processors': 'e.g. Poultry, Preserved Goods, Rice, etc.',
+      'Quarry Yards': 'e.g. Quarry Yard',
+      'Real Estates': 'e.g. Real Estate Lessor, Real Estate Dealer, Real Estate Broker, etc.',
+      'Retailers': 'e.g. Cement, Cooking Oil, Rice, etc.',
+      'Sand and Gravel Quarries': 'e.g. Sand and Gravel Quarry',
+      'Sauna Baths and Massage Clinics': 'e.g. Massage Clinics, Spa, Sauna Baths, etc.',
+      'Service Contractors and Other Independent Contractors': 'e.g. Advertising, Carwash, Gasoline Service Filling Station, etc.',
+      'Subdivisions': 'e.g. Subdivision',
+      'Theatre and Cinemas': 'e.g. Theatre House, Cinema, Amphitheatre, etc.',
+      'Transloading Services': 'e.g. Private Hauler, Buses, Public Utility Jeepney, etc.',
+      'Wholesalers, Dealers, and Distributors': 'e.g. Cement, Cooking Oil, Rice, etc.',
+      'Others': 'e.g. Other product or service'
+    };
+
+    function populateLobCategorySelect(select) {
+      Object.keys(LOB_CATEGORIES).forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat;
+        opt.textContent = cat;
+        select.appendChild(opt);
+      });
+    }
+
+    function onLobCategoryChange(select) {
+      const category = select.value;
+      const placeholder = LOB_CATEGORIES[category] || DEFAULT_LOB_PLACEHOLDER;
+      const unitsLabel  = LOB_UNIT_LABELS[category] || DEFAULT_LOB_UNITS_LABEL;
+      const block = select.closest('.lob-activity-block');
+      block.querySelectorAll('.lob-product-name').forEach(input => {
+        input.placeholder = placeholder;
+      });
+      block.querySelectorAll('.lob-units-label').forEach(label => {
+        label.textContent = unitsLabel;
+      });
+    }
+
+    /* Populate the initial (first) Category dropdown on page load */
+    document.querySelectorAll('.lob-category').forEach(populateLobCategorySelect);
+
+    function addLobRow() {
+      const rows = document.getElementById('lobRows');
+      lobRowCount = rows.querySelectorAll('.lob-activity-block').length + 1;
+
+      const divider = document.createElement('div');
+      divider.className = 'pa-divider';
+      divider.setAttribute('data-lob-divider', lobRowCount);
+      rows.appendChild(divider);
+
+      const block = document.createElement('div');
+      block.className = 'lob-activity-block';
+      block.setAttribute('data-lob-index', lobRowCount);
+      block.innerHTML = `
+        <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+          <div class="pa-sub-head" style="margin:0;">Business Activity #${lobRowCount}</div>
+          <button type="button" class="pa-btn-back" style="padding:6px 9px;" onclick="removeLobRow(this)" title="Remove this business activity">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="pa-row lob-row">
+          <div class="pa-field" style="flex:1 1 78%;">
+            <label class="pa-label">Category</label>
+            <select class="pa-select lob-category" onchange="onLobCategoryChange(this)"></select>
+          </div>
+          <div class="pa-field" style="flex:1 1 18%;">
+            <label class="pa-label">Capital</label>
+            <input type="number" class="pa-input lob-capital" placeholder="e.g. 1000" min="0">
+          </div>
+        </div>
+
+        <p class="pa-note" style="padding-left:24px; margin:0 0 8px;">Please specify and enumerate all the products and/or services offered under this business activity.</p>
+
+        <div class="lob-products" data-product-count="1" style="padding-left:24px;">
+          <div class="pa-row lob-product-row" data-product-index="1">
+            <div class="pa-field" style="flex:1 1 auto;">
+              <label class="pa-label">Products/Services</label>
+              <input type="text" class="pa-input lob-product-name" placeholder="e.g. Rice, Canned Goods">
+            </div>
+            <div style="display:flex; gap:6px; flex:0 0 auto;">
+              <div class="pa-field" style="flex:0 0 140px;">
+                <label class="pa-label lob-units-label">No. of Units</label>
+                <input type="number" class="pa-input lob-product-units" placeholder="e.g. 50" min="0">
+              </div>
+              <div class="pa-field" style="flex:0 0 auto; min-width:0; align-items:flex-end; visibility:hidden;" aria-hidden="true">
+                <label class="pa-label">Remove</label>
+                <button type="button" class="pa-btn-back" style="padding:6px 9px;" tabindex="-1">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="pa-btn-back lob-add-product-btn" onclick="addProductRow(this)" style="margin-top:8px; margin-left:24px; padding:6px 14px; font-size:0.78rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Product/Service
+        </button>
+      `;
+      rows.appendChild(block);
+      populateLobCategorySelect(block.querySelector('.lob-category'));
+    }
+
+    function removeLobRow(btn) {
+      const block = btn.closest('.lob-activity-block');
+      const divider = block.previousElementSibling;
+      if (divider && divider.hasAttribute('data-lob-divider')) divider.remove();
+      delete lobProductCounters[block.getAttribute('data-lob-index')];
+      block.remove();
+    }
+
+    let lobProductCounters = {};
+
+    function addProductRow(btn) {
+      const block = btn.closest('.lob-activity-block');
+      const blockIndex = block.getAttribute('data-lob-index');
+      lobProductCounters[blockIndex] = (lobProductCounters[blockIndex] || 1) + 1;
+      const productIndex = lobProductCounters[blockIndex];
+
+      const productsContainer = block.querySelector('.lob-products');
+      const category = block.querySelector('.lob-category').value;
+      const placeholder = LOB_CATEGORIES[category] || DEFAULT_LOB_PLACEHOLDER;
+      const unitsLabel  = LOB_UNIT_LABELS[category] || DEFAULT_LOB_UNITS_LABEL;
+
+      const row = document.createElement('div');
+      row.className = 'pa-row lob-product-row';
+      row.setAttribute('data-product-index', productIndex);
+      row.innerHTML = `
+        <div class="pa-field" style="flex:1 1 auto;">
+          <label class="pa-label">Products/Services</label>
+          <input type="text" class="pa-input lob-product-name" placeholder="${placeholder}">
+        </div>
+        <div style="display:flex; gap:6px; flex:0 0 auto;">
+          <div class="pa-field" style="flex:0 0 140px;">
+            <label class="pa-label lob-units-label">${unitsLabel}</label>
+            <input type="number" class="pa-input lob-product-units" placeholder="e.g. 50" min="0">
+          </div>
+          <div class="pa-field" style="flex:0 0 auto; min-width:0; align-items:flex-end;">
+            <label class="pa-label" style="visibility:hidden;">Remove</label>
+            <button type="button" class="pa-btn-back" style="padding:6px 9px;" onclick="removeProductRow(this)" title="Remove this product/service">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+      `;
+      productsContainer.appendChild(row);
+    }
+
+    function removeProductRow(btn) {
+      btn.closest('.lob-product-row').remove();
+    }
+
+    function submitLineOfBusiness() {
+      const categories = document.querySelectorAll('.lob-category');
+      const capitals   = document.querySelectorAll('.lob-capital');
+      const category1 = categories[0] ? categories[0].value.trim() : '';
+      const capital1  = capitals[0] ? capitals[0].value.trim() : '';
+      if (!category1 || !capital1) {
+        alert('Please select a Category and provide its Capital before continuing.');
+        return;
+      }
+      showAdditionalDocuments();
+    }
+
+    function showAdditionalDocuments() {
+      document.getElementById('paLineOfBusiness').style.display = 'none';
+      document.getElementById('paAdditionalDocuments').style.display = 'block';
+      updateDocRequirements();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function backToLineOfBusiness() {
+      document.getElementById('paAdditionalDocuments').style.display = 'none';
+      document.getElementById('paLineOfBusiness').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ── Additional Documents: show/hide conditional uploads ── */
+    function updateDocRequirements() {
+      const struct  = document.getElementById('bizStructure')?.value || '';
+      const owned   = document.getElementById('ownership')?.value || '';
+      const dvVan   = parseInt(document.getElementById('dvVan')?.value, 10)  || 0;
+      const dvMoto  = parseInt(document.getElementById('dvMoto')?.value, 10) || 0;
+      const hasVehicles = (dvVan + dvMoto) > 0;
+
+      const show = (id, on) => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = on ? '' : 'none';
+      };
+
+      show('doc-dti',     struct === 'sole');
+      show('doc-spa',     struct === 'sole');
+      show('doc-sec',     struct === 'partnership' || struct === 'opc' || struct === 'corporation');
+      show('doc-partres', struct === 'partnership');
+      show('doc-coop',    struct === 'cooperative');
+      show('doc-seccert', struct === 'opc' || struct === 'corporation' || struct === 'cooperative');
+
+      show('doc-lease',    owned === 'no');
+      show('doc-consent',  owned === 'no');
+      show('doc-proofown', owned === 'yes');
+
+      show('doc-orcr',          hasVehicles);
+      show('doc-consentvehicle', hasVehicles);
+
+      equalizeDocRows();
+    }
+
+    /* When only one field in a pa-doc-row is visible, let it span the full row
+       instead of leaving a blank gap where the hidden field would have been. */
+    function equalizeDocRows() {
+      document.querySelectorAll('.pa-doc-row').forEach(row => {
+        const fields = Array.from(row.querySelectorAll(':scope > .pa-field'));
+        const visible = fields.filter(f => f.style.display !== 'none');
+
+        fields.forEach(f => {
+          const label = f.querySelector('.pa-doc-label');
+          const input = f.querySelector('.pa-file-input');
+          const span = (visible.length === 1) ? '1 / -1' : '';
+          if (label) label.style.gridColumn = span;
+          if (input) input.style.gridColumn = span;
+        });
+      });
+    }
+
+    /* ── Enforce JPG/PNG/PDF only on document uploads ── */
+    const DOC_ALLOWED_EXT  = ['jpg', 'jpeg', 'png', 'pdf'];
+    const DOC_ALLOWED_MIME = ['image/jpeg', 'image/png', 'application/pdf'];
+    const DOC_MAX_SIZE     = 10 * 1024 * 1024; // 10MB
+
+    function validateDocFile(input) {
+      const file = input.files[0];
+      if (!file) return;
+
+      const ext = file.name.split('.').pop().toLowerCase();
+      const validType = DOC_ALLOWED_EXT.includes(ext) &&
+                         (file.type === '' || DOC_ALLOWED_MIME.includes(file.type));
+
+      if (!validType) {
+        alert('Only JPG, PNG, or PDF files are accepted. Please choose a different file.');
+        input.value = '';
+        return;
+      }
+      if (file.size > DOC_MAX_SIZE) {
+        alert('This file is larger than 10MB. Please choose a smaller file.');
+        input.value = '';
+        return;
+      }
+    }
+
+    function submitAdditionalDocuments() {
+      const required = document.querySelectorAll('#paAdditionalDocuments .pa-field:not([style*="display:none"]):not([style*="display: none"]) .req');
+      let missing = false;
+      required.forEach(reqSpan => {
+        const field = reqSpan.closest('.pa-field');
+        const input = field ? field.querySelector('input[type="file"]') : null;
+        if (input && input.files.length === 0) missing = true;
+      });
+      if (missing) {
+        alert('Please upload all required documents (marked with *) before submitting.');
+        return;
+      }
+      openDocReview();
+    }
+
+    function openDocReview() {
+      const body = document.getElementById('docReviewBody');
+
+      /* ── Line of Business summary ── */
+      const lobBlocks = [];
+      document.querySelectorAll('#paLineOfBusiness .lob-activity-block').forEach((block, idx) => {
+        const categorySelect = block.querySelector('.lob-category');
+        const category = categorySelect && categorySelect.value ? categorySelect.value : '— No category selected —';
+        const capitalInput = block.querySelector('.lob-capital');
+        const capital = capitalInput && capitalInput.value ? '₱' + Number(capitalInput.value).toLocaleString() : '— No capital entered —';
+
+        const products = [];
+        block.querySelectorAll('.lob-product-row').forEach(row => {
+          const nameInput  = row.querySelector('.lob-product-name');
+          const unitsInput = row.querySelector('.lob-product-units');
+          const name  = nameInput && nameInput.value.trim() ? nameInput.value.trim() : null;
+          const units = unitsInput && unitsInput.value.trim() ? unitsInput.value.trim() : null;
+          if (name || units) {
+            products.push(`${name || 'Unnamed product/service'}${units ? ' (' + units + ')' : ''}`);
+          }
+        });
+
+        lobBlocks.push(`<div style="padding:12px 0; border-bottom:1px solid #e2e5ef;">
+          <div style="font-weight:700; color:#0d1f4e; margin-bottom:6px;">Business Activity #${idx + 1}</div>
+          <div style="display:flex; justify-content:space-between; gap:16px; font-size:0.88rem; color:#4a5568; margin-bottom:4px;">
+            <span>Category</span><span style="color:#0d1f4e; font-weight:600; text-align:right;">${category}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; gap:16px; font-size:0.88rem; color:#4a5568; margin-bottom:4px;">
+            <span>Capital</span><span style="color:#0d1f4e; font-weight:600; text-align:right;">${capital}</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; gap:16px; font-size:0.88rem; color:#4a5568;">
+            <span>Products/Services</span>
+            <span style="color:#0d1f4e; font-weight:600; text-align:right;">${products.length ? products.join(', ') : '— None entered —'}</span>
+          </div>
+        </div>`);
+      });
+
+      const lobSection = `
+        <div class="pa-sub-head" style="margin:0 0 8px;">Line of Business</div>
+        ${lobBlocks.length ? lobBlocks.join('') : '<p class="pa-note" style="margin:0 0 8px;">No business activities entered yet.</p>'}
+        <div class="pa-sub-head" style="margin:20px 0 8px;">Additional Documents</div>
+      `;
+
+      /* ── Documents list ── */
+      const rows = [];
+      document.querySelectorAll('#paAdditionalDocuments .pa-field').forEach(field => {
+        if (field.style.display === 'none') return;
+        const label = field.querySelector('.pa-doc-label');
+        const input = field.querySelector('input[type="file"]');
+        if (!label || !input) return;
+        const name = label.textContent.replace(/\*$/, '').trim();
+        const file = input.files[0] ? input.files[0].name : '— No file uploaded —';
+        rows.push(`<div style="display:flex; justify-content:space-between; gap:16px; padding:10px 0; border-bottom:1px solid #e2e5ef;">
+          <span style="color:#4a5568;">${name}</span>
+          <span style="color:#0d1f4e; font-weight:600; text-align:right;">${file}</span>
+        </div>`);
+      });
+
+      body.innerHTML = `<p class="pa-note" style="margin:0 0 12px;">Please review your Line of Business details and documents before submitting.</p>` + lobSection + rows.join('');
+      document.getElementById('docReviewModal').style.display = 'flex';
+    }
+
+    function closeDocReview() {
+      document.getElementById('docReviewModal').style.display = 'none';
+    }
+
+    function confirmDocSubmit() {
+      closeDocReview();
+      const controlNo = String(Math.floor(100000 + Math.random() * 900000));
+      document.getElementById('docControlNo').textContent = controlNo;
+      renderPlaceholderQR('docQrCode', controlNo);
+      document.getElementById('paAdditionalDocuments').style.display = 'none';
+      document.getElementById('paDocSuccess').style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function copyControlNumber() {
+      const controlNo = document.getElementById('docControlNo').textContent;
+      const btn = document.getElementById('copyControlNoBtn');
+      const showCopied = () => {
+        const original = btn.innerHTML;
+        btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1a7f37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+        setTimeout(() => { btn.innerHTML = original; }, 1500);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(controlNo).then(showCopied).catch(() => {
+          alert('Could not copy automatically. Your control number is: ' + controlNo);
+        });
+      } else {
+        // Fallback for older browsers
+        const temp = document.createElement('textarea');
+        temp.value = controlNo;
+        document.body.appendChild(temp);
+        temp.select();
+        try {
+          document.execCommand('copy');
+          showCopied();
+        } catch (e) {
+          alert('Could not copy automatically. Your control number is: ' + controlNo);
+        }
+        document.body.removeChild(temp);
+      }
+    }
+
+    /* ── Business Location map (Additional Documents) ── */
+    function searchBusinessLocation() {
+      const query = document.getElementById('bizLocationSearch').value.trim();
+      if (!query) {
+        alert('Please enter an address to search.');
+        return;
+      }
+      const encoded = encodeURIComponent(query);
+      document.getElementById('bizLocationMap').src = `https://www.google.com/maps?q=${encoded}&z=17&output=embed`;
+      document.getElementById('bizLat').value = '';
+      document.getElementById('bizLng').value = '';
+      document.getElementById('bizLocationCoords').textContent = `Looking up coordinates for "${query}"...`;
+
+      // Free geocoding (no API key) via OpenStreetMap Nominatim, just to surface lat/lng.
+      // The map display itself still uses Google Maps above.
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encoded}`)
+        .then(res => res.json())
+        .then(results => {
+          if (results && results.length > 0) {
+            const lat = parseFloat(results[0].lat);
+            const lng = parseFloat(results[0].lon);
+            document.getElementById('bizLat').value = lat;
+            document.getElementById('bizLng').value = lng;
+            document.getElementById('bizLocationCoords').innerHTML =
+              `Address: "${query}"<br><strong>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</strong> — please confirm this matches the map above.`;
+          } else {
+            document.getElementById('bizLocationCoords').textContent =
+              `Showing results for: "${query}". Coordinates unavailable for this search — try a more specific address, or use "Use My Current Location".`;
+          }
+        })
+        .catch(() => {
+          document.getElementById('bizLocationCoords').textContent =
+            `Showing results for: "${query}". Couldn't fetch coordinates right now — the map above should still reflect your search.`;
+        });
+    }
+
+    function useCurrentLocation() {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by this browser. Please use the search box instead.');
+        return;
+      }
+      document.getElementById('bizLocationCoords').textContent = 'Getting your current location...';
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          document.getElementById('bizLat').value = lat;
+          document.getElementById('bizLng').value = lng;
+          document.getElementById('bizLocationMap').src = `https://www.google.com/maps?q=${lat},${lng}&z=18&output=embed`;
+          document.getElementById('bizLocationCoords').innerHTML = `<strong>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</strong> — pinned using your current location.`;
+        },
+        () => {
+          document.getElementById('bizLocationCoords').textContent = 'Could not get your current location. Please allow location access or use the search box instead.';
+        }
+      );
+    }
+
+    function saveBusinessLocation() {
+      const lat = document.getElementById('bizLat').value;
+      const lng = document.getElementById('bizLng').value;
+      const searchText = document.getElementById('bizLocationSearch').value.trim();
+
+      if (!lat && !lng && !searchText) {
+        alert('Please search an address or use your current location before saving.');
+        return;
+      }
+
+      const summary = (lat && lng)
+        ? `Pinned coordinates: ${parseFloat(lat).toFixed(6)}, ${parseFloat(lng).toFixed(6)}`
+        : `Address: "${searchText}"`;
+
+      document.getElementById('bizSavedAddress').value = summary;
+      document.getElementById('bizLocationSavedText').textContent = `Business location saved — ${summary}`;
+
+      document.getElementById('bizLocationControls').style.display = 'none';
+      document.getElementById('bizLocationSaveRow').style.display = 'none';
+      document.getElementById('bizLocationSavedBanner').style.display = 'flex';
+    }
+
+    function editBusinessLocation() {
+      document.getElementById('bizLocationControls').style.display = 'flex';
+      document.getElementById('bizLocationSaveRow').style.display = 'block';
+      document.getElementById('bizLocationSavedBanner').style.display = 'none';
+    }
+
+    /* Simple placeholder QR-looking pattern (not a real scannable QR code) */
+    function renderPlaceholderQR(containerId, seedStr) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      let seed = 0;
+      for (let i = 0; i < seedStr.length; i++) seed = (seed * 31 + seedStr.charCodeAt(i)) >>> 0;
+      const rand = () => { seed = (seed * 1103515245 + 12345) >>> 0; return (seed >>> 8) / 16777216; };
+
+      const size = 21;
+      let cells = '';
+      for (let y = 0; y < size; y++) {
+        for (let x = 0; x < size; x++) {
+          const inFinder = (x < 7 && y < 7) || (x >= size - 7 && y < 7) || (x < 7 && y >= size - 7);
+          let on;
+          if (inFinder) {
+            const lx = x < 7 ? x : x - (size - 7);
+            const ly = y < 7 ? y : y - (size - 7);
+            on = (lx === 0 || lx === 6 || ly === 0 || ly === 6 || (lx >= 2 && lx <= 4 && ly >= 2 && ly <= 4));
+          } else {
+            on = rand() > 0.55;
+          }
+          if (on) cells += `<rect x="${x}" y="${y}" width="1" height="1" fill="#0d1f4e"/>`;
+        }
+      }
+      container.innerHTML = `<svg viewBox="0 0 ${size} ${size}" width="160" height="160" style="background:#fff;">${cells}</svg>`;
     }
 
     /* ── Logo base64 data ── */
@@ -2810,16 +3655,10 @@
 
       /* ══ SIGNATURE BLOCK ══ */
 
-      const activeTab = document.getElementById('tabDraw').classList.contains('active') ? 'draw' : 'upload';
       let sigUrl = null;
-      if(activeTab === 'draw'){
-        const cv = document.getElementById('sigCanvas');
-        const px = cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data;
-        if(!px.every(v => v===0)) sigUrl = cv.toDataURL('image/png');
-      } else {
-        const src = document.getElementById('sigUploadImg')?.src;
-        if(src && src.startsWith('data:')) sigUrl = src;
-      }
+      const cv = document.getElementById('sigCanvas');
+      const px = cv.getContext('2d').getImageData(0,0,cv.width,cv.height).data;
+      if(!px.every(v => v===0)) sigUrl = cv.toDataURL('image/png');
 
       const sigLineW = CW * 0.5;
       const sigLineX = ML + (CW - sigLineW) / 2;
@@ -2891,7 +3730,11 @@
 
     // Close on Escape
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') closeReview();
+      if (e.key === 'Escape') {
+        closeReview();
+        closeDocPrepModal();
+        closeDocReview();
+      }
     });
   </script>
 
@@ -2921,6 +3764,40 @@
           Edit Details
         </button>
         <button type="button" class="pa-btn-submit" onclick="confirmSubmit()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirm &amp; Submit
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+    ADDITIONAL DOCUMENTS REVIEW MODAL
+  ============================================================ -->
+  <div id="docReviewModal" class="review-overlay" style="display:none;" aria-modal="true" role="dialog">
+    <div class="review-modal">
+
+      <div class="review-modal-head">
+        <div class="review-modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Review Your Application
+        </div>
+        <button type="button" class="review-close-btn" onclick="closeDocReview()" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="review-modal-body" id="docReviewBody">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="review-modal-foot">
+        <button type="button" class="pa-btn-back" onclick="closeDocReview()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          Edit Documents
+        </button>
+        <button type="button" class="pa-btn-submit" onclick="confirmDocSubmit()">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
           Confirm &amp; Submit
         </button>
