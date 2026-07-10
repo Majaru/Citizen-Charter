@@ -164,7 +164,10 @@
       <!-- Text + CTA -->
       <div class="hero-content-text">
         <h1>Empowering<br>Your Business</h1>
-        <a href="javascript:void(0)" class="btn-cta" role="button">Start Your Application</a>
+        <div style="display:flex; flex-wrap:wrap; gap:14px;">
+          <a href="javascript:void(0)" class="btn-cta" role="button">Get Your Permits Now</a>
+          <a href="javascript:void(0)" class="btn-cta btn-cta-status" role="button" onclick="alert('This feature is coming soon.')">View Application Status</a>
+        </div>
       </div>
 
     <!-- ============================================================
@@ -1112,6 +1115,26 @@
           </svg>
         </a>
 
+        <!-- Option B: Amend Existing Business Permit -->
+        <a href="javascript:void(0)" onclick="openAmendModal()"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Amend Existing Business Permit</strong>
+            <span>For businesses updating information on an existing, active business permit.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
         <!-- Option C: Renew Existing Business Permit -->
         <a href="https://appbts.davaocity.gov.ph/access" target="_blank" rel="noopener"
            class="bp-option-card bp-option-renew">
@@ -1136,6 +1159,142 @@
       </div><!-- end .modal-body -->
     </div><!-- end .modal -->
   </div><!-- end #bpModalBackdrop -->
+
+
+  <!-- ============================================================
+    MODAL – Amend Existing Business Permit: choose amendment type
+    Appears when "Amend Existing Business Permit" is clicked.
+  ============================================================ -->
+  <div class="modal-backdrop" id="amendModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="amendModalTitle"
+       style="display:none;">
+    <div class="modal" style="max-width:560px;">
+
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <!-- Back button -->
+          <button onclick="closeAmendModal(true)" aria-label="Back"
+                  style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.8);font-family:'Oswald',sans-serif;font-size:0.85rem;letter-spacing:0.05em;padding:0;margin-bottom:0.4rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            BACK
+          </button>
+          <h2 id="amendModalTitle">Amend Existing Business Permit</h2>
+          <p>What would you like to amend?</p>
+        </div>
+        <button class="modal-close" id="amendModalClose" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="display:flex;flex-direction:column;gap:1rem;padding:1.5rem 2rem 2rem;">
+
+        <!-- Change Business Address -->
+        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Change Business Address</strong>
+            <span>Update the registered location of your business.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Additional Business Line -->
+        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <line x1="12" y1="5" x2="12" y2="19"/>
+              <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Additional Business Line</strong>
+            <span>Add a new line of business under your existing permit.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Transfer of Ownership -->
+        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <path d="M17 1l4 4-4 4"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+              <path d="M7 23l-4-4 4-4"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Transfer of Ownership</strong>
+            <span>Change the registered owner of the business.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Change Business Name -->
+        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <path d="M4 7V4h16v3"/>
+              <path d="M9 20h6"/>
+              <path d="M12 4v16"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Change Business Name</strong>
+            <span>Update the registered trade name of your business.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+        <!-- Other Amendments -->
+        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
+           class="bp-option-card bp-option-amend">
+          <div class="bp-option-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+          </div>
+          <div class="bp-option-text">
+            <strong>Other Amendments</strong>
+            <span>For amendment types not listed above.</span>
+          </div>
+          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+
+      </div><!-- end .modal-body -->
+    </div><!-- end .modal -->
+  </div><!-- end #amendModalBackdrop -->
 
 
   <!-- Inline styles for the BP sub-modal option cards -->
@@ -1215,6 +1374,10 @@
     /* Renew Existing → teal/blue (#1a5276 matches --teal and permit-card.occupational) */
     body.dark .bp-option-renew                  { background: #1a5276; }
     body.dark .bp-option-renew:hover            { background: #154466; border-color: transparent; }
+
+    /* Amend Existing → maroon accent */
+    body.dark .bp-option-amend                  { background: #7a3b3b; }
+    body.dark .bp-option-amend:hover            { background: #663131; border-color: transparent; }
   </style>
 
 
@@ -1245,7 +1408,7 @@
     }
 
     // Open on any .btn-cta click
-    document.querySelectorAll('.btn-cta').forEach(btn => {
+    document.querySelectorAll('.btn-cta:not(.btn-cta-status)').forEach(btn => {
       btn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
     });
 
@@ -1260,6 +1423,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) closeModal();
       if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal(true);
+      if (e.key === 'Escape' && amendModalBackdrop.classList.contains('visible')) closeAmendModal(true);
     });
 
     /* ── Business Permit sub-modal ── */
@@ -1294,6 +1458,40 @@
 
     bpModalBackdrop.addEventListener('click', (e) => {
       if (e.target === bpModalBackdrop) closeBPModal();
+    });
+
+    /* ── Amend Existing Business Permit sub-modal ── */
+    const amendModalBackdrop = document.getElementById('amendModalBackdrop');
+    const amendModalClose    = document.getElementById('amendModalClose');
+
+    function openAmendModal() {
+      // Close the Business Permit modal first, then open this sub-modal
+      closeBPModal(false);
+      setTimeout(() => {
+        amendModalBackdrop.style.display = 'flex';
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          amendModalBackdrop.classList.add('visible');
+        }));
+        document.body.style.overflow = 'hidden';
+      }, 300);
+    }
+
+    function closeAmendModal(goBack = false) {
+      amendModalBackdrop.classList.remove('visible');
+      amendModalBackdrop.addEventListener('transitionend', () => {
+        amendModalBackdrop.style.display = 'none';
+        if (goBack) {
+          openBPModal();
+        } else {
+          document.body.style.overflow = '';
+        }
+      }, { once: true });
+    }
+
+    amendModalClose.addEventListener('click', () => closeAmendModal(false));
+
+    amendModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === amendModalBackdrop) closeAmendModal();
     });
 
     /* ============================================================
