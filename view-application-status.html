@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Check the status of your Business Bureau application using your business ID or control number."/>
+  <meta property="og:title" content="View Application Status – Business Bureau, City of Davao"/>
+  <meta property="og:description" content="Track your Business Bureau application status online using your business ID or control number."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="Images/business bureau logo.png"/>
+  <link rel="canonical" href="view-application-status.html"/>
+  <!-- Dark mode flash prevention: apply class before first paint -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Business Bureau – City of Davao</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    .vas-page {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 48px 20px 80px;
+    }
+
+    .vas-search-card {
+      background: #fff;
+      border: 1.5px solid #e2e5ef;
+      border-radius: 12px;
+      padding: 36px 32px;
+      text-align: center;
+      box-shadow: 0 2px 16px rgba(13,31,78,0.06);
+    }
+    body.dark .vas-search-card {
+      background: #0f1b35;
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .vas-search-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(184,151,58,0.12);
+      color: #b8973a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    body.dark .vas-search-icon { background: rgba(255,255,255,0.12); color: #d4aa50; }
+
+    .vas-search-card h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin: 0 0 8px;
+    }
+    body.dark .vas-search-card h2 { color: #fff; }
+
+    .vas-search-note {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+    body.dark .vas-search-note { color: rgba(255,255,255,0.65); }
+    .vas-search-note strong { color: #0d1f4e; }
+    body.dark .vas-search-note strong { color: #fff; }
+
+    .vas-search-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .vas-search-input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px 16px;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.95rem;
+      color: #0d1f4e;
+      background: #fff;
+    }
+    .vas-search-input:focus {
+      outline: none;
+      border-color: #b8973a;
+      box-shadow: 0 0 0 3px rgba(184,151,58,0.15);
+    }
+    body.dark .vas-search-input {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+    body.dark .vas-search-input::placeholder { color: rgba(255,255,255,0.4); }
+
+    .vas-search-btn {
+      width: 100%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 22px;
+      background: #b8973a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .vas-search-btn:hover { background: #a8872e; }
+
+    .vas-search-error {
+      margin-top: 14px;
+      font-size: 0.85rem;
+      color: #c0392b;
+      text-align: left;
+    }
+
+    .vas-results {
+      margin-top: 24px;
+      background: #fff;
+      border: 1.5px solid #e2e5ef;
+      border-radius: 12px;
+      padding: 28px 32px;
+      text-align: center;
+    }
+    body.dark .vas-results {
+      background: #0f1b35;
+      border-color: rgba(255,255,255,0.1);
+    }
+    .vas-results-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(107,114,128,0.12);
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+    }
+    body.dark .vas-results-icon { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+    .vas-results h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin: 0 0 8px;
+    }
+    body.dark .vas-results h3 { color: #fff; }
+    .vas-results p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.88rem;
+      color: #6b7280;
+      line-height: 1.6;
+      margin: 0;
+    }
+    body.dark .vas-results p { color: rgba(255,255,255,0.65); }
+
+    .vas-demo-hint {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #9a8558;
+      text-align: left;
+      font-style: italic;
+    }
+    body.dark .vas-demo-hint { color: rgba(212,170,80,0.8); }
+
+    /* ── "Found" result state ── */
+    .vas-results { text-align: left; }
+    .vas-found-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .vas-found-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: #1a7f37;
+    }
+    body.dark .vas-found-badge { color: #4ade80; }
+
+    .vas-status-pill {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .vas-status-submitted               { background: rgba(107,114,128,0.15); color: #4b5563; }
+    .vas-status-under_review            { background: rgba(184,151,58,0.15); color: #8a6d1f; }
+    .vas-status-additional_docs         { background: rgba(192,57,43,0.15); color: #c0392b; }
+    .vas-status-preassessed             { background: rgba(26,82,118,0.15); color: #1a5276; }
+    .vas-status-preassessment_approved  { background: rgba(107,76,17,0.15); color: #6b4c11; }
+    .vas-status-processing              { background: rgba(26,82,118,0.15); color: #1a5276; }
+    .vas-status-permit_ready            { background: rgba(26,127,55,0.15); color: #1a7f37; }
+    body.dark .vas-status-submitted              { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
+    body.dark .vas-status-under_review           { background: rgba(212,170,80,0.2); color: #d4aa50; }
+    body.dark .vas-status-additional_docs        { background: rgba(239,83,80,0.2); color: #ff8a80; }
+    body.dark .vas-status-preassessed            { background: rgba(96,165,250,0.2); color: #93c5fd; }
+    body.dark .vas-status-preassessment_approved { background: rgba(212,170,80,0.2); color: #d4aa50; }
+    body.dark .vas-status-processing             { background: rgba(96,165,250,0.2); color: #93c5fd; }
+    body.dark .vas-status-permit_ready           { background: rgba(74,222,128,0.2); color: #4ade80; }
+
+    .vas-found-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 24px;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #e2e5ef;
+    }
+    body.dark .vas-found-grid { border-color: rgba(255,255,255,0.1); }
+    .vas-found-grid > div { display: flex; flex-direction: column; gap: 3px; }
+    .vas-found-grid span {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    body.dark .vas-found-grid span { color: rgba(255,255,255,0.45); }
+    .vas-found-grid strong {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0d1f4e;
+    }
+    body.dark .vas-found-grid strong { color: #fff; }
+
+    .vas-timeline {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .vas-timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+    .vas-timeline-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.65rem;
+      border: 2px solid #d0d4e0;
+      color: #9ca3af;
+      background: #fff;
+    }
+    body.dark .vas-timeline-dot { background: #0f1b35; border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.5); }
+    .vas-timeline-step span {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.63rem;
+      font-weight: 600;
+      color: #9ca3af;
+      text-align: center;
+      max-width: 76px;
+      line-height: 1.25;
+    }
+    body.dark .vas-timeline-step span { color: rgba(255,255,255,0.45); }
+    .vas-timeline-done .vas-timeline-dot { background: #1a7f37; border-color: #1a7f37; color: #fff; }
+    .vas-timeline-done span { color: #1a7f37; }
+    body.dark .vas-timeline-done span { color: #4ade80; }
+    .vas-timeline-active .vas-timeline-dot { border-color: #b8973a; background: #b8973a; color: #fff; }
+    .vas-timeline-active span { color: #0d1f4e; font-weight: 700; }
+    body.dark .vas-timeline-active span { color: #fff; }
+    .vas-timeline-line {
+      flex: 1 1 auto;
+      height: 2px;
+      background: #e2e5ef;
+      margin: 0 2px 20px;
+    }
+    body.dark .vas-timeline-line { background: rgba(255,255,255,0.15); }
+
+    /* Additional Documents Required alert */
+    .vas-alert {
+      display: flex;
+      gap: 12px;
+      background: rgba(192,57,43,0.06);
+      border: 1px solid rgba(192,57,43,0.25);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    body.dark .vas-alert { background: rgba(239,83,80,0.08); border-color: rgba(239,83,80,0.3); }
+    .vas-alert-icon {
+      flex: 0 0 auto;
+      color: #c0392b;
+      margin-top: 2px;
+    }
+    body.dark .vas-alert-icon { color: #ff8a80; }
+    .vas-alert strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #c0392b;
+      margin-bottom: 4px;
+    }
+    body.dark .vas-alert strong { color: #ff8a80; }
+    .vas-alert p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin: 0 0 10px;
+    }
+    body.dark .vas-alert p { color: rgba(255,255,255,0.75); }
+    .vas-alert-btn {
+      display: inline-block;
+      background: #c0392b;
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 9px 16px;
+      border-radius: 6px;
+    }
+    .vas-alert-btn:hover { background: #a5311f; }
+
+    /* Payment instructions block */
+    .vas-payment {
+      background: rgba(107,76,17,0.06);
+      border: 1px solid rgba(107,76,17,0.25);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    body.dark .vas-payment { background: rgba(212,170,80,0.08); border-color: rgba(212,170,80,0.3); }
+    .vas-payment > strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #6b4c11;
+      margin-bottom: 10px;
+    }
+    body.dark .vas-payment > strong { color: #d4aa50; }
+    .vas-payment-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5568;
+      padding: 4px 0;
+    }
+    body.dark .vas-payment-row { color: rgba(255,255,255,0.75); }
+    .vas-payment-row strong { color: #0d1f4e; }
+    body.dark .vas-payment-row strong { color: #fff; }
+    .vas-payment ol {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.83rem;
+      color: #4a5568;
+      line-height: 1.7;
+    }
+    body.dark .vas-payment ol { color: rgba(255,255,255,0.75); }
+
+    .vas-found-note {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin: 0;
+      background: #f4f6fb;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    body.dark .vas-found-note { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.05); }
+
+    @media (max-width: 700px) {
+      .vas-found-grid { grid-template-columns: 1fr; }
+      .vas-timeline { flex-wrap: wrap; row-gap: 12px; }
+      .vas-timeline-line { display: none; }
+      .vas-timeline-step { flex: 1 1 30%; }
+      .vas-timeline-step span { max-width: none; font-size: 0.62rem; }
+      .vas-alert, .vas-payment { flex-direction: column; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+    HEADER – same on every page.
+    class="active" marks the current page's nav link.
+  ============================================================ -->
+  <header>
+    <div class="nav-inner">
+
+      <a href="business-bureau.html" class="logo-link">
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
+        <div class="logo-text">
+          <span>BUSINESS</span>
+          <span>BUREAU</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="business-bureau.html">Home</a></li>
+        <li><a href="citizens-charter.html">Citizen's Charter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="business-bureau.html"  class="mobile-link">Home</a>
+      <a href="citizens-charter.html" class="mobile-link">Citizen's Charter</a>
+      <a href="about.html"            class="mobile-link">About</a>
+      <a href="contact.html"          class="mobile-link">Contact</a>
+          <!-- Settings section inside mobile menu -->
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Filipino <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+        <div class="mobile-settings-row mobile-settings-row--disabled">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Admin Mode <span class="mobile-soon-badge">Soon</span>
+          </span>
+          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+    PAGE HERO
+  ============================================================ -->
+  <section class="hero hero-inner">
+    <div class="hero-content">
+      <h1>View Application Status</h1>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+    APPLICATION STATUS SEARCH
+  ============================================================ -->
+  <main class="vas-page">
+
+    <div class="vas-search-card">
+      <div class="vas-search-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </div>
+      <h2>Check Your Application Status</h2>
+      <p class="vas-search-note">Enter your <strong>business ID</strong> or <strong>control number</strong> to look up your application.</p>
+
+      <form id="vasSearchForm" class="vas-search-form" onsubmit="return vasHandleSearch(event)">
+        <input type="text" id="vasSearchInput" class="vas-search-input"
+               placeholder="e.g. your business ID or control number" autocomplete="off">
+        <button type="submit" class="vas-search-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Search
+        </button>
+      </form>
+
+      <div id="vasSearchError" class="vas-search-error" style="display:none;">Please enter a business ID or control number to search.</div>
+
+      <!-- DEV NOTE: remove this hint once real backend lookup is connected -->
+      <p class="vas-demo-hint">For testing, try control numbers <strong>100001</strong>–<strong>100007</strong> to preview each status (Submitted, Under Review, Additional Documents Required, Forwarded, Approved, Processing, Permit Ready). Try <strong>100008</strong> and <strong>100009</strong> to see the Business Bureau's remark change based on business line.</p>
+    </div>
+
+    <div id="vasResults" class="vas-results" style="display:none;"></div>
+
+  </main><!-- end .vas-page -->
+
+
+  <!-- ============================================================
+    FOOTER – same on every page.
+  ============================================================ -->
+  <footer>
+    <div class="footer-inner">
+
+      
+      <!-- Column 1: Links -->
+      <div class="footer-col">
+        <h4>Links</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
+          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
+        </div>
+      </div>
+
+      <!-- Column 2: Location -->
+      <div class="footer-col">
+        <h4>Location</h4>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>Ground Floor, Sangguniang Panlungsod Building, San Pedro Street (near Bolton Street), Poblacion District, Davao City</span>
+        </div>
+      </div>
+
+      <!-- Column 3: Contact Information -->
+      <div class="footer-col">
+        <h4>Contact Information</h4>
+
+        <!-- Phone -->
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+          </svg>
+          <span>(082) 241-1000 Loc 377/378</span>
+        </div>
+
+        <!-- Email -->
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+          <span>busbureau@davaocity.gov.ph</span>
+        </div>
+        <div class="contact-row">
+          <svg viewBox="0 0 24 24" fill="#b8973a" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.477 2 2 6.145 2 11.259c0 2.913 1.454 5.512 3.726 7.21V22l3.405-1.869c.909.252 1.871.388 2.869.388 5.523 0 10-4.144 10-9.259S17.523 2 12 2zm1.007 12.462l-2.548-2.718-4.976 2.718 5.474-5.808 2.61 2.718 4.913-2.718-5.473 5.808z"/>
+          </svg>
+          <a href="https://m.me/busbureaudavao"
+             target="_blank" rel="noopener"
+             style="color:rgba(255,255,255,0.85); transition:color 0.2s;"
+             onmouseover="this.style.color='#b8973a'"
+             onmouseout="this.style.color='rgba(255,255,255,0.85)'">
+            Business Bureau - Davao City
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Column 3: Logo placeholders
+           Replace each .logo-placeholder div with a real <img> tag:
+             <img src="your-logo.png" alt="Description" class="partner-logo">
+      -->
+      <div class="footer-col footer-logos">
+        <div class="logo-grid">
+          <div class="logo-placeholder">
+            <img src="Images/city-government logo.png" alt="Logo 1" class="partner-logo">
+          </div>
+          <div class="logo-placeholder">
+            <img src="Images/life-is-here.png" alt="Logo 2" class="partner-logo">
+          </div>
+          <div class="logo-placeholder">
+            <img src="Images/dcplinado.png" alt="Logo 3" class="partner-logo">
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- end .footer-inner -->
+
+    <!-- Update copyright year and org name here -->
+    <div class="footer-bottom">
+      &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. All rights reserved.
+    </div>
+  </footer>
+
+
+  <!-- Shared JS: hamburger menu + PDF loading overlay + iOS/Safari detection -->
+  
+  <!-- Settings – fixed to right edge of viewport, desktop only -->
+  <div class="settings-wrap" id="settingsWrap">
+    <button class="settings-btn" id="settingsBtn" aria-label="Settings" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    </button>
+    <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
+
+      <!-- Appearance -->
+      <div class="settings-label">Appearance</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+          Dark Mode
+        </span>
+        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Language -->
+      <div class="settings-label">Language</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+          Filipino
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Translation coming soon</div>
+
+      <div class="settings-divider"></div>
+
+      <!-- Admin -->
+      <div class="settings-label">Admin</div>
+      <div class="settings-row">
+        <span class="settings-row-text">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Enter Admin Mode
+        </span>
+        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
+          <span class="settings-toggle-thumb"></span>
+        </button>
+      </div>
+      <div class="settings-coming-soon">Admin features coming soon</div>
+
+    </div>
+  </div>
+
+  
+
+  <script>
+    /* ── DEMO DATA — for designing the application status flow.
+       Remove this once real backend lookup is connected. ──
+
+       Real flow:
+       1. Submitted Application
+       2. Application Under Review
+          → may branch to "Additional Documents Required" (applicant must act)
+          → or proceed to "Forwarded to Regulatory Offices"
+       3. Forwarded to Regulatory Offices (sent to Regulatory Offices)
+       4. Approved (all Regulatory Offices approved — payment instructions shown)
+       5. Processing Permit (after payment)
+       6. Permit Ready
+    */
+
+    const VAS_STATUS_STEPS = [
+      { key: 'submitted',               label: 'Submitted' },
+      { key: 'under_review',            label: 'Under Review' },
+      { key: 'preassessed',             label: 'Forwarded' },
+      { key: 'preassessment_approved',  label: 'Approved' },
+      { key: 'processing',              label: 'Processing Permit' },
+      { key: 'permit_ready',            label: 'Permit Ready' }
+    ];
+
+    const VAS_STATUS_LABELS = {
+      submitted:              'Submitted Application',
+      under_review:           'Application Under Review',
+      additional_docs:        'Additional Documents Required',
+      preassessed:            'Forwarded to Regulatory Offices',
+      preassessment_approved: 'Approved',
+      processing:             'Processing Permit',
+      permit_ready:           'Permit Ready'
+    };
+
+    /* ── Business line → additional required documents.
+       Sourced from the Business Bureau's "Required Documents for Specific
+       Business Lines" reference table. Keys match the Category options in
+       pre-assessment.html's Line of Business section. Powers the dynamic
+       "Remark from Business Bureau" text below. Categories without an exact
+       match in the source table use a reasonable general requirement. ── */
+    const VAS_CATEGORY_DOCS = {
+      'Agricultural Machineries': ['Land Transportation Office (LTO) Certificate of Registration for each unit, as applicable'],
+      'Amusement, Sports, and Recreational Centers and Places': ['City Development Council Clearance', 'Sangguniang Panlungsod (SP) Ordinance/Resolution'],
+      'Cocktail Lounges, Bars, Clubs, and Similar Places': ['Sangguniang Panlungsod (SP) Ordinance/Resolution'],
+      'Communications Companies': ['NTC License to Operate', 'Congressional Franchise or Sangguniang Panlungsod Resolution'],
+      'Delivery Vehicles': ['OR/CR of each vehicle', 'LTO Certificate & HPG Clearance, or an Affidavit of Undertaking if not registered under the applicant'],
+      'Dwelling Places': ['Tax Declaration (Land & Building)', 'Building Permit'],
+      'Electrical and Power Companies': ['Congressional Franchise or Sangguniang Panlungsod Resolution', 'Department of Energy Certificate of Compliance'],
+      'Financial Institutions': ['Bangko Sentral ng Pilipinas (BSP) Authority to Operate / Certificate of Registration'],
+      'Fish Corral and Fish Pens': ['Bureau of Fisheries and Aquatic Resources (BFAR) Permit', 'Foreshore or Water Lease Agreement, if applicable'],
+      'Fish Hatcheries': ['Bureau of Fisheries and Aquatic Resources (BFAR) Permit'],
+      'Flammable and Combustible Materials and Equipment': ['Department of Energy Certificate of Compliance', 'Bureau of Fire Protection Permit to Store Flammable/Combustible Materials'],
+      'Food Handling': ['Food and Drug Administration (FDA) License / Certificate of Product Registration or Notification', 'Sanitary Permit'],
+      'Manufacturers': ['Food and Drug Administration (FDA) License / Certificate of Product Registration, if applicable to your product'],
+      'Membership Clubs, Sports Clubs, Country Clubs, and Other Exclusive Places': ['City Development Council Clearance', 'Sangguniang Panlungsod (SP) Ordinance/Resolution'],
+      'Memorial Parks and Private Cemeteries': ['Sangguniang Panlungsod (SP) Ordinance/Resolution'],
+      'Printing and Publications': ['DTI Business Name Registration', "Mayor's Permit clearance specific to printing/publication operations"],
+      'Privately Owned Market': ['Stall Certificates from the City Treasurer\'s Office and City Economic Enterprise, as applicable'],
+      'Producers and Processors': ['Food and Drug Administration (FDA) License / Certificate of Product Registration, if applicable to your product'],
+      'Quarry Yards': ["Mayor's Permit to Quarry (indicate the gross capacity of the trucks)"],
+      'Real Estates': ["Professional Regulation Commission (PRC) Broker's License and PTR (for brokers)", 'HLURB Accreditation (for real estate dealers)'],
+      'Retailers': ['DTI Business Name Registration'],
+      'Sand and Gravel Quarries': ['Commercial Sand and Gravel Permit (if less than 5 hectares), or Mines and Geosciences Bureau Industrial Sand and Gravel/Earthfill Permit (if more than 5 hectares)'],
+      'Sauna Baths and Massage Clinics': ['Certificate of Registration (COR) and License for Massage Therapists issued by the DOH Committee of Examiners for Massage Therapy (CEMT), or NC II License to Operate from CEMT'],
+      'Service Contractors and Other Independent Contractors': ['DTI-PCAB License (for building/construction contractors)', 'Applicable professional accreditation'],
+      'Subdivisions': ['HLURB License to Sell/Operate', 'Sangguniang Panlungsod (SP) Ordinance/Resolution'],
+      'Transloading Services': ['LTFRB Franchise Contract or Provisional Authority', 'CTTMO Franchise', 'OR/CR of vehicles used'],
+      'Wholesalers, Dealers, and Distributors': ['DTI Business Name Registration', 'Applicable FDA/DA product registration depending on goods sold'],
+      'Others': ['Please coordinate with the Business Bureau for the specific documents required for your declared business line.']
+    };
+
+    function vasBuildRemark(category) {
+      const docs = VAS_CATEGORY_DOCS[category] || VAS_CATEGORY_DOCS['Others'];
+      const docList = docs.length > 1
+        ? docs.slice(0, -1).join(', ') + ', and ' + docs[docs.length - 1]
+        : docs[0];
+      return `Please submit the following additional document(s) based on your declared business line, "${category}": ${docList}.`;
+    }
+
+    const VAS_DEMO_RECORDS = {
+      '100001': {
+        controlNo: '100001', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'July 10, 2026',
+        status: 'submitted',
+        note: 'Your application has been received and is in queue for review by the Business Bureau.'
+      },
+      '100002': {
+        controlNo: '100002', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'July 9, 2026',
+        status: 'under_review',
+        note: 'A Business Bureau representative is currently reviewing your application.'
+      },
+      '100003': {
+        controlNo: '100003', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'July 8, 2026',
+        status: 'additional_docs',
+        timelineKey: 'under_review',
+        category: 'Food Handling',
+        remark: vasBuildRemark('Food Handling'),
+        note: 'Your application is on hold until the additional documents below are submitted.'
+      },
+      '100004': {
+        controlNo: '100004', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'July 5, 2026',
+        status: 'preassessed',
+        note: 'Your application has been forwarded to the concerned Regulatory Offices for pre-assessment.'
+      },
+      '100005': {
+        controlNo: '100005', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'July 1, 2026',
+        status: 'preassessment_approved',
+        note: 'All Regulatory Offices have approved your pre-assessment. Please settle your assessed fees to proceed.',
+        payment: {
+          amount: '₱ 3,450.00',
+          reference: 'PA-2026-100005',
+          instructions: [
+            'Pay in person at the Business Bureau Cashier, Ground Floor, Sangguniang Panlungsod Building.',
+            'Or pay online via the City of Davao e-Payment portal using your reference number below.',
+            'Present or upload your official receipt once payment is complete.'
+          ]
+        }
+      },
+      '100006': {
+        controlNo: '100006', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'June 28, 2026',
+        status: 'processing',
+        note: 'Your payment has been received. Your business permit is now being processed.'
+      },
+      '100007': {
+        controlNo: '100007', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        type: 'New Business Permit (Online)', submitted: 'June 20, 2026',
+        status: 'permit_ready',
+        note: 'Your business permit is ready. Please claim it at the Business Bureau, Ground Floor, Sangguniang Panlungsod Building.'
+      },
+      '100008': {
+        controlNo: '100008', applicant: 'Maria Santos', business: 'Santos Sand & Gravel Supply',
+        type: 'New Business Permit (Online)', submitted: 'July 7, 2026',
+        status: 'additional_docs',
+        timelineKey: 'under_review',
+        category: 'Sand and Gravel Quarries',
+        remark: vasBuildRemark('Sand and Gravel Quarries'),
+        note: 'Your application is on hold until the additional documents below are submitted.'
+      },
+      '100009': {
+        controlNo: '100009', applicant: 'Ana Reyes', business: 'Reyes Wellness Spa',
+        type: 'New Business Permit (Online)', submitted: 'July 6, 2026',
+        status: 'additional_docs',
+        timelineKey: 'under_review',
+        category: 'Sauna Baths and Massage Clinics',
+        remark: vasBuildRemark('Sauna Baths and Massage Clinics'),
+        note: 'Your application is on hold until the additional documents below are submitted.'
+      }
+    };
+
+    function vasRenderTimeline(currentKey) {
+      const currentIndex = VAS_STATUS_STEPS.findIndex(s => s.key === currentKey);
+      return `<div class="vas-timeline">
+        ${VAS_STATUS_STEPS.map((step, i) => {
+          const state = i < currentIndex ? 'done' : (i === currentIndex ? 'active' : 'upcoming');
+          return `<div class="vas-timeline-step vas-timeline-${state}">
+            <div class="vas-timeline-dot">${i < currentIndex ? '&#10003;' : ''}</div>
+            <span>${step.label}</span>
+          </div>`;
+        }).join('<div class="vas-timeline-line"></div>')}
+      </div>`;
+    }
+
+    function vasRenderFound(record) {
+      const results = document.getElementById('vasResults');
+      results.style.display = 'block';
+
+      const isAdditionalDocs = record.status === 'additional_docs';
+      const timelineKey = record.timelineKey || record.status;
+      const statusLabel = VAS_STATUS_LABELS[record.status];
+      const pillClass = isAdditionalDocs ? 'vas-status-additional_docs' : `vas-status-${record.status}`;
+
+      let extraHTML = '';
+
+      if (isAdditionalDocs) {
+        extraHTML += `
+          <div class="vas-alert">
+            <div class="vas-alert-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div>
+              <strong>Remark from Business Bureau</strong>
+              <p>${record.remark}</p>
+              <a href="pre-assessment.html" class="vas-alert-btn">Submit Additional Documents</a>
+            </div>
+          </div>
+        `;
+      }
+
+      if (record.payment) {
+        extraHTML += `
+          <div class="vas-payment">
+            <strong>Payment Instructions</strong>
+            <div class="vas-payment-row"><span>Amount Due</span><strong>${record.payment.amount}</strong></div>
+            <div class="vas-payment-row"><span>Reference No.</span><strong>${record.payment.reference}</strong></div>
+            <ol>${record.payment.instructions.map(step => `<li>${step}</li>`).join('')}</ol>
+          </div>
+        `;
+      }
+
+      results.innerHTML = `
+        <div class="vas-found-head">
+          <div class="vas-found-badge">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Application Found
+          </div>
+          <div class="vas-status-pill ${pillClass}">${statusLabel}</div>
+        </div>
+
+        <div class="vas-found-grid">
+          <div><span>Control No.</span><strong>${record.controlNo}</strong></div>
+          <div><span>Applicant</span><strong>${record.applicant}</strong></div>
+          <div><span>Business Name</span><strong>${record.business}</strong></div>
+          <div><span>Application Type</span><strong>${record.type}</strong></div>
+          <div><span>Date Submitted</span><strong>${record.submitted}</strong></div>
+        </div>
+
+        ${vasRenderTimeline(timelineKey)}
+
+        ${extraHTML}
+
+        <p class="vas-found-note">${record.note}</p>
+      `;
+      results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function vasRenderNotFound(query) {
+      const results = document.getElementById('vasResults');
+      results.style.display = 'block';
+      results.innerHTML = `
+        <div class="vas-results-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="16" x2="12" y2="12"/>
+            <line x1="12" y1="8" x2="12.01" y2="8"/>
+          </svg>
+        </div>
+        <h3>No Matching Application Found</h3>
+        <p>We couldn't find a match for "<strong>${query.replace(/</g, '&lt;')}</strong>". Please double-check your business ID or control number, or contact the Business Bureau directly for assistance.</p>
+      `;
+      results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function vasHandleSearch(event) {
+      event.preventDefault();
+
+      const input = document.getElementById('vasSearchInput');
+      const errorBox = document.getElementById('vasSearchError');
+      const results = document.getElementById('vasResults');
+      const query = input.value.trim();
+
+      if (!query) {
+        errorBox.style.display = 'block';
+        results.style.display = 'none';
+        return false;
+      }
+      errorBox.style.display = 'none';
+
+      // Placeholder lookup — no backend/database is connected yet.
+      // Searching one of the demo control numbers below shows what each status looks like.
+      const record = VAS_DEMO_RECORDS[query];
+      if (record) {
+        vasRenderFound(record);
+      } else {
+        vasRenderNotFound(query);
+      }
+      return false;
+    }
+  </script>
+
+  <script src="main.js"></script>
+</body>
+</html>
