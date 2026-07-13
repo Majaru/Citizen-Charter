@@ -356,6 +356,7 @@
       font-family: 'Source Sans 3', sans-serif;
     }
     body.dark .pa-note { color: rgba(255,255,255,0.4); }
+    #docPrepList em { color: #c0392b; font-style: normal; }
 
     /* ── Line of Business table ── */
     .pa-lob-table {
@@ -1081,11 +1082,13 @@
 
       <div class="review-modal-body">
         <p class="pa-note" style="margin:0 0 16px;">Before filling up the Unified Application Form, please prepare scanned copies of the following, as applicable to your business:</p>
-        <ol style="margin:0; padding-left:20px; line-height:1.9; font-size:0.92rem; color:#0d1f4e;">
+        <ol id="docPrepList" style="margin:0; padding-left:20px; line-height:1.9; font-size:0.92rem; color:#0d1f4e;">
           <li>Certified List of Employees / Certification of No Employee</li>
-          <li>Valid I.D. of Representatives, Owners (Sole Proprietor, OPC, Partnership), and Corporate Secretary (Corporation, Cooperative)</li>
+          <li>Valid I.D. of Representatives, Owners <em>(Sole Proprietor, OPC, Partnership)</em>, and Corporate Secretary <em>(Corporation, Cooperative)</em></li>
           <li>Fire Safety Inspection Certificate (FSIC) for Occupancy Permit, valid within the last 9 months</li>
           <li>Affidavit of Undertaking that there had been no substantial changes made on the building</li>
+          <li>DOLE / POEA Certificate of Registration <em>(optional)</em></li>
+          <li>DHSUD Certificate of Registration <em>(optional)</em></li>
           <li>Valid DTI Registration <em>(if Sole Proprietorship)</em></li>
           <li>SEC Registration, Articles of Incorporation <em>(if Partnership, One Person Corporation, or Corporation)</em></li>
           <li>Certificate of Cooperation, Articles of Cooperation <em>(if Cooperative)</em></li>
@@ -2076,6 +2079,17 @@
           </div>
         </div>
 
+        <div class="pa-doc-row">
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">DOLE / POEA Certificate of Registration <span class="pa-note" style="font-weight:600; font-style:normal;">(Optional)</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+          <div class="pa-field w-half">
+            <label class="pa-doc-label">DHSUD Certificate of Registration <span class="pa-note" style="font-weight:600; font-style:normal;">(Optional)</span></label>
+            <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+          </div>
+        </div>
+
         <div class="pa-divider" style="margin:20px 0;"></div>
         <p class="pa-note" style="margin:0 0 16px;">The following documents are required only if applicable to your business, based on your answers in the Unified Application Form.</p>
 
@@ -2179,11 +2193,11 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             </button>
           </div>
-          <p style="font-size:0.8rem; color:#888; margin-top:8px; max-width:240px;">Scan the QR code or search your control number to view your application status.</p>
+          <p style="font-size:0.8rem; color:#888; margin-top:8px; max-width:240px;">Use the QR code or search your control number to view your application status.</p>
         </div>
       </div>
 
-      <button type="button" class="pa-btn-submit" style="margin-top:20px;" onclick="alert('This feature is coming soon.')">
+      <button type="button" class="pa-btn-submit" style="margin-top:20px;" onclick="window.location.href='view-application-status.html'">
         View Application Status
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </button>
