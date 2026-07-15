@@ -1408,6 +1408,74 @@
     body.dark .permit-card.pc-renew               { background: #6b4c11; }
     body.dark .permit-card.pc-renew .permit-icon   { background: rgba(255,255,255,0.15); color: #fff; }
     body.dark .permit-card.pc-renew .permit-select { background: #ffffff; color: #6b4c11; }
+
+    /* ── Admin Mode entry + login modal ── */
+    .settings-row--clickable { cursor: pointer; border-radius: 6px; transition: background 0.15s; }
+    .settings-row--clickable:hover { background: rgba(184,151,58,0.1); }
+    body.dark .settings-row--clickable:hover { background: rgba(255,255,255,0.08); }
+
+    .admin-login-field { margin-bottom: 16px; }
+    .admin-login-field label {
+      display: block;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin-bottom: 6px;
+    }
+    body.dark .admin-login-field label { color: #fff; }
+    .admin-login-field input {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 11px 14px;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 8px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.92rem;
+      color: #0d1f4e;
+      background: #fff;
+    }
+    .admin-login-field input:focus {
+      outline: none;
+      border-color: #b8973a;
+      box-shadow: 0 0 0 3px rgba(184,151,58,0.15);
+    }
+    body.dark .admin-login-field input {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
+    }
+
+    .admin-login-error {
+      font-size: 0.83rem;
+      color: #c0392b;
+      margin-bottom: 14px;
+    }
+
+    .admin-login-hint {
+      font-size: 0.76rem;
+      font-style: italic;
+      color: #9a8558;
+      margin: 0 0 18px;
+    }
+    body.dark .admin-login-hint { color: rgba(212,170,80,0.8); }
+
+    .admin-login-btn {
+      width: 100%;
+      background: #b8973a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .admin-login-btn:hover { background: #a8872e; }
   </style>
 
 
@@ -1523,6 +1591,76 @@
     amendModalBackdrop.addEventListener('click', (e) => {
       if (e.target === amendModalBackdrop) closeAmendModal();
     });
+
+    /* ── Admin Mode login modal ──
+       NOTE: wrapped in DOMContentLoaded because the settings dropdown /
+       admin modal markup is defined later in the document than this
+       script block — looking these up immediately would return null. */
+    let adminLoginBackdrop, adminLoginClose, adminModeRow;
+
+    function openAdminLogin() {
+      // Close the settings dropdown first, if open
+      const dropdown = document.getElementById('settingsDropdown');
+      const btn = document.getElementById('settingsBtn');
+      if (dropdown) dropdown.classList.remove('open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+
+      document.getElementById('adminLoginError').style.display = 'none';
+      document.getElementById('adminLoginForm').reset();
+      adminLoginBackdrop.style.display = 'flex';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        adminLoginBackdrop.classList.add('visible');
+      }));
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAdminLogin() {
+      adminLoginBackdrop.classList.remove('visible');
+      adminLoginBackdrop.addEventListener('transitionend', () => {
+        adminLoginBackdrop.style.display = 'none';
+        document.body.style.overflow = '';
+      }, { once: true });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      adminLoginBackdrop = document.getElementById('adminLoginBackdrop');
+      adminLoginClose    = document.getElementById('adminLoginClose');
+      adminModeRow       = document.getElementById('adminModeRow');
+
+      if (!adminLoginBackdrop || !adminLoginClose || !adminModeRow) return;
+
+      adminModeRow.addEventListener('click', openAdminLogin);
+      adminModeRow.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openAdminLogin(); }
+      });
+
+      adminLoginClose.addEventListener('click', closeAdminLogin);
+      adminLoginBackdrop.addEventListener('click', (e) => {
+        if (e.target === adminLoginBackdrop) closeAdminLogin();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && adminLoginBackdrop.classList.contains('visible')) closeAdminLogin();
+      });
+    });
+
+    /* DEV NOTE: demo credentials only — replace with real authentication
+       (and never check passwords client-side in plaintext) once a backend exists. */
+    const ADMIN_DEMO_CREDENTIALS = { empId: 'EMP-0001', password: 'admin123' };
+
+    function adminHandleLogin(event) {
+      event.preventDefault();
+      const empId    = document.getElementById('adminEmpId').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const errorBox = document.getElementById('adminLoginError');
+
+      if (empId.toUpperCase() === ADMIN_DEMO_CREDENTIALS.empId && password === ADMIN_DEMO_CREDENTIALS.password) {
+        errorBox.style.display = 'none';
+        window.location.href = 'admin-dashboard.html';
+      } else {
+        errorBox.style.display = 'block';
+      }
+      return false;
+    }
 
     /* ============================================================
       SERVICE DETAIL MODAL
@@ -1936,7 +2074,7 @@
 
       <!-- Admin -->
       <div class="settings-label">Admin</div>
-      <div class="settings-row">
+      <div class="settings-row settings-row--clickable" id="adminModeRow" role="button" tabindex="0">
         <span class="settings-row-text">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1945,11 +2083,48 @@
           </svg>
           Enter Admin Mode
         </span>
-        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
-          <span class="settings-toggle-thumb"></span>
-        </button>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.5;">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
       </div>
-      <div class="settings-coming-soon">Admin features coming soon</div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+    MODAL – Admin Mode Login
+  ============================================================ -->
+  <div class="modal-backdrop" id="adminLoginBackdrop" role="dialog" aria-modal="true" aria-labelledby="adminLoginTitle" style="display:none;">
+    <div class="modal" style="max-width:420px;">
+
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2 id="adminLoginTitle">Admin Mode</h2>
+          <p>Sign in with your employee credentials</p>
+        </div>
+        <button class="modal-close" id="adminLoginClose" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="display:block; padding:1.75rem 2rem 2rem;">
+        <form id="adminLoginForm" onsubmit="return adminHandleLogin(event)">
+          <div class="admin-login-field">
+            <label for="adminEmpId">Employee ID</label>
+            <input type="text" id="adminEmpId" placeholder="e.g. EMP-0001" autocomplete="off">
+          </div>
+          <div class="admin-login-field">
+            <label for="adminPassword">Password</label>
+            <input type="password" id="adminPassword" placeholder="Enter your password" autocomplete="off">
+          </div>
+          <div id="adminLoginError" class="admin-login-error" style="display:none;">Invalid employee ID or password. Please try again.</div>
+
+          <!-- DEV NOTE: remove this hint once real authentication is connected -->
+          <p class="admin-login-hint">For testing, use Employee ID <strong>EMP-0001</strong> and password <strong>admin123</strong>.</p>
+
+          <button type="submit" class="admin-login-btn">Log In</button>
+        </form>
+      </div>
 
     </div>
   </div>
