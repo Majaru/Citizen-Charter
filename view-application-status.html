@@ -26,9 +26,23 @@
 
   <style>
     .vas-page {
-      max-width: 700px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 48px 20px 80px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+
+    .vas-search-col {
+      flex: 0 0 380px;
+      position: sticky;
+      top: 24px;
+    }
+
+    .vas-results-col {
+      flex: 1 1 auto;
+      min-width: 0;
     }
 
     .vas-search-card {
@@ -135,17 +149,32 @@
     }
 
     .vas-results {
-      margin-top: 24px;
       background: #fff;
       border: 1.5px solid #e2e5ef;
       border-radius: 12px;
       padding: 28px 32px;
       text-align: center;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     body.dark .vas-results {
       background: #0f1b35;
       border-color: rgba(255,255,255,0.1);
     }
+    .vas-results-empty {
+      color: #9ca3af;
+      text-align: center;
+    }
+    .vas-results-empty svg { color: #d1d5db; }
+    .vas-results-empty p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    body.dark .vas-results-empty { color: rgba(255,255,255,0.4); }
+    body.dark .vas-results-empty svg { color: rgba(255,255,255,0.25); }
     .vas-results-icon {
       width: 48px;
       height: 48px;
@@ -185,7 +214,7 @@
     body.dark .vas-demo-hint { color: rgba(212,170,80,0.8); }
 
     /* ── "Found" result state ── */
-    .vas-results { text-align: left; }
+    .vas-results.vas-has-content { text-align: left; justify-content: flex-start; }
     .vas-found-head {
       display: flex;
       flex-wrap: wrap;
@@ -355,6 +384,40 @@
       border-radius: 6px;
     }
     .vas-alert-btn:hover { background: #a5311f; }
+    .vas-alert-btn { border: none; cursor: pointer; font-family: 'Oswald', sans-serif; }
+
+    .vas-upload-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .vas-upload-field label {
+      display: block;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin-bottom: 5px;
+    }
+    body.dark .vas-upload-field label { color: #fff; }
+    .vas-upload-field input[type="file"] {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 9px 12px;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 6px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      background: #fff;
+      color: #0d1f4e;
+      cursor: pointer;
+    }
+    body.dark .vas-upload-field input[type="file"] {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.25);
+      color: #fff;
+    }
 
     /* Payment instructions block */
     .vas-payment {
@@ -396,6 +459,58 @@
     }
     body.dark .vas-payment ol { color: rgba(255,255,255,0.75); }
 
+    /* Printable documents (Forwarded stage) */
+    .vas-downloads {
+      background: rgba(26,82,118,0.06);
+      border: 1px solid rgba(26,82,118,0.2);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+    }
+    body.dark .vas-downloads { background: rgba(96,165,250,0.08); border-color: rgba(96,165,250,0.3); }
+    .vas-downloads > strong {
+      display: block;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #1a5276;
+      margin-bottom: 6px;
+    }
+    body.dark .vas-downloads > strong { color: #93c5fd; }
+    .vas-downloads > p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+    body.dark .vas-downloads > p { color: rgba(255,255,255,0.75); }
+    .vas-downloads-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .vas-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: #1a5276;
+      border: 1.5px solid #1a5276;
+      border-radius: 6px;
+      padding: 9px 16px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .vas-download-btn:hover { background: #1a5276; color: #fff; }
+    body.dark .vas-download-btn { background: transparent; color: #93c5fd; border-color: #93c5fd; }
+    body.dark .vas-download-btn:hover { background: #93c5fd; color: #0f1b35; }
+
     .vas-found-note {
       font-family: 'Source Sans 3', sans-serif;
       font-size: 0.85rem;
@@ -407,6 +522,12 @@
       padding: 12px 14px;
     }
     body.dark .vas-found-note { color: rgba(255,255,255,0.75); background: rgba(255,255,255,0.05); }
+
+    @media (max-width: 900px) {
+      .vas-page { flex-direction: column; }
+      .vas-search-col { flex-basis: auto; width: 100%; position: static; }
+      .vas-results-col { width: 100%; }
+    }
 
     @media (max-width: 700px) {
       .vas-found-grid { grid-template-columns: 1fr; }
@@ -516,7 +637,8 @@
   ============================================================ -->
   <main class="vas-page">
 
-    <div class="vas-search-card">
+    <div class="vas-search-col">
+      <div class="vas-search-card">
       <div class="vas-search-icon">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/>
@@ -524,11 +646,13 @@
         </svg>
       </div>
       <h2>Check Your Application Status</h2>
-      <p class="vas-search-note">Enter your <strong>business ID</strong> or <strong>control number</strong> to look up your application.</p>
+      <p class="vas-search-note">Enter your <strong>business ID</strong> or <strong>control number</strong>, plus the <strong>email address</strong> or <strong>mobile number</strong> used on your application, to verify it's really you before viewing your status.</p>
 
       <form id="vasSearchForm" class="vas-search-form" onsubmit="return vasHandleSearch(event)">
         <input type="text" id="vasSearchInput" class="vas-search-input"
                placeholder="e.g. your business ID or control number" autocomplete="off">
+        <input type="text" id="vasVerifyInput" class="vas-search-input"
+               placeholder="Email address or mobile number used on your application" autocomplete="off">
         <button type="submit" class="vas-search-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"/>
@@ -538,13 +662,24 @@
         </button>
       </form>
 
-      <div id="vasSearchError" class="vas-search-error" style="display:none;">Please enter a business ID or control number to search.</div>
+      <div id="vasSearchError" class="vas-search-error" style="display:none;">Please enter your business ID or control number, and the email or mobile number used on your application.</div>
 
       <!-- DEV NOTE: remove this hint once real backend lookup is connected -->
-      <p class="vas-demo-hint">For testing, try control numbers <strong>100001</strong>–<strong>100007</strong> to preview each status (Submitted, Under Review, Additional Documents Required, Forwarded, Approved, Processing, Permit Ready). Try <strong>100008</strong> and <strong>100009</strong> to see the Business Bureau's remark change based on business line.</p>
+      <p class="vas-demo-hint">For testing, try control number <strong>100001</strong> with verification <strong>juan@email.com</strong> (or <strong>09171234567</strong>). Numbers 100001–100009 all use the same demo applicant, except 100008 (Maria Santos, <strong>maria@email.com</strong>) and 100009 (Ana Reyes, <strong>ana@email.com</strong>).</p>
+      </div>
     </div>
 
-    <div id="vasResults" class="vas-results" style="display:none;"></div>
+    <div class="vas-results-col">
+      <div id="vasResults" class="vas-results">
+        <div class="vas-results-empty">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 12px;">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <p>Your application status will appear here once you search.</p>
+        </div>
+      </div>
+    </div>
 
   </main><!-- end .vas-page -->
 
@@ -752,11 +887,17 @@
       permit_ready:           'Permit Ready'
     };
 
-    /* ── Business line → additional required documents.
+    /* ── Business line → candidate required documents.
        Sourced from the Business Bureau's "Required Documents for Specific
        Business Lines" reference table. Keys match the Category options in
-       pre-assessment.html's Line of Business section. Powers the dynamic
-       "Remark from Business Bureau" text below. Categories without an exact
+       pre-assessment.html's Line of Business section.
+
+       NOTE: This list is NOT shown to the user directly. It represents the
+       pool of documents a Business Bureau representative can choose from
+       when reviewing an application. The representative selects only the
+       specific document(s) that actually apply to that applicant — that
+       selection (see `selectedDocs` on each demo record below) is what
+       gets shown to the user as upload fields. Categories without an exact
        match in the source table use a reasonable general requirement. ── */
     const VAS_CATEGORY_DOCS = {
       'Agricultural Machineries': ['Land Transportation Office (LTO) Certificate of Registration for each unit, as applicable'],
@@ -789,44 +930,67 @@
       'Others': ['Please coordinate with the Business Bureau for the specific documents required for your declared business line.']
     };
 
-    function vasBuildRemark(category) {
-      const docs = VAS_CATEGORY_DOCS[category] || VAS_CATEGORY_DOCS['Others'];
-      const docList = docs.length > 1
-        ? docs.slice(0, -1).join(', ') + ', and ' + docs[docs.length - 1]
-        : docs[0];
-      return `Please submit the following additional document(s) based on your declared business line, "${category}": ${docList}.`;
-    }
-
     const VAS_DEMO_RECORDS = {
       '100001': {
         controlNo: '100001', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 10, 2026',
         status: 'submitted',
         note: 'Your application has been received and is in queue for review by the Business Bureau.'
       },
       '100002': {
         controlNo: '100002', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 9, 2026',
         status: 'under_review',
         note: 'A Business Bureau representative is currently reviewing your application.'
       },
       '100003': {
         controlNo: '100003', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 8, 2026',
         status: 'additional_docs',
         timelineKey: 'under_review',
         category: 'Food Handling',
-        remark: vasBuildRemark('Food Handling'),
+        // Representative selected only these 2 from the Food Handling candidate list —
+        // not the full list, and could include documents outside the category list too.
+        selectedDocs: ['Sanitary Permit', 'Food and Drug Administration (FDA) Certificate of Product Registration or Notification'],
+        remark: 'Please submit the following additional document(s) based on your declared business line:',
         note: 'Your application is on hold until the additional documents below are submitted.'
       },
       '100004': {
         controlNo: '100004', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 5, 2026',
         status: 'preassessed',
+        address: 'Ground Floor, Sangguniang Panlungsod Building, San Pedro Street, Poblacion District, Davao City',
+        // lobCode and psic are filled in by the representative while the
+        // application is Under Review — they are not entered by the applicant.
+        lineOfBusiness: [
+          {
+            category: 'Retailers',
+            capital: '150,000',
+            lobCode: '4711 - Retail Sale in Non-Specialized Stores with Food, Beverages Predominating',
+            psic: '4711',
+            products: 'General Merchandise, Groceries',
+            units: '25',
+            grossSales: 'N/A (New Business)'
+          },
+          {
+            category: 'Food Handling',
+            capital: '50,000',
+            lobCode: '5610 - Restaurants and Mobile Food Service Activities',
+            psic: '5610',
+            products: 'Cooked Food, Beverages',
+            units: '10',
+            grossSales: 'N/A (New Business)'
+          }
+        ],
         note: 'Your application has been forwarded to the concerned Regulatory Offices for pre-assessment.'
       },
       '100005': {
         controlNo: '100005', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 1, 2026',
         status: 'preassessment_approved',
         note: 'All Regulatory Offices have approved your pre-assessment. Please settle your assessed fees to proceed.',
@@ -842,32 +1006,41 @@
       },
       '100006': {
         controlNo: '100006', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'June 28, 2026',
         status: 'processing',
         note: 'Your payment has been received. Your business permit is now being processed.'
       },
       '100007': {
         controlNo: '100007', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+        email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'June 20, 2026',
         status: 'permit_ready',
         note: 'Your business permit is ready. Please claim it at the Business Bureau, Ground Floor, Sangguniang Panlungsod Building.'
       },
       '100008': {
         controlNo: '100008', applicant: 'Maria Santos', business: 'Santos Sand & Gravel Supply',
+        email: 'maria@email.com', phone: '09181234567',
         type: 'New Business Permit (Online)', submitted: 'July 7, 2026',
         status: 'additional_docs',
         timelineKey: 'under_review',
         category: 'Sand and Gravel Quarries',
-        remark: vasBuildRemark('Sand and Gravel Quarries'),
+        // Representative selected the single applicable permit from the candidate list.
+        selectedDocs: ['Commercial Sand and Gravel Permit'],
+        remark: 'Please submit the following additional document(s) based on your declared business line:',
         note: 'Your application is on hold until the additional documents below are submitted.'
       },
       '100009': {
         controlNo: '100009', applicant: 'Ana Reyes', business: 'Reyes Wellness Spa',
+        email: 'ana@email.com', phone: '09191234567',
         type: 'New Business Permit (Online)', submitted: 'July 6, 2026',
         status: 'additional_docs',
         timelineKey: 'under_review',
         category: 'Sauna Baths and Massage Clinics',
-        remark: vasBuildRemark('Sauna Baths and Massage Clinics'),
+        // Representative combined a candidate-list document with one outside the list —
+        // selections aren't limited to VAS_CATEGORY_DOCS, that's just a reference pool.
+        selectedDocs: ['Certificate of Registration (COR) for Massage Therapists (DOH-CEMT)', 'Barangay Business Clearance'],
+        remark: 'Please submit the following additional document(s) based on your declared business line:',
         note: 'Your application is on hold until the additional documents below are submitted.'
       }
     };
@@ -887,7 +1060,7 @@
 
     function vasRenderFound(record) {
       const results = document.getElementById('vasResults');
-      results.style.display = 'block';
+      results.classList.add('vas-has-content');
 
       const isAdditionalDocs = record.status === 'additional_docs';
       const timelineKey = record.timelineKey || record.status;
@@ -897,15 +1070,42 @@
       let extraHTML = '';
 
       if (isAdditionalDocs) {
+        const docFields = (record.selectedDocs || []).map((docName, i) => `
+          <div class="vas-upload-field">
+            <label for="vasDoc${i}">${docName}</label>
+            <input type="file" id="vasDoc${i}" accept=".pdf,.jpg,.jpeg,.png">
+          </div>
+        `).join('');
+
         extraHTML += `
           <div class="vas-alert">
             <div class="vas-alert-icon">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
             </div>
-            <div>
+            <div style="flex:1;">
               <strong>Remark from Business Bureau</strong>
               <p>${record.remark}</p>
-              <a href="pre-assessment.html" class="vas-alert-btn">Submit Additional Documents</a>
+              <div class="vas-upload-list">${docFields}</div>
+              <button type="button" class="vas-alert-btn" onclick="vasSubmitDocs(this)">Submit Documents</button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (record.status === 'preassessed') {
+        extraHTML += `
+          <div class="vas-downloads">
+            <strong>Printable Copies for Regulatory Offices</strong>
+            <p>Some Regulatory Offices may require a printed copy of your application during pre-assessment. You may download these for your reference:</p>
+            <div class="vas-downloads-row">
+              <button type="button" class="vas-download-btn" onclick="vasDownloadUAF('${record.controlNo}')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Unified Application Form
+              </button>
+              <button type="button" class="vas-download-btn" onclick="vasDownloadLOB('${record.controlNo}')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Line of Business
+              </button>
             </div>
           </div>
         `;
@@ -948,9 +1148,239 @@
       results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    /* ── Printable document downloads (Forwarded / preassessed stage) ──
+       Generates a simple summary PDF from the demo record — NOT a
+       pixel-perfect reproduction of the official Annex 1 form. Once real
+       submitted data is available, these should pull from that instead. ── */
+    function vasPdfHeader(doc, title, record) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.setTextColor(13, 31, 78);
+      doc.text('Business Bureau - City of Davao', 15, 18);
+      doc.setFontSize(11);
+      doc.text(title, 15, 26);
+
+      doc.setDrawColor(226, 229, 239);
+      doc.line(15, 30, 195, 30);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(74, 85, 104);
+      doc.text(`Control No.: ${record.controlNo}`, 15, 38);
+      doc.text(`Applicant: ${record.applicant}`, 15, 44);
+      doc.text(`Business Name: ${record.business}`, 15, 50);
+      doc.text(`Application Type: ${record.type}`, 15, 56);
+      doc.text(`Date Submitted: ${record.submitted}`, 15, 62);
+      if (record.address) doc.text(`Business Address: ${record.address}`, 15, 68);
+      return record.address ? 78 : 72;
+    }
+
+    function vasDownloadUAF(controlNo) {
+      const record = VAS_DEMO_RECORDS[controlNo];
+      if (!record || !window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      const y = vasPdfHeader(doc, 'Unified Application Form (Annex 1) - Summary', record);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(13, 31, 78);
+      doc.text('A. Business Information', 15, y);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      doc.setTextColor(74, 85, 104);
+      doc.text(`Business Name: ${record.business}`, 15, y + 8);
+      doc.text(`Owner/Applicant: ${record.applicant}`, 15, y + 14);
+      doc.text(`Business Address: ${record.address || '-'}`, 15, y + 20);
+      doc.text(`Application Type: ${record.type}`, 15, y + 26);
+
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('This is a system-generated summary for pre-assessment reference. It is not a substitute for the official Annex 1 form.', 15, 285);
+
+      doc.save(`Unified_Application_Form_${record.controlNo}.pdf`);
+    }
+
+    function vasDownloadLOB(controlNo) {
+      const record = VAS_DEMO_RECORDS[controlNo];
+      if (!record || !window.jspdf) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      let y = vasPdfHeader(doc, 'B. Line of Business - Summary', record);
+
+      const rows = record.lineOfBusiness || [];
+
+      // Table geometry
+      const ML = 15, MR = 195;
+      const colX  = [ML, 65, 100, 145, 165, MR];       // column boundaries
+      const heads = ['Line of Business (Code)', 'PSIC (If Available)', 'Products/Services', 'No. of Units', "Last Year's Gross Sales/Receipts"];
+
+      doc.setFontSize(7.8);
+
+      const drawHeaderRow = (yy) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(13, 31, 78);
+        doc.setFillColor(210, 210, 210);
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.25);
+        doc.rect(ML, yy, MR - ML, 10, 'FD');
+        for (let i = 0; i < colX.length - 1; i++) {
+          if (i > 0) doc.line(colX[i], yy, colX[i], yy + 10);
+          const lines = doc.splitTextToSize(heads[i], colX[i + 1] - colX[i] - 4);
+          doc.text(lines, colX[i] + 2, yy + 4);
+        }
+        return yy + 10;
+      };
+
+      y = drawHeaderRow(y);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(40, 40, 40);
+
+      if (rows.length === 0) {
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.25);
+        doc.rect(ML, y, MR - ML, 10);
+        doc.text('No line of business details on file.', ML + 2, y + 6);
+        y += 10;
+      } else {
+        rows.forEach(row => {
+          const cellText = [
+            row.lobCode || 'Pending - to be assigned by Business Bureau',
+            row.psic || 'N/A',
+            row.products || '-',
+            row.units || '-',
+            row.grossSales || '-'
+          ];
+          const wrapped = cellText.map((txt, i) => doc.splitTextToSize(txt, colX[i + 1] - colX[i] - 4));
+          const rowH = Math.max(10, ...wrapped.map(w => w.length * 4.2 + 4));
+
+          // Page-break check
+          if (y + rowH > 275) {
+            doc.addPage();
+            y = 20;
+            y = drawHeaderRow(y);
+            doc.setFont('helvetica', 'normal');
+            doc.setTextColor(40, 40, 40);
+          }
+
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.25);
+          doc.rect(ML, y, MR - ML, rowH);
+          for (let i = 0; i < colX.length - 1; i++) {
+            if (i > 0) doc.line(colX[i], y, colX[i], y + rowH);
+            doc.text(wrapped[i], colX[i] + 2, y + 5);
+          }
+          y += rowH;
+        });
+      }
+
+      doc.setFontSize(7.5);
+      doc.setTextColor(120, 120, 120);
+      doc.text('"Line of Business (Code)" and "Philippine Standard Industrial Code (PSIC)" are assigned by the Business Bureau representative during review.', ML, y + 8);
+      y += 16;
+
+      // ── Second table: Business Activity / Capital (as declared by the applicant) ──
+      if (y > 250) { doc.addPage(); y = 20; }
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.setTextColor(13, 31, 78);
+      doc.text('Declared Business Activity and Capital', ML, y);
+      y += 6;
+
+      const colX2 = [ML, 145, MR];
+      const heads2 = ['Business Activity', 'Capital'];
+
+      const drawHeaderRow2 = (yy) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(8.5);
+        doc.setTextColor(13, 31, 78);
+        doc.setFillColor(210, 210, 210);
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.25);
+        doc.rect(ML, yy, MR - ML, 8, 'FD');
+        for (let i = 0; i < colX2.length - 1; i++) {
+          if (i > 0) doc.line(colX2[i], yy, colX2[i], yy + 8);
+          doc.text(heads2[i], colX2[i] + 2, yy + 5.5);
+        }
+        return yy + 8;
+      };
+
+      y = drawHeaderRow2(y);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8.5);
+      doc.setTextColor(40, 40, 40);
+
+      if (rows.length === 0) {
+        doc.setDrawColor(0, 0, 0);
+        doc.setLineWidth(0.25);
+        doc.rect(ML, y, MR - ML, 9);
+        doc.text('No business activity details on file.', ML + 2, y + 6);
+        y += 9;
+      } else {
+        rows.forEach(row => {
+          const cellText2 = [row.category || '-', row.capital ? `PHP ${row.capital}` : '-'];
+          const wrapped2 = cellText2.map((txt, i) => doc.splitTextToSize(txt, colX2[i + 1] - colX2[i] - 4));
+          const rowH2 = Math.max(9, ...wrapped2.map(w => w.length * 4.2 + 4));
+
+          if (y + rowH2 > 275) {
+            doc.addPage();
+            y = 20;
+            y = drawHeaderRow2(y);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(8.5);
+            doc.setTextColor(40, 40, 40);
+          }
+
+          doc.setDrawColor(0, 0, 0);
+          doc.setLineWidth(0.25);
+          doc.rect(ML, y, MR - ML, rowH2);
+          for (let i = 0; i < colX2.length - 1; i++) {
+            if (i > 0) doc.line(colX2[i], y, colX2[i], y + rowH2);
+            doc.text(wrapped2[i], colX2[i] + 2, y + 5);
+          }
+          y += rowH2;
+        });
+      }
+
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('This is a system-generated summary for pre-assessment reference. It is not a substitute for the official Annex 1 form.', 15, 285);
+
+      doc.save(`Line_of_Business_${record.controlNo}.pdf`);
+    }
+
+    function vasSubmitDocs(btn) {
+      const container = btn.closest('.vas-alert');
+      const inputs = container.querySelectorAll('.vas-upload-list input[type="file"]');
+      let missing = false;
+      inputs.forEach(input => {
+        if (input.files.length === 0) missing = true;
+      });
+      if (missing) {
+        alert('Please upload all requested documents before submitting.');
+        return;
+      }
+      // Placeholder confirmation — no backend is connected yet.
+      container.innerHTML = `
+        <div class="vas-alert-icon" style="color:#1a7f37;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div>
+          <strong style="color:#1a7f37;">Documents Submitted</strong>
+          <p>Thank you! Your documents have been sent to the Business Bureau for review. Your application status will update once they've been checked.</p>
+        </div>
+      `;
+    }
+
     function vasRenderNotFound(query) {
       const results = document.getElementById('vasResults');
-      results.style.display = 'block';
+      results.classList.add('vas-has-content');
       results.innerHTML = `
         <div class="vas-results-icon">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -960,7 +1390,7 @@
           </svg>
         </div>
         <h3>No Matching Application Found</h3>
-        <p>We couldn't find a match for "<strong>${query.replace(/</g, '&lt;')}</strong>". Please double-check your business ID or control number, or contact the Business Bureau directly for assistance.</p>
+        <p>We couldn't verify an application matching "<strong>${query.replace(/</g, '&lt;')}</strong>" with the email or mobile number provided. Please double-check both fields and try again, or contact the Business Bureau directly for assistance.</p>
       `;
       results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
@@ -969,29 +1399,53 @@
       event.preventDefault();
 
       const input = document.getElementById('vasSearchInput');
+      const verifyInput = document.getElementById('vasVerifyInput');
       const errorBox = document.getElementById('vasSearchError');
       const results = document.getElementById('vasResults');
       const query = input.value.trim();
+      const verify = verifyInput.value.trim().toLowerCase();
 
-      if (!query) {
+      if (!query || !verify) {
         errorBox.style.display = 'block';
-        results.style.display = 'none';
+        results.classList.remove('vas-has-content');
+        results.innerHTML = `
+          <div class="vas-results-empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto 12px;">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+            </svg>
+            <p>Your application status will appear here once you search.</p>
+          </div>
+        `;
         return false;
       }
       errorBox.style.display = 'none';
 
       // Placeholder lookup — no backend/database is connected yet.
-      // Searching one of the demo control numbers below shows what each status looks like.
+      // Searching one of the demo control numbers below (with its matching email/mobile)
+      // shows what each status looks like. A control number match alone is NOT enough —
+      // the email or mobile number must also match, so a control number by itself can't
+      // be used to view someone else's application.
       const record = VAS_DEMO_RECORDS[query];
-      if (record) {
+      const verifyMatches = record && (
+        verify === (record.email || '').toLowerCase() ||
+        vasNormalizePhone(verify) === vasNormalizePhone(record.phone || '')
+      );
+
+      if (record && verifyMatches) {
         vasRenderFound(record);
       } else {
         vasRenderNotFound(query);
       }
       return false;
     }
+
+    function vasNormalizePhone(phone) {
+      return phone.replace(/[\s()+-]/g, '');
+    }
   </script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
