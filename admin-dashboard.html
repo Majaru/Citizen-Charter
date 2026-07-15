@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <meta name="description" content="Business Bureau Admin Portal – employee dashboard."/>
+  <link rel="canonical" href="admin-dashboard.html"/>
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="Images/business bureau logo.png" sizes="96x96"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.ico"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="Images/business bureau logo.png"/>
+  <link rel="manifest" href="site.webmanifest"/>
+  <title>Admin Dashboard – Business Bureau, City of Davao</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="style.css"/>
+
+  <style>
+    /* ── Admin shell ── */
+    .admin-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    .admin-welcome {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .admin-welcome h1 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin: 0 0 4px;
+    }
+    body.dark .admin-welcome h1 { color: #fff; }
+    .admin-welcome p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.92rem;
+      color: #6b7280;
+      margin: 0;
+    }
+    body.dark .admin-welcome p { color: rgba(255,255,255,0.65); }
+
+    .admin-exit-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: 1.5px solid #d0d4e0;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #0d1f4e;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .admin-exit-btn:hover { border-color: #c0392b; color: #c0392b; }
+    body.dark .admin-exit-btn { color: #fff; border-color: rgba(255,255,255,0.25); }
+    body.dark .admin-exit-btn:hover { border-color: #ff8a80; color: #ff8a80; }
+
+    /* Layout: profile card left, performance right */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 800px) {
+      .admin-grid { grid-template-columns: 1fr; }
+    }
+
+    .admin-card {
+      background: #fff;
+      border: 1.5px solid #e2e5ef;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(13,31,78,0.05);
+    }
+    body.dark .admin-card { background: #0f1b35; border-color: rgba(255,255,255,0.1); }
+
+    /* Profile card */
+    .admin-avatar {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: #b8973a;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin: 0 auto 14px;
+    }
+    .admin-profile-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      text-align: center;
+      margin: 0 0 2px;
+    }
+    body.dark .admin-profile-name { color: #fff; }
+    .admin-profile-role {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #b8973a;
+      text-align: center;
+      font-weight: 600;
+      margin: 0 0 18px;
+    }
+
+    .admin-profile-list { display: flex; flex-direction: column; gap: 12px; }
+    .admin-profile-row { display: flex; flex-direction: column; gap: 2px; }
+    .admin-profile-row span {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    body.dark .admin-profile-row span { color: rgba(255,255,255,0.45); }
+    .admin-profile-row strong {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0d1f4e;
+    }
+    body.dark .admin-profile-row strong { color: #fff; }
+
+    .admin-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(26,127,55,0.12);
+      color: #1a7f37;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin: 0 auto 16px;
+      width: fit-content;
+    }
+    .admin-status-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #1a7f37;
+    }
+    body.dark .admin-status-badge { background: rgba(74,222,128,0.2); color: #4ade80; }
+    body.dark .admin-status-badge::before { background: #4ade80; }
+
+    /* Performance section */
+    .admin-section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #0d1f4e;
+      margin: 0 0 14px;
+    }
+    body.dark .admin-section-title { color: #fff; }
+
+    .admin-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 700px) {
+      .admin-stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    .admin-stat-card {
+      background: #fff;
+      border: 1.5px solid #e2e5ef;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    body.dark .admin-stat-card { background: #0f1b35; border-color: rgba(255,255,255,0.1); }
+    .admin-stat-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #0d1f4e;
+    }
+    body.dark .admin-stat-value { color: #fff; }
+    .admin-stat-label {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.75rem;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+    body.dark .admin-stat-label { color: rgba(255,255,255,0.6); }
+    .admin-stat-trend {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      margin-top: 6px;
+    }
+    .admin-stat-trend.up { color: #1a7f37; }
+    .admin-stat-trend.down { color: #c0392b; }
+    body.dark .admin-stat-trend.up { color: #4ade80; }
+    body.dark .admin-stat-trend.down { color: #ff8a80; }
+
+    /* Recent activity list */
+    .admin-activity-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e5ef;
+    }
+    body.dark .admin-activity-row { border-color: rgba(255,255,255,0.1); }
+    .admin-activity-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .admin-activity-icon {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: rgba(26,82,118,0.1);
+      color: #1a5276;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    body.dark .admin-activity-icon { background: rgba(96,165,250,0.15); color: #93c5fd; }
+    .admin-activity-text { flex: 1; min-width: 0; }
+    .admin-activity-text strong {
+      display: block;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.87rem;
+      font-weight: 700;
+      color: #0d1f4e;
+    }
+    body.dark .admin-activity-text strong { color: #fff; }
+    .admin-activity-text span {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.78rem;
+      color: #6b7280;
+    }
+    body.dark .admin-activity-text span { color: rgba(255,255,255,0.55); }
+    .admin-activity-time {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.72rem;
+      color: #9ca3af;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+    body.dark .admin-activity-time { color: rgba(255,255,255,0.4); }
+
+    .admin-demo-hint {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      font-style: italic;
+      color: #9a8558;
+    }
+    body.dark .admin-demo-hint { color: rgba(212,170,80,0.8); }
+  </style>
+
+  <!-- Dark mode flash prevention -->
+  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
+</head>
+<body>
+
+  <!-- ============================================================
+    HEADER — Admin navbar (different from the public site nav)
+  ============================================================ -->
+  <header>
+    <div class="nav-inner">
+      <a href="admin-dashboard.html" class="logo-link">
+        <img src="Images/business bureau logo.png" class="logo-seal" alt="Business Bureau Official Logo">
+        <div class="logo-text"><span>BUSINESS</span><span>BUREAU</span></div>
+      </a>
+
+      <!-- Desktop navigation -->
+      <ul class="nav-links">
+        <li><a href="admin-dashboard.html" class="active">Home</a></li>
+        <li><a href="javascript:void(0)" onclick="alert('This feature is coming soon.')">Applications</a></li>
+        <li><a href="javascript:void(0)" onclick="alert('This feature is coming soon.')">Chat</a></li>
+        <li><a href="javascript:void(0)" onclick="alert('This feature is coming soon.')">Announcements</a></li>
+        <li><a href="javascript:void(0)" onclick="alert('This feature is coming soon.')">Organization</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- Hamburger – visible only on mobile -->
+        <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <nav class="mobile-menu" id="mobileMenu" aria-hidden="true">
+      <a href="admin-dashboard.html" class="mobile-link active">Home</a>
+      <a href="javascript:void(0)" class="mobile-link" onclick="alert('This feature is coming soon.')">Applications</a>
+      <a href="javascript:void(0)" class="mobile-link" onclick="alert('This feature is coming soon.')">Chat</a>
+      <a href="javascript:void(0)" class="mobile-link" onclick="alert('This feature is coming soon.')">Announcements</a>
+      <a href="javascript:void(0)" class="mobile-link" onclick="alert('This feature is coming soon.')">Organization</a>
+
+      <div class="mobile-settings">
+        <div class="mobile-settings-label">Settings</div>
+        <div class="mobile-settings-row">
+          <span class="mobile-settings-text">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            Dark Mode
+          </span>
+          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
+            <span class="settings-toggle-thumb"></span>
+          </button>
+        </div>
+      </div>
+
+      <a href="business-bureau.html" class="mobile-link" style="color:#c0392b;">Exit Admin Mode</a>
+    </nav>
+  </header>
+
+
+  <!-- ============================================================
+    ADMIN CONTENT
+  ============================================================ -->
+  <main class="admin-page">
+
+    <div class="admin-welcome">
+      <div>
+        <h1>Welcome back, Juan Dela Cruz</h1>
+        <p>Business Bureau — City of Davao | Employee Dashboard</p>
+      </div>
+      <a href="business-bureau.html" class="admin-exit-btn" onclick="localStorage.removeItem('bb-admin-session');">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Exit Admin Mode
+      </a>
+    </div>
+
+    <div class="admin-grid">
+
+      <!-- Employee Info -->
+      <div class="admin-card">
+        <div class="admin-avatar">JD</div>
+        <div class="admin-status-badge" style="margin-left:auto; margin-right:auto;">On Duty</div>
+        <div class="admin-profile-name">Juan Dela Cruz</div>
+        <div class="admin-profile-role">Permit Evaluation Officer II</div>
+
+        <div class="admin-profile-list">
+          <div class="admin-profile-row">
+            <span>Employee ID</span>
+            <strong>EMP-0001</strong>
+          </div>
+          <div class="admin-profile-row">
+            <span>Department</span>
+            <strong>Business Permits Division</strong>
+          </div>
+          <div class="admin-profile-row">
+            <span>Email</span>
+            <strong>juan.delacruz@davaocity.gov.ph</strong>
+          </div>
+          <div class="admin-profile-row">
+            <span>Date Joined</span>
+            <strong>March 4, 2021</strong>
+          </div>
+          <div class="admin-profile-row">
+            <span>Supervisor</span>
+            <strong>Maria Fernandez, Division Chief</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance -->
+      <div>
+        <div class="admin-section-title">This Month's Performance</div>
+        <div class="admin-stats-grid">
+          <div class="admin-stat-card">
+            <div class="admin-stat-value">128</div>
+            <div class="admin-stat-label">Applications Reviewed</div>
+            <div class="admin-stat-trend up">▲ 12% vs last month</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value">14</div>
+            <div class="admin-stat-label">Pending Review</div>
+            <div class="admin-stat-trend down">▼ 3 since yesterday</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value">96%</div>
+            <div class="admin-stat-label">Approval Rate</div>
+            <div class="admin-stat-trend up">▲ 2% vs last month</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-value">1.8 days</div>
+            <div class="admin-stat-label">Avg. Turnaround Time</div>
+            <div class="admin-stat-trend up">▼ 0.3 days faster</div>
+          </div>
+        </div>
+
+        <div class="admin-card">
+          <div class="admin-section-title">Recent Activity</div>
+
+          <div class="admin-activity-row">
+            <div class="admin-activity-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <div class="admin-activity-text">
+              <strong>Approved pre-assessment — JDC Trading Co.</strong>
+              <span>Control No. 100004 forwarded to Regulatory Offices</span>
+            </div>
+            <div class="admin-activity-time">2 hours ago</div>
+          </div>
+
+          <div class="admin-activity-row">
+            <div class="admin-activity-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+            <div class="admin-activity-text">
+              <strong>Requested additional documents — Reyes Wellness Spa</strong>
+              <span>Control No. 100009: DOH-CEMT certification, Barangay Clearance</span>
+            </div>
+            <div class="admin-activity-time">Yesterday, 4:15 PM</div>
+          </div>
+
+          <div class="admin-activity-row">
+            <div class="admin-activity-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <div class="admin-activity-text">
+              <strong>Began review — Santos Sand &amp; Gravel Supply</strong>
+              <span>Control No. 100008 moved to Under Review</span>
+            </div>
+            <div class="admin-activity-time">Yesterday, 10:02 AM</div>
+          </div>
+        </div>
+
+        <p class="admin-demo-hint">This dashboard shows placeholder/demo data for design purposes. Real employee records and performance metrics will populate here once connected to a backend.</p>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- Update copyright year and org name here -->
+  <div class="footer-bottom" style="background:#0d1f4e; color:rgba(255,255,255,0.7); text-align:center; padding:18px; font-family:'Source Sans 3', sans-serif; font-size:0.8rem;">
+    &copy; <span id="copyrightYear">2025</span> Business Bureau – City Government of Davao. Admin Portal — Internal Use Only.
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
