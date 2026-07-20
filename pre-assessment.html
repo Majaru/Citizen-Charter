@@ -3152,12 +3152,36 @@
 
     function confirmDocSubmit() {
       closeDocReview();
-      const controlNo = String(Math.floor(100000 + Math.random() * 900000));
+      const controlNo = generateControlNumber();
       document.getElementById('docControlNo').textContent = controlNo;
       renderPlaceholderQR('docQrCode', controlNo);
       document.getElementById('paAdditionalDocuments').style.display = 'none';
       document.getElementById('paDocSuccess').style.display = 'flex';
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* Control number format: 3 letters + 6 digits (e.g. JDC100001).
+       Letters are derived from the business name's initials where possible,
+       matching the demo control numbers used in view-application-status.html. */
+    function generateControlNumber() {
+      const bizNameEl = document.getElementById('bizName');
+      const bizName = bizNameEl ? bizNameEl.value.trim() : '';
+
+      let letters = bizName
+        .split(/\s+/)
+        .filter(Boolean)
+        .map(word => word[0])
+        .join('')
+        .toUpperCase()
+        .replace(/[^A-Z]/g, '')
+        .slice(0, 3);
+
+      while (letters.length < 3) {
+        letters += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+      }
+
+      const digits = String(Math.floor(100000 + Math.random() * 900000));
+      return letters + digits;
     }
 
     function copyControlNumber() {
