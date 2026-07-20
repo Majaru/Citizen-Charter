@@ -245,19 +245,13 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
-    .vas-status-submitted               { background: rgba(107,114,128,0.15); color: #4b5563; }
     .vas-status-under_review            { background: rgba(184,151,58,0.15); color: #8a6d1f; }
     .vas-status-additional_docs         { background: rgba(192,57,43,0.15); color: #c0392b; }
-    .vas-status-preassessed             { background: rgba(26,82,118,0.15); color: #1a5276; }
-    .vas-status-preassessment_approved  { background: rgba(107,76,17,0.15); color: #6b4c11; }
-    .vas-status-processing              { background: rgba(26,82,118,0.15); color: #1a5276; }
+    .vas-status-payment_needed          { background: rgba(107,76,17,0.15); color: #6b4c11; }
     .vas-status-permit_ready            { background: rgba(26,127,55,0.15); color: #1a7f37; }
-    body.dark .vas-status-submitted              { background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); }
     body.dark .vas-status-under_review           { background: rgba(212,170,80,0.2); color: #d4aa50; }
     body.dark .vas-status-additional_docs        { background: rgba(239,83,80,0.2); color: #ff8a80; }
-    body.dark .vas-status-preassessed            { background: rgba(96,165,250,0.2); color: #93c5fd; }
-    body.dark .vas-status-preassessment_approved { background: rgba(212,170,80,0.2); color: #d4aa50; }
-    body.dark .vas-status-processing             { background: rgba(96,165,250,0.2); color: #93c5fd; }
+    body.dark .vas-status-payment_needed         { background: rgba(212,170,80,0.2); color: #d4aa50; }
     body.dark .vas-status-permit_ready           { background: rgba(74,222,128,0.2); color: #4ade80; }
 
     .vas-found-grid {
@@ -370,54 +364,16 @@
       margin: 0 0 10px;
     }
     body.dark .vas-alert p { color: rgba(255,255,255,0.75); }
-    .vas-alert-btn {
-      display: inline-block;
-      background: #c0392b;
-      color: #fff;
-      font-family: 'Oswald', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 9px 16px;
-      border-radius: 6px;
-    }
-    .vas-alert-btn:hover { background: #a5311f; }
-    .vas-alert-btn { border: none; cursor: pointer; font-family: 'Oswald', sans-serif; }
 
-    .vas-upload-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .vas-upload-field label {
-      display: block;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: #0d1f4e;
-      margin-bottom: 5px;
-    }
-    body.dark .vas-upload-field label { color: #fff; }
-    .vas-upload-field input[type="file"] {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 9px 12px;
-      border: 1.5px solid #d0d4e0;
-      border-radius: 6px;
+    .vas-alert-doclist {
+      margin: 0 0 14px;
+      padding-left: 20px;
       font-family: 'Source Sans 3', sans-serif;
       font-size: 0.85rem;
-      background: #fff;
-      color: #0d1f4e;
-      cursor: pointer;
+      color: #4a5568;
+      line-height: 1.8;
     }
-    body.dark .vas-upload-field input[type="file"] {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.25);
-      color: #fff;
-    }
+    body.dark .vas-alert-doclist { color: rgba(255,255,255,0.75); }
 
     /* Payment instructions block */
     .vas-payment {
@@ -449,6 +405,22 @@
     body.dark .vas-payment-row { color: rgba(255,255,255,0.75); }
     .vas-payment-row strong { color: #0d1f4e; }
     body.dark .vas-payment-row strong { color: #fff; }
+
+    .vas-payment-received {
+      background: rgba(26,127,55,0.06);
+      border-color: rgba(26,127,55,0.25);
+    }
+    body.dark .vas-payment-received { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.3); }
+    .vas-payment-received > strong { color: #1a7f37; display: flex; align-items: center; }
+    body.dark .vas-payment-received > strong { color: #4ade80; }
+    .vas-payment-received p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.85rem;
+      color: #4a5568;
+      line-height: 1.6;
+      margin: 0;
+    }
+    body.dark .vas-payment-received p { color: rgba(255,255,255,0.75); }
     .vas-payment ol {
       margin: 10px 0 0;
       padding-left: 18px;
@@ -650,7 +622,7 @@
 
       <form id="vasSearchForm" class="vas-search-form" onsubmit="return vasHandleSearch(event)">
         <input type="text" id="vasSearchInput" class="vas-search-input"
-               placeholder="e.g. your business ID or control number" autocomplete="off">
+               placeholder="e.g. your business ID or control number (e.g. JDC100001)" autocomplete="off">
         <input type="text" id="vasVerifyInput" class="vas-search-input"
                placeholder="Email address or mobile number used on your application" autocomplete="off">
         <button type="submit" class="vas-search-btn">
@@ -665,7 +637,7 @@
       <div id="vasSearchError" class="vas-search-error" style="display:none;">Please enter your business ID or control number, and the email or mobile number used on your application.</div>
 
       <!-- DEV NOTE: remove this hint once real backend lookup is connected -->
-      <p class="vas-demo-hint">For testing, try control number <strong>100001</strong> with verification <strong>juan@email.com</strong> (or <strong>09171234567</strong>). Numbers 100001–100009 all use the same demo applicant, except 100008 (Maria Santos, <strong>maria@email.com</strong>) and 100009 (Ana Reyes, <strong>ana@email.com</strong>).</p>
+      <p class="vas-demo-hint">For testing, try control number <strong>JDC100001</strong> with verification <strong>juan@email.com</strong> (or <strong>09171234567</strong>). JDC100001–JDC100007 all use the same demo applicant, except <strong>SSG100008</strong> (Maria Santos, <strong>maria@email.com</strong>) and <strong>RWS100009</strong> (Ana Reyes, <strong>ana@email.com</strong>).</p>
       </div>
     </div>
 
@@ -858,33 +830,27 @@
        Remove this once real backend lookup is connected. ──
 
        Real flow:
-       1. Submitted Application
-       2. Application Under Review
+       1. Under Review
           → may branch to "Additional Documents Required" (applicant must act)
-          → or proceed to "Forwarded to Regulatory Offices"
-       3. Forwarded to Regulatory Offices (sent to Regulatory Offices)
-       4. Approved (all Regulatory Offices approved — payment instructions shown)
-       5. Processing Permit (after payment)
-       6. Permit Ready
+          → covers initial receipt, staff review, and forwarding to Regulatory
+            Offices for pre-assessment — all shown as one stage to the applicant
+       2. Payment Needed (pre-assessment approved — pay assessed fees;
+          stays on this stage, with an updated note, while the permit is
+          being finalized after payment is received)
+       3. Permit Ready
     */
 
     const VAS_STATUS_STEPS = [
-      { key: 'submitted',               label: 'Submitted' },
-      { key: 'under_review',            label: 'Under Review' },
-      { key: 'preassessed',             label: 'Forwarded' },
-      { key: 'preassessment_approved',  label: 'Approved' },
-      { key: 'processing',              label: 'Processing Permit' },
-      { key: 'permit_ready',            label: 'Permit Ready' }
+      { key: 'under_review',   label: 'Under Review' },
+      { key: 'payment_needed', label: 'Payment Needed' },
+      { key: 'permit_ready',   label: 'Permit Ready' }
     ];
 
     const VAS_STATUS_LABELS = {
-      submitted:              'Submitted Application',
-      under_review:           'Application Under Review',
-      additional_docs:        'Additional Documents Required',
-      preassessed:            'Forwarded to Regulatory Offices',
-      preassessment_approved: 'Approved',
-      processing:             'Processing Permit',
-      permit_ready:           'Permit Ready'
+      under_review:    'Under Review',
+      additional_docs: 'Additional Documents Required',
+      payment_needed:  'Payment Needed',
+      permit_ready:    'Permit Ready'
     };
 
     /* ── Business line → candidate required documents.
@@ -931,22 +897,22 @@
     };
 
     const VAS_DEMO_RECORDS = {
-      '100001': {
-        controlNo: '100001', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100001': {
+        controlNo: 'JDC100001', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 10, 2026',
-        status: 'submitted',
+        status: 'under_review',
         note: 'Your application has been received and is in queue for review by the Business Bureau.'
       },
-      '100002': {
-        controlNo: '100002', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100002': {
+        controlNo: 'JDC100002', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 9, 2026',
         status: 'under_review',
         note: 'A Business Bureau representative is currently reviewing your application.'
       },
-      '100003': {
-        controlNo: '100003', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100003': {
+        controlNo: 'JDC100003', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 8, 2026',
         status: 'additional_docs',
@@ -958,11 +924,14 @@
         remark: 'Please submit the following additional document(s) based on your declared business line:',
         note: 'Your application is on hold until the additional documents below are submitted.'
       },
-      '100004': {
-        controlNo: '100004', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100004': {
+        controlNo: 'JDC100004', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 5, 2026',
-        status: 'preassessed',
+        status: 'under_review',
+        forwarded: true, // application has been sent to Regulatory Offices for pre-assessment —
+                          // this is what triggers the printable UAF/Line of Business downloads,
+                          // not the "Under Review" status generally
         address: 'Ground Floor, Sangguniang Panlungsod Building, San Pedro Street, Poblacion District, Davao City',
         // lobCode and psic are filled in by the representative while the
         // application is Under Review — they are not entered by the applicant.
@@ -988,11 +957,12 @@
         ],
         note: 'Your application has been forwarded to the concerned Regulatory Offices for pre-assessment.'
       },
-      '100005': {
-        controlNo: '100005', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100005': {
+        controlNo: 'JDC100005', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'July 1, 2026',
-        status: 'preassessment_approved',
+        status: 'payment_needed',
+        paid: false,
         note: 'All Regulatory Offices have approved your pre-assessment. Please settle your assessed fees to proceed.',
         payment: {
           amount: '₱ 3,450.00',
@@ -1004,22 +974,23 @@
           ]
         }
       },
-      '100006': {
-        controlNo: '100006', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100006': {
+        controlNo: 'JDC100006', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'June 28, 2026',
-        status: 'processing',
-        note: 'Your payment has been received. Your business permit is now being processed.'
+        status: 'payment_needed',
+        paid: true,
+        note: 'Your payment has been received. Your business permit is now being finalized.'
       },
-      '100007': {
-        controlNo: '100007', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
+      'JDC100007': {
+        controlNo: 'JDC100007', applicant: 'Juan Dela Cruz', business: 'JDC Trading Co.',
         email: 'juan@email.com', phone: '09171234567',
         type: 'New Business Permit (Online)', submitted: 'June 20, 2026',
         status: 'permit_ready',
         note: 'Your business permit is ready. Please claim it at the Business Bureau, Ground Floor, Sangguniang Panlungsod Building.'
       },
-      '100008': {
-        controlNo: '100008', applicant: 'Maria Santos', business: 'Santos Sand & Gravel Supply',
+      'SSG100008': {
+        controlNo: 'SSG100008', applicant: 'Maria Santos', business: 'Santos Sand & Gravel Supply',
         email: 'maria@email.com', phone: '09181234567',
         type: 'New Business Permit (Online)', submitted: 'July 7, 2026',
         status: 'additional_docs',
@@ -1030,8 +1001,8 @@
         remark: 'Please submit the following additional document(s) based on your declared business line:',
         note: 'Your application is on hold until the additional documents below are submitted.'
       },
-      '100009': {
-        controlNo: '100009', applicant: 'Ana Reyes', business: 'Reyes Wellness Spa',
+      'RWS100009': {
+        controlNo: 'RWS100009', applicant: 'Ana Reyes', business: 'Reyes Wellness Spa',
         email: 'ana@email.com', phone: '09191234567',
         type: 'New Business Permit (Online)', submitted: 'July 6, 2026',
         status: 'additional_docs',
@@ -1070,12 +1041,7 @@
       let extraHTML = '';
 
       if (isAdditionalDocs) {
-        const docFields = (record.selectedDocs || []).map((docName, i) => `
-          <div class="vas-upload-field">
-            <label for="vasDoc${i}">${docName}</label>
-            <input type="file" id="vasDoc${i}" accept=".pdf,.jpg,.jpeg,.png">
-          </div>
-        `).join('');
+        const docList = (record.selectedDocs || []).map(docName => `<li>${docName}</li>`).join('');
 
         extraHTML += `
           <div class="vas-alert">
@@ -1085,14 +1051,13 @@
             <div style="flex:1;">
               <strong>Remark from Business Bureau</strong>
               <p>${record.remark}</p>
-              <div class="vas-upload-list">${docFields}</div>
-              <button type="button" class="vas-alert-btn" onclick="vasSubmitDocs(this)">Submit Documents</button>
+              <ul class="vas-alert-doclist">${docList}</ul>
             </div>
           </div>
         `;
       }
 
-      if (record.status === 'preassessed') {
+      if (record.forwarded) {
         extraHTML += `
           <div class="vas-downloads">
             <strong>Printable Copies for Regulatory Offices</strong>
@@ -1111,7 +1076,17 @@
         `;
       }
 
-      if (record.payment) {
+      if (record.status === 'payment_needed' && record.paid) {
+        extraHTML += `
+          <div class="vas-payment vas-payment-received">
+            <strong>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px; margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>
+              Payment Received
+            </strong>
+            <p>Thank you — your payment has been confirmed. Your permit is now being finalized and will move to Permit Ready once complete.</p>
+          </div>
+        `;
+      } else if (record.payment) {
         extraHTML += `
           <div class="vas-payment">
             <strong>Payment Instructions</strong>
@@ -1355,29 +1330,6 @@
       doc.save(`Line_of_Business_${record.controlNo}.pdf`);
     }
 
-    function vasSubmitDocs(btn) {
-      const container = btn.closest('.vas-alert');
-      const inputs = container.querySelectorAll('.vas-upload-list input[type="file"]');
-      let missing = false;
-      inputs.forEach(input => {
-        if (input.files.length === 0) missing = true;
-      });
-      if (missing) {
-        alert('Please upload all requested documents before submitting.');
-        return;
-      }
-      // Placeholder confirmation — no backend is connected yet.
-      container.innerHTML = `
-        <div class="vas-alert-icon" style="color:#1a7f37;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <div>
-          <strong style="color:#1a7f37;">Documents Submitted</strong>
-          <p>Thank you! Your documents have been sent to the Business Bureau for review. Your application status will update once they've been checked.</p>
-        </div>
-      `;
-    }
-
     function vasRenderNotFound(query) {
       const results = document.getElementById('vasResults');
       results.classList.add('vas-has-content');
@@ -1426,7 +1378,7 @@
       // shows what each status looks like. A control number match alone is NOT enough —
       // the email or mobile number must also match, so a control number by itself can't
       // be used to view someone else's application.
-      const record = VAS_DEMO_RECORDS[query];
+      const record = VAS_DEMO_RECORDS[query.toUpperCase()];
       const verifyMatches = record && (
         verify === (record.email || '').toLowerCase() ||
         vasNormalizePhone(verify) === vasNormalizePhone(record.phone || '')
