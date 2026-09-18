@@ -4,27 +4,14 @@
   as all HTML files.
 
   Contents:
-    1. Dark mode flash prevention (inline in <head>, but also
-       here as a fallback for any late-loading scenario)
-    2. Hamburger / mobile menu toggle
-    3. PDF iframe loading overlay (citizens-charter.html)
-    4. Settings dropdown + Dark mode toggle (shared across pages)
-    5. Copyright year auto-update
+    1. Hamburger / mobile menu toggle
+    2. PDF iframe loading overlay (citizens-charter.html)
+    3. Settings dropdown (shared across pages)
+    4. Copyright year auto-update
 ============================================================ */
 
 
-/* ── 1. Dark mode: apply class BEFORE paint to prevent flash ──
-   This is also inlined in each <head> as a tiny script for instant
-   application, but we also run it here as a safety net.           */
-(function applyDarkModeEarly() {
-  if (localStorage.getItem('bb-dark') === '1') {
-    document.documentElement.classList.add('dark-early');
-    document.body && document.body.classList.add('dark');
-  }
-})();
-
-
-/* ── 2. Hamburger / Mobile Menu ──
+/* ── 1. Hamburger / Mobile Menu ──
    Works on all pages. Requires:
      - <button id="hamburger"> with three <span> children
      - <nav id="mobileMenu"> with class="mobile-menu"
@@ -65,7 +52,7 @@
 })();
 
 
-/* ── 3. PDF iframe loading overlay ──
+/* ── 2. PDF iframe loading overlay ──
    Only active when #pdfFrame exists (citizens-charter.html).
    Shows a loading state, fades out after iframe loads.
    Handles iOS/Safari fallback.
@@ -108,38 +95,12 @@
 })();
 
 
-/* ── 4. Settings dropdown + Dark mode toggle (shared) ──
-   Requires on each page:
-     Desktop: #settingsBtn, #settingsDropdown
-     Desktop dark toggle: #darkModeToggle
-     Mobile dark toggle:  #darkModeToggleMobile  (inside mobile menu)
+/* ── 3. Settings dropdown (shared) ──
+   Requires on each page: #settingsBtn, #settingsDropdown
 */
 (function initSettings() {
   const settingsBtn      = document.getElementById('settingsBtn');
   const settingsDropdown = document.getElementById('settingsDropdown');
-  const darkToggle       = document.getElementById('darkModeToggle');
-  const darkToggleMobile = document.getElementById('darkModeToggleMobile');
-
-  /* ── Dark mode: persist across pages ── */
-  function applyDark(on) {
-    document.body.classList.toggle('dark', on);
-    [darkToggle, darkToggleMobile].forEach(btn => {
-      if (btn) btn.setAttribute('aria-checked', String(on));
-    });
-    localStorage.setItem('bb-dark', on ? '1' : '0');
-  }
-
-  /* Load saved preference on page load */
-  const saved = localStorage.getItem('bb-dark');
-  if (saved === '1') applyDark(true);
-
-  function handleDarkToggle() {
-    applyDark(!document.body.classList.contains('dark'));
-  }
-  if (darkToggle)       darkToggle.addEventListener('click', handleDarkToggle);
-  if (darkToggleMobile) darkToggleMobile.addEventListener('click', handleDarkToggle);
-
-  /* ── Settings dropdown open/close ── */
   if (!settingsBtn || !settingsDropdown) return;
 
   function openSettings() {
@@ -170,7 +131,7 @@
 })();
 
 
-/* ── 5. Copyright year auto-update ──
+/* ── 4. Copyright year auto-update ──
    Finds any element with id="copyrightYear" and sets its text
    to the current year. Add id="copyrightYear" to the year span
    in each footer.
