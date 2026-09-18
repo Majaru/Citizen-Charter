@@ -178,159 +178,51 @@ header {
   Text    : #ffffff  (pure white)
   Service cards: keep original gold + teal (post-it style)
 ============================================================ */
-body.dark {
-  --white:  #737679;   /* panel / card backgrounds */
-  --light:  #606366;   /* page background */
-  --text:   #ffffff;
-  --muted:  #e8e8e8;
-  --navy:   #ffffff;   /* headings & nav text go white */
-  --gold:   #d4aa50;   /* keep gold accent */
-  background: #606366;
-  color: #ffffff;
-}
+
 
 /* ── Header: darker cement strip ── */
-body.dark header                    { background: #0d1f4e; border-bottom-color: var(--gold); }
-body.dark .nav-links a              { color: #ffffff; }
-body.dark .nav-links a:hover        { color: var(--gold); }
-body.dark .nav-links a.active       { color: var(--gold); border-bottom-color: var(--gold); }
-body.dark .logo-text                { color: #ffffff; }
-body.dark .logo-seal circle:first-child { fill: #0d1f4e; }
+
 
 /* ── Mobile menu: same darker cement ── */
-body.dark .mobile-menu              { background: #0d1f4e; border-top-color: #1a3a6e; }
-body.dark .mobile-menu a            { color: #ffffff; border-bottom-color: #1a3a6e; }
-body.dark .mobile-menu a:hover      { color: var(--gold); }
+
 
 /* ── Service cards: keep gold + teal (post-it look) ── */
-body.dark .service-card.gold        { background: var(--gold); color: #ffffff; }
-body.dark .service-card.teal        { background: #1a5276;     color: #ffffff; }
-body.dark .service-card h3          { color: #ffffff; }
-body.dark .service-card p           { color: rgba(255,255,255,0.88); }
-body.dark .btn-card                 { background: #ffffff; color: #0d1f4e; }
+
 
 /* ── Footer: keep original navy blue ── */
-body.dark footer                    { background: #0d1f4e; color: rgba(255,255,255,0.85); }
+
 
 /* ── Hero: ensure text stays white and readable in dark mode ── */
-body.dark .hero                     { background: linear-gradient(110deg, #0d1f4e 0%, #1a3a6e 45%, #2a5298 70%, #8faecf 100%); }
-body.dark .hero h1                  { color: #ffffff; text-shadow: 0 2px 16px rgba(0,0,0,0.5); }
-body.dark .btn-cta                  { border-color: #ffffff; color: #ffffff; }
-body.dark .btn-cta:hover            { background: #ffffff; color: #3a3d3f; }
+
 
 /* ── General content areas ── */
-body.dark .services h2              { color: #b8973a; }
+
 /* ── Dark mode: about cards — card bg = icon color, icon bg = white, svg = white ── */
-body.dark .about-card                              { border-color: transparent; }
-body.dark .about-card h3                           { color: #ffffff; }
-body.dark .about-card p                            { color: rgba(255,255,255,0.88); }
+
 
 /* Mission card — gold */
-body.dark .about-columns--3 .about-card:nth-child(1)            { background: #b8973a; }
-body.dark .about-columns--3 .about-card:nth-child(1) .about-card-icon { background: rgba(255,255,255,0.2); }
-body.dark .about-columns--3 .about-card:nth-child(1) .about-card-icon svg { stroke: #ffffff; }
+
 
 /* Vision card — teal */
-body.dark .about-columns--3 .about-card:nth-child(2)            { background: #1a5276; }
-body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon { background: rgba(255,255,255,0.2); }
-body.dark .about-columns--3 .about-card:nth-child(2) .about-card-icon svg { stroke: #ffffff; }
+
 
 /* Organizational Outcome card — brown */
-body.dark .about-columns--3 .about-card:nth-child(3)            { background: #6b4c11; }
-body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon { background: rgba(255,255,255,0.2); }
-body.dark .about-columns--3 .about-card:nth-child(3) .about-card-icon svg { stroke: #ffffff; }
-body.dark .about-block h2           { color: #b8973a; }
-body.dark .about-block p            { color: #e8e8e8; }
-body.dark .charter-entry            { border-bottom-color: #888b8d; }
-body.dark .charter-entry-icon       { background: #606366; border-color: #ffffff; }
-body.dark .charter-entry-body h2    { color: #ffffff; }
-body.dark .charter-entry-body p,
-body.dark .charter-entry-body ul    { color: #e8e8e8; }
-body.dark .charter-intro            { color: #e8e8e8; border-bottom-color: #888b8d; }
-body.dark .contact-details h2,
-body.dark .contact-map h2           { color: #b8973a; }
-body.dark .contact-item             { border-bottom-color: #888b8d; }
-body.dark .contact-item-icon        { background: #1a5276; border-color: #1a5276; color: #ffffff; }
-body.dark .contact-item-body strong { color: #e8e8e8; }
-body.dark .contact-item-body span,
-body.dark .contact-item-body a      { color: #ffffff; }
-body.dark .hours-row .day           { color: #e8e8e8; }
-body.dark .hours-row .time          { color: #ffffff; }
-body.dark .contact-map-embed        { border-color: #888b8d; }
+
 
 /* ── Modals ── */
-body.dark .modal                    { background: #737679; }
-body.dark .svc-pill                 { background: #606366; border-color: #888b8d; color: #ffffff; }
-body.dark .svc-pill strong          { color: #ffffff; }
-body.dark .svc-desc                 { color: #e8e8e8; border-bottom-color: #888b8d; }
-body.dark .svc-step-box             { background: #606366; border-color: #888b8d; }
-body.dark .svc-step-title           { color: #ffffff; }
-body.dark .svc-step-desc            { color: #e8e8e8; }
-body.dark .svc-key-box              { background: #606366; border-color: #888b8d; }
-body.dark .svc-key-label            { color: #e8e8e8; }
-body.dark .svc-key-value            { color: #ffffff; }
-body.dark .svc-req-list li          { color: #ffffff; }
-body.dark .service-modal-footer     { background: #606366; border-top-color: #888b8d; }
-body.dark .service-modal-note       { color: #e8e8e8; }
+
+
 /* ── Dark mode permit cards: card bg = button color, button = white ── */
-body.dark .permit-card                             { border-color: transparent; color: #ffffff; }
-body.dark .permit-card h3                          { color: #ffffff; }
-body.dark .permit-card p                           { color: rgba(255,255,255,0.85); }
 
-body.dark .permit-card.business                    { background: #b8973a; }
-body.dark .permit-card.business    .permit-icon    { background: rgba(255,255,255,0.15); color: #ffffff; }
-body.dark .permit-card.business    .permit-select  { background: #ffffff; color: #b8973a; }
-
-body.dark .permit-card.occupational                { background: #1a5276; }
-body.dark .permit-card.occupational .permit-icon   { background: rgba(255,255,255,0.15); color: #ffffff; }
-body.dark .permit-card.occupational .permit-select { background: #ffffff; color: #1a5276; }
-
-body.dark .permit-card.special                     { background: #6b4c11; }
-body.dark .permit-card.special     .permit-icon    { background: rgba(255,255,255,0.15); color: #ffffff; }
-body.dark .permit-card.special     .permit-select  { background: #ffffff; color: #6b4c11; }
-
-body.dark .permit-card:hover .permit-select        { filter: brightness(0.92); }
 
 /* BP sub-modal option cards – dark mode reversed colors matching permit cards */
-body.dark .bp-option-card              { border-color: transparent; color: #ffffff; }
-body.dark .bp-option-new               { background: #b8973a; }
-body.dark .bp-option-renew             { background: #1a5276; }
-body.dark .bp-option-card:hover        { filter: brightness(1.08); }
-body.dark .bp-option-icon              { background: rgba(255,255,255,0.15); color: #ffffff; }
-body.dark .bp-option-text strong       { color: #ffffff; }
-body.dark .bp-option-text span         { color: rgba(255,255,255,0.85); }
-body.dark .bp-option-arrow             { opacity: 0.7; }
+
 
 /* ── Settings panel ── */
-body.dark .settings-btn             { background: #595c5e; color: #ffffff; border-color: #888b8d; }
-body.dark .settings-btn:hover       { background: #484b4d; color: var(--gold); }
-body.dark .settings-dropdown        { background: #595c5e; border-color: #888b8d; }
-body.dark .settings-label           { color: #d0d0d0; }
-body.dark .settings-row             { color: #ffffff; }
-body.dark .settings-divider         { background: #888b8d; }
-body.dark .settings-coming-soon     { color: #d0d0d0; }
-body.dark .mobile-settings          { border-top-color: #888b8d; }
-body.dark .mobile-settings-label    { color: #d0d0d0; }
-body.dark .mobile-settings-text     { color: #ffffff; }
+
 
 /* ── Dark mode: citizens-charter TOC sidebar ── */
-body.dark .cc-sidebar                              { background: #0d1f4e !important; border-color: #1a3a6e !important; }
-body.dark .cc-sidebar-header                       { background: #091836 !important; border-bottom-color: #1a3a6e !important; }
-body.dark .cc-sidebar-header svg                   { color: #ffffff !important; }
-body.dark .cc-sidebar-header h3                    { color: #ffffff !important; }
-body.dark .cc-toc-list li                          { border-bottom-color: #1a3a6e !important; }
-body.dark .cc-toc-list button                      { background: transparent !important; }
-body.dark .cc-toc-list button:hover                { background: rgba(255,255,255,0.08) !important; }
-body.dark .cc-toc-list button.active               { background: rgba(255,255,255,0.13) !important; }
-body.dark .cc-toc-list button.active .toc-num      { background: #b8973a !important; color: #ffffff !important; }
-body.dark .cc-toc-list button.active .toc-label    { color: #ffffff !important; font-weight: 700 !important; }
-body.dark .cc-toc-list button.active .toc-page     { color: rgba(255,255,255,0.85) !important; }
-body.dark .toc-num                                 { background: rgba(255,255,255,0.15) !important; color: #ffffff !important; }
-body.dark .toc-label                               { color: rgba(255,255,255,0.85) !important; }
-body.dark .toc-page                                { color: rgba(255,255,255,0.5) !important; }
-body.dark .cc-sidebar-footer                       { background: #091836 !important; border-top-color: #1a3a6e !important; }
-body.dark .btn-download-sm                         { color: #ffffff !important; }
-body.dark .btn-download                            { color: #ffffff !important; }
+
 
 /* ============================================================
   SETTINGS BUTTON + DROPDOWN (desktop)
@@ -400,11 +292,7 @@ body.dark .btn-download                            { color: #ffffff !important; 
   align-items: center;
   gap: 8px;
 }
-.settings-divider {
-  height: 1px;
-  background: #f0f0f0;
-  margin: 6px 0;
-}
+
 .settings-coming-soon {
   font-size: 0.72rem;
   color: #9ca3af;
@@ -571,8 +459,49 @@ body.dark .btn-download                            { color: #ffffff !important; 
   font-size: 1.7rem;
   font-weight: 700;
   color: var(--navy);
-  margin-bottom: 20px;
+  margin: 0;
 }
+.services-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.btn-track-application {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 24px;
+  background: var(--gold);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 26px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 16px rgba(184,151,58,0.4);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-track-application:hover {
+  background: var(--navy);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(13,31,78,0.3);
+}
+.btn-track-application svg { width: 17px; height: 17px; }
+
+
+.services-intro {
+  font-size: 0.92rem;
+  color: var(--muted);
+  max-width: 760px;
+  margin: 0 0 22px;
+  line-height: 1.6;
+}
+
 /* Grid: 4 col desktop → 2 col tablet → 1 col mobile */
 .services-grid {
   display: grid;
@@ -586,6 +515,7 @@ body.dark .btn-download                            { color: #ffffff !important; 
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 320px; /* fixed (not min-height) so every card is exactly the same height */
   transition: transform 0.2s, box-shadow 0.2s;
 }
 .service-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
@@ -626,9 +556,9 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 .footer-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 48px 20px 36px;
+  padding: 48px 38px 36px; /* +18px to match .service-card's own 18px inner padding, so footer content lines up with the card text above it */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr; /* collapses on mobile */
+  grid-template-columns: 1fr 1fr 1fr; /* collapses on mobile */
   gap: 40px;
 }
 .footer-col h4 {
@@ -643,8 +573,8 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 .footer-col p { font-size: 0.88rem; line-height: 1.7; }
 .contact-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; font-size: 0.88rem; }
 .contact-row svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 3px; fill: var(--gold); }
-.footer-map { margin-top: 14px; border-radius: var(--radius); overflow: hidden; border: 2px solid rgba(255,255,255,0.1); }
-.footer-map iframe { width: 100%; height: 150px; border: none; display: block; }
+
+
 .footer-bottom {
   text-align: center;
   padding: 14px 20px;
@@ -777,84 +707,13 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   gap: 16px;
   align-items: stretch;
 }
-/* 3-column variant used when a third permit option is present */
-.modal-body--3 {
-  grid-template-columns: 1fr 1fr 1fr;
-  max-width: 680px; /* widen modal for 3 cards */
-}
 
-/* Each permit choice card
-   ── To add another option: duplicate .permit-card and update content */
-.permit-card {
-  border: 2px solid #e5e7eb;
-  border-radius: var(--radius);
-  padding: 20px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 10px;
-  cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
-  text-decoration: none;
-  color: var(--text);
-}
-.permit-card:hover {
-  border-color: var(--navy);
-  box-shadow: 0 6px 20px rgba(13,31,78,0.12);
-  transform: translateY(-2px);
-}
-/* Icon circle – change background to recolor per card */
-.permit-card .permit-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.permit-card.business    .permit-icon { background: rgba(184,151,58,0.12); color: #b8973a; }
-.permit-card.occupational .permit-icon { background: rgba(26,82,118,0.1);  color: #1a5276; }
-.permit-card.special      .permit-icon { background: rgba(107,76,17,0.1);  color: #6b4c11; }
-.permit-card .permit-icon svg { width: 28px; height: 28px; }
-.permit-card h3 {
-  font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--navy);
-}
-.permit-card p {
-  font-size: 0.8rem;
-  color: var(--muted);
-  line-height: 1.4;
-  flex: 1; /* takes up remaining space, pushing the button to the bottom */
-}
+
 /* "Select" pill at the bottom of each card */
-.permit-card .permit-select {
-  margin-top: 6px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 18px;
-  min-height: 40px;
-  border-radius: 20px;
-  font-family: var(--font-heading);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  border: 2px solid transparent;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.permit-card.business    .permit-select { background: var(--gold);  color: var(--white); }
-.permit-card.occupational .permit-select { background: var(--teal); color: var(--white); }
-.permit-card.special      .permit-select { background: #6b4c11;     color: var(--white); }
-.permit-card:hover .permit-select { filter: brightness(1.1); }
+
 
 /* Widen the modal when 3 cards are shown */
-.modal-body--3 ~ * , .modal:has(.modal-body--3) {
-  max-width: 680px;
-}
+
 /* Application chooser modal – keep it compact */
 #modalBackdrop .modal { max-width: 680px; }
 /* Service detail modal – wider to fit process flow */
@@ -889,15 +748,16 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 
   /* Services: 1 column */
   .services-grid { grid-template-columns: 1fr; }
+  .service-card { height: auto; } /* full-width cards don't need the fixed height */
 
   /* Footer: stack all columns */
   .footer-inner {
     grid-template-columns: 1fr;
     gap: 28px;
-    padding: 32px 20px 24px;
+    padding: 32px 38px 24px;
   }
   .footer-col:last-child { grid-column: auto; }
-  .footer-map iframe { height: 180px; } /* bigger map on mobile */
+   /* bigger map on mobile */
 
   /* Tighter section spacing */
   .charter, .services { margin: 24px auto; }
@@ -906,49 +766,23 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 
 /* Stack modal cards on narrow screens – applies to both 2 and 3 card layouts */
 @media (max-width: 560px) {
-  .modal-body,
-  .modal-body--3 {
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 16px;
-  }
+  
 
   /* Compact horizontal card on mobile */
-  .permit-card {
-    flex-direction: row;
-    align-items: center;
-    text-align: left;
-    padding: 14px 16px;
-    gap: 14px;
-  }
+  
 
   /* Smaller icon */
-  .permit-card .permit-icon {
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-  }
-  .permit-card .permit-icon svg { width: 22px; height: 22px; }
+  
+  
 
   /* Hide description on mobile */
-  .permit-card p { display: none; }
+  
 
   /* Title left-aligned, no margin */
-  .permit-card h3 {
-    font-size: 0.95rem;
-    margin: 0;
-    flex: 1;
-  }
+  
 
   /* Select pill pushed to the right */
-  .permit-card .permit-select {
-    margin-top: 0;
-    margin-left: auto;
-    flex-shrink: 0;
-    padding: 6px 14px;
-    font-size: 0.72rem;
-    min-height: 34px;
-  }
+  
 
   /* Modal max-height so it never overflows screen */
   #modalBackdrop .modal {
@@ -1033,6 +867,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 18px;
 }
 .svc-pill {
   display: flex;
@@ -1317,12 +1152,39 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  border: none;
   border-radius: 6px;
   text-decoration: none;
+  cursor: pointer;
   transition: background 0.2s, filter 0.2s;
 }
 .btn-view-more:hover { filter: brightness(1.4); }
 .btn-view-more svg { width: 14px; height: 14px; }
+
+.service-modal-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-start-app {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: var(--gold);
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s, filter 0.2s;
+}
+.btn-start-app:hover { filter: brightness(1.1); }
+.btn-start-app svg { width: 14px; height: 14px; }
 
 @media (max-width: 500px) {
   .svc-key-info { grid-template-columns: 1fr; }
@@ -1337,69 +1199,14 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 }
 
 /* ============================================================
-  INNER PAGES – Citizen's Charter & About
-  Shared layout for citizens-charter.html and about.html.
+  INNER PAGES – About
 ============================================================ */
 
 /* Page wrapper – max width + padding */
-.charter-page,
 .about-page {
   max-width: 900px;
   margin: 48px auto 64px;
   padding: 0 24px;
-}
-
-/* Intro paragraph on Charter page */
-.charter-intro {
-  font-size: 0.97rem;
-  color: var(--muted);
-  line-height: 1.75;
-  margin-bottom: 40px;
-  padding-bottom: 28px;
-  border-bottom: 1px solid #d0d5df;
-}
-
-/* ── Charter entry row ──
-   Icon on the left, text on the right.
-   Duplicated for each service in the charter. */
-.charter-entry {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  padding: 28px 0;
-  border-bottom: 1px solid #e8eaf0;
-}
-.charter-entry:last-child { border-bottom: none; }
-.charter-entry-icon {
-  width: 52px;
-  height: 52px;
-  flex-shrink: 0;
-  background: var(--light);
-  border: 2px solid var(--navy);
-  border-radius: var(--radius);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.charter-entry-icon svg { width: 28px; height: 28px; }
-.charter-entry-body h2 {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--navy);
-  margin-bottom: 8px;
-}
-.charter-entry-body p {
-  font-size: 0.92rem;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-bottom: 8px;
-}
-.charter-entry-body ul {
-  margin: 8px 0 0 16px;
-  font-size: 0.9rem;
-  color: var(--muted);
-  line-height: 1.8;
 }
 
 /* ── About page blocks ── */
@@ -1472,9 +1279,9 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
   line-height: 1.7;
 }
 
-/* Responsive: stack charter entries and about columns on mobile */
+/* Responsive: stack about columns on mobile */
 @media (max-width: 600px) {
-  .charter-entry { flex-direction: column; }
+  .about-page { margin: 28px auto 40px; }
   .about-columns,
   .about-columns--3 { grid-template-columns: 1fr; }
   .about-columns--3 .about-card:last-child {
@@ -1482,8 +1289,6 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
     max-width: 100%;
     margin: 0;
   }
-  .charter-page,
-  .about-page { margin: 28px auto 40px; }
 }
 
 /* ============================================================
@@ -1571,27 +1376,7 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
 .hours-row .day  { color: var(--muted); }
 .hours-row .time { font-weight: 600; color: var(--navy); }
 /* Open/closed badge */
-.hours-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 10px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-.hours-badge.open   { background: #d1fae5; color: #065f46; }
-.hours-badge.closed { background: #fee2e2; color: #991b1b; }
-.hours-badge::before {
-  content: '';
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: currentColor;
-}
+
 
 /* Right column: map */
 .contact-map h2 {
@@ -1673,4 +1458,498 @@ footer { background: var(--navy); color: rgba(255,255,255,0.85); margin-top: 64p
     flex-wrap: wrap;
     justify-content: center;
   }
+}
+/* ============================================================
+  TABBED SERVICE MODAL (Overview / Requirements / Process)
+  Shared by any page using the full Citizen's Charter service
+  detail modal (SERVICE_DATA + openServiceModal pattern).
+============================================================ */
+.svc-tabnav {
+  display: flex;
+  gap: 4px;
+  padding: 0 24px;
+  border-bottom: 1px solid #e0e3ec;
+  background: var(--light);
+}
+.svc-tabbtn {
+  font-family: var(--font-heading);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 4px solid transparent;
+  padding: 14px 8px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.svc-tabbtn:hover { color: var(--navy); }
+.svc-tabbtn.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+/* Persistent "?" tour-replay icon, pushed to the far right of the tab row */
+.svc-tabnav-help {
+  margin-left: auto;
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.svc-tabnav-help:hover { background: rgba(13,31,78,0.08); color: var(--navy); }
+.svc-tabnav-help svg { width: 18px; height: 18px; }
+
+.svc-tabpanel { display: none; }
+.svc-tabpanel.active { display: block; }
+
+.card-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 2px;
+}
+
+/* Sub-tabs inside a tab panel (e.g. New / Renewal, or General / Business Activity) */
+.svc-subtabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.svc-subtab {
+  font-family: var(--font-heading);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 18px;
+  border: 1.5px solid #d8dce8;
+  background: var(--white);
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.svc-subtab:hover { border-color: var(--navy); color: var(--navy); }
+.svc-subtab.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+
+/* Requirements table (Requirement | Where to Secure) */
+.svc-req-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+.svc-req-table th {
+  text-align: left;
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 10px 8px;
+  border-bottom: 1.5px solid #e0e3ec;
+}
+.svc-req-table td {
+  padding: 10px;
+  border-bottom: 1px solid #eef0f6;
+  vertical-align: top;
+  color: var(--text);
+  line-height: 1.5;
+}
+.svc-req-table tr:last-child td { border-bottom: none; }
+.svc-req-table td.req-where { color: var(--muted); font-size: 0.8rem; white-space: normal; }
+
+.svc-req-note {
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: var(--light);
+  border-left: 3px solid var(--gold);
+  padding: 10px 14px;
+  border-radius: 4px;
+  line-height: 1.55;
+}
+
+.svc-stub-note {
+  font-size: 0.82rem;
+  color: var(--muted);
+  background: var(--light);
+  border: 1px dashed #c7cbd8;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+/* Mini legend row above process steps (fee / total time for the active sub-tab) */
+.svc-subtotal {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin: -6px 0 16px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.svc-subtotal strong { color: var(--navy); }
+
+.svc-fee-schedule { margin-top: 22px; }
+
+/* Search box reused inside the "Business Activity Requirements" sub-tab */
+.directory-search {
+  position: relative;
+}
+.directory-search svg {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px;
+  height: 17px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.directory-search input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  padding: 12px 16px 12px 40px;
+  border: 1.5px solid #d8dce8;
+  border-radius: 24px;
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.directory-search input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(13,31,78,0.08);
+}
+
+@media (max-width: 560px) {
+  .svc-tabnav { padding: 0 16px; gap: 2px; overflow-x: auto; }
+  .svc-req-table { font-size: 0.8rem; }
+  .svc-req-table td.req-where { display: block; padding-top: 2px; }
+}
+
+/* Dark mode */
+
+
+/* ============================================================
+  CHOOSER MODAL
+  Generic "pick one of these options" modal launched from a
+  service's Start Application button (e.g. Amendment type picker).
+  Reuses .modal-backdrop / .modal for open/close behaviour.
+============================================================ */
+.chooser-modal {
+  max-width: 600px;
+}
+.chooser-header {
+  background: var(--navy);
+  color: #ffffff;
+  padding: 18px 24px 20px;
+  border-radius: 14px 14px 0 0;
+}
+.chooser-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.chooser-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding: 4px 2px;
+  opacity: 0.9;
+}
+.chooser-back:hover { opacity: 1; }
+.chooser-back svg { width: 16px; height: 16px; }
+.chooser-header-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.85;
+  padding: 2px 4px;
+}
+.chooser-header-close:hover { opacity: 1; }
+.chooser-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0 0 4px;
+}
+.chooser-subtitle {
+  font-size: 0.88rem;
+  color: #c7d0e6;
+  margin: 0;
+}
+.chooser-list {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.chooser-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  border: 1.5px solid #e4e7f0;
+  border-radius: 12px;
+  background: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.chooser-item:hover { border-color: var(--navy); box-shadow: 0 2px 10px rgba(13,31,78,0.08); }
+.chooser-item-icon {
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chooser-item-icon svg { width: 22px; height: 22px; }
+.chooser-item-body { flex: 1; min-width: 0; }
+.chooser-item-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 2px;
+}
+.chooser-item-desc {
+  font-size: 0.84rem;
+  color: var(--muted);
+  margin: 0;
+}
+.chooser-item-chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: #b7bcc9;
+}
+
+/* Dark mode */
+
+
+@media (max-width: 500px) {
+  .chooser-item { padding: 14px; gap: 12px; }
+  .chooser-item-icon { width: 40px; height: 40px; }
+}
+
+/* ============================================================
+  SERVICE MODAL — PREV/NEXT NAVIGATION ARROWS
+  Cycle through the 12 service cards without closing the modal.
+============================================================ */
+.svc-nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy); /* fallback; JS sets this to the open service's own color */
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+  transition: filter 0.15s, transform 0.15s, box-shadow 0.15s;
+  z-index: 1;
+}
+.svc-nav-arrow:hover { filter: brightness(1.15); box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+.svc-nav-arrow:active { transform: translateY(-50%) scale(0.94); }
+.svc-nav-arrow svg { width: 22px; height: 22px; }
+/* Default left/right are a fallback; JS repositions these to hug the modal's actual edges */
+.svc-nav-prev { left: 18px; }
+.svc-nav-next { right: 18px; }
+
+@media (max-width: 860px) {
+  .svc-nav-arrow { width: 40px; height: 40px; }
+}
+@media (max-width: 640px) {
+  .svc-nav-arrow { display: none; }
+}
+
+/* ============================================================
+  WALKTHROUGH TOUR — brief spotlight tour, ported from
+  charter-directory.html's kiosk walkthrough.
+============================================================ */
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: none;
+}
+.tour-overlay.visible { display: block; }
+.tour-spotlight {
+  position: fixed;
+  border: 3px solid var(--gold);
+  border-radius: 14px;
+  box-shadow: 0 0 0 9999px rgba(13,31,78,0.72);
+  pointer-events: none;
+  transition: top 0.35s ease, left 0.35s ease, width 0.35s ease, height 0.35s ease;
+  z-index: 1;
+}
+.tour-tooltip {
+  position: fixed;
+  z-index: 2;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+  padding: 22px 24px;
+  max-width: 420px;
+  width: calc(100vw - 40px);
+  transition: top 0.35s ease, left 0.35s ease;
+}
+.tour-dots { display: flex; gap: 6px; margin-bottom: 14px; }
+.tour-dot { width: 9px; height: 9px; border-radius: 50%; background: #d8dce8; }
+.tour-dot.active { background: var(--gold); }
+.tour-tooltip-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.tour-tooltip-desc {
+  font-size: 0.92rem;
+  color: var(--text);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.tour-tooltip-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.tour-skip {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  padding: 12px 8px;
+  min-height: 44px;
+}
+.tour-skip:hover { color: var(--navy); }
+.tour-next {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 12px 28px;
+  min-height: 48px;
+  cursor: pointer;
+}
+.tour-next:hover { background: var(--navy); }
+@media (max-width: 560px) {
+  .tour-tooltip { padding: 18px 20px; max-width: none; }
+  .tour-tooltip-title { font-size: 1.05rem; }
+  .tour-tooltip-desc { font-size: 0.88rem; margin-bottom: 16px; }
+}
+
+/* "Take a Tour" trigger button, ghost style so it doesn't compete with
+   the gold Track Application button next to it */
+.btn-take-tour {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 12px 20px;
+  background: none;
+  border: 1.5px solid var(--navy);
+  color: var(--navy);
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-take-tour:hover { background: var(--navy); color: #fff; }
+.btn-take-tour svg { width: 15px; height: 15px; }
+
+/* ============================================================
+  PDF VIEWER MODAL — ported from charter-directory.html.
+  Shows the Citizen's Charter PDF inline instead of a new tab;
+  a small "open in new tab" icon is still offered for anyone who
+  wants the browser's native PDF toolbar (search, print, zoom).
+============================================================ */
+#pdfModalBackdrop .modal.pdf-modal {
+  max-width: 1000px;
+  width: 94vw;
+  height: 88vh;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.pdf-modal-header {
+  background: var(--navy);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+}
+.pdf-modal-header-actions { display: flex; align-items: center; gap: 6px; }
+.pdf-modal-newtab {
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+.pdf-modal-newtab:hover { color: #fff; background: rgba(255,255,255,0.1); }
+.pdf-modal-newtab svg { width: 18px; height: 18px; }
+.pdf-modal-body { flex: 1; background: #525659; }
+.pdf-modal-body iframe { width: 100%; height: 100%; border: none; }
+@media (max-width: 720px) {
+  #pdfModalBackdrop .modal.pdf-modal { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; }
+  .pdf-modal-header { padding: 14px 16px; font-size: 0.88rem; }
 }
