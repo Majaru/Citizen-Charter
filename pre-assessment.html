@@ -22,6 +22,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 
+  <!-- Leaflet (free, no API key) — used for the clickable "Pinpoint Business Location" map -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
   <style>
     /* ── Logo size override for this page ── */
     .logo-seal { width: 56px; height: 56px; }
@@ -57,7 +61,7 @@
       background: #e2e5ef;
       margin: 0 12px;
     }
-    body.dark .pa-step:not(:last-child)::after { background: rgba(255,255,255,0.12); }
+    
     .pa-step.active:not(:last-child)::after    { background: var(--gold); }
 
     .pa-step-num {
@@ -76,10 +80,10 @@
       background: #fff;
       transition: all 0.25s;
     }
-    body.dark .pa-step-num { background: #aab0c0; border-color: rgba(255,255,255,0.15); color: rgb(255, 255, 255); }
+    
     .pa-step.active .pa-step-num  { background: var(--gold); border-color: var(--gold); color: #fff; }
     .pa-step.done   .pa-step-num  { background: #0d1f4e; border-color: #0d1f4e; color: #fff; }
-    body.dark .pa-step.done .pa-step-num { background: var(--gold); border-color: var(--gold); }
+    
 
     .pa-step-label {
       font-family: 'Oswald', sans-serif;
@@ -92,9 +96,9 @@
     }
     .pa-step.active .pa-step-label { color: var(--gold); }
     .pa-step.done   .pa-step-label { color: #0d1f4e; }
-    body.dark .pa-step-label { color: rgb(255, 255, 255); }
-    body.dark .pa-step.active .pa-step-label { color: var(--gold) !important; }
-    body.dark .pa-step.done .pa-step-label { color: rgb(255, 255, 255); }
+    
+    
+    
 
     /* ── Info banner ── */
     .pa-info-banner {
@@ -110,8 +114,24 @@
       line-height: 1.6;
       color: #5a4a1a;
     }
-    body.dark .pa-info-banner { background: rgba(184,151,58,0.1); border-color: rgba(184,151,58,0.35); color: rgba(255,255,255,0.8); }
+    
     .pa-info-banner svg { flex-shrink: 0; margin-top: 1px; color: var(--gold); }
+
+    /* ── Privacy notice banner ── */
+    .pa-privacy-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(13,31,78,0.05);
+      border: 1.5px solid rgba(13,31,78,0.18);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 32px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #0d1f4e;
+    }
+    .pa-privacy-banner svg { flex-shrink: 0; margin-top: 1px; color: #0d1f4e; }
 
     /* ── Section headers ── */
     .pa-section-head {
@@ -136,63 +156,27 @@
       padding: 20px 20px 8px;
       margin-bottom: 0;
     }
-    body.dark .pa-form-card { background: #0f1b35; border-color: rgba(255,255,255,0.1); }
+    
 
     /* ── Force Section A (Step 1) to keep light-mode appearance even in dark mode ── */
-    body.dark #paStep1 .pa-form-card,
-    body.dark #paStep2 .pa-form-card,
-    body.dark #paStep3 .pa-form-card { background: #fff !important; border-color: rgba(0,0,0,0.08) !important; }
-    body.dark #paStep1 .pa-label,
-    body.dark #paStep2 .pa-label,
-    body.dark #paStep3 .pa-label { color: #5a6070; }
-    body.dark #paStep1 .pa-input,
-    body.dark #paStep1 .pa-select,
-    body.dark #paStep1 .pa-textarea,
-    body.dark #paStep2 .pa-input,
-    body.dark #paStep2 .pa-select,
-    body.dark #paStep2 .pa-textarea,
-    body.dark #paStep3 .pa-input,
-    body.dark #paStep3 .pa-select,
-    body.dark #paStep3 .pa-textarea {
-      background: #f7f8fa; border-color: rgba(0,0,0,0.12); color: #1a1a1a;
-    }
-    body.dark #paStep1 .pa-input:focus,
-    body.dark #paStep1 .pa-select:focus,
-    body.dark #paStep1 .pa-textarea:focus,
-    body.dark #paStep2 .pa-input:focus,
-    body.dark #paStep2 .pa-select:focus,
-    body.dark #paStep2 .pa-textarea:focus,
-    body.dark #paStep3 .pa-input:focus,
-    body.dark #paStep3 .pa-select:focus,
-    body.dark #paStep3 .pa-textarea:focus { background: #fff; }
-    body.dark #paStep1 .pa-input::placeholder,
-    body.dark #paStep1 .pa-textarea::placeholder,
-    body.dark #paStep2 .pa-input::placeholder,
-    body.dark #paStep2 .pa-textarea::placeholder,
-    body.dark #paStep3 .pa-input::placeholder,
-    body.dark #paStep3 .pa-textarea::placeholder { color: rgba(0,0,0,0.3); }
-    body.dark #paStep1 .pa-divider,
-    body.dark #paStep2 .pa-divider,
-    body.dark #paStep3 .pa-divider { background: rgba(0,0,0,0.08); }
-    body.dark #paStep1 .pa-note,
-    body.dark #paStep2 .pa-note,
-    body.dark #paStep3 .pa-note { color: rgba(0,0,0,0.4); }
-    body.dark #paStep1 .pa-check-item,
-    body.dark #paStep2 .pa-check-item,
-    body.dark #paStep3 .pa-check-item { color: #1a1a1a; }
-    body.dark #paStep1 .pa-section-head,
-    body.dark #paStep2 .pa-section-head,
-    body.dark #paStep3 .pa-section-head { background: #0d1f4e !important; color: #fff !important; }
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     /* ── Inline sub-header labels in Sections B & C ── */
     .pa-sub-head { color: #0d1f4e; }
-    body.dark .pa-sub-head { color: rgba(255,255,255,0.9); }
-    body.dark .pa-sub-head-muted { color: rgba(255,255,255,0.5); }
-    body.dark #paStep2 .pa-sub-head,
-    body.dark #paStep3 .pa-sub-head { color: #0d1f4e !important; }
-    body.dark .pa-card-title { color: #fff; }
-    body.dark .pa-card-summary { color: rgba(255,255,255,0.6); }
-    body.dark .pa-return-link { color: rgba(255,255,255,0.7); }
+    
+    
+    
+    
+    
+    
 
     /* ── Form rows & fields ── */
     .pa-row {
@@ -222,7 +206,7 @@
       letter-spacing: 0.03em;
       text-transform: uppercase;
     }
-    body.dark .pa-label { color: rgba(255,255,255,0.55); }
+    
 
     .pa-label .req { color: #c0392b; margin-left: 2px; }
 
@@ -240,13 +224,7 @@
       width: 100%;
       box-sizing: border-box;
     }
-    body.dark .pa-input,
-    body.dark .pa-select,
-    body.dark .pa-textarea {
-      background: #0d1f4e;
-      border-color: rgba(255,255,255,0.15);
-      color: #fff;
-    }
+    
     .pa-input:focus,
     .pa-select:focus,
     .pa-textarea:focus {
@@ -255,14 +233,11 @@
       box-shadow: 0 0 0 3px rgba(184,151,58,0.15);
       background: #fff;
     }
-    body.dark .pa-input:focus,
-    body.dark .pa-select:focus,
-    body.dark .pa-textarea:focus { background: #132040; }
+    
 
     .pa-input::placeholder,
     .pa-textarea::placeholder { color: #b0b8cc; }
-    body.dark .pa-input::placeholder,
-    body.dark .pa-textarea::placeholder { color: rgba(255,255,255,0.25); }
+    
 
     .pa-textarea { resize: vertical; min-height: 90px; }
 
@@ -275,8 +250,8 @@
       color: #1e56b3;
       margin-bottom: 8px;
     }
-    body.dark .pa-doc-label { color: #7ba8f0; }
-    body.dark #bizLocationCoords { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.65); }
+    
+    
     .pa-doc-label .req { color: #c0392b; margin-left: 2px; font-weight: 700; }
     input.pa-file-input.pa-input { padding: 6px 12px; cursor: pointer; }
 
@@ -301,16 +276,15 @@
       font-size: 0.85rem;
       width: 100%;
     }
-    body.dark .pa-type-table { border-color: rgba(255,255,255,0.15); }
+    
     .pa-type-table td, .pa-type-table th {
       padding: 6px 12px;
       border: 1px solid #e8ebf2;
       font-family: 'Source Sans 3', sans-serif;
     }
-    body.dark .pa-type-table td,
-    body.dark .pa-type-table th { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+    
     .pa-type-table .cell-label { font-weight: 600; color: #0d1f4e; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; }
-    body.dark .pa-type-table .cell-label { color: rgba(255,255,255,0.9); }
+    
 
     /* ── Checkbox group ── */
     .pa-check-group {
@@ -330,7 +304,7 @@
       cursor: pointer;
       user-select: none;
     }
-    body.dark .pa-check-item { color: rgba(255,255,255,0.85); }
+    
     .pa-check-item input[type="checkbox"],
     .pa-check-item input[type="radio"] {
       width: 16px;
@@ -346,7 +320,7 @@
       background: #e8ebf2;
       margin: 12px 0 16px;
     }
-    body.dark .pa-divider { background: rgba(255,255,255,0.08); }
+    
 
     /* ── Inline note ── */
     .pa-note {
@@ -355,8 +329,24 @@
       font-style: italic;
       font-family: 'Source Sans 3', sans-serif;
     }
-    body.dark .pa-note { color: rgba(255,255,255,0.4); }
-    #docPrepList em { color: #c0392b; font-style: normal; }
+    
+
+    /* ── Business Activity Requirements: contained, scrollable table ── */
+    .pa-activity-scroll {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1px solid #e2e5ef;
+      border-radius: 8px;
+      padding: 0 14px;
+    }
+    .pa-activity-scroll .svc-req-table thead th {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 1;
+    }
+    
+    
 
     /* ── Line of Business table ── */
     .pa-lob-table {
@@ -376,13 +366,13 @@
       border: 1px solid #d8dce8;
       text-align: left;
     }
-    body.dark .pa-lob-table th { background: #0d1830; color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.1); }
+    
     .pa-lob-table td {
       padding: 4px 6px;
       border: 1px solid #e2e5ef;
       vertical-align: top;
     }
-    body.dark .pa-lob-table td { border-color: rgba(255,255,255,0.08); }
+    
     .pa-lob-table td input {
       width: 100%;
       border: none;
@@ -393,7 +383,7 @@
       padding: 4px 6px;
       outline: none;
     }
-    body.dark .pa-lob-table td input { color: rgba(255,255,255,0.9); }
+    
     .pa-lob-table td input:focus { background: rgba(184,151,58,0.06); border-radius: 3px; }
 
     /* ── Declaration box ── */
@@ -408,8 +398,8 @@
       font-family: 'Source Sans 3', sans-serif;
       margin-top: 24px;
     }
-    body.dark .pa-declaration { background: #0d1830; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); }
-    body.dark #paStep3 .pa-declaration { background: #f8f9fc !important; border-color: #d8dce8 !important; color: #4a5068 !important; }
+    
+    
 
     /* ── Signature row ── */
     .pa-sig-row {
@@ -429,7 +419,7 @@
       border-bottom: 1.5px solid #0d1f4e;
       height: 40px;
     }
-    body.dark .pa-sig-line { border-color: rgba(255,255,255,0.4); }
+    
     .pa-sig-caption {
       font-family: 'Source Sans 3', sans-serif;
       font-size: 0.75rem;
@@ -449,7 +439,7 @@
       font-family: 'Source Sans 3', sans-serif;
       color: #4a5068;
     }
-    body.dark .pa-tracking-box { background: #0d1830; border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.65); }
+    
     .pa-tracking-row {
       display: flex;
       align-items: center;
@@ -457,7 +447,7 @@
       padding: 4px 0;
       border-bottom: 1px dashed #e2e5ef;
     }
-    body.dark .pa-tracking-row { border-color: rgba(255,255,255,0.08); }
+    
     .pa-tracking-row:last-child { border-bottom: none; }
     .pa-tracking-key {
       font-weight: 600;
@@ -477,7 +467,7 @@
       padding: 2px 4px;
       outline: none;
     }
-    body.dark .pa-tracking-val { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.2); }
+    
 
     /* ── Submit bar ── */
     .pa-submit-bar {
@@ -490,7 +480,7 @@
       border-top: 2px solid #e2e5ef;
       flex-wrap: wrap;
     }
-    body.dark .pa-submit-bar { border-color: rgba(255,255,255,0.1); }
+    
 
     .pa-btn-back {
       display: flex;
@@ -509,8 +499,8 @@
       transition: all 0.2s;
     }
     .pa-btn-back:hover { border-color: #0d1f4e; background: #f0f2f8; }
-    body.dark .pa-btn-back { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.2); }
-    body.dark .pa-btn-back:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.4); }
+    
+    
 
     .pa-btn-submit {
       display: flex;
@@ -571,13 +561,13 @@
       color: var(--navy);
       margin: 0;
     }
-    body.dark .pa-success h2 { color: #fff; }
+    
     .pa-success p { color: #5a6070; max-width: 480px; font-family: 'Source Sans 3', sans-serif; line-height: 1.7; }
     .pa-submission-card { background: #fff; }
-    body.dark .pa-submission-card { background: #1e2a3a; border-color: #2e3d52 !important; }
-    body.dark .pa-submission-card p { color: rgba(255,255,255,0.65); }
-    body.dark .pa-submission-card .card-title { color: #fff; }
-    body.dark .pa-success p { color: rgba(255,255,255,0.65); }
+    
+    
+    
+    
     .pa-success-ref {
       font-family: 'Oswald', sans-serif;
       font-size: 1.1rem;
@@ -596,8 +586,8 @@
       overflow: hidden;
       width: fit-content;
     }
-    body.dark .sig-tabs { border-color: rgba(255,255,255,0.15); }
-    body.dark #paStep3 .sig-tabs { border-color: #d8dce8 !important; }
+    
+    
 
     .sig-tab {
       display: flex;
@@ -617,14 +607,14 @@
       border-right: 1.5px solid #d8dce8;
     }
     .sig-tab:last-child { border-right: none; }
-    body.dark .sig-tab { background: #0d1830; color: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.1); }
-    body.dark #paStep3 .sig-tab { background: #f0f2f8 !important; color: #8a94a8 !important; border-color: #d8dce8 !important; }
+    
+    
     .sig-tab.active { background: #fff; color: var(--gold); }
-    body.dark .sig-tab.active { background: #0f1b35; color: var(--gold); }
-    body.dark #paStep3 .sig-tab.active { background: #fff !important; color: var(--gold) !important; }
+    
+    
     .sig-tab:hover:not(.active) { background: #e8ebf4; color: #0d1f4e; }
-    body.dark .sig-tab:hover:not(.active) { background: #111d38; color: rgba(255,255,255,0.7); }
-    body.dark #paStep3 .sig-tab:hover:not(.active) { background: #e8ebf4 !important; color: #0d1f4e !important; }
+    
+    
 
     .sig-panel {
       border: 1.5px solid #d8dce8;
@@ -633,8 +623,8 @@
       overflow: hidden;
       background: #fff;
     }
-    body.dark .sig-panel { border-color: rgba(255,255,255,0.15); background: #0f1b35; }
-    body.dark #paStep3 .sig-panel { border-color: #d8dce8 !important; background: #fff !important; }
+    
+    
 
     #sigCanvas {
       background: #fafbfd;
@@ -643,8 +633,8 @@
       width: 100%;
       border-bottom: 1.5px dashed #e2e5ef;
     }
-    body.dark #sigCanvas { background: #0d1830; border-color: rgba(255,255,255,0.1); }
-    body.dark #paStep3 #sigCanvas { background: #fafbfd !important; border-color: #e2e5ef !important; }
+    
+    
 
     .sig-canvas-hint {
       position: absolute;
@@ -658,8 +648,8 @@
       pointer-events: none;
       transition: opacity 0.2s;
     }
-    body.dark .sig-canvas-hint { color: rgba(255,255,255,0.15); }
-    body.dark #paStep3 .sig-canvas-hint { color: #c8cdd8 !important; }
+    
+    
 
     .sig-actions {
       display: flex;
@@ -669,8 +659,8 @@
       background: #f8f9fc;
       border-top: 1px solid #e8ebf2;
     }
-    body.dark .sig-actions { background: #0d1830; border-color: rgba(255,255,255,0.08); }
-    body.dark #paStep3 .sig-actions { background: #f8f9fc !important; border-color: #e8ebf2 !important; }
+    
+    
 
     .sig-action-btn {
       display: flex;
@@ -687,10 +677,10 @@
       transition: all 0.15s;
     }
     .sig-action-btn:hover { border-color: #c0392b; color: #c0392b; }
-    body.dark .sig-action-btn { color: rgba(255,255,255,0.5); border-color: rgba(255,255,255,0.15); }
-    body.dark .sig-action-btn:hover { border-color: #e07070; color: #e07070; }
-    body.dark #paStep3 .sig-action-btn { color: #5a6070 !important; border-color: #d0d4e0 !important; }
-    body.dark #paStep3 .sig-action-btn:hover { border-color: #c0392b !important; color: #c0392b !important; }
+    
+    
+    
+    
 
     .sig-upload-area {
       display: flex;
@@ -707,9 +697,9 @@
       transition: background 0.15s, color 0.15s;
     }
     .sig-upload-area:hover { background: rgba(184,151,58,0.05); color: var(--gold); }
-    body.dark .sig-upload-area { color: rgba(255,255,255,0.4); }
-    body.dark .sig-upload-area:hover { color: var(--gold); }
-    body.dark #paStep3 .sig-upload-area { color: #8a94a8 !important; }
+    
+    
+    
     .sig-upload-area.dragover { background: rgba(184,151,58,0.1); color: var(--gold); border-color: var(--gold); }
 
     .sig-save-btn {
@@ -743,7 +733,7 @@
       font-family: 'Source Sans 3', sans-serif;
       font-size: 0.88rem;
     }
-    body.dark .sig-saved-bar { background: rgba(39,174,96,0.1); border-color: rgba(39,174,96,0.2); }
+    
 
     .sig-saved-left {
       display: flex;
@@ -768,8 +758,8 @@
       transition: all 0.15s;
     }
     .sig-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
-    body.dark .sig-edit-btn { color: rgba(255,255,255,0.55); border-color: rgba(255,255,255,0.15); }
-    body.dark .sig-edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+    
+    
 
     /* Saved state: canvas locked */
     #sigCanvas.locked { cursor: default; pointer-events: none; opacity: 0.85; }
@@ -816,7 +806,7 @@
       animation: reviewSlideUp 0.22s ease;
     }
     @keyframes reviewSlideUp { from { transform:translateY(24px); opacity:0; } to { transform:translateY(0); opacity:1; } }
-    body.dark .review-modal { background: #0f1b35; }
+    
 
     .review-modal-head {
       display: flex;
@@ -826,7 +816,7 @@
       border-bottom: 1.5px solid #e2e5ef;
       flex-shrink: 0;
     }
-    body.dark .review-modal-head { border-color: rgba(255,255,255,0.1); }
+    
 
     .review-modal-title {
       display: flex;
@@ -838,7 +828,7 @@
       letter-spacing: 0.05em;
       color: var(--navy);
     }
-    body.dark .review-modal-title { color: #fff; }
+    
     .review-modal-title svg { color: var(--gold); stroke: var(--gold); }
 
     .review-close-btn {
@@ -853,7 +843,7 @@
       transition: color 0.15s, background 0.15s;
     }
     .review-close-btn:hover { color: #0d1f4e; background: #f0f2f8; }
-    body.dark .review-close-btn:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    
 
     .review-modal-body {
       overflow-y: auto;
@@ -895,19 +885,19 @@
       letter-spacing: 0.05em;
       color: #8a94a8;
     }
-    body.dark .review-key { color: rgba(255,255,255,0.4); }
+    
     .review-val {
       font-family: 'Source Sans 3', sans-serif;
       font-size: 0.92rem;
       color: #0d1f4e;
       word-break: break-word;
     }
-    body.dark .review-val { color: rgba(255,255,255,0.9); }
+    
     .review-val.empty {
       color: #c0c8d8;
       font-style: italic;
     }
-    body.dark .review-val.empty { color: rgba(255,255,255,0.2); }
+    
 
     /* Signature preview in modal */
     .review-sig-preview {
@@ -918,7 +908,7 @@
       display: inline-block;
       margin-top: 4px;
     }
-    body.dark .review-sig-preview { background: #0d1830; border-color: rgba(255,255,255,0.1); }
+    
     .review-sig-preview img,
     .review-sig-preview canvas { max-height: 80px; max-width: 100%; display: block; }
 
@@ -931,7 +921,7 @@
       flex-shrink: 0;
       gap: 12px;
     }
-    body.dark .review-modal-foot { border-color: rgba(255,255,255,0.1); }
+    
 
   
     /* ── Tooltip ── */
@@ -965,21 +955,13 @@
     .bb-tooltip-wrap:focus-within .bb-tooltip-box {
       visibility: visible; opacity: 1;
     }
-    body.dark .bb-tooltip-icon { background: #4a90d9; }
-    body.dark .bb-tooltip-box  { background: #1a3a6e; }
-    body.dark .bb-tooltip-box::before { border-right-color: #1a3a6e; }
+    
+    
+    
   </style>
 </head>
 
 <body>
-
-  <!-- ── Dark mode flash prevention ── -->
-  <script>
-    if (localStorage.getItem('bb-dark') === '1') {
-      document.documentElement.classList.add('dark-early');
-      document.body && document.body.classList.add('dark');
-    }
-  </script>
 
   <!-- ============================================================
     HEADER / NAV
@@ -1013,30 +995,6 @@
       <a href="contact.html"          class="mobile-link">Contact</a>
       <div class="mobile-settings">
         <div class="mobile-settings-label">Settings</div>
-        <div class="mobile-settings-row">
-          <span class="mobile-settings-text">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            Dark Mode
-          </span>
-          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
-            <span class="settings-toggle-thumb"></span>
-          </button>
-        </div>
-        <div class="mobile-settings-row mobile-settings-row--disabled">
-          <span class="mobile-settings-text">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="2" y1="12" x2="22" y2="12"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
-            Filipino <span class="mobile-soon-badge">Soon</span>
-          </span>
-          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
-            <span class="settings-toggle-thumb"></span>
-          </button>
-        </div>
         <div class="mobile-settings-row mobile-settings-row--disabled">
           <span class="mobile-settings-text">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1059,59 +1017,9 @@
   ============================================================ -->
   <section class="hero hero-inner">
     <div class="hero-content">
-      <h1>Pre-Assessment of Business</h1>
+      <h1>Issuance of Business Permit</h1>
     </div>
   </section>
-
-
-  <!-- ============================================================
-    DOCUMENT PREPARATION MODAL — shown on page load, before the form
-  ============================================================ -->
-  <div id="docPrepModal" class="review-overlay" style="display:flex;" aria-modal="true" role="dialog">
-    <div class="review-modal">
-
-      <div class="review-modal-head">
-        <div class="review-modal-title">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-          Documents to Prepare
-        </div>
-        <button class="review-close-btn" onclick="closeDocPrepModal()" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-
-      <div class="review-modal-body">
-        <p class="pa-note" style="margin:0 0 16px;">Before filling up the Unified Application Form, please prepare scanned copies of the following, as applicable to your business:</p>
-        <ol id="docPrepList" style="margin:0; padding-left:20px; line-height:1.9; font-size:0.92rem; color:#0d1f4e;">
-          <li>Certified List of Employees / Certification of No Employee</li>
-          <li>Valid I.D. of Representatives, Owners <em>(Sole Proprietor, OPC, Partnership)</em>, and Corporate Secretary <em>(Corporation, Cooperative)</em></li>
-          <li>Fire Safety Inspection Certificate (FSIC) for Occupancy Permit, valid within the last 9 months</li>
-          <li>Affidavit of Undertaking that there had been no substantial changes made on the building</li>
-          <li>DOLE / POEA Certificate of Registration <em>(optional)</em></li>
-          <li>DHSUD Certificate of Registration <em>(optional)</em></li>
-          <li>Valid DTI Registration <em>(if Sole Proprietorship)</em></li>
-          <li>SEC Registration, Articles of Incorporation <em>(if Partnership, One Person Corporation, or Corporation)</em></li>
-          <li>Certificate of Cooperation, Articles of Cooperation <em>(if Cooperative)</em></li>
-          <li>Special Power of Attorney for Representative <em>(if Sole Proprietorship)</em></li>
-          <li>Partnership Resolution for Representative <em>(if Partnership)</em></li>
-          <li>Secretary's Certificate or Board Resolution <em>(if OPC, Corporation, or Cooperative)</em></li>
-          <li>Contract of Lease and copy of Proof of Ownership by the Lessor <em>(if business location is not owned)</em></li>
-          <li>Any Proof of Ownership <em>(if business location is owned)</em></li>
-          <li>Consent and copy of any Proof of Ownership <em>(if business location is not owned)</em></li>
-          <li>OR/CR of vehicle, per vehicle <em>(if you have delivery vehicles)</em></li>
-          <li>Consent for use of the vehicle, if not owned by the applicant <em>(if you have delivery vehicles)</em></li>
-        </ol>
-      </div>
-
-      <div class="review-modal-foot" style="justify-content:flex-end;">
-        <button type="button" class="pa-btn-submit" onclick="closeDocPrepModal()">
-          Got It, Continue
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-      </div>
-
-    </div>
-  </div>
 
 
   <!-- ============================================================
@@ -1141,6 +1049,14 @@
         <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
       <span>This is the <strong>Unified Application Form for Business Permit (Annex 1)</strong>. Complete all required fields accurately. Once submitted — either online through the Business Bureau's portal or in person at the Business Bureau office — your documents and information will be reviewed and assessed for compliance with regulatory requirements to determine your eligibility for a business permit.</span>
+    </div>
+
+    <!-- Privacy notice banner -->
+    <div class="pa-privacy-banner">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      <span>All information you provide is kept <strong>confidential</strong> and processed in accordance with the <strong>Data Privacy Act of 2012 (Republic Act No. 10173)</strong>. It is used solely for evaluating and processing your business permit application.</span>
     </div>
 
     <form id="paForm" novalidate>
@@ -2003,7 +1919,7 @@
       <div class="pa-section-head">C. Additional Documents</div>
       <div class="pa-form-card">
         <div class="pa-sub-head" style="margin:0 0 10px;">Pinpoint Business Location</div>
-        <p class="pa-note" style="margin:0 0 16px;">Search for your business address or use your current location so we can see exactly where your business is situated.</p>
+        <p class="pa-note" style="margin:0 0 16px;">Search for your business address, use your current location, or simply click/tap anywhere on the map below to drop a pin and capture its exact coordinates.</p>
 
         <div class="pa-row" style="align-items:flex-end;" id="bizLocationControls">
           <div class="pa-field" style="flex:1 1 60%;">
@@ -2025,10 +1941,10 @@
         </div>
 
         <div style="border:1.5px solid #e2e5ef; border-radius:8px; overflow:hidden; margin-top:8px;">
-          <iframe id="bizLocationMap" src="https://www.google.com/maps?q=Sangguniang+Panlungsod+Building,+Davao+City&z=15&output=embed" width="100%" height="360" style="border:0; display:block;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div id="bizLocationMap" style="width:100%; height:360px;"></div>
         </div>
 
-        <div id="bizLocationCoords" style="margin:10px 0 0; padding:10px 14px; background:#f4f6fb; border:1px solid #e2e5ef; border-radius:6px; font-size:0.85rem; color:#4a5568; line-height:1.6;">No location selected yet.</div>
+        <div id="bizLocationCoords" style="margin:10px 0 0; padding:10px 14px; background:#f4f6fb; border:1px solid #e2e5ef; border-radius:6px; font-size:0.85rem; color:#4a5568; line-height:1.6;">No location selected yet — click anywhere on the map to pin it.</div>
         <input type="hidden" id="bizLat" name="bizLat">
         <input type="hidden" id="bizLng" name="bizLng">
         <input type="hidden" id="bizSavedAddress" name="bizSavedAddress">
@@ -2155,6 +2071,13 @@
           </div>
         </div>
 
+        <div id="otherDocumentsWrap" style="display:none;">
+          <div class="pa-divider" style="margin:20px 0;"></div>
+          <div class="pa-sub-head" style="margin:0 0 6px;">Business Activity Requirements</div>
+          <p class="pa-note" style="margin:0 0 16px;">Use these slots to upload any other supporting documents for each business activity you declared in Section B, if applicable.</p>
+          <div id="otherDocumentsList"></div>
+        </div>
+
         <div class="pa-required-note" style="margin-top:4px;"><span>*</span> Required field</div>
       </div>
 
@@ -2217,24 +2140,7 @@
   <footer id="contact">
     <div class="footer-inner">
 
-      <!-- Column 1: Links -->
-      <div class="footer-col">
-        <h4>Links</h4>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
-        </div>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
-        </div>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
-        </div>
-      </div>
-
-      <!-- Column 2: Location -->
+      <!-- Column 1: Location -->
       <div class="footer-col">
         <h4>Location</h4>
         <div class="contact-row">
@@ -2245,9 +2151,9 @@
         </div>
       </div>
 
-      <!-- Column 3: Contact Information -->
+      <!-- Column 2: Contact Information -->
       <div class="footer-col">
-        <h4>Contact Information</h4>
+        <h4>Contact</h4>
         <div class="contact-row">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
             <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
@@ -2303,35 +2209,6 @@
       </svg>
     </button>
     <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
-      <div class="settings-label">Appearance</div>
-      <div class="settings-row">
-        <span class="settings-row-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          Dark Mode
-        </span>
-        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
-          <span class="settings-toggle-thumb"></span>
-        </button>
-      </div>
-      <div class="settings-divider"></div>
-      <div class="settings-label">Language</div>
-      <div class="settings-row">
-        <span class="settings-row-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          Filipino
-        </span>
-        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
-          <span class="settings-toggle-thumb"></span>
-        </button>
-      </div>
-      <div class="settings-coming-soon">Translation coming soon</div>
-      <div class="settings-divider"></div>
       <div class="settings-label">Admin</div>
       <div class="settings-row">
         <span class="settings-row-text">
@@ -2601,12 +2478,6 @@
       });
     });
 
-    /* ── Document prep modal (shown on load) ── */
-    function closeDocPrepModal() {
-      const modal = document.getElementById('docPrepModal');
-      if (modal) modal.style.display = 'none';
-    }
-
     /* ── Review modal helpers ── */
     function val(id) {
       const el = document.getElementById(id);
@@ -2773,6 +2644,7 @@
       document.getElementById('paForm').style.display = 'none';
       document.getElementById('paSteps').style.display = 'none';
       document.querySelector('.pa-info-banner').style.display = 'none';
+      document.querySelector('.pa-privacy-banner').style.display = 'none';
       document.getElementById('paSuccess').style.display = 'flex';
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -2835,6 +2707,105 @@
       'Wholesalers, Dealers, and Distributors': 'e.g. Cement, Cooking Oil, Rice, etc.',
       'Others': 'e.g. Other product or service'
     };
+
+    /* ── Business Activity Requirements — same 93-entry dataset used in the
+       Business Bureau service cards (Issuance/Renewal of Business Permit),
+       so applicants can look up requirements for any business activity. ── */
+    const AGENCY_SPECIFIC_REQUIREMENTS = [
+      { text: 'Aircraft Companies', where: 'Air Operator Certificate, Civil Aviation Authority of the Philippines' },
+      { text: 'Airplane or Aircraft', where: 'Certificate of Registration (Civil Aviation Authority of the Philippines); New Application: subject to Cert. of Reg. with DA-BAI per DILG MC No. 2016-12' },
+      { text: 'Animal Facilities (Animal Control Facility, Aviary, Cattery, Animal/Farm Circus/Carnival Show, Corral, Grooming Facility, Kennel, Lab. Animal Facility, Pet Shop, Poultry Farm, Racetrack Equestrian Establishment, Slaughter House, Stock Farm, Stockyard, Shed Farm, Veterinary Clinic, Veterinary Hospital, Wildlife Rescue Center, Zoo and other Animal Facilities)', where: 'BAE Requirement: notation forever; Piggery/Poultry Farm: mandatory Barangay Resolution; Animal Industry: notation forever' },
+      { text: 'Animal Hospitals', where: 'Professional Regulation Commission License, PTR' },
+      { text: 'Automobile Rebuilder', where: 'Department of Trade and Industry Accreditation, Land Transportation Office and Highway Patrol Group Certificates' },
+      { text: 'Banks', where: 'New Application: subject to BSP Authority to Operate; Renewal: required BSP Authority to Operate' },
+      { text: 'Bio/Organic Fertilizers', where: 'Notation forever for COR — Bureau of Agriculture & Fishery Standards (BAFS)' },
+      { text: 'Boat Building', where: 'New Application: subject to the requirements of MARINA; Renewal: required Cert. of Compliance, Cert. of Phil. Registry' },
+      { text: 'Building Contractor / General Engineering / Specialty Engineering / Sub-Contractors', where: 'Professional Regulation Commission License, PTR (if applicable); New Application: mandatory DTI-PCAB License (prior to logo)' },
+      { text: 'Canine Dog Security/Watchdog Provider', where: 'New Application: subject to, for 1st operations, COR from the supervisory office for Security & Investigation Services (PNP, Camp Crame)' },
+      { text: 'Casino', where: 'New Application: mandatory City Development Council, SP Ordinance' },
+      { text: 'Cockpits', where: 'New Application: mandatory City Development Council, SP Ordinance' },
+      { text: 'Cooperative (Main)', where: 'CDA Certificate of Good Standing' },
+      { text: 'Cooperative (Branch)', where: 'Certificate of Authority from CDA' },
+      { text: 'Cosmetics and Beauty Products', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Customs Broker', where: 'Customs Brokers Commission License' },
+      { text: 'Dental Laboratory', where: 'New Application: mandatory DOH-LTO' },
+      { text: 'Deep Sea Fishing', where: 'Maritime Industry Authority Certificate of Vessel Registry' },
+      { text: 'Detergents and Household Cleaning Agents', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Diagnostic', where: 'Professional Regulation Commission License, PTR, Food and Drug Administration License; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Drugs and Medicines, Pharmacy', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification; New Application: subject to FDA-LTO' },
+      { text: 'E-Bingo', where: 'New Application: SP Resolution (No Objection) & Gaming License from PAGCOR' },
+      { text: 'Electrical and Power Company', where: 'Congressional Franchise, Sangguniang Panlungsod Resolution' },
+      { text: 'Fertilizer', where: 'FPA License' },
+      { text: 'Financial and/or Lending Investors', where: 'New Application: mandatory SEC Cert. of Authority (No. 9474)' },
+      { text: 'Food (Processed, Repacked, and Manufactured), Cooking Oil and Beverages', where: 'New Application: subject to FDA-LTO' },
+      { text: 'Food Supplements', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Forest Products', where: 'Not Allowed' },
+      { text: 'Franchisees', where: 'Franchise Agreement' },
+      { text: 'Franchising Institutions', where: 'DTI Registration' },
+      { text: 'Funeral Parlor, Morgue and Embalming Services', where: 'New Application: mandatory SP Ordinance, Department of Health Training Certificate and License of Undertaker and Embalmer' },
+      { text: 'Gasoline Service Refilling Stations', where: 'Department of Energy Certificate of Compliance' },
+      { text: 'Gasoline Station, Butane, LPG, and Other Fuel Businesses', where: 'Department of Energy Certificate of Compliance / Standards Compliance Certificate' },
+      { text: 'Insurance, Pre-Need Companies, Adjusters', where: 'Philippine Insurance Commission Certificate of Authority / Future Commodity Merchant or Brokers License; New Application: mandatory IC Cert. of Authority' },
+      { text: 'Internet Cafe and Pisonet', where: 'Internet Cafe Accreditation Board Accreditation; Professional Regulation Commission License, PTR' },
+      { text: 'Laboratories (Clinical), Therapeutic Clinics', where: 'New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Learning Institution — Basic Education', where: 'New Application: subject for DEPED Permit for 1st year of operations / DEPED Recognition' },
+      { text: 'Learning Institution — Technical and Skills Training Center', where: 'New Application: mandatory TESDA Cert. of Program Reg., Cert. of Accreditation' },
+      { text: 'Learning Institution — Tertiary and Graduate Education', where: 'New Application: subject for CHED Permit for 1st year of operations / CHED Recognition' },
+      { text: 'Learning Institution (Branch)', where: 'Certificate of Compliance' },
+      { text: 'Learning Institution — Preschool / Child Minding Centers (3 yrs old and below)', where: 'DSWD Certificate' },
+      { text: 'Legal and Accounting/Auditing Firm', where: 'Professional Regulation Commission License, PTR' },
+      { text: 'Lessor of Real Estate and Dwelling Places / Accommodation', where: 'New Application: mandatory Tax Declaration (Land & Bldg.) and Building Permit. Tax Declaration is for determination of ownership; Building Permit is for determination of capitalization. Note: not the Transfer Certificate of Title.' },
+      { text: 'Manpower Service, Employment Agency — Local', where: 'New Application: subject to DOLE requirements for 1st year of operations; Renewal: required LTO' },
+      { text: 'Manpower Service, Employment Agency — Overseas Branch Office', where: 'New Application: mandatory POEA Authority to Establish Branch (original should be presented)' },
+      { text: 'Manpower Service, Employment Agency — Overseas Main Office', where: 'New Application: POEA License' },
+      { text: 'Maritime Transportation of Passengers and Goods, Fishing Boats, Water Vessels, etc.', where: 'New Application: subject to the requirements of MARINA; Renewal: required Cert. of Compliance, Cert. of Phil. Registry' },
+      { text: 'Memorial Parks and Private Cemeteries', where: 'New Application: mandatory SP Ordinance' },
+      { text: 'Micro Finance (Non-Stock/Non-Profit)', where: 'New Application: SEC CA required for Corp.; Coop.-CDA' },
+      { text: 'Mining Industry', where: 'New Application: DENR' },
+      { text: 'Mobile Phone Manufacturer / Wholesaler / Dealer / Distributor / Retailer', where: 'New Application: mandatory NTC permit to operate' },
+      { text: 'Mobile Phone Repair', where: 'New Application: mandatory NTC permit to operate' },
+      { text: 'Money Remittance Services / Forex Dealers / Money Changers / Money Shops / Authorized Dealer in Foreign Currencies / Money Remittance Agents', where: 'New Application: subject to submission of application for registration with BSP prior to start of operations; Renewal: required Cert. of Registration' },
+      { text: 'Motorcycle Rider', where: 'Contract with Food Delivery Franchise' },
+      { text: 'Nuisance-Bar / Videoke / Retail of Lumber with Machinery', where: 'New Application: mandatory Barangay Resolution' },
+      { text: 'Pawnshops', where: 'New Application: subject to submission of application for registration with the BSP prior to start of operations; Renewal: Cert. of Registration; Branches: AO & BSP Clearance' },
+      { text: 'Pesticide / Insecticide / Herbicide', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification, FPA License' },
+      { text: 'Poultry, Duckery, Slaughter House, Animal Facilities', where: 'Bureau of Animal Industry Certificate of Registration, National Meat Inspection Service Certificate' },
+      { text: 'Private Hauler / Forwarder (Maritime)', where: 'Philippine Shippers Bureau Accreditation for Sea Freight Forwarders' },
+      { text: 'Private Hospitals, Medical Clinics', where: 'Professional Regulation Commission License, PTR, Department of Health License; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Private Port', where: 'Philippine Ports Authority' },
+      { text: 'Private Security and Detective Agency', where: 'Philippine National Police / PSCUCIA Permit' },
+      { text: 'Private Slaughterhouse', where: 'New Application: mandatory SP Ordinance' },
+      { text: 'Property Appraisal Company', where: 'New Application: mandatory SEC Cert. of Accreditation' },
+      { text: 'Psychiatric Care Facilities', where: 'Professional Regulation Commission License, PTR; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Public Market, Pasalubong Center and Davao City Overland Transport Terminal Stall Holder', where: "Stall Certificates from the City Treasurer's Office and the City Economic Enterprise" },
+      { text: 'Public Transportation under LTFRB (PUJs, Taxis, Car-For-Hire, Buses, etc.)', where: 'OR/CR, Land Transportation Franchising and Regulatory Board Franchise' },
+      { text: 'Race Track, Coliseum, or Similar Establishments', where: "New Application: mandatory City Dev't. Council, SP Ordinance" },
+      { text: 'Radio Station', where: 'NTC License to Operate' },
+      { text: 'Real Estate Brokers', where: "Professional Regulation Commission Broker's License, PTR" },
+      { text: 'Real Estate Dealers', where: 'New Application: Accreditation from HLURB' },
+      { text: 'Rehabilitation Centers', where: 'Professional Regulation Commission License, PTR; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Review Center — PRC', where: 'New Application: subject to CHED Requirements; Renewal: mandatory CHED Certification' },
+      { text: 'Sand and Gravel, Concessionaire, Mining', where: 'If less than 5 hectares: Commercial Sand and Gravel Permit. If more than 5 hectares: Mines and Geo Sciences Bureau / Industrial Sand and Gravel / Earthfill Permit. New Application: mandatory Mayor\'s Permit to Quarry, indicating the gross capacity of the trucks.' },
+      { text: 'Sauna Baths, Massage Clinics', where: 'Certificate of Registration (COR) and License for Massage Therapists issued by the DOH Committee of Examiners for Massage Therapy (CEMT) / NC II, License to Operate from CEMT' },
+      { text: 'Savings and Loan Associations', where: 'New Application: mandatory SEC Cert. of Authority' },
+      { text: 'Security Agency / Dealer of Guns & Ammo / Repair', where: 'New Application: subject to compliance (PNP-LTO/PSCUCIA); Cert. that the application is on process is mandatory' },
+      { text: 'Security Training Academy', where: 'New Application: subject to compliance of PNP-Private Security Training Accreditation' },
+      { text: 'Second Hand / Surplus Vehicles Importer / Assembler / Rebuilder / Dealer', where: 'New Application: mandatory LTO Cert. & HPG Clearance along with the OR/CR or Affidavit of Undertaking. In case of Assembler/Rebuilder: DTI Accreditation (mandatory).' },
+      { text: 'Shipping Yard', where: 'Maritime Industry Authority Certificate of Registration' },
+      { text: 'Stall Holder', where: 'New Application: mandatory Stall Status and Market Clearance' },
+      { text: 'Subdivision Developer', where: 'New Application: mandatory HLURB License to Sell/Operate & SP Ordinance' },
+      { text: 'Technical and Skills Training Center', where: 'Technical Education and Skills Development Authority Accreditation' },
+      { text: 'Telephone Company', where: 'NTC License to Operate' },
+      { text: 'Television Stations', where: 'Congressional Franchise, Sangguniang Panlungsod Resolution' },
+      { text: 'Terminal Garage for Public Utility Vehicles', where: 'Traffic Management and Control Board / Davao City Overland Transport Terminal / Land Transportation Franchising and Regulatory Board Permit — except for Tricycles, City Tricycle and Franchising Regulatory Board (CTFRB) Permit subject to Sangguniang Panlungsod approval; New Application: approval from SP/CTTMB/City Admin/LTFRB (mandatory)' },
+      { text: 'Toys and Childcare Articles', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Transloading Services / Private Hauler / Forwarder (Ground Based)', where: 'OR/CR; New Application: for Transport Services (requires LTFRB-Franchise Contract, Provisional Authority); for SRV Code: subject to LTFRB-Franchise Contract, Provisional Authority. Buses and Carpool are computed per unit.' },
+      { text: 'Tricycle Terminals and Operators', where: 'CTTMO Franchise' },
+      { text: 'Vehicles Used for Business', where: 'OR/CR' },
+      { text: 'Video Rental Services', where: 'Optical Media Board Registration' },
+      { text: 'Water Companies', where: 'Sangguniang Panlungsod Resolution, Congressional Franchise' },
+      { text: 'X-Ray, Radioactive and Hazardous Substances', where: 'Food and Drug Administration License' },
+    ];
 
     function populateLobCategorySelect(select) {
       Object.keys(LOB_CATEGORIES).forEach(cat => {
@@ -2988,6 +2959,8 @@
       document.getElementById('paLineOfBusiness').style.display = 'none';
       document.getElementById('paAdditionalDocuments').style.display = 'block';
       updateDocRequirements();
+      initBizLocationMap();
+      setTimeout(() => { if (bizMap) bizMap.invalidateSize(); }, 150);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -3024,7 +2997,96 @@
       show('doc-orcr',          hasVehicles);
       show('doc-consentvehicle', hasVehicles);
 
+      updateOtherDocuments();
       equalizeDocRows();
+    }
+
+    /* ── "Other Documents": business-activity-specific uploads, derived from
+       whichever Category(ies) the applicant picked in Section B ── */
+    function updateOtherDocuments() {
+      const wrap = document.getElementById('otherDocumentsWrap');
+      const list = document.getElementById('otherDocumentsList');
+      if (!wrap || !list) return;
+
+      const activityBlocks = Array.from(document.querySelectorAll('#paLineOfBusiness .lob-activity-block'));
+
+      if (activityBlocks.length === 0) {
+        wrap.style.display = 'none';
+        list.innerHTML = '';
+        return;
+      }
+
+      wrap.style.display = 'block';
+
+      const uploadFieldsHTML = activityBlocks.map((block, idx) => {
+        const rows = [];
+        for (let i = 1; i <= 4; i += 2) {
+          const fields = [i, i + 1].map(n => `
+            <div class="pa-field w-half">
+              <label class="pa-doc-label">Other Document ${n}</label>
+              <input type="file" class="pa-input pa-file-input" accept=".pdf,.jpg,.jpeg,.png" onchange="validateDocFile(this)">
+            </div>
+          `).join('');
+          rows.push(`<div class="pa-doc-row">${fields}</div>`);
+        }
+
+        const dividerHTML = idx > 0 ? '<div class="pa-divider" style="margin:16px 0;"></div>' : '';
+        return `${dividerHTML}${rows.join('')}`;
+      }).join('');
+
+      // Business Activity Requirements — same searchable reference table used
+      // in the Business Bureau service cards (Issuance/Renewal of Business
+      // Permit), so the applicant can check requirements for any business
+      // activity, not just the one(s) they've already declared.
+      const referenceHTML = `
+        <div class="pa-divider" style="margin:20px 0;"></div>
+        <p class="pa-note" style="margin:0 0 10px;">In case any apply to what you declared above.</p>
+        <div class="directory-search" style="margin-bottom:14px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="paActivitySearch" placeholder="Search by business activity — e.g. &quot;internet cafe&quot;, &quot;pharmacy&quot;, &quot;security agency&quot;…" autocomplete="off">
+        </div>
+        <div id="paActivityTableWrap" class="pa-activity-scroll"></div>
+      `;
+
+      list.innerHTML = uploadFieldsHTML + referenceHTML;
+
+      initActivityRequirementsSearch();
+      equalizeDocRows();
+    }
+
+    /* ── Business Activity Requirements: searchable table + live filter ── */
+    function buildActivityRequirementsTable(items) {
+      if (!items.length) {
+        return `<p style="color:var(--muted); font-size:0.9rem; padding:10px 4px;">No matching business activity found.</p>`;
+      }
+      const rows = items.map((it, i) => `
+        <tr>
+          <td>${i + 1}. ${it.text}</td>
+          <td class="req-where">${it.where}</td>
+        </tr>`).join('');
+      return `
+        <table class="svc-req-table">
+          <thead><tr><th>Business Activity</th><th>Required Document(s) / Agency</th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>`;
+    }
+
+    function initActivityRequirementsSearch() {
+      const wrap = document.getElementById('paActivityTableWrap');
+      if (!wrap) return;
+      wrap.innerHTML = buildActivityRequirementsTable(AGENCY_SPECIFIC_REQUIREMENTS);
+
+      const input = document.getElementById('paActivitySearch');
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const q = input.value.trim().toLowerCase();
+        const filtered = q === '' ? AGENCY_SPECIFIC_REQUIREMENTS : AGENCY_SPECIFIC_REQUIREMENTS.filter(it =>
+          it.text.toLowerCase().includes(q) || it.where.toLowerCase().includes(q));
+        wrap.innerHTML = buildActivityRequirementsTable(filtered);
+      });
     }
 
     /* When only one field in a pa-doc-row is visible, let it span the full row
@@ -3160,28 +3222,23 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    /* Control number format: 3 letters + 6 digits (e.g. JDC100001).
-       Letters are derived from the business name's initials where possible,
-       matching the demo control numbers used in view-application-status.html. */
+    /* Control number format: [3-letter application type code][MMDDYY date][4 digits]
+       e.g. BNP0722261234 for a Business Permit application filed on 7/22/2026.
+       This page only handles Business Permit applications, so the type code is
+       always "BNP" here — Occupational Permit (OCP), Special Permit (SPP), etc.
+       would use this same pattern on their own respective pages. */
     function generateControlNumber() {
-      const bizNameEl = document.getElementById('bizName');
-      const bizName = bizNameEl ? bizNameEl.value.trim() : '';
+      const typeCode = 'BNP';
 
-      let letters = bizName
-        .split(/\s+/)
-        .filter(Boolean)
-        .map(word => word[0])
-        .join('')
-        .toUpperCase()
-        .replace(/[^A-Z]/g, '')
-        .slice(0, 3);
+      const now = new Date();
+      const mm = String(now.getMonth() + 1).padStart(2, '0');
+      const dd = String(now.getDate()).padStart(2, '0');
+      const yy = String(now.getFullYear()).slice(-2);
+      const datePart = mm + dd + yy;
 
-      while (letters.length < 3) {
-        letters += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      }
+      const seq = String(Math.floor(1000 + Math.random() * 9000));
 
-      const digits = String(Math.floor(100000 + Math.random() * 900000));
-      return letters + digits;
+      return typeCode + datePart + seq;
     }
 
     function copyControlNumber() {
@@ -3213,45 +3270,77 @@
       }
     }
 
-    /* ── Business Location map (Additional Documents) ── */
+    /* ── Business Location map (Additional Documents) ──
+       Leaflet + OpenStreetMap (free, no API key). Supports search-by-
+       address, "use my current location", and clicking/tapping anywhere
+       on the map (or dragging the pin) to capture exact coordinates. */
+    let bizMap = null;
+    let bizMarker = null;
+    const DEFAULT_BIZ_COORDS = [7.0644, 125.6079]; // approx. Poblacion District, Davao City
+
+    function initBizLocationMap() {
+      if (bizMap) return; // already initialized
+
+      bizMap = L.map('bizLocationMap').setView(DEFAULT_BIZ_COORDS, 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19,
+      }).addTo(bizMap);
+
+      bizMarker = L.marker(DEFAULT_BIZ_COORDS, { draggable: true }).addTo(bizMap);
+
+      bizMarker.on('dragend', () => {
+        const pos = bizMarker.getLatLng();
+        setBizCoords(pos.lat, pos.lng, 'pinned by dragging the marker.');
+      });
+
+      bizMap.on('click', (e) => {
+        bizMarker.setLatLng(e.latlng);
+        setBizCoords(e.latlng.lat, e.latlng.lng, 'pinned by clicking on the map.');
+      });
+    }
+
+    function setBizCoords(lat, lng, note) {
+      document.getElementById('bizLat').value = lat;
+      document.getElementById('bizLng').value = lng;
+      document.getElementById('bizLocationCoords').innerHTML =
+        `<strong>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</strong> — ${note}`;
+    }
+
     function searchBusinessLocation() {
       const query = document.getElementById('bizLocationSearch').value.trim();
       if (!query) {
         alert('Please enter an address to search.');
         return;
       }
-      const encoded = encodeURIComponent(query);
-      document.getElementById('bizLocationMap').src = `https://www.google.com/maps?q=${encoded}&z=17&output=embed`;
       document.getElementById('bizLat').value = '';
       document.getElementById('bizLng').value = '';
       document.getElementById('bizLocationCoords').textContent = `Looking up coordinates for "${query}"...`;
 
-      // Free geocoding (no API key) via OpenStreetMap Nominatim, just to surface lat/lng.
-      // The map display itself still uses Google Maps above.
-      fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encoded}`)
+      // Free geocoding (no API key) via OpenStreetMap Nominatim.
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${encodeURIComponent(query)}`)
         .then(res => res.json())
         .then(results => {
           if (results && results.length > 0) {
             const lat = parseFloat(results[0].lat);
             const lng = parseFloat(results[0].lon);
-            document.getElementById('bizLat').value = lat;
-            document.getElementById('bizLng').value = lng;
-            document.getElementById('bizLocationCoords').innerHTML =
-              `Address: "${query}"<br><strong>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</strong> — please confirm this matches the map above.`;
+            bizMap.setView([lat, lng], 17);
+            bizMarker.setLatLng([lat, lng]);
+            setBizCoords(lat, lng, `from your address search — drag the pin or click the map to fine-tune.`);
           } else {
             document.getElementById('bizLocationCoords').textContent =
-              `Showing results for: "${query}". Coordinates unavailable for this search — try a more specific address, or use "Use My Current Location".`;
+              `No results for "${query}". Try a more specific address, "Use My Current Location", or click directly on the map.`;
           }
         })
         .catch(() => {
           document.getElementById('bizLocationCoords').textContent =
-            `Showing results for: "${query}". Couldn't fetch coordinates right now — the map above should still reflect your search.`;
+            `Couldn't fetch coordinates right now. Please click directly on the map instead.`;
         });
     }
 
     function useCurrentLocation() {
       if (!navigator.geolocation) {
-        alert('Geolocation is not supported by this browser. Please use the search box instead.');
+        alert('Geolocation is not supported by this browser. Please use the search box or click the map instead.');
         return;
       }
       document.getElementById('bizLocationCoords').textContent = 'Getting your current location...';
@@ -3259,13 +3348,13 @@
         (pos) => {
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;
-          document.getElementById('bizLat').value = lat;
-          document.getElementById('bizLng').value = lng;
-          document.getElementById('bizLocationMap').src = `https://www.google.com/maps?q=${lat},${lng}&z=18&output=embed`;
-          document.getElementById('bizLocationCoords').innerHTML = `<strong>Coordinates: ${lat.toFixed(6)}, ${lng.toFixed(6)}</strong> — pinned using your current location.`;
+          bizMap.setView([lat, lng], 18);
+          bizMarker.setLatLng([lat, lng]);
+          setBizCoords(lat, lng, 'pinned using your current location.');
         },
         () => {
-          document.getElementById('bizLocationCoords').textContent = 'Could not get your current location. Please allow location access or use the search box instead.';
+          document.getElementById('bizLocationCoords').textContent =
+            'Could not get your current location. Please allow location access, use the search box, or click directly on the map.';
         }
       );
     }
@@ -3351,12 +3440,6 @@
       const HL = (yy, x1, x2, lw) => { doc.setLineWidth(lw||0.2); doc.line(x1!=null?x1:ML, yy, x2!=null?x2:(PW-MR), yy); };
       const VL = (xx, y1, y2, lw) => { doc.setLineWidth(lw||0.2); doc.line(xx, y1, xx, y2); };
       const R  = (x,yy,w,h,lw)   => { doc.setLineWidth(lw||0.25); doc.rect(x,yy,w,h); };
-
-      function fieldVal(label, value, x, yy, lineEnd) {
-        S(6); B(); T(label+':', x, yy);
-        N(); T(value, x + doc.getTextWidth(label+': ') + 1, yy);
-        HL(yy+0.8, x + doc.getTextWidth(label+': '), lineEnd, 0.15);
-      }
 
       /* ══ LOGOS ══ */
       const sqSize = 16;
@@ -3754,23 +3837,12 @@
       const namePart = [surname, given].filter(Boolean).join(', ') || 'APPLICANT';
       const pdfFilename = 'APPLICATION FORM_' + namePart + '.pdf';
       doc.save(pdfFilename);
-
-      /* show success */
-      const now=new Date();
-      const ref='PA-'+now.getFullYear()+'-'+String(Math.floor(Math.random()*900000)+100000);
-      document.getElementById('paRefNo').textContent='Reference No.: '+ref;
-      document.getElementById('paForm').style.display='none';
-      document.getElementById('paSteps').style.display='none';
-      document.querySelector('.pa-info-banner').style.display='none';
-      document.getElementById('paSuccess').style.display='flex';
-      window.scrollTo({top:0,behavior:'smooth'});
     }
 
     // Close on Escape
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         closeReview();
-        closeDocPrepModal();
         closeDocReview();
       }
     });
