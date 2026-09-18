@@ -35,36 +35,12 @@
   ============================================================ -->
   <link rel="stylesheet" href="style.css"/>
   <style>
-    /* Reset button element when used as a permit-card so it matches <a> cards exactly */
-    button.permit-card {
-      background: #ffffff;
-      border: 2px solid #e5e7eb;
-      padding: 20px 16px;
-      font-family: inherit;
-      font-size: inherit;
-      text-align: center;
-      width: 100%;
-      -webkit-appearance: none;
-      appearance: none;
-    }
-    @media (max-width: 560px) {
-      button.permit-card { text-align: left; }
-    }
-    button.permit-card:hover {
-      border-color: var(--navy);
-      box-shadow: 0 6px 20px rgba(13,31,78,0.12);
-      transform: translateY(-2px);
-    }
-  </style>
-  <style>
     /* Hide navbar hours badge on mobile — hero badge covers it there */
     @media (max-width: 600px) {
       #navHoursBadge { display: none; }
     }
   </style>
 
-  <!-- Dark mode flash prevention: apply class before first paint -->
-  <script>if(localStorage.getItem('bb-dark')==='1'){document.documentElement.classList.add('dark');document.addEventListener('DOMContentLoaded',function(){if(localStorage.getItem('bb-dark')==='1')document.body.classList.add('dark');});}</script>
 </head>
 <body>
 
@@ -119,36 +95,8 @@
       <a href="about.html"            class="mobile-link">About</a>
       <a href="contact.html"          class="mobile-link">Contact</a>
 
-      <!-- Settings section inside mobile menu -->
-      <div class="mobile-settings">
-        <div class="mobile-settings-label">Settings</div>
-        <div class="mobile-settings-row">
-          <span class="mobile-settings-text">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
-            Dark Mode
-          </span>
-          <button class="settings-toggle" id="darkModeToggleMobile" role="switch" aria-checked="false">
-            <span class="settings-toggle-thumb"></span>
-          </button>
-        </div>
-        <div class="mobile-settings-row mobile-settings-row--disabled">
-          <span class="mobile-settings-text">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="2" y1="12" x2="22" y2="12"/>
-              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-            </svg>
-            Filipino <span class="mobile-soon-badge">Soon</span>
-          </span>
-          <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled>
-            <span class="settings-toggle-thumb"></span>
-          </button>
-        </div>
-      </div>
+      <!-- Settings section inside mobile menu (currently empty — Dark Mode and
+           Filipino translation removed; re-add rows here if new settings are needed) -->
     </nav>
   </header>
 
@@ -164,10 +112,6 @@
       <!-- Text + CTA -->
       <div class="hero-content-text">
         <h1>Empowering<br>Your Business</h1>
-        <div style="display:flex; flex-wrap:wrap; gap:14px;">
-          <a href="javascript:void(0)" class="btn-cta" role="button">Get Your Permits Now</a>
-          <a href="view-application-status.html" class="btn-cta btn-cta-status" role="button">View Application Status</a>
-        </div>
       </div>
 
     <!-- ============================================================
@@ -551,9 +495,9 @@
       .ann-bell-nav:hover { background: rgba(13,31,78,0.07); }
 
       /* Dark mode: make bell icon visible against dark navbar */
-      body.dark .ann-bell-nav       { color: #ffffff; }
-      body.dark .ann-bell-nav:hover { background: rgba(255,255,255,0.10); }
-      body.dark .ann-fab-badge      { border-color: #1a2a4a; }
+      
+      
+      
       .ann-fab-badge {
         position: absolute;
         top: 4px;
@@ -672,17 +616,14 @@
   <!-- Floating bell script -->
   <script>
     (function () {
-      /* The floating FAB and the nav bell are two separate buttons;
-         both should open the same drawer. The duplicate-id bug was
-         causing getElementById('annFab') to silently find the nav
-         bell instead of the floating FAB, so the FAB never worked. */
-      const fab         = document.getElementById('annFab');       /* floating FAB */
+      /* The nav bell button opens the announcements drawer. (A separate
+         floating FAB button used to exist too, wired the same way, but
+         it was removed from the markup — this file only has the nav bell now.) */
       const bellNav     = document.getElementById('annBellNav');   /* nav bell (mobile header) */
       const backdrop    = document.getElementById('annDrawerBackdrop');
       const closeBtn    = document.getElementById('annDrawerClose');
       const body        = document.getElementById('annDrawerBody');
       const track       = document.getElementById('announcementTrack');
-      const fabBadge    = document.getElementById('annFabBadge');       /* FAB badge */
       const bellBadge   = document.getElementById('annBellNavBadge');   /* nav bell badge */
       if (!track) return;
 
@@ -699,9 +640,8 @@
           if (b) { b.style.overflow = 'visible'; b.style.maxHeight = 'none'; }
           body.appendChild(div);
         });
-        /* Sync badge count on both buttons */
+        /* Sync badge count */
         const count = track.querySelectorAll('.announcement-slide').length;
-        if (fabBadge)  fabBadge.textContent  = count;
         if (bellBadge) bellBadge.textContent = count;
       }
 
@@ -715,8 +655,7 @@
         document.body.style.overflow = '';
       }
 
-      /* Wire BOTH bell buttons to open the drawer */
-      if (fab)     fab.addEventListener('click', openDrawer);
+      /* Wire the bell button to open the drawer */
       if (bellNav) bellNav.addEventListener('click', openDrawer);
       closeBtn.addEventListener('click', closeDrawer);
       backdrop.addEventListener('click', e => { if (e.target === backdrop) closeDrawer(); });
@@ -734,11 +673,30 @@
       4. Switch class between "gold" and "teal"
   ============================================================ -->
   <section class="services" id="services" style="position:relative; z-index:1;">
-    <h2>Main Services</h2>
+    <div class="services-header-row">
+      <h2>Main Services</h2>
+      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <button type="button" class="btn-take-tour" id="takeTourBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Take a Tour
+        </button>
+        <a href="view-application-status.html" class="btn-track-application">
+          Track Your Application
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <p class="services-intro">The full Citizen's Charter lineup of 12 official services — tap any card for complete requirements and the step-by-step process.</p>
 
     <div class="services-grid">
-
-      <!-- CARD 1 – Gold -->
+      <!-- CARD 1 -->
       <div class="service-card gold">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -748,52 +706,56 @@
             <line x1="8" y1="18" x2="12" y2="18"/>
           </svg>
         </div>
-        <h3>Pre-Assessment</h3>
-        <p>Initial evaluation of business requirements and documents before permit processing to ensure compliance with local regulations.</p>
-        <button class="btn-card" onclick="openServiceModal('pre-assessment')">View Details</button>
-      </div>
-
-      <!-- CARD 2 – Teal -->
-      <div class="service-card teal">
-        <div class="card-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8"  x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-        </div>
+        <div class="card-eyebrow">Service 1 of 12</div>
         <h3>Issuance of Business Permit</h3>
-        <p>Processing and release of official permits allowing businesses to legally operate within the city.</p>
+        <p>Processing and release of official permits allowing a new business to legally operate within the city.</p>
         <button class="btn-card" onclick="openServiceModal('business-permit')">View Details</button>
       </div>
 
-      <!-- CARD 3 – Gold -->
-      <div class="service-card gold">
+      <!-- CARD 2 -->
+      <div class="service-card teal">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <polyline points="14 2 14 8 20 8"/>
+            <polyline points="23 4 23 10 17 10"/>
+            <polyline points="1 20 1 14 7 14"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
           </svg>
         </div>
-        <h3>Special Permit</h3>
-        <p>Issuance of temporary or special authorization for specific business activities, events, or operations requiring additional approval.</p>
-        <button class="btn-card" onclick="openServiceModal('special-permit')">View Details</button>
+        <div class="card-eyebrow">Service 2 of 12</div>
+        <h3>Renewal of Business Permit</h3>
+        <p>Annual renewal of an existing business permit to continue lawful operation into the next calendar year.</p>
+        <button class="btn-card" onclick="openServiceModal('renewal-permit')">View Details</button>
       </div>
 
-      <!-- CARD 4 – Teal -->
-      <div class="service-card teal">
+      <!-- CARD 3 -->
+      <div class="service-card gold">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </div>
+        <div class="card-eyebrow">Service 3 of 12</div>
         <h3>Occupational Permit</h3>
         <p>Processing of permits for employees and workers as proof of compliance with health, safety, and city requirements.</p>
         <button class="btn-card" onclick="openServiceModal('occupational-permit')">View Details</button>
       </div>
 
-      <!-- CARD 5 – Gold -->
+      <!-- CARD 4 -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+        </div>
+        <div class="card-eyebrow">Service 4 of 12</div>
+        <h3>Special Permit</h3>
+        <p>Issuance of temporary or special authorization for specific business activities, events, or operations requiring additional approval.</p>
+        <button class="btn-card" onclick="openServiceModal('special-permit')">View Details</button>
+      </div>
+
+      <!-- CARD 5 -->
       <div class="service-card gold">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -801,26 +763,27 @@
             <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
           </svg>
         </div>
-        <h3>Issuance of Certifications</h3>
+        <div class="card-eyebrow">Service 5 of 12</div>
+        <h3>Issuance of Certification</h3>
         <p>Preparation and release of official certifications related to business records, permits, and compliance documents.</p>
-        <button class="btn-card" onclick="openServiceModal('certifications')">View Details</button>
+        <button class="btn-card" onclick="openServiceModal('certification')">View Details</button>
       </div>
 
-      <!-- CARD 6 – Teal -->
+      <!-- CARD 6 -->
       <div class="service-card teal">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"/>
-            <path d="M19 6l-1 14H6L5 6"/>
-            <path d="M10 11v6M14 11v6"/>
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/>
           </svg>
         </div>
-        <h3>Full Retirement of Business Permit</h3>
-        <p>Processing the permanent closure or discontinuation of a business and cancellation of its active permit records.</p>
-        <button class="btn-card" onclick="openServiceModal('full-retirement')">View Details</button>
+        <div class="card-eyebrow">Service 6 of 12</div>
+        <h3>Amendment of Business Permit</h3>
+        <p>Processing of changes to an active permit — address, business line, ownership, name, or other corrections.</p>
+        <button class="btn-card" onclick="openServiceModal('amendment')">View Details</button>
       </div>
 
-      <!-- CARD 7 – Gold -->
+      <!-- CARD 7 -->
       <div class="service-card gold">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -829,12 +792,41 @@
             <line x1="9"  y1="9"  x2="15" y2="15"/>
           </svg>
         </div>
+        <div class="card-eyebrow">Service 7 of 12</div>
         <h3>Cancellation of Business Permit</h3>
         <p>Termination or revocation of a business permit due to request, non-operation, or non-compliance with regulations.</p>
         <button class="btn-card" onclick="openServiceModal('cancellation')">View Details</button>
       </div>
 
-      <!-- CARD 8 – Teal -->
+      <!-- CARD 8 -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a10 10 0 1 0 10 10H12V2z"/>
+          </svg>
+        </div>
+        <div class="card-eyebrow">Service 8 of 12</div>
+        <h3>Partial Retirement of Business Permit</h3>
+        <p>Removal of a specific business line, branch, or activity from a permit while the rest of the business continues operating.</p>
+        <button class="btn-card" onclick="openServiceModal('partial-retirement')">View Details</button>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6l-1 14H6L5 6"/>
+            <path d="M10 11v6M14 11v6"/>
+          </svg>
+        </div>
+        <div class="card-eyebrow">Service 9 of 12</div>
+        <h3>Full Retirement of Business Permit</h3>
+        <p>Processing the permanent closure or discontinuation of a business and cancellation of its active permit records.</p>
+        <button class="btn-card" onclick="openServiceModal('full-retirement')">View Details</button>
+      </div>
+
+      <!-- CARD 10 -->
       <div class="service-card teal">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -842,10 +834,40 @@
             <circle cx="12" cy="12" r="3"/>
           </svg>
         </div>
+        <div class="card-eyebrow">Service 10 of 12</div>
         <h3>Ocular Inspection</h3>
         <p>On-site inspection of business establishments to verify compliance with safety, sanitation, zoning, and operational requirements.</p>
         <button class="btn-card" onclick="openServiceModal('ocular-inspection')">View Details</button>
       </div>
+
+      <!-- CARD 11 -->
+      <div class="service-card gold">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M6 8h.01M6 12h.01M10 8h8M10 12h8M6 16h12"/>
+          </svg>
+        </div>
+        <div class="card-eyebrow">Service 11 of 12</div>
+        <h3>ICAB (Internet Café Accreditation)</h3>
+        <p>Accreditation required for Internet Café and Coin-Operated Internet Machine (Pisonet) operators, prior to Business Permit issuance.</p>
+        <button class="btn-card" onclick="openServiceModal('icab')">View Details</button>
+      </div>
+
+      <!-- CARD 12 -->
+      <div class="service-card teal">
+        <div class="card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/>
+            <line x1="4" y1="22" x2="4" y2="15"/>
+          </svg>
+        </div>
+        <div class="card-eyebrow">Service 12 of 12</div>
+        <h3>Business Complaint</h3>
+        <p>Filing of a complaint against a business establishment whose activities threaten public welfare, security, or safety.</p>
+        <button class="btn-card" onclick="openServiceModal('business-complaint')">View Details</button>
+      </div>
+
 
     </div><!-- end .services-grid -->
   </section>
@@ -860,24 +882,7 @@
     <div class="footer-inner">
 
       
-      <!-- Column 1: Links -->
-      <div class="footer-col">
-        <h4>Links</h4>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://appbts.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Online BPLS</a>
-        </div>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Occupational Permit</a>
-        </div>
-        <div class="contact-row">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></svg>
-          <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" style="color:rgba(255,255,255,0.85); transition:color 0.2s;" onmouseover="this.style.color='#b8973a'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Special Permit</a>
-        </div>
-      </div>
-
-      <!-- Column 2: Location -->
+      <!-- Column 1: Location -->
       <div class="footer-col">
         <h4>Location</h4>
         <div class="contact-row">
@@ -888,9 +893,9 @@
         </div>
       </div>
 
-      <!-- Column 3: Contact Information -->
+      <!-- Column 2: Contact Information -->
       <div class="footer-col">
-        <h4>Contact Information</h4>
+        <h4>Contact</h4>
 
         <!-- Phone – update the number -->
         <div class="contact-row">
@@ -954,11 +959,21 @@
 
   <!-- ============================================================
     SERVICE DETAIL MODAL
-    Infographic-style popup for each Main Service card.
-    Content is injected by JavaScript below.
+    Tabbed: Overview / Requirements / Process.
+    Content is injected by JavaScript from SERVICE_DATA below.
     To close: click ×, click backdrop, or press Escape.
   ============================================================ -->
   <div class="modal-backdrop" id="serviceModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="serviceModalTitle">
+    <button class="svc-nav-arrow svc-nav-prev" id="serviceModalPrev" aria-label="Previous service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+    <button class="svc-nav-arrow svc-nav-next" id="serviceModalNext" aria-label="Next service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
     <div class="modal service-modal">
 
       <!-- Modal header – color set dynamically by JS -->
@@ -973,20 +988,47 @@
         <button class="modal-close" id="serviceModalClose" aria-label="Close">&times;</button>
       </div>
 
-      <!-- Infographic body -->
-      <div class="service-modal-body" id="serviceModalBody"></div>
-
-      <!-- Footer with View More link -->
-      <div class="service-modal-footer">
-        <span class="service-modal-note">For complete requirements and process steps:</span>
-        <a href="citizens-charter.html" id="serviceModalLink" class="btn-view-more" target="_blank">
-          View Full Details in Citizen's Charter
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"/>
-            <polyline points="12 5 19 12 12 19"/>
+      <!-- Tab navigation -->
+      <div class="svc-tabnav">
+        <button class="svc-tabbtn active" data-tab="overview">Overview</button>
+        <button class="svc-tabbtn" data-tab="requirements">Requirements</button>
+        <button class="svc-tabbtn" data-tab="process">Process</button>
+        <button class="svc-tabnav-help" id="svcTabHelpBtn" aria-label="Take a quick tour of these tabs" title="Take a quick tour">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+            <line x1="12" y1="17" x2="12.01" y2="17"/>
           </svg>
-        </a>
+        </button>
+      </div>
+
+      <div class="service-modal-body" id="serviceModalBody" style="padding-top:20px;">
+        <div class="svc-tabpanel active" id="panelOverview"></div>
+        <div class="svc-tabpanel" id="panelRequirements"></div>
+        <div class="svc-tabpanel" id="panelProcess"></div>
+      </div>
+
+      <!-- Footer: Start Application (service-specific) + link to the official PDF page -->
+      <div class="service-modal-footer">
+        <span class="service-modal-note">Source: Business Bureau Citizen's Charter 2026</span>
+        <div class="service-modal-footer-actions">
+          <button type="button" id="serviceModalLink" class="btn-view-more">
+            View Official PDF Page
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </button>
+          <a href="#" id="serviceModalStart" class="btn-start-app">
+            <span id="serviceModalStartLabel">Start Application</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -994,425 +1036,86 @@
 
 
   <!-- ============================================================
-    MODAL – Application type chooser
-    Appears when "Start Your Application" is clicked.
-
-    To link each card to a real URL:
-      Change href="#" on each .permit-card <a> tag.
-    To add a 3rd option:
-      Duplicate a .permit-card block and update CSS grid to "1fr 1fr 1fr" in style.css.
+    AMENDMENT TYPE CHOOSER MODAL
+    Launched from the "Start Application" button on the
+    Amendment of Business Permit service card.
   ============================================================ -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal">
-
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <h2 id="modalTitle">Start Your Application</h2>
-          <p>Select the type of permit you want to apply for.</p>
-        </div>
-        <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
-      </div>
-
-      <div class="modal-body modal-body--3">
-
-        <!-- OPTION 1: Business Permit – opens sub-modal for New/Renewal choice -->
-        <button onclick="openBPModal()" class="permit-card business">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="14" rx="2"/>
-              <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
-              <line x1="12" y1="12" x2="12" y2="16"/>
-              <line x1="10" y1="14" x2="14" y2="14"/>
-            </svg>
-          </div>
-          <h3>Business Permit</h3>
-          <p>For new and renewal of business registrations and licenses.</p>
-          <span class="permit-select">Select &rarr;</span>
-        </button>
-
-        <!-- OPTION 2: Occupational Permit -->
-        <a href="https://occupationalpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card occupational">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-              <polyline points="9 11 12 14 15 11"/>
-            </svg>
-          </div>
-          <h3>Occupational Permit</h3>
-          <p>For employees and workers requiring occupational clearance.</p>
-          <span class="permit-select">Select &rarr;</span>
-        </a>
-
-        <!-- OPTION 3: Special Permit -->
-        <a href="https://specialpermit.davaocity.gov.ph/" target="_blank" rel="noopener" class="permit-card special">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="13" x2="12" y2="17"/>
-              <line x1="10" y1="15" x2="14" y2="15"/>
-            </svg>
-          </div>
-          <h3>Special Permit</h3>
-          <p>For specific business activities, events, or operations requiring special authorization.</p>
-          <span class="permit-select">Select &rarr;</span>
-        </a>
-
-      </div><!-- end .modal-body -->
-    </div><!-- end .modal -->
-  </div><!-- end .modal-backdrop -->
-
-
-  <!-- ============================================================
-    BUSINESS PERMIT SUB-MODAL
-    Shown when the user clicks "Business Permit" inside the main modal.
-    Update the href values below to point to your actual application URLs.
-  ============================================================ -->
-  <div class="modal-backdrop" id="bpModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="bpModalTitle"
-       style="display:none;">
-    <div class="modal" style="max-width:680px;">
-
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <!-- Back button -->
-          <button onclick="closeBPModal(true)" aria-label="Back"
-                  style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.8);font-family:'Oswald',sans-serif;font-size:0.85rem;letter-spacing:0.05em;padding:0;margin-bottom:0.4rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <div class="modal-backdrop" id="amendmentChooserBackdrop" role="dialog" aria-modal="true" aria-labelledby="chooserTitle">
+    <div class="modal chooser-modal">
+      <div class="chooser-header" id="chooserHeader">
+        <div class="chooser-header-top">
+          <button class="chooser-back" id="chooserBackBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
             BACK
           </button>
-          <h2 id="bpModalTitle">Business Permit</h2>
-          <p>What would you like to do?</p>
+          <button class="chooser-header-close" id="chooserCloseBtn" aria-label="Close">&times;</button>
         </div>
-        <button class="modal-close" id="bpModalClose" aria-label="Close modal">&times;</button>
+        <div class="chooser-title" id="chooserTitle">Amend Business Permit</div>
+        <p class="chooser-subtitle">What would you like to amend?</p>
       </div>
 
-      <div class="modal-body modal-body--3">
-
-        <!-- Option A: Pre-Assessment of Business – update href once page is created -->
-        <a href="pre-assessment.html" class="permit-card pc-new">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
-              <path d="M9 11l3 3L22 4"/>
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-          </div>
-          <h3>Apply New Business Permit</h3>
-          <p>For businesses applying for a permit for the first time.</p>
-          <span class="permit-select">Select</span>
-        </a>
-
-        <!-- Option B: Amend Existing Business Permit -->
-        <a href="javascript:void(0)" onclick="openAmendModal()" class="permit-card pc-amend">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
-              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-            </svg>
-          </div>
-          <h3>Amend Existing Business Permit</h3>
-          <p>For businesses updating information on an existing, active business permit.</p>
-          <span class="permit-select">Select</span>
-        </a>
-
-        <!-- Option C: Renew Existing Business Permit -->
-        <a href="https://appbts.davaocity.gov.ph/access" target="_blank" rel="noopener" class="permit-card pc-renew">
-          <div class="permit-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="28" height="28">
-              <polyline points="23 4 23 10 17 10"/>
-              <polyline points="1 20 1 14 7 14"/>
-              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-            </svg>
-          </div>
-          <h3>Renew Existing Business Permit</h3>
-          <p>For businesses with an existing permit. Renewal must be done within January of each year.</p>
-          <span class="permit-select">Select</span>
-        </a>
-
-      </div><!-- end .modal-body -->
-    </div><!-- end .modal -->
-  </div><!-- end #bpModalBackdrop -->
+      <div class="chooser-list" id="chooserList">
+        <!-- Populated by JS from AMENDMENT_CHOOSER_ITEMS -->
+      </div>
+    </div>
+  </div>
 
 
   <!-- ============================================================
-    MODAL – Amend Existing Business Permit: choose amendment type
-    Appears when "Amend Existing Business Permit" is clicked.
+    PDF VIEWER MODAL
+    Shows the Citizen's Charter PDF inline (ported from
+    charter-directory.html) instead of opening a new tab.
   ============================================================ -->
-  <div class="modal-backdrop" id="amendModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="amendModalTitle"
-       style="display:none;">
-    <div class="modal" style="max-width:560px;">
-
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <!-- Back button -->
-          <button onclick="closeAmendModal(true)" aria-label="Back"
-                  style="background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.8);font-family:'Oswald',sans-serif;font-size:0.85rem;letter-spacing:0.05em;padding:0;margin-bottom:0.4rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                 stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"/>
+  <div class="modal-backdrop" id="pdfModalBackdrop" role="dialog" aria-modal="true" aria-label="PDF viewer">
+    <div class="modal pdf-modal">
+      <div class="pdf-modal-header">
+        <span id="pdfModalTitle">Business Bureau Citizen's Charter 2026</span>
+        <div class="pdf-modal-header-actions">
+          <a href="BB_CC_2026_APPROVED.pdf" id="pdfModalNewTabLink" target="_blank" class="pdf-modal-newtab" aria-label="Open in new tab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
             </svg>
-            BACK
-          </button>
-          <h2 id="amendModalTitle">Amend Existing Business Permit</h2>
-          <p>What would you like to amend?</p>
+          </a>
+          <button class="modal-close" id="pdfModalClose" aria-label="Close">&times;</button>
         </div>
-        <button class="modal-close" id="amendModalClose" aria-label="Close modal">&times;</button>
       </div>
-
-      <div class="modal-body" style="display:flex;flex-direction:column;gap:1rem;padding:1.5rem 2rem 2rem;">
-
-        <!-- Change Business Address -->
-        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
-           class="bp-option-card bp-option-address">
-          <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-          </div>
-          <div class="bp-option-text">
-            <strong>Change Business Address</strong>
-            <span>Update the registered location of your business.</span>
-          </div>
-          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-
-        <!-- Additional Business Line -->
-        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
-           class="bp-option-card bp-option-addline">
-          <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-              <line x1="12" y1="5" x2="12" y2="19"/>
-              <line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-          </div>
-          <div class="bp-option-text">
-            <strong>Additional Business Line</strong>
-            <span>Add a new line of business under your existing permit.</span>
-          </div>
-          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-
-        <!-- Transfer of Ownership -->
-        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
-           class="bp-option-card bp-option-transfer">
-          <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-              <path d="M17 1l4 4-4 4"/>
-              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
-              <path d="M7 23l-4-4 4-4"/>
-              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
-            </svg>
-          </div>
-          <div class="bp-option-text">
-            <strong>Transfer of Ownership</strong>
-            <span>Change the registered owner of the business.</span>
-          </div>
-          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-
-        <!-- Change Business Name -->
-        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
-           class="bp-option-card bp-option-name">
-          <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-              <path d="M4 7V4h16v3"/>
-              <path d="M9 20h6"/>
-              <path d="M12 4v16"/>
-            </svg>
-          </div>
-          <div class="bp-option-text">
-            <strong>Change Business Name</strong>
-            <span>Update the registered trade name of your business.</span>
-          </div>
-          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-
-        <!-- Other Amendments -->
-        <a href="javascript:void(0)" onclick="alert('This feature is coming soon.')"
-           class="bp-option-card bp-option-other">
-          <div class="bp-option-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                 stroke-linecap="round" stroke-linejoin="round" width="32" height="32">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="16" x2="12" y2="12"/>
-              <line x1="12" y1="8" x2="12.01" y2="8"/>
-            </svg>
-          </div>
-          <div class="bp-option-text">
-            <strong>Other Amendments</strong>
-            <span>For amendment types not listed above.</span>
-          </div>
-          <svg class="bp-option-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">
-            <polyline points="9 18 15 12 9 6"/>
-          </svg>
-        </a>
-
-      </div><!-- end .modal-body -->
-    </div><!-- end .modal -->
-  </div><!-- end #amendModalBackdrop -->
+      <div class="pdf-modal-body">
+        <iframe id="pdfModalFrame" src="" title="Citizen's Charter PDF"></iframe>
+      </div>
+    </div>
+  </div>
 
 
-  <!-- Inline styles for the BP sub-modal option cards -->
+  <!-- ============================================================
+    WALKTHROUGH TOUR
+    A brief spotlight tour: "Take a Tour" button triggers the intro
+    steps; the first time any service card is opened, a short
+    follow-up tour points at the Requirements/Process tabs.
+  ============================================================ -->
+  <div class="tour-overlay" id="tourOverlay" role="dialog" aria-modal="true" aria-label="Quick tour">
+    <div class="tour-spotlight" id="tourSpotlight"></div>
+    <div class="tour-tooltip" id="tourTooltip">
+      <div class="tour-dots" id="tourDots"></div>
+      <div class="tour-tooltip-title" id="tourTitle"></div>
+      <div class="tour-tooltip-desc" id="tourDesc"></div>
+      <div class="tour-tooltip-actions">
+        <button type="button" class="tour-skip" id="tourSkipBtn">Skip</button>
+        <button type="button" class="tour-next" id="tourNextBtn">Next</button>
+      </div>
+    </div>
+  </div>
+
+
+
   <style>
-    .bp-option-card {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border: 1.5px solid rgba(13,31,78,0.15);
-      border-radius: 8px;
-      background: #fff;
-      text-decoration: none;
-      color: #0d1f4e;
-      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-    }
-    .bp-option-card:hover {
-      border-color: #b8973a;
-      box-shadow: 0 4px 16px rgba(184,151,58,0.15);
-      background: #fdf9f0;
-    }
-    .bp-option-icon {
-      flex-shrink: 0;
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: rgba(13,31,78,0.06);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #b8973a; /* default icon color in light mode */
-    }
-    .bp-option-text {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-    .bp-option-text strong {
-      font-family: 'Oswald', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-    }
-    .bp-option-text span {
-      font-size: 0.85rem;
-      color: rgba(13,31,78,0.6);
-      line-height: 1.4;
-    }
-    .bp-option-arrow {
-      flex-shrink: 0;
-      opacity: 0.3;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .bp-option-card:hover .bp-option-arrow {
-      opacity: 0.8;
-      transform: translateX(3px);
-    }
-
-    /* ── Dark mode: solid colour cards with white text/icons ── */
-    body.dark .bp-option-card {
-      border-color: transparent;
-      color: #fff;
-    }
-    body.dark .bp-option-card .bp-option-text span { color: rgba(255,255,255,0.75); }
-    body.dark .bp-option-card .bp-option-icon {
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-    }
-    body.dark .bp-option-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.35); }
-    body.dark .bp-option-card:hover .bp-option-arrow { opacity: 1; }
-
-    /* Pre-Assessment → gold (#b8973a matches --gold and permit-card.business) */
-    body.dark .bp-option-preassess              { background: #b8973a; }
-    body.dark .bp-option-preassess:hover        { background: #a8872e; border-color: transparent; }
-
-    /* Renew Existing → teal/blue (#1a5276 matches --teal and permit-card.occupational) */
-    body.dark .bp-option-renew                  { background: #1a5276; }
-    body.dark .bp-option-renew:hover            { background: #154466; border-color: transparent; }
-
-    /* Amend Existing → maroon accent (legacy, kept for reference) */
-    body.dark .bp-option-amend                  { background: #7a3b3b; }
-    body.dark .bp-option-amend:hover            { background: #663131; border-color: transparent; }
-
-    /* ── Amend sub-modal: 5 amendment-type options ── */
-    /* Change Business Address → gold */
-    .bp-option-address .bp-option-icon { background: rgba(184,151,58,0.12); color: #b8973a; }
-    body.dark .bp-option-address                { background: #b8973a; }
-    body.dark .bp-option-address:hover          { background: #a8872e; border-color: transparent; }
-
-    /* Additional Business Line → teal */
-    .bp-option-addline .bp-option-icon { background: rgba(26,82,118,0.1); color: #1a5276; }
-    body.dark .bp-option-addline                { background: #1a5276; }
-    body.dark .bp-option-addline:hover          { background: #154466; border-color: transparent; }
-
-    /* Transfer of Ownership → brown */
-    .bp-option-transfer .bp-option-icon { background: rgba(107,76,17,0.1); color: #6b4c11; }
-    body.dark .bp-option-transfer                { background: #6b4c11; }
-    body.dark .bp-option-transfer:hover          { background: #553c0d; border-color: transparent; }
-
-    /* Change Business Name → maroon */
-    .bp-option-name .bp-option-icon { background: rgba(122,59,59,0.12); color: #7a3b3b; }
-    body.dark .bp-option-name                { background: #7a3b3b; }
-    body.dark .bp-option-name:hover          { background: #663131; border-color: transparent; }
-
-    /* Other Amendments → forest green */
-    .bp-option-other .bp-option-icon { background: rgba(47,107,79,0.12); color: #2f6b4f; }
-    body.dark .bp-option-other                { background: #2f6b4f; }
-    body.dark .bp-option-other:hover          { background: #26563f; border-color: transparent; }
-
-    /* ── Horizontal permit-card variants used in the Business Permit sub-modal ── */
-    /* New → gold */
-    .permit-card.pc-new .permit-icon    { background: rgba(184,151,58,0.12); color: #b8973a; }
-    .permit-card.pc-new .permit-select  { background: var(--gold); color: var(--white); }
-    body.dark .permit-card.pc-new               { background: #b8973a; }
-    body.dark .permit-card.pc-new .permit-icon   { background: rgba(255,255,255,0.15); color: #fff; }
-    body.dark .permit-card.pc-new .permit-select { background: #ffffff; color: #b8973a; }
-
-    /* Amend → maroon */
-    .permit-card.pc-amend .permit-icon    { background: rgba(26,82,118,0.1); color: #1a5276; }
-    .permit-card.pc-amend .permit-select  { background: var(--teal); color: var(--white); }
-    body.dark .permit-card.pc-amend               { background: #1a5276; }
-    body.dark .permit-card.pc-amend .permit-icon   { background: rgba(255,255,255,0.15); color: #fff; }
-    body.dark .permit-card.pc-amend .permit-select { background: #ffffff; color: #1a5276; }
-
-    /* Renew → brown */
-    .permit-card.pc-renew .permit-icon    { background: rgba(107,76,17,0.1); color: #6b4c11; }
-    .permit-card.pc-renew .permit-select  { background: #6b4c11; color: var(--white); }
-    body.dark .permit-card.pc-renew               { background: #6b4c11; }
-    body.dark .permit-card.pc-renew .permit-icon   { background: rgba(255,255,255,0.15); color: #fff; }
-    body.dark .permit-card.pc-renew .permit-select { background: #ffffff; color: #6b4c11; }
-
     /* ── Admin Mode entry + login modal ── */
     .settings-row--clickable { cursor: pointer; border-radius: 6px; transition: background 0.15s; }
     .settings-row--clickable:hover { background: rgba(184,151,58,0.1); }
-    body.dark .settings-row--clickable:hover { background: rgba(255,255,255,0.08); }
+    
 
     .admin-login-field { margin-bottom: 16px; }
     .admin-login-field label {
@@ -1423,7 +1126,7 @@
       color: #0d1f4e;
       margin-bottom: 6px;
     }
-    body.dark .admin-login-field label { color: #fff; }
+    
     .admin-login-field input {
       width: 100%;
       box-sizing: border-box;
@@ -1440,11 +1143,7 @@
       border-color: #b8973a;
       box-shadow: 0 0 0 3px rgba(184,151,58,0.15);
     }
-    body.dark .admin-login-field input {
-      background: rgba(255,255,255,0.06);
-      border-color: rgba(255,255,255,0.2);
-      color: #fff;
-    }
+    
 
     .admin-login-error {
       font-size: 0.83rem;
@@ -1458,7 +1157,7 @@
       color: #9a8558;
       margin: 0 0 18px;
     }
-    body.dark .admin-login-hint { color: rgba(212,170,80,0.8); }
+    
 
     .admin-login-btn {
       width: 100%;
@@ -1482,116 +1181,8 @@
   <!-- ============================================================
     JAVASCRIPT – Modals
     Hamburger menu is handled by main.js (loaded below).
-    To trigger the application modal from any button, call openModal().
   ============================================================ -->
   <script>
-    /* ── Application type chooser Modal ── */
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const modalClose    = document.getElementById('modalClose');
-
-    function openModal() {
-      modalBackdrop.style.display = 'flex';
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        modalBackdrop.classList.add('visible');
-      }));
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modalBackdrop.classList.remove('visible');
-      modalBackdrop.addEventListener('transitionend', () => {
-        modalBackdrop.style.display = 'none';
-        document.body.style.overflow = '';
-      }, { once: true });
-    }
-
-    // Open on any .btn-cta click
-    document.querySelectorAll('.btn-cta:not(.btn-cta-status)').forEach(btn => {
-      btn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    });
-
-    modalClose.addEventListener('click', closeModal);
-
-    // Close by clicking outside the modal card
-    modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) closeModal();
-    });
-
-    // Close with Escape key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalBackdrop.classList.contains('visible')) closeModal();
-      if (e.key === 'Escape' && bpModalBackdrop.classList.contains('visible')) closeBPModal(true);
-      if (e.key === 'Escape' && amendModalBackdrop.classList.contains('visible')) closeAmendModal(true);
-    });
-
-    /* ── Business Permit sub-modal ── */
-    const bpModalBackdrop = document.getElementById('bpModalBackdrop');
-    const bpModalClose    = document.getElementById('bpModalClose');
-
-    function openBPModal() {
-      // Close the parent modal first, then open sub-modal
-      closeModal();
-      setTimeout(() => {
-        bpModalBackdrop.style.display = 'flex';
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          bpModalBackdrop.classList.add('visible');
-        }));
-        document.body.style.overflow = 'hidden';
-      }, 300);
-    }
-
-    function closeBPModal(goBack = false) {
-      bpModalBackdrop.classList.remove('visible');
-      bpModalBackdrop.addEventListener('transitionend', () => {
-        bpModalBackdrop.style.display = 'none';
-        if (goBack) {
-          openModal();
-        } else {
-          document.body.style.overflow = '';
-        }
-      }, { once: true });
-    }
-
-    bpModalClose.addEventListener('click', () => closeBPModal(false));
-
-    bpModalBackdrop.addEventListener('click', (e) => {
-      if (e.target === bpModalBackdrop) closeBPModal();
-    });
-
-    /* ── Amend Existing Business Permit sub-modal ── */
-    const amendModalBackdrop = document.getElementById('amendModalBackdrop');
-    const amendModalClose    = document.getElementById('amendModalClose');
-
-    function openAmendModal() {
-      // Close the Business Permit modal first, then open this sub-modal
-      closeBPModal(false);
-      setTimeout(() => {
-        amendModalBackdrop.style.display = 'flex';
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          amendModalBackdrop.classList.add('visible');
-        }));
-        document.body.style.overflow = 'hidden';
-      }, 300);
-    }
-
-    function closeAmendModal(goBack = false) {
-      amendModalBackdrop.classList.remove('visible');
-      amendModalBackdrop.addEventListener('transitionend', () => {
-        amendModalBackdrop.style.display = 'none';
-        if (goBack) {
-          openBPModal();
-        } else {
-          document.body.style.overflow = '';
-        }
-      }, { once: true });
-    }
-
-    amendModalClose.addEventListener('click', () => closeAmendModal(false));
-
-    amendModalBackdrop.addEventListener('click', (e) => {
-      if (e.target === amendModalBackdrop) closeAmendModal();
-    });
-
     /* ── Admin Mode login modal ──
        NOTE: wrapped in DOMContentLoaded because the settings dropdown /
        admin modal markup is defined later in the document than this
@@ -1663,354 +1254,921 @@
     }
 
     /* ============================================================
-      SERVICE DETAIL MODAL
-      Data for all 8 services. Each entry has:
-        - title, tag, color (header background)
-        - desc: short description
-        - who: who may avail
-        - classification & type
-        - fee & time (key stats)
-        - steps: process flow array
-        - requirements: checklist (top items)
-        - page: PDF page number for the "View More" link
+      SERVICE DETAIL MODAL — DATA
+      All 13 services: Pre-Assessment plus the 12 official Citizen's
+      Charter services. Each entry has title/tag/color/desc/who/
+      classification/type/fee/time/page, plus either:
+        - requirementGroups + processGroups (full detail, most services), or
+        - the simpler requirements[] + steps[] fallback (pre-assessment).
     ============================================================ */
+    const AGENCY_SPECIFIC_REQUIREMENTS = [
+      { text: 'Aircraft Companies', where: 'Air Operator Certificate, Civil Aviation Authority of the Philippines' },
+      { text: 'Airplane or Aircraft', where: 'Certificate of Registration (Civil Aviation Authority of the Philippines); New Application: subject to Cert. of Reg. with DA-BAI per DILG MC No. 2016-12' },
+      { text: 'Animal Facilities (Animal Control Facility, Aviary, Cattery, Animal/Farm Circus/Carnival Show, Corral, Grooming Facility, Kennel, Lab. Animal Facility, Pet Shop, Poultry Farm, Racetrack Equestrian Establishment, Slaughter House, Stock Farm, Stockyard, Shed Farm, Veterinary Clinic, Veterinary Hospital, Wildlife Rescue Center, Zoo and other Animal Facilities)', where: 'BAE Requirement: notation forever; Piggery/Poultry Farm: mandatory Barangay Resolution; Animal Industry: notation forever' },
+      { text: 'Animal Hospitals', where: 'Professional Regulation Commission License, PTR' },
+      { text: 'Automobile Rebuilder', where: 'Department of Trade and Industry Accreditation, Land Transportation Office and Highway Patrol Group Certificates' },
+      { text: 'Banks', where: 'New Application: subject to BSP Authority to Operate; Renewal: required BSP Authority to Operate' },
+      { text: 'Bio/Organic Fertilizers', where: 'Notation forever for COR — Bureau of Agriculture & Fishery Standards (BAFS)' },
+      { text: 'Boat Building', where: 'New Application: subject to the requirements of MARINA; Renewal: required Cert. of Compliance, Cert. of Phil. Registry' },
+      { text: 'Building Contractor / General Engineering / Specialty Engineering / Sub-Contractors', where: 'Professional Regulation Commission License, PTR (if applicable); New Application: mandatory DTI-PCAB License (prior to logo)' },
+      { text: 'Canine Dog Security/Watchdog Provider', where: 'New Application: subject to, for 1st operations, COR from the supervisory office for Security & Investigation Services (PNP, Camp Crame)' },
+      { text: 'Casino', where: 'New Application: mandatory City Development Council, SP Ordinance' },
+      { text: 'Cockpits', where: 'New Application: mandatory City Development Council, SP Ordinance' },
+      { text: 'Cooperative (Main)', where: 'CDA Certificate of Good Standing' },
+      { text: 'Cooperative (Branch)', where: 'Certificate of Authority from CDA' },
+      { text: 'Cosmetics and Beauty Products', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Customs Broker', where: 'Customs Brokers Commission License' },
+      { text: 'Dental Laboratory', where: 'New Application: mandatory DOH-LTO' },
+      { text: 'Deep Sea Fishing', where: 'Maritime Industry Authority Certificate of Vessel Registry' },
+      { text: 'Detergents and Household Cleaning Agents', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Diagnostic', where: 'Professional Regulation Commission License, PTR, Food and Drug Administration License; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Drugs and Medicines, Pharmacy', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification; New Application: subject to FDA-LTO' },
+      { text: 'E-Bingo', where: 'New Application: SP Resolution (No Objection) & Gaming License from PAGCOR' },
+      { text: 'Electrical and Power Company', where: 'Congressional Franchise, Sangguniang Panlungsod Resolution' },
+      { text: 'Fertilizer', where: 'FPA License' },
+      { text: 'Financial and/or Lending Investors', where: 'New Application: mandatory SEC Cert. of Authority (No. 9474)' },
+      { text: 'Food (Processed, Repacked, and Manufactured), Cooking Oil and Beverages', where: 'New Application: subject to FDA-LTO' },
+      { text: 'Food Supplements', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Forest Products', where: 'Not Allowed' },
+      { text: 'Franchisees', where: 'Franchise Agreement' },
+      { text: 'Franchising Institutions', where: 'DTI Registration' },
+      { text: 'Funeral Parlor, Morgue and Embalming Services', where: 'New Application: mandatory SP Ordinance, Department of Health Training Certificate and License of Undertaker and Embalmer' },
+      { text: 'Gasoline Service Refilling Stations', where: 'Department of Energy Certificate of Compliance' },
+      { text: 'Gasoline Station, Butane, LPG, and Other Fuel Businesses', where: 'Department of Energy Certificate of Compliance / Standards Compliance Certificate' },
+      { text: 'Insurance, Pre-Need Companies, Adjusters', where: 'Philippine Insurance Commission Certificate of Authority / Future Commodity Merchant or Brokers License; New Application: mandatory IC Cert. of Authority' },
+      { text: 'Internet Cafe and Pisonet', where: 'Internet Cafe Accreditation Board Accreditation; Professional Regulation Commission License, PTR' },
+      { text: 'Laboratories (Clinical), Therapeutic Clinics', where: 'New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Learning Institution — Basic Education', where: 'New Application: subject for DEPED Permit for 1st year of operations / DEPED Recognition' },
+      { text: 'Learning Institution — Technical and Skills Training Center', where: 'New Application: mandatory TESDA Cert. of Program Reg., Cert. of Accreditation' },
+      { text: 'Learning Institution — Tertiary and Graduate Education', where: 'New Application: subject for CHED Permit for 1st year of operations / CHED Recognition' },
+      { text: 'Learning Institution (Branch)', where: 'Certificate of Compliance' },
+      { text: 'Learning Institution — Preschool / Child Minding Centers (3 yrs old and below)', where: 'DSWD Certificate' },
+      { text: 'Legal and Accounting/Auditing Firm', where: 'Professional Regulation Commission License, PTR' },
+      { text: 'Lessor of Real Estate and Dwelling Places / Accommodation', where: 'New Application: mandatory Tax Declaration (Land & Bldg.) and Building Permit. Tax Declaration is for determination of ownership; Building Permit is for determination of capitalization. Note: not the Transfer Certificate of Title.' },
+      { text: 'Manpower Service, Employment Agency — Local', where: 'New Application: subject to DOLE requirements for 1st year of operations; Renewal: required LTO' },
+      { text: 'Manpower Service, Employment Agency — Overseas Branch Office', where: 'New Application: mandatory POEA Authority to Establish Branch (original should be presented)' },
+      { text: 'Manpower Service, Employment Agency — Overseas Main Office', where: 'New Application: POEA License' },
+      { text: 'Maritime Transportation of Passengers and Goods, Fishing Boats, Water Vessels, etc.', where: 'New Application: subject to the requirements of MARINA; Renewal: required Cert. of Compliance, Cert. of Phil. Registry' },
+      { text: 'Memorial Parks and Private Cemeteries', where: 'New Application: mandatory SP Ordinance' },
+      { text: 'Micro Finance (Non-Stock/Non-Profit)', where: 'New Application: SEC CA required for Corp.; Coop.-CDA' },
+      { text: 'Mining Industry', where: 'New Application: DENR' },
+      { text: 'Mobile Phone Manufacturer / Wholesaler / Dealer / Distributor / Retailer', where: 'New Application: mandatory NTC permit to operate' },
+      { text: 'Mobile Phone Repair', where: 'New Application: mandatory NTC permit to operate' },
+      { text: 'Money Remittance Services / Forex Dealers / Money Changers / Money Shops / Authorized Dealer in Foreign Currencies / Money Remittance Agents', where: 'New Application: subject to submission of application for registration with BSP prior to start of operations; Renewal: required Cert. of Registration' },
+      { text: 'Motorcycle Rider', where: 'Contract with Food Delivery Franchise' },
+      { text: 'Nuisance-Bar / Videoke / Retail of Lumber with Machinery', where: 'New Application: mandatory Barangay Resolution' },
+      { text: 'Pawnshops', where: 'New Application: subject to submission of application for registration with the BSP prior to start of operations; Renewal: Cert. of Registration; Branches: AO & BSP Clearance' },
+      { text: 'Pesticide / Insecticide / Herbicide', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification, FPA License' },
+      { text: 'Poultry, Duckery, Slaughter House, Animal Facilities', where: 'Bureau of Animal Industry Certificate of Registration, National Meat Inspection Service Certificate' },
+      { text: 'Private Hauler / Forwarder (Maritime)', where: 'Philippine Shippers Bureau Accreditation for Sea Freight Forwarders' },
+      { text: 'Private Hospitals, Medical Clinics', where: 'Professional Regulation Commission License, PTR, Department of Health License; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Private Port', where: 'Philippine Ports Authority' },
+      { text: 'Private Security and Detective Agency', where: 'Philippine National Police / PSCUCIA Permit' },
+      { text: 'Private Slaughterhouse', where: 'New Application: mandatory SP Ordinance' },
+      { text: 'Property Appraisal Company', where: 'New Application: mandatory SEC Cert. of Accreditation' },
+      { text: 'Psychiatric Care Facilities', where: 'Professional Regulation Commission License, PTR; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Public Market, Pasalubong Center and Davao City Overland Transport Terminal Stall Holder', where: "Stall Certificates from the City Treasurer's Office and the City Economic Enterprise" },
+      { text: 'Public Transportation under LTFRB (PUJs, Taxis, Car-For-Hire, Buses, etc.)', where: 'OR/CR, Land Transportation Franchising and Regulatory Board Franchise' },
+      { text: 'Race Track, Coliseum, or Similar Establishments', where: "New Application: mandatory City Dev't. Council, SP Ordinance" },
+      { text: 'Radio Station', where: 'NTC License to Operate' },
+      { text: 'Real Estate Brokers', where: "Professional Regulation Commission Broker's License, PTR" },
+      { text: 'Real Estate Dealers', where: 'New Application: Accreditation from HLURB' },
+      { text: 'Rehabilitation Centers', where: 'Professional Regulation Commission License, PTR; New Application: subject to DOH Cert.; Renewal: required DOH Cert.' },
+      { text: 'Review Center — PRC', where: 'New Application: subject to CHED Requirements; Renewal: mandatory CHED Certification' },
+      { text: 'Sand and Gravel, Concessionaire, Mining', where: 'If less than 5 hectares: Commercial Sand and Gravel Permit. If more than 5 hectares: Mines and Geo Sciences Bureau / Industrial Sand and Gravel / Earthfill Permit. New Application: mandatory Mayor\'s Permit to Quarry, indicating the gross capacity of the trucks.' },
+      { text: 'Sauna Baths, Massage Clinics', where: 'Certificate of Registration (COR) and License for Massage Therapists issued by the DOH Committee of Examiners for Massage Therapy (CEMT) / NC II, License to Operate from CEMT' },
+      { text: 'Savings and Loan Associations', where: 'New Application: mandatory SEC Cert. of Authority' },
+      { text: 'Security Agency / Dealer of Guns & Ammo / Repair', where: 'New Application: subject to compliance (PNP-LTO/PSCUCIA); Cert. that the application is on process is mandatory' },
+      { text: 'Security Training Academy', where: 'New Application: subject to compliance of PNP-Private Security Training Accreditation' },
+      { text: 'Second Hand / Surplus Vehicles Importer / Assembler / Rebuilder / Dealer', where: 'New Application: mandatory LTO Cert. & HPG Clearance along with the OR/CR or Affidavit of Undertaking. In case of Assembler/Rebuilder: DTI Accreditation (mandatory).' },
+      { text: 'Shipping Yard', where: 'Maritime Industry Authority Certificate of Registration' },
+      { text: 'Stall Holder', where: 'New Application: mandatory Stall Status and Market Clearance' },
+      { text: 'Subdivision Developer', where: 'New Application: mandatory HLURB License to Sell/Operate & SP Ordinance' },
+      { text: 'Technical and Skills Training Center', where: 'Technical Education and Skills Development Authority Accreditation' },
+      { text: 'Telephone Company', where: 'NTC License to Operate' },
+      { text: 'Television Stations', where: 'Congressional Franchise, Sangguniang Panlungsod Resolution' },
+      { text: 'Terminal Garage for Public Utility Vehicles', where: 'Traffic Management and Control Board / Davao City Overland Transport Terminal / Land Transportation Franchising and Regulatory Board Permit — except for Tricycles, City Tricycle and Franchising Regulatory Board (CTFRB) Permit subject to Sangguniang Panlungsod approval; New Application: approval from SP/CTTMB/City Admin/LTFRB (mandatory)' },
+      { text: 'Toys and Childcare Articles', where: 'Food and Drug Administration License, Certificate of Product Registration/Notification' },
+      { text: 'Transloading Services / Private Hauler / Forwarder (Ground Based)', where: 'OR/CR; New Application: for Transport Services (requires LTFRB-Franchise Contract, Provisional Authority); for SRV Code: subject to LTFRB-Franchise Contract, Provisional Authority. Buses and Carpool are computed per unit.' },
+      { text: 'Tricycle Terminals and Operators', where: 'CTTMO Franchise' },
+      { text: 'Vehicles Used for Business', where: 'OR/CR' },
+      { text: 'Video Rental Services', where: 'Optical Media Board Registration' },
+      { text: 'Water Companies', where: 'Sangguniang Panlungsod Resolution, Congressional Franchise' },
+      { text: 'X-Ray, Radioactive and Hazardous Substances', where: 'Food and Drug Administration License' },
+    ];
+
     const SERVICE_DATA = {
 
-      'pre-assessment': {
-        title: 'Pre-Assessment',
-        tag: 'Service 1 of 8',
-        color: '#b8973a',
-        desc: 'The Business Bureau assists clients in complying with prerequisites required by Regulatory Offices prior to applying for a New Business Permit or certain Amendments.',
-        classification: 'Simple',
-        type: 'Government to Citizen / Government to Business',
-        who: 'Any natural or juridical person engaging in business within Davao City.',
-        fee: 'None',
-        time: '20 Minutes',
-        page: 2,
-        steps: [
-          { num: '1', title: 'Submit / Apply', desc: 'Submit documents onsite at the Business Bureau or apply online', time: '10 min' },
-          { num: '2', title: 'Verification', desc: 'Licensing Officer verifies history, documents, and application completeness', time: '10 min' },
-          { num: '3', title: 'Result', desc: 'Tagged as Accepted, Pending with Deficiency, or referred to Regulatory Offices', time: '' },
-        ],
-        requirements: [
-          'Duly filled-out Unified Application Form (1 original)',
-          'Sketch / Google Map of Business location with photos (1 original)',
-          'Certified List of Employees or Certification of No Employee (1 original)',
-          'Valid DTI / SEC / CDA Registration (1 photocopy)',
-          'FSIC for Occupancy Permit valid within the last 9 months',
-          'Affidavit of Undertaking (no substantial building changes)',
-          'Valid IDs of owners / representatives (1 photocopy each)',
-        ],
-      },
-
+      /* ============================================================
+         1 — Issuance of Business Permit (NEW)
+      ============================================================ */
       'business-permit': {
         title: 'Issuance of Business Permit',
-        tag: 'Service 2 of 8',
-        color: '#1a5276',
-        desc: 'Processes and releases official permits allowing businesses to legally operate within Davao City. Permits are valid for one (1) year and must be renewed every January.',
-        classification: 'Simple',
-        type: 'Government to Citizen / Government to Business',
-        who: 'Any natural or juridical person engaging in business within Davao City.',
-        fee: 'Mayor\'s Permit Fee based on asset size & nature of business',
-        time: '1 Hr 9 Min (Online) / 2 Hr 19 Min (Onsite)',
-        page: 14,
-        steps: [
-          { num: '1', title: 'Application', desc: 'Receive Business ID number; encode additional business details', time: '24 min' },
-          { num: '2', title: 'Payment', desc: 'Proceed to City Treasurer\'s Office for Mayor\'s Permit Fee payment', time: '9 min' },
-          { num: '3', title: 'Release', desc: 'Upload/submit remaining documents; claim Business Permit, plate, and sticker; sign logbook', time: '36 min' },
-        ],
-        requirements: [
-          'Pre-assessed application with Business ID number',
-          'Official Receipt from City Treasurer\'s Office',
-          'Business-line specific documents (FSIC, DTI, SEC, etc.)',
-          'Valid IDs of owners / representatives',
-          'List of Employees (for renewal)',
-          'Valid Fire Safety Inspection Certificate',
-        ],
-      },
-
-      'special-permit': {
-        title: 'Special Permit',
-        tag: 'Service 3 of 8',
+        tag: 'Service 1 of 12',
         color: '#b8973a',
-        desc: 'Issued to any natural or juridical entity for the conduct of events or activities involving the grouping of people — bazaars, exhibits, fun-runs, motorcades, parades, and similar activities within Davao City.',
+        page: 19,
+        startUrl: 'pre-assessment.html',
+        startLabel: 'Start Application',
+        desc: "It shall be unlawful for any person or entity to conduct or engage in any business, trade or occupation within Davao City without first securing a permit from the City Mayor and paying the necessary fees. The Business Permit is valid for one (1) year, expiring every December 31 unless revoked or surrendered earlier, and must be renewed within the month of January.",
+        office: "City Mayor's Office – Permits & Licenses Division",
         classification: 'Simple',
-        type: 'Government to Citizen / Government to Business',
-        who: 'Any natural or entity conducting programs/activities involving the grouping of people within Davao City.',
-        fee: 'Varies by activity (see Citizen\'s Charter for full schedule)',
-        time: '1 Hour 10 Minutes',
-        page: 55,
-        steps: [
-          { num: '1', title: 'Apply Online', desc: 'Login to the Special Permit portal, fill in event details, upload required documents', time: '20 min' },
-          { num: '2', title: 'Payment', desc: 'Pay online or proceed to City Treasurer\'s Office as an alternative', time: '' },
-          { num: '3', title: 'Approval', desc: 'Employee reviews and tags for Supervisor\'s approval; permit digitally approved', time: '30 min' },
-          { num: '4', title: 'Download', desc: 'Receive SMS/e-mail notification; download Special Permit from the portal', time: '20 min' },
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Any natural or juridical person who will be conducting and engaging in any business, trade or occupation within the territorial jurisdiction of Davao City.',
+        fee: "Mayor's Permit Fee — the exact amount depends on your business's asset size and nature of business. Ask the City Treasurer's Office for your specific computation.",
+        time: '2 Hours 19 Minutes',
+
+        requirementGroups: [
+          {
+            label: 'General Requirements',
+            items: [
+              { text: 'Duly filled-out Unified Application Form (1 original)', where: 'Business Bureau' },
+              { text: 'Sketch of business location with pictures of the premise (1 original)', where: 'Applicant' },
+              { text: 'Certified List of Employees / Certification of No Employee (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid DTI Registration — Single Proprietorship (1 photocopy)', where: 'Department of Trade and Industry' },
+              { text: 'SEC Registration / Articles of Incorporation — Partnership and Corporation (1 photocopy)', where: 'Securities and Exchange Commission' },
+              { text: 'Certificate of Cooperation / Articles of Cooperation — Cooperative (1 photocopy)', where: 'Cooperative Development Authority' },
+              { text: 'DOLE / POEA Certificate of Registration, if applicable', where: 'Department of Labor and Employment' },
+              { text: 'DHSUD Certificate of Registration, if applicable', where: 'Dept. of Human Settlement and Urban Development' },
+              { text: 'Special Power of Attorney, if represented — Sole Proprietorship (1 current original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution, if represented — Partnership (1 current original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: "Secretary's Certificate or Board Resolution — Corporation / Cooperative (1 current original)", where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of representatives / owners / Corporate Secretary (1 photocopy each)', where: 'Applicant' },
+              { text: 'Contract of Lease + proof of ownership by Lessor, if location is rented (1 photocopy)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Proof of ownership, if business location is owned', where: 'Applicant' },
+              { text: 'Consent + proof of ownership, if location is freely used (1 photocopy)', where: 'Applicant' },
+              { text: 'OR/CR of vehicle, if with delivery vehicle (1 photocopy each)', where: 'Applicant' },
+              { text: 'Consent for use of vehicle, if not owned by the applicant', where: 'Applicant' },
+              { text: 'Valid Fire Safety Inspection Certificate for Business', where: 'Bureau of Fire Protection' },
+            ],
+          },
+          {
+            label: 'Business Activity Requirements',
+            searchable: true,
+            items: AGENCY_SPECIFIC_REQUIREMENTS,
+          },
         ],
-        requirements: [
-          'Security Clearance from Public Safety and Security Office',
-          'Business Permit (private agency / organizer)',
-          'Affidavit of Undertaking to follow recommendations',
-          'Barangay Resolution (for open area concerts/events)',
-          'SP Ordinance (for road closures or cockfight/derby)',
-          'Detailed Plan / Floor Plan (for exhibits)',
+        requirementNote: 'Search the "Business Activity Requirements" tab for additional agency-specific requirements that apply to your declared business line (e.g. DOH, PNP, NTC, LTFRB, DENR).',
+
+        processGroups: [
+          {
+            label: 'New',
+            totalFee: "Mayor's Permit Fee (asset-based)",
+            totalTime: '2 Hours 19 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'EDP Personnel encodes additional business application details and assigns a Business ID number to the pre-assessed application.', fee: 'None', time: '24 min', person: 'EDP Personnel, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Mayor's Permit Fee, based on asset size and nature of business.", fee: "Mayor's Permit Fee", time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits official receipt and pertinent documents. Business Bureau receives, checks, encodes notations, prints, reviews, and finally approves the permit, then releases the permit, ID plate and sticker; client signs the logbook.', fee: 'None', time: '1 hr 46 min', person: 'Business Bureau (EDP / Licensing Officer / OIC / Processing Section)' },
+            ],
+          },
         ],
       },
 
+      /* ============================================================
+         2 — Renewal of Business Permit
+      ============================================================ */
+      'renewal-permit': {
+        title: 'Renewal of Business Permit',
+        tag: 'Service 2 of 12',
+        color: '#1a5276',
+        page: 21,
+        desc: 'The Business Permit is granted for a period of not more than one (1) year and expires every December 31 unless revoked or surrendered earlier. It must be renewed within the month of January to retain continuing validity, along with payment of the corresponding fee.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple',
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Any natural or juridical person with an existing business permit that needs to be renewed for continued operation within Davao City.',
+        fee: "Mayor's Permit Fee — the exact amount depends on your business's asset size and nature of business. Ask the City Treasurer's Office for your specific computation.",
+        time: '2 Hours 5 Minutes',
+
+        requirementGroups: [
+          {
+            label: 'General Requirements',
+            items: [
+              { text: 'List of Employees stating name and position (1 copy)', where: 'Applicant' },
+              { text: 'Special Power of Attorney, if represented — Sole Proprietorship', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution, if represented — Partnership', where: 'Applicant, notarized by any Notary Public' },
+              { text: "Board Resolution or Secretary's Certificate — other forms of ownership", where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+              { text: 'Valid Fire Safety Inspection Certificate (1 photocopy)', where: 'Applicant or Bureau of Fire Protection' },
+              { text: 'Specific requirements for specific line of business', where: 'Concerned Agency' },
+            ],
+          },
+          {
+            label: 'Business Activity Requirements',
+            searchable: true,
+            items: AGENCY_SPECIFIC_REQUIREMENTS,
+          },
+        ],
+        requirementNote: 'Renewal is processed within the month of January. Late renewal is subject to a surcharge and interest under the Local Revenue Code. Search the "Business Activity Requirements" tab for additional agency-specific requirements that apply to your declared business line.',
+
+        processGroups: [
+          {
+            label: 'Renewal',
+            totalFee: "Mayor's Permit Fee (asset-based)",
+            totalTime: '2 Hours 5 Minutes',
+            steps: [
+              { num: '1', title: 'Submit & Assess', desc: 'Client submits documentary requirements for assessment and receives the application form.', fee: 'None', time: '10 min', person: 'Licensing Officer, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office for assessment and payment of dues.", fee: "Mayor's Permit Fee", time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits application, official receipts and pertinent documents; Business Bureau receives, checks and completes attachments, then releases the renewed permit. Client signs the logbook.', fee: 'None', time: '1 hr 46 min', person: 'Business Bureau (Processing Section)' },
+            ],
+          },
+        ],
+      },
+
+      /* ============================================================
+         3 — Occupational Permit
+      ============================================================ */
       'occupational-permit': {
         title: 'Occupational Permit',
-        tag: 'Service 4 of 8',
-        color: '#1a5276',
-        desc: 'Issued to any worker or employee not holding a Professional Tax Receipt, whether working temporarily or permanently. Renewed annually on or before January 31. Late renewal carries a 25% penalty.',
+        tag: 'Service 3 of 12',
+        color: '#b8973a',
+        page: 83,
+        desc: 'Issued to any worker or employee who is not a holder of a validly issued Professional Tax Receipt, whether working on a temporary or permanent basis. Occupational Permit is renewed annually on or before January 31; late renewal is imposed a penalty of 25%.',
+        office: "City Mayor's Office – Permits & Licenses Division",
         classification: 'Simple',
-        type: 'Government to Citizen',
-        who: 'Filipino employees or workers 18 years of age and above. Foreigners must present an Alien Employment Permit from DOLE.',
+        type: 'G2C – Government to Citizen',
+        who: 'Any employee or worker who is a Filipino citizen and 18 years of age at the time of application. Foreigners may apply if they have already secured an Alien Employment Permit from DOLE. Where the law allows a person below 18 to work, the applicant must submit an Affidavit of Consent from a parent or guardian.',
         fee: 'Php 125.00 (new/renewal) · Php 156.25 (late renewal)',
         time: '33 Minutes',
-        page: 63,
         steps: [
-          { num: '1', title: 'Order of Payment', desc: 'Request form and Order of Payment; pay Php 125.00 at City Treasurer\'s Office', time: '5 min' },
-          { num: '2', title: 'Submit Documents', desc: 'Fill out application form and submit with official receipt (walk-in or online)', time: '14 min' },
-          { num: '3', title: 'Release', desc: 'Permit is approved and released digitally (online) or as hard copy (walk-in)', time: '14 min' },
+          { num: '1', title: 'Order of Payment', desc: "Request form and Order of Payment; pay Php 125.00 at the City Treasurer's Office", time: '5 min' },
+          { num: '2', title: 'Submit Documents', desc: 'Fill out application form and submit with official receipt at the Business Bureau', time: '14 min' },
+          { num: '3', title: 'Release', desc: 'Permit is approved and released as a hard copy', time: '14 min' },
         ],
-        requirements: [
-          'Application Form (from Business Bureau or online)',
-          'Certificate of Employment',
-          'Official Receipt of payment (Php 125.00)',
-          'Affidavit of Consent for minors below 18 years old',
-          'Birth Certificate (for entertainers, masseurs, bar attendants)',
-          'Health ID (for entertainers, masseurs, bar attendants)',
+
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Application Form', where: 'Business Bureau Office, Window 1, or the Public Assistance Desk' },
+              { text: 'Certificate of Employment', where: 'Applicant' },
+              { text: 'Official Receipt (for service crew)', where: "City Treasurer's Office" },
+              { text: 'Affidavit of Consent for minors below 18 years old (ages 18–20 for Night Clubs and similar establishments/places of amusement)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Birth Certificate — additional requirement for Entertainers, Masseurs, and Bar Attendants', where: 'Philippine Statistics Authority' },
+              { text: 'Valid ID of parent or qualified guardian for parent\'s consent with appearance — additional requirement for Entertainers, Masseurs, and Bar Attendants', where: 'Any Notary Public' },
+            ],
+          },
         ],
       },
 
-      'certifications': {
-        title: 'Issuance of Certifications',
-        tag: 'Service 5 of 8',
+      /* ============================================================
+         4 — Special Permit
+      ============================================================ */
+      'special-permit': {
+        title: 'Special Permit',
+        tag: 'Service 4 of 12',
+        color: '#1a5276',
+        page: 75,
+        desc: 'The Special Mayor\'s Permit is issued to any natural or juridical entity for the conduct of any event or activity involving the grouping of people within the jurisdiction of Davao City — such as, but not limited to, bazaars, exhibits, fun-runs, motorcades, and parades.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple',
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Any natural person or entity conducting programs/activities involving the grouping of people within Davao City.',
+        fee: 'Varies by activity — see fee schedule below',
+        time: '1 Hour 10 Minutes',
+        feeSchedule: [
+          { activity: 'Meetings, Incentives, Conferences, Sports Events and Exhibits', fee: 'Php 500.00 / Day' },
+          { activity: 'Recorrida', fee: 'Php 150.00 / Day' },
+          { activity: 'Sampling', fee: 'Php 300.00 / Day' },
+          { activity: 'Motorcade (9AM–4PM only)', fee: 'Php 500.00 / Day' },
+          { activity: 'Blockscreening / Movie Screening', fee: 'Php 500.00 / Day' },
+          { activity: 'Procession', fee: 'Php 0.00' },
+          { activity: 'Parade', fee: 'Php 200.00 / Day, on every circus' },
+          { activity: 'Mahjong', fee: 'Php 700.00 / Annum (minimum)' },
+          { activity: 'Signage Installation', fee: 'Php 150.00 / Activity' },
+          { activity: 'Circus, Carnivals, and the like', fee: 'Php 500.00 for the first 5 days, then Php 100.00 / Day' },
+          { activity: 'Merry-go-round, roller coaster, ferris wheel, swing gallery, and similar contrivances', fee: 'Php 300.00 for the first 5 days, then Php 50.00 / Day' },
+          { activity: 'Bazaar/Exhibit — Event Organizer from Davao', fee: 'Php 500.00 / Day per location' },
+          { activity: 'Bazaar/Exhibit — Event Organizer outside Davao (less than 30 exhibitors)', fee: 'Php 1,000.00 / Day per activity' },
+          { activity: 'Bazaar/Exhibit — Event Organizer outside Davao (31–60 exhibitors)', fee: 'Php 2,000.00 / Day per activity' },
+          { activity: 'Bazaar/Exhibit — Event Organizer outside Davao (61–100 exhibitors)', fee: 'Php 3,000.00 / Day per activity' },
+          { activity: 'Bazaar/Exhibit — Event Organizer outside Davao (more than 100 exhibitors)', fee: 'Php 5,000.00 / Day per activity' },
+          { activity: 'Bazaar/Exhibit — Selling display exhibitors', fee: 'Php 300.00 / Day per stall' },
+          { activity: 'Bazaar/Exhibit — Non-selling display exhibitors', fee: 'Php 150.00 / Day per stall' },
+          { activity: 'Recruitment Activity — Overseas', fee: 'Php 1,000.00 / Schedule' },
+          { activity: 'Recruitment Activity — Local', fee: 'Php 1,200.00 / Schedule' },
+          { activity: 'Seasonal vendors (Araw ng Dabaw, Kadayawan Festival, City Fiesta, and similar occasions)', fee: 'Php 400.00, if applicable' },
+          { activity: 'Cockfighting — Special Cockfights / Pintakasi, first 3 days', fee: 'Php 3,000.00' },
+          { activity: 'Cockfighting — Special Cockfights / Pintakasi, succeeding days', fee: 'Php 2,000.00 / Day' },
+          { activity: 'Cockfighting — Special Derby Assessment, Two-Cock Derby', fee: 'Php 2,000.00' },
+          { activity: 'Cockfighting — Special Derby Assessment, Three-Cock Derby', fee: 'Php 4,000.00' },
+          { activity: 'Cockfighting — Special Derby Assessment, Four-Cock Derby', fee: 'Php 7,000.00' },
+          { activity: 'Cockfighting — Special Derby Assessment, Five-Cock Derby', fee: 'Php 8,000.00' },
+          { activity: 'Cockfighting — Special Derby Assessment, more than Five-Cock Derby', fee: 'Php 18,000.00' },
+        ],
+        steps: [
+          { num: '1', title: 'Submit Application', desc: 'Submit event details and required documents at the Business Bureau', time: '20 min' },
+          { num: '2', title: 'Payment & Approval', desc: "Proceed to the City Treasurer's Office to pay applicable fees; Employee reviews and tags for Supervisor's approval", time: '30 min' },
+          { num: '3', title: 'Release', desc: 'Receive notification and claim the Special Permit at the Business Bureau', time: '20 min' },
+        ],
+
+        requirementGroups: [
+          {
+            label: 'Concerts / Open-Area Events',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Barangay Resolution', where: 'Barangay Hall' },
+            ],
+          },
+          {
+            label: 'Mahjong',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Barangay Clearance', where: 'Barangay Hall' },
+              { text: 'Cedula', where: "City Treasurer's Office" },
+            ],
+          },
+          {
+            label: 'Recruitment Activity',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Certificate of Good Standing (1 original)', where: 'Department of Labor and Employment (local) or Philippine Overseas Employment Administration (overseas)' },
+              { text: 'Job Order Balances Report duly authenticated by POEA, if overseas (1 original + 1 photocopy)', where: 'Philippine Overseas Employment Administration' },
+              { text: 'No Objection Certificate (1 original)', where: 'Public Employment Service Office or Almendras Gym' },
+              { text: 'Special Recruitment Authority for overseas', where: 'Philippine Overseas Employment Administration' },
+            ],
+          },
+          {
+            label: 'Road Closures',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Sangguniang Panlungsod Ordinance (1 original)', where: 'Sangguniang Panlungsod' },
+            ],
+          },
+          {
+            label: 'Cockfight / Derby',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Business Permit of Cockpit (1 photocopy)', where: 'Business Bureau' },
+              { text: 'SP Ordinance (1 original)', where: 'Sangguniang Panlungsod' },
+            ],
+          },
+          {
+            label: 'Barangay Events',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Barangay Resolution (1 original)', where: 'Barangay Hall' },
+            ],
+          },
+          {
+            label: 'Exhibits',
+            items: [
+              { text: 'Security Clearance from Public Safety and Security Office', where: 'Public Safety and Security Command Center' },
+              { text: 'Business Permit (private agency / organizer)', where: 'Business Bureau' },
+              { text: 'Affidavit of Undertaking to strictly follow recommendations', where: 'Client, notarized by any Notary Public' },
+              { text: 'Detailed Plan / Floor Plan', where: 'Client' },
+            ],
+          },
+        ],
+        requirementNote: 'Each tab already includes the general requirements — Security Clearance, Business Permit, and Affidavit of Undertaking — plus what\'s specific to that type of activity.',
+      },
+
+      /* ============================================================
+         5 — Issuance of Certification
+      ============================================================ */
+      'certification': {
+        title: 'Issuance of Certification',
+        tag: 'Service 5 of 12',
         color: '#b8973a',
-        desc: 'Issues certifications or Certified True Copies (CTC) to any natural or juridical entity, government agencies, or offices who wish to secure copies of business permits or verify taxpayer records.',
-        classification: 'Simple (CTC) · Highly Technical (Master List with format modification)',
-        type: 'Government to Business / Government to Government / Government to Citizen',
-        who: 'Natural or juridical entities, government agencies, and offices, or any other concerned individual.',
+        page: 87,
+        desc: 'Certifications or Certified True Copies (CTC) are issued to any natural or juridical entity, government agencies, or offices who wish to secure a copy of a Business Permit, or who wish to know the status or record of a taxpayer.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple (Certification, CTC, and Master List without modified parameters/format) · Highly Technical (Master List requiring technical parameters and format modification)',
+        type: 'G2B – Government to Business · G2G – Government to Government · G2C – Government to Citizen',
+        who: 'Natural or juridical entities, government agencies and offices, or any other concerned individual.',
         fee: 'Php 50.00 (Certification) · Php 100.00 (CTC) · +Php 35.00/additional copy · Php 50.00 + Php 20.00/page (Master List)',
-        time: '47 Minutes (+2 days for Master List)',
-        page: 66,
+        time: '47 Minutes (+2 Days for Master List without format modification · +13 Days with format modification)',
         steps: [
           { num: '1', title: 'Submit Request', desc: 'Fill out Request Form; receive Order of Payment from Records Staff', time: '3 min' },
-          { num: '2', title: 'Payment', desc: 'Pay fees at City Treasurer\'s Office; submit Official Receipt', time: '3 min' },
-          { num: '3', title: 'Preparation', desc: 'Records Staff verifies records, prepares and signs the Certification / CTC / Master List', time: '38 min' },
-          { num: '4', title: 'Release', desc: 'Documents released to client by Processing / EDP Personnel', time: '3 min' },
+          { num: '2', title: 'Payment', desc: "Pay fees at the City Treasurer's Office; submit Official Receipt", time: '3 min' },
+          { num: '3', title: 'Preparation & Release', desc: 'Records Staff verifies records, prepares and signs the Certification / CTC / Master List, then releases it to the client', time: '41 min' },
         ],
-        requirements: [
-          'Letter Request stating the purpose (1 original)',
-          'Special Power of Attorney if represented — Sole Proprietorship (1 original)',
-          'Partnership Resolution — Partnership (1 original)',
-          'Secretary\'s Certificate — Corporation (1 original)',
-          'Valid ID of the requisitioner (1 photocopy)',
-          'Data Use Privacy Agreement (if applicable)',
+
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Letter Request stating the purpose of the request (1 original)', where: 'Applicant' },
+              { text: 'Special Power of Attorney, if represented — Individual or Sole Proprietorship (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution indicating the reason and authorized representative — Partnership (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: "Secretary's Certificate indicating the reason and authorized representative (1 original)", where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the requisitioner (1 photocopy)', where: 'Applicant' },
+              { text: 'Data Use Privacy Agreement, if applicable', where: 'Applicant' },
+            ],
+          },
         ],
       },
 
-      'full-retirement': {
-        title: 'Full Retirement of Business Permit',
-        tag: 'Service 6 of 8',
+      /* ============================================================
+         6 — Amendment of Business Permit
+      ============================================================ */
+      'amendment': {
+        title: 'Amendment of Business Permit',
+        tag: 'Service 6 of 12',
         color: '#1a5276',
-        desc: 'Issued to any natural or juridical entity whose business operations have permanently ceased, cancelling all active permit records.',
+        page: 51,
+        startAction: 'amendment',
+        startLabel: 'Start Application',
+        desc: 'Covers changes made to an existing, active business permit — a change of business address, an additional business line, transfer of ownership, correction or change of business name, or other corrections — without retiring or replacing the permit itself.',
+        office: "City Mayor's Office – Permits & Licenses Division",
         classification: 'Simple',
-        type: 'Government to Citizen',
-        who: 'Any natural or juridical entity holding a valid business permit whose business operations have permanently ceased.',
-        fee: 'Tax obligation based on gross sales. Late filing penalty: Php 1,000–5,000 if filed more than 30 days from cessation.',
-        time: '1 Hour 45 Minutes',
-        page: 69,
-        steps: [
-          { num: '1', title: 'Pre-Assessment', desc: 'Submit requirements; Licensing Officer validates Affidavit of Retirement; receive signed application', time: '15 min' },
-          { num: '2', title: 'CTO Assessment', desc: 'Proceed to City Treasurer\'s Office for assessment and settlement of tax dues', time: '—' },
-          { num: '3', title: 'Submission', desc: 'Submit approved application and Business Identification Plate; receive claim stub', time: '15 min' },
-          { num: '4', title: 'Processing', desc: 'Records Section tags and prints RETIRED annotation on the permit', time: '1 hr' },
-          { num: '5', title: 'Release', desc: 'Claim retired business permit and copies of required documents', time: '5 min' },
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Any natural or juridical entity holding an active business permit that needs to amend or correct a detail on record.',
+        fee: 'Php 50.00 Amendment Service Fee (paid at the City Treasurer\'s Office) — plus the Mayor\'s Permit Fee difference for Change of Address or Additional Line of Business, based on asset size and nature of business',
+        time: '1 Hr 55 Min – 2 Hr 5 Min, depending on amendment type',
+
+        requirementGroups: [
+          {
+            label: 'Change of Address',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit for Change of Address / correction of Barangay', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SPA (Sole Proprietorship), Partnership Resolution (Partnership), or Secretary\'s Certificate / Board Resolution (Corporation / Cooperative) showing authority of representative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+              { text: 'Barangay Clearance from the correct Barangay + Certification of No Operation from the incorrect Barangay', where: 'Local Barangay Hall' },
+              { text: 'Sketch / Google map of business location with pictures of the premise (1 original)', where: 'Applicant' },
+            ],
+          },
+          {
+            label: 'Additional Line of Business',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit of Additional Line of Business stating the business line to be added and additional capital — Single Proprietorship only', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Special Power of Attorney, if represented — Sole Proprietorship', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution stating the business line to be added and additional capital — Partnership', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Board Resolution or Secretary\'s Certificate stating the business line to be added and additional capital — Corporation / Cooperative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SEC Registration / Articles of Incorporation — Partnership and Corporation (1 photocopy)', where: 'Securities and Exchange Commission' },
+              { text: 'Certificate of Cooperation / Articles of Cooperation — Cooperative (1 photocopy)', where: 'Cooperative Development Authority' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+              { text: 'Sketch / Google map of business location with pictures of the premise (1 original)', where: 'Applicant' },
+            ],
+          },
+          {
+            label: 'Transfer of Ownership',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit stating the transfer of ownership and new ownership details', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SPA (Sole Proprietorship), Partnership Resolution (Partnership), or Secretary\'s Certificate / Board Resolution (Corporation / Cooperative) showing authority of representative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+            ],
+          },
+          {
+            label: 'Change of Name / Correction',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit for Change of Name and/or Correction of Business Name', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SPA (Sole Proprietorship), Partnership Resolution (Partnership), or Secretary\'s Certificate / Board Resolution (Corporation / Cooperative) showing authority of representative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+            ],
+          },
+          {
+            label: 'Other Amendments',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit for the specific amendment (e.g. correction of Barangay, increase in capital), or inspection report if applicable', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SPA (Sole Proprietorship), Partnership Resolution (Partnership), or Secretary\'s Certificate / Board Resolution (Corporation / Cooperative) showing authority of representative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+            ],
+          },
         ],
-        requirements: [
-          'Latest Business Permit (1 original or certified copy)',
-          'Affidavit of Full Retirement stating reason and effective date — Sole Proprietorship',
-          'Partnership Resolution signed by all partners — Partnership',
-          'Board Resolution or Secretary\'s Certificate — Corporation/Cooperative',
-          'Valid ID of authorized representative (1 photocopy)',
-          'Business Identification Plate',
+        requirementNote: 'Amendments requiring the approval of Regulatory Offices or other agencies must first be pre-assessed and endorsed before proceeding to the amendment process itself.',
+
+        processGroups: [
+          {
+            label: 'Change of Address',
+            totalFee: "Php 50.00 + Mayor's Permit Fee difference",
+            totalTime: '1 Hour 55 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'EDP Personnel encodes the RO-approved Change of Business Address details into the pre-assessed application.', fee: 'None', time: '10 min', person: 'EDP Personnel, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Amendment Service Fee and any Mayor's Permit Fee adjustment.", fee: "Php 50.00 + Mayor's Permit Fee difference", time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits official receipt and pertinent documents. Business Bureau receives, checks, encodes and prints the amended permit, reviews, finally approves, and releases it; client signs the logbook.', fee: 'None', time: '1 hr 36 min', person: 'Business Bureau (EDP / Licensing Officer / OIC / Processing Section)' },
+            ],
+          },
+          {
+            label: 'Additional Line of Business',
+            totalFee: "Php 50.00 + Mayor's Permit Fee difference",
+            totalTime: '1 Hour 55 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'EDP Personnel encodes the RO-approved Additional Line of Business details into the pre-assessed application.', fee: 'None', time: '10 min', person: 'EDP Personnel, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Amendment Service Fee and any Mayor's Permit Fee adjustment.", fee: "Php 50.00 + Mayor's Permit Fee difference", time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits official receipt and pertinent documents. Business Bureau receives, checks, encodes and prints the amended permit, reviews, finally approves, and releases it; client signs the logbook.', fee: 'None', time: '1 hr 36 min', person: 'Business Bureau (EDP / Licensing Officer / OIC / Processing Section)' },
+            ],
+          },
+          {
+            label: 'Transfer of Ownership',
+            totalFee: 'Php 50.00 Amendment Service Fee',
+            totalTime: '2 Hours 5 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'Licensing Officer assesses, verifies, and encodes the Application for Transfer of Ownership, then issues the printed application form and order of payment.', fee: 'None', time: '10 min', person: 'Licensing Officer, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Amendment Service Fee.", fee: 'Php 50.00', time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits application, official receipt and documents. Business Bureau checks and approves the application, tags and encodes the amendment, prints, reviews, finally approves and releases the amended permit; client signs the logbook.', fee: 'None', time: '1 hr 46 min', person: 'Business Bureau (Licensing Officer / Records Section / EDP / OIC / Processing Section)' },
+            ],
+          },
+          {
+            label: 'Change of Name / Correction',
+            totalFee: 'Php 50.00 Amendment Service Fee',
+            totalTime: '1 Hour 55 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'Licensing Officer assesses, verifies, and encodes the Application for Change of Name and/or Correction of Business Name, then issues the printed application form and order of payment.', fee: 'None', time: '10 min', person: 'Licensing Officer, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Amendment Service Fee.", fee: 'Php 50.00', time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits application, official receipt and documents. Business Bureau checks and approves the application, encodes the amendment and notations, prints, reviews, finally approves and releases the amended permit; client signs the logbook.', fee: 'None', time: '1 hr 36 min', person: 'Business Bureau (Licensing Officer / EDP / Records Section / OIC / Processing Section)' },
+            ],
+          },
+          {
+            label: 'Other Amendments',
+            totalFee: "Php 50.00 + Mayor's Permit Fee difference (if applicable)",
+            totalTime: '1 Hour 55 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'EDP Personnel encodes the RO-approved Other Amendments details into the pre-assessed application.', fee: 'None', time: '10 min', person: 'EDP Personnel, Business Bureau' },
+              { num: '2', title: 'Payment', desc: "Client proceeds to the City Treasurer's Office to pay the Amendment Service Fee and any Mayor's Permit Fee adjustment.", fee: "Php 50.00 + Mayor's Permit Fee difference", time: '9 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits official receipt and pertinent documents. Business Bureau receives, checks, encodes and prints the amended permit, reviews, finally approves, and releases it; client signs the logbook.', fee: 'None', time: '1 hr 36 min', person: 'Business Bureau (EDP / Licensing Officer / OIC / Processing Section)' },
+            ],
+          },
         ],
       },
 
+      /* ============================================================
+         7 — Cancellation of Business Permit
+      ============================================================ */
       'cancellation': {
         title: 'Cancellation of Business Permit',
-        tag: 'Service 7 of 8',
+        tag: 'Service 7 of 12',
         color: '#b8973a',
-        desc: 'For applicants who have a Business Permit application already encoded in the system but decided not to proceed, for any valid reason. Must be filed within 3 months from date of application. Not available to applicants with City Treasurer\'s Office records.',
+        page: 94,
+        desc: 'For applicants who have a Business Permit application already encoded in the system but decided not to proceed, for any valid reason. Must be filed within 3 months from date of application; not available to applicants with City Treasurer\'s Office records.',
+        office: "City Mayor's Office – Permits & Licenses Division",
         classification: 'Simple',
-        type: 'Government to Citizen',
+        type: 'G2C – Government to Citizen',
         who: 'Any natural or juridical entity with a valid reason to cancel a duly processed application for a new business permit.',
         fee: 'None',
         time: '7 Hours 5 Minutes',
-        page: 72,
         steps: [
           { num: '1', title: 'Submit Requirements', desc: 'Submit complete documents to EDP Head; Business Bureau OIC approves; endorsed to CTO', time: '5 min' },
           { num: '2', title: 'CTO Evaluation', desc: 'LTOO IV-CTO recommends cancellation or retirement of the application', time: '2 hrs' },
-          { num: '3', title: 'CITC Processing', desc: 'EDP Head endorses to City Information Technology Center (CITC) for record cancellation', time: '5 hrs' },
-          { num: '4', title: 'Release', desc: 'Client claims duly canceled application and documents, or receives retirement checklist', time: '' },
+          { num: '3', title: 'CITC Processing & Release', desc: 'EDP Head endorses to City Information Technology Center for record cancellation; client claims the duly canceled application and documents, or receives a retirement checklist', time: '5 hrs' },
         ],
-        requirements: [
-          'Application Form from Business Bureau Window 7 (1 photocopy)',
-          'Affidavit of Cancellation stating reason — Sole Proprietorship (2 originals)',
-          'Valid ID of Taxpayer (1 photocopy)',
-          'Special Power of Attorney (1 original + 1 photocopy)',
-          'Partnership Resolution or Board Resolution / Secretary\'s Certificate',
-          'Valid IDs of Partners / authorized signatories',
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Application Form (1 photocopy)', where: 'Business Bureau, Window 7' },
+              { text: 'Affidavit of Cancellation stating the reason for cancellation — Sole Proprietorship (2 originals)', where: 'Taxpayer' },
+              { text: 'ID of Taxpayer (1 photocopy)', where: 'Taxpayer' },
+              { text: 'Special Power of Attorney stating the authority and capacity of the authorized representative (1 original + 1 photocopy)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution stating the reason for cancellation and the authority/capacity of the authorized representative — Partnership (1 original + 1 photocopy)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Board Resolution or Secretary\'s Certificate stating the reason for cancellation and the authority/capacity of the authorized representative — other forms of ownership (1 original + 1 photocopy)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'ID of Partners (1 photocopy each)', where: 'Taxpayer' },
+              { text: 'ID of authorized signatory — other forms of ownership (1 photocopy)', where: 'Taxpayer' },
+              { text: 'ID of authorized representative (1 photocopy)', where: 'Taxpayer' },
+            ],
+          },
         ],
       },
 
-      'ocular-inspection': {
-        title: 'Ocular Inspection & ICAB',
-        tag: 'Service 8 of 8',
+      /* ============================================================
+         8 — Partial Retirement of Business Permit
+      ============================================================ */
+      'partial-retirement': {
+        title: 'Partial Retirement of Business Permit',
+        tag: 'Service 8 of 12',
         color: '#1a5276',
-        desc: 'Business activities are validated through ocular inspections. For Internet Cafes and Pisonet operators, this issues Internet Café Accreditation (ICAB) — a required document for Business Permit issuance.',
-        classification: 'Simple (Regular) · Complex (Complaint) · Highly Technical (ICAB)',
-        type: 'Government to Citizen / Government to Business',
-        who: 'Business owners in Davao City (Regular); complainants (Complaint); Internet Café and Coin-Operated Internet Machine operators (ICAB).',
-        fee: 'ICAB: Php 100.00 (first 10 units) + Php 10.00 per additional unit. Violations: depends on offense.',
-        time: '2 Days, 2 Hours, 5 Minutes (+ additional days if violations found)',
-        page: 75,
-        steps: [
-          { num: '1', title: 'File Request', desc: 'Submit letter request or complaint to Business Bureau; receive copy', time: '5 min' },
-          { num: '2', title: 'Assignment', desc: 'Licensing Officer IV routes and assigns to Inspection Team', time: '2 hrs' },
-          { num: '3', title: 'Inspection', desc: 'Inspection Team conducts ocular inspection at the establishment', time: '2 days' },
-          { num: '4', title: 'Result', desc: 'Issue Inspection Report (compliant), 1st Notice of Violation, or ICAB Accreditation', time: '' },
-          { num: '5', title: 'ICAB Payment', desc: 'Pay ICAB fee at City Treasurer\'s Office; submit OR before Business Permit printing', time: '10 min' },
+        page: 65,
+        desc: 'Processed as an amendment to the business permit for a business that wants to retire a specific business line, branch, or activity while the rest of the business continues to operate under the same permit.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple',
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Any natural or juridical entity holding an active business permit that wants to retire a specific business line, branch, or activity without fully closing the business.',
+        fee: 'None, unless there are outstanding unpaid taxes and charges',
+        time: '2 Days, 6 Hours, 6 Minutes (unless there are outstanding unpaid taxes and charges)',
+
+        requirementGroups: [
+          {
+            label: 'Partial Retirement',
+            items: [
+              { text: 'Current Original Mayor\'s Permit, Application for Renewal, or Certified True Copy of Business Permit with Affidavit of Loss (if lost)', where: 'Applicant / Records Section, Business Bureau / any Notary Public for the affidavit' },
+              { text: 'Notarized Affidavit of Partial Retirement, indicating the specific business line, branch, or activity to be retired and its effective date', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'SPA (Sole Proprietorship), Partnership Resolution (Partnership), or Secretary\'s Certificate / Board Resolution (Corporation / Cooperative) showing authority of representative', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the representative, if newly designated (1 photocopy)', where: 'Applicant' },
+            ],
+          },
         ],
-        requirements: [
-          'Letter Request for Inspection — ICAB (1 original + 1 duplicate)',
-          'Filled-out Application Form for New Business Permit (1 photocopy) — ICAB',
-          'Official Receipt for ICAB Accreditation fee',
-          'Sketch Map of Business Location (1 original)',
-          'Compliance with ICAB requirements (half-closed cubicles, proper lighting, warning signs, content filter, etc.)',
-          'Letter of Complaint + Sketch — Complaint type only',
+        requirementNote: 'Applications for Partial Retirement pass through the District Treasurer\'s Office for approval before final release at the Business Bureau.',
+
+        processGroups: [
+          {
+            label: 'Partial Retirement',
+            totalFee: 'None, unless there are outstanding unpaid taxes and charges',
+            totalTime: '2 Days, 6 Hours, 6 Minutes',
+            steps: [
+              { num: '1', title: 'Application', desc: 'Licensing Officer assesses, verifies and encodes the Application for Partial Retirement; client then proceeds to the District Treasurer\'s Office for approval.', fee: 'None', time: '10 min', person: 'Licensing Officer, Business Bureau' },
+              { num: '2', title: 'CTO Assessment', desc: 'Application is processed at the City Treasurer\'s Office.', fee: 'None, unless there are outstanding unpaid taxes and charges', time: '2 days 4 hr 10 min', person: "City Treasurer's Office" },
+              { num: '3', title: 'Release', desc: 'Client submits the approved application, official receipt (if applicable) and documents. Business Bureau checks and approves the application, tags and encodes the partial retirement, prints, reviews, finally approves and releases the amended permit; client signs the logbook.', fee: 'None', time: '1 hr 46 min', person: 'Business Bureau (Records Section / EDP / Licensing Officer / OIC / Processing Section)' },
+            ],
+          },
         ],
       },
+
+      /* ============================================================
+         9 — Full Retirement of Business Permit
+      ============================================================ */
+      'full-retirement': {
+        title: 'Full Retirement of Business Permit',
+        tag: 'Service 9 of 12',
+        color: '#b8973a',
+        page: 91,
+        desc: 'Issued to any natural or juridical entity whose business operations have permanently ceased, cancelling all active permit records.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple',
+        type: 'G2C – Government to Citizen',
+        who: 'Any natural or juridical entity holding a valid business permit whose operations have permanently ceased.',
+        fee: 'Tax obligation based on gross sales. Late filing penalty: Php 1,000–5,000 if filed more than 30 days from cessation.',
+        time: '1 Hour 45 Minutes',
+        steps: [
+          { num: '1', title: 'Pre-Assessment', desc: "Submit requirements; Licensing Officer validates Affidavit of Retirement; receive signed application", time: '15 min' },
+          { num: '2', title: 'CTO Assessment & Submission', desc: "Proceed to the City Treasurer's Office for assessment and settlement of tax dues, then submit the approved application and Business Identification Plate; receive a claim stub", time: '15 min' },
+          { num: '3', title: 'Processing & Release', desc: 'Records Section tags and prints the RETIRED annotation on the permit; claim the retired business permit and copies of required documents', time: '1 hr 5 min' },
+        ],
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Latest Business Permit (1 original or 1 certified copy)', where: 'Applicant or Records Section, Business Bureau' },
+              { text: 'Affidavit of Full Retirement indicating the reason and effective date of retirement — Sole Proprietorship (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Partnership Resolution duly signed by all partners, stating the reason, effective date of retirement, and authorized representative — Partnership (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Board Resolution or Secretary\'s Certificate stating the reason, effective date of retirement, and authorized representative — other forms of ownership (1 original)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Valid ID of the authorized representative, if newly designated (1 photocopy)', where: 'Applicant' },
+              { text: 'Special Power of Attorney for Single Proprietorship, if represented (1 original)', where: 'Any Notary Public / Applicant' },
+              { text: 'Business Identification Plate', where: 'Applicant' },
+            ],
+          },
+        ],
+      },
+
+      /* ============================================================
+         10 — Ocular Inspection & ICAB
+      ============================================================ */
+      'ocular-inspection': {
+        title: 'Ocular Inspection',
+        tag: 'Service 10 of 12',
+        color: '#1a5276',
+        page: 98,
+        desc: 'Business establishments in Davao City are validated through ocular inspections to verify compliance with safety, sanitation, zoning, and other operational requirements.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Simple',
+        type: 'G2C – Government to Citizen · G2B – Government to Business',
+        who: 'Business owners in Davao City requiring a regular inspection.',
+        fee: 'None',
+        time: '2 Days, 2 Hours, 5 Minutes (+ additional days if violations are found)',
+
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Letter of Request for Inspection', where: 'Business Bureau' },
+            ],
+          },
+        ],
+        requirementNote: 'To file a complaint against a business establishment, see the separate "Business Complaint" service. For Internet Café / Coin-Operated Internet Machine accreditation, see the separate "ICAB" service.',
+
+        processGroups: [
+          {
+            label: 'Ocular Inspection',
+            totalFee: 'None',
+            totalTime: '2 Days, 2 Hours, 5 Minutes',
+            steps: [
+              { num: '1', title: 'File Request & Routing', desc: 'Submit letter request for inspection and other pertinent documents; receive a stamped copy. Business Bureau then routes the request and assigns it to the Inspection Team.', fee: 'None', time: '2 hr 5 min', person: 'Business Bureau (Receiving of Communications Personnel / Licensing Officer IV)' },
+              { num: '2', title: 'Ocular Inspection', desc: 'Inspection Team conducts the ocular inspection and issues an Inspection Report if there is no violation, or a 1st Notice of Violation if non-compliant.', fee: 'None', time: '2 days', person: 'Licensing Officer with inspection team, Business Bureau' },
+              { num: '3', title: 'Result & Follow-up', desc: 'If violations were found, Business Bureau endorses a copy to the appropriate regulatory offices/agencies and may issue further notices, Cease-and-Desist, or Closure Orders on non-compliance.', fee: 'Depends on the offense', time: 'As applicable', person: 'Licensing Officer with inspection team, Business Bureau' },
+            ],
+          },
+        ],
+      },
+
+      /* ============================================================
+         11 — ICAB (Internet Café Accreditation)
+      ============================================================ */
+      'icab': {
+        title: 'ICAB (Internet Café Accreditation)',
+        tag: 'Service 11 of 12',
+        color: '#b8973a',
+        page: 98,
+        desc: 'Internet Café and Coin-Operated Internet Machine (Pisonet) operators must secure Internet Café Accreditation Board (ICAB) accreditation, which is a required document before a Business Permit can be issued.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Highly Technical',
+        type: 'G2B – Government to Business',
+        who: 'Internet Café and Coin-Operated Internet Machine business operators.',
+        fee: 'Php 100.00 (first 10 units) + Php 10.00 per additional unit',
+        time: '2 Days, 2 Hours, 15 Minutes',
+
+        requirementGroups: [
+          {
+            label: 'Requirements',
+            items: [
+              { text: 'Letter Request for Inspection (1 original + 1 duplicate copy)', where: 'Applicant' },
+              { text: 'Duly filled-out application form for New Business Permit (1 photocopy)', where: 'Applicant, notarized by any Notary Public' },
+              { text: 'Official Receipt for ICAB Accreditation fee (1 original)', where: 'Revenue Collection Officer, City Treasurer\'s Office' },
+              { text: 'Sketch Map of Business Location (1 original)', where: 'Applicant' },
+              { text: 'ISP Contract, Certification, or current Receipt of Payment', where: 'Applicant' },
+              { text: 'Half-closed cubicle, not more than 5 feet from the floor (Internet Café only)', where: 'Applicant' },
+              { text: 'Proper lighting — 25 lux min. (fluorescent/LED) or 50 lux min. (incandescent)', where: 'Applicant' },
+              { text: 'Warning signage (min. 12x18 in.) — no pornography, gambling, hacking; no minors before 6AM / after 9PM; no gaming during school hours', where: 'Applicant' },
+              { text: 'System for blocking / filtering access to pornographic sites or content', where: 'Applicant' },
+              { text: 'Webcams permanently fixed (Internet Café only)', where: 'Applicant' },
+              { text: 'No selling/consumption of intoxicating drinks and cigarettes within premises', where: 'Applicant' },
+              { text: 'Headphones (Internet Café only)', where: 'Applicant' },
+              { text: 'Urinal for 30 units and below, or separate male/female CRs for 31 units and above (Internet Café only)', where: 'Applicant' },
+              { text: 'Copy of ICAB ordinances (227-04, 0387-12, and 0270-15, as amended)', where: 'Business Bureau, Licensing Officer I' },
+            ],
+          },
+        ],
+
+        processGroups: [
+          {
+            label: 'ICAB',
+            totalFee: 'Php 100.00 (first 10 units) + Php 10.00/additional unit',
+            totalTime: '2 Days, 2 Hours, 15 Minutes',
+            steps: [
+              { num: '1', title: 'File Request & Routing', desc: 'Submit letter request for ICAB accreditation, sketch map, and other pertinent documents; receive a stamped copy. Business Bureau then routes the request and assigns it to the Inspection Team.', fee: 'None', time: '2 hr 5 min', person: 'Business Bureau (Receiving of Communications Personnel / Licensing Officer IV)' },
+              { num: '2', title: 'Ocular Inspection', desc: 'Inspection Team conducts the ocular inspection and issues ICAB Accreditation with an Order of Payment if the establishment is compliant, or a 1st Notice of Violation if not.', fee: 'None', time: '2 days', person: 'Licensing Officer with inspection team, Business Bureau' },
+              { num: '3', title: 'Payment', desc: "Proceed to the City Treasurer's Office to pay the ICAB accreditation fee and receive the Official Receipt.", fee: 'Php 100.00 (first 10 units) + Php 10.00/unit', time: '10 min', person: "City Treasurer's Office" },
+            ],
+          },
+        ],
+      },
+
+      /* ============================================================
+         12 — Business Complaint
+      ============================================================ */
+      'business-complaint': {
+        title: 'Business Complaint',
+        tag: 'Service 12 of 12',
+        color: '#1a5276',
+        page: 98,
+        desc: 'Any natural or juridical entity whose welfare, security, or safety is threatened by the conduct of a business activity may file a complaint with the Business Bureau, which triggers a formal ocular inspection of the establishment concerned.',
+        office: "City Mayor's Office – Permits & Licenses Division",
+        classification: 'Complex',
+        type: 'G2C – Government to Citizen',
+        who: 'Any natural or juridical entity whose welfare, security, and safety are threatened by the conduct of a business activity within Davao City.',
+        fee: 'None (violation fees, if any, are shouldered by the business found in violation)',
+        time: '2 Days, 6 Hours, 5 Minutes (+ additional time if the case requires further notices)',
+
+        requirementGroups: [
+          {
+            label: 'Business Complaint',
+            items: [
+              { text: 'Letter of Complaint (2 copies)', where: 'Complainant' },
+              { text: 'Sketch of the business location (1 copy)', where: 'Complainant' },
+            ],
+          },
+        ],
+
+        processGroups: [
+          {
+            label: 'Business Complaint',
+            totalFee: 'None',
+            totalTime: '2 Days, 6 Hours, 5 Minutes',
+            steps: [
+              { num: '1', title: 'File Complaint & Routing', desc: 'Submit the letter of complaint and sketch at the Business Bureau; receive a stamped copy for your records. The complaint is then routed and assigned to the Inspection Team.', fee: 'None', time: '2 hr 5 min', person: 'Business Bureau (Receiving of Communications Personnel / Licensing Officer IV)' },
+              { num: '2', title: 'Ocular Inspection', desc: 'The Inspection Team conducts an ocular inspection of the business establishment concerned and issues an Inspection Report or Notice of Violation.', fee: 'None', time: '2 days', person: 'Licensing Officer with inspection team, Business Bureau' },
+              { num: '3', title: 'Result Furnished', desc: 'The complainant is furnished with the result of the inspection upon request.', fee: 'None', time: '4 hr from inspection', person: 'Licensing Officer with inspection team, Business Bureau' },
+            ],
+          },
+        ],
+      },
+
     };
 
-    /* ── Service Modal open / close ── */
+    /* ============================================================
+      UI STRINGS (interface labels used by the tabbed modal)
+    ============================================================ */
+    const UI_STRINGS = {
+      typeLabel: 'Type of Transaction:',
+      whoLabel: 'Who may avail:',
+      feesLabel: 'Fees',
+      timeLabel: 'Processing Time',
+      reqTableHeadReq: 'Requirement',
+      reqTableHeadWhere: 'Where to Secure',
+      reqTableHeadActivity: 'Business Activity',
+      reqTableHeadDoc: 'Required Document(s) / Agency',
+      reqNoMatch: 'No matching business activity found. Try a different keyword, or ask the Business Bureau directly.',
+      reqSearchPlaceholder: 'Search by business activity — e.g. \u201Cinternet cafe\u201D, \u201Cpharmacy\u201D, \u201Csecurity agency\u201D…',
+      stubNote: 'Full itemized checklist (with "Where to Secure" per document) is being added for this service. In the meantime, view the complete requirements in the',
+      stubNoteLink: 'official PDF Citizen\'s Charter',
+      totalFeeLabel: 'Total fee:',
+      totalTimeLabel: 'Total processing time:',
+      feeScheduleLabel: 'Fee Schedule',
+      feeScheduleActivity: 'Activity',
+      feeScheduleFee: 'Fee',
+      viewPdfPage: 'View Official PDF Page',
+    };
+    function t(key) { return UI_STRINGS[key] || key; }
+
+    /* ── Icon shown in the modal header (generic document icon) ── */
+    const MODAL_ICON_SVG = `
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="9" y1="13" x2="15" y2="13"/>
+        <line x1="9" y1="17" x2="15" y2="17"/>
+      </svg>`;
+
     const serviceBackdrop = document.getElementById('serviceModalBackdrop');
     const serviceClose    = document.getElementById('serviceModalClose');
+    const servicePrevBtn  = document.getElementById('serviceModalPrev');
+    const serviceNextBtn  = document.getElementById('serviceModalNext');
+    let currentServiceKey = null;
+
+    /* Order the prev/next arrows cycle through — matches the 12 service cards */
+    const SERVICE_ORDER = [
+      'business-permit', 'renewal-permit', 'occupational-permit', 'special-permit',
+      'certification', 'amendment', 'cancellation', 'partial-retirement',
+      'full-retirement', 'ocular-inspection', 'icab', 'business-complaint',
+    ];
+
+    function goToAdjacentService(step) {
+      const idx = SERVICE_ORDER.indexOf(currentServiceKey);
+      if (idx === -1) return;
+      const nextIdx = (idx + step + SERVICE_ORDER.length) % SERVICE_ORDER.length;
+      openServiceModal(SERVICE_ORDER[nextIdx]);
+    }
+    servicePrevBtn.addEventListener('click', () => goToAdjacentService(-1));
+    serviceNextBtn.addEventListener('click', () => goToAdjacentService(1));
 
     function openServiceModal(key) {
       const d = SERVICE_DATA[key];
       if (!d) return;
+      currentServiceKey = key;
 
-      /* Header */
       document.getElementById('serviceModalHeader').style.background = d.color;
-      document.getElementById('serviceModalTag').textContent   = d.tag;
+      servicePrevBtn.style.background = d.color;
+      serviceNextBtn.style.background = d.color;
+      document.getElementById('serviceModalTag').textContent   = d.tag || '';
       document.getElementById('serviceModalTitle').textContent = d.title;
+      document.getElementById('serviceModalIcon').innerHTML    = MODAL_ICON_SVG;
+      document.getElementById('serviceModalLink').dataset.pdfPage = d.page || 1;
 
-      /* Header icon (generic document SVG) */
-      document.getElementById('serviceModalIcon').innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-             stroke-linecap="round" stroke-linejoin="round">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="9" y1="13" x2="15" y2="13"/>
-          <line x1="9" y1="17" x2="15" y2="17"/>
-        </svg>`;
+      const startBtn = document.getElementById('serviceModalStart');
+      document.getElementById('serviceModalStartLabel').textContent = d.startLabel || 'Start Application';
+      startBtn.style.display = 'inline-flex';
+      if (d.startAction === 'amendment') {
+        startBtn.href = '#';
+        startBtn.onclick = (e) => { e.preventDefault(); closeServiceModal(); openAmendmentChooser(); };
+      } else if (d.startUrl) {
+        startBtn.href = d.startUrl;
+        startBtn.onclick = null;
+      } else {
+        /* No application flow wired up yet for this service — inert placeholder */
+        startBtn.href = '#';
+        startBtn.onclick = (e) => e.preventDefault();
+      }
 
-      /* View More link */
-      document.getElementById('serviceModalLink').href =
-        `citizens-charter.html#page=${d.page}`;
+      renderOverview(d);
+      renderRequirements(d);
+      renderProcess(d);
 
-      /* Build infographic body */
-      const c      = d.color;
-      const isDark = document.body.classList.contains('dark');
-      const cLight = c + '22';
+      /* Reset to Overview tab every time it opens */
+      document.querySelectorAll('.svc-tabbtn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.svc-tabpanel').forEach(p => p.classList.remove('active'));
+      document.querySelector('.svc-tabbtn[data-tab="overview"]').classList.add('active');
+      document.getElementById('panelOverview').classList.add('active');
 
-      /* Light: colored border + tint bg | Dark: solid colored bg + white text */
-      const boxBg      = isDark ? c           : c + '22';
-      const boxBorder  = isDark ? c           : c;
-      const numBg      = isDark ? '#ffffff'   : c;
-      const numColor   = isDark ? c           : '#ffffff';
-      const titleColor = isDark ? '#ffffff'   : c;
-      const descColor  = isDark ? 'rgba(255,255,255,0.85)' : '';
-      const timeBg     = isDark ? '#ffffff'   : c;
-      const timeColor  = isDark ? c           : '#ffffff';
-      const arrowColor = isDark ? '#ffffff'   : c;
-      const iconBg     = isDark ? c           : c + '22';
-      const iconStroke = isDark ? '#ffffff'   : c;
-      const iconFill   = isDark ? '#ffffff'   : c;
-
-      const stepsHTML = d.steps.map((s, i) => `
-        ${i > 0 ? `<span class="svc-step-arrow" style="color:${arrowColor}">›</span>` : ''}
-        <div class="svc-step">
-          <div class="svc-step-box" style="border-color:${boxBorder}; background:${boxBg};">
-            <div class="svc-step-num" style="background:${numBg}; color:${numColor};">${s.num}</div>
-            <div class="svc-step-content">
-              <div class="svc-step-title" style="color:${titleColor};">${s.title}</div>
-              <div class="svc-step-desc" style="color:${descColor};">${s.desc}</div>
-            </div>
-            ${s.time ? `<span class="svc-step-time" style="background:${timeBg}; color:${timeColor};">${s.time}</span>` : `<span class="svc-step-time-placeholder"></span>`}
-          </div>
-        </div>`).join('');
-
-      const reqHTML = d.requirements.map(r =>
-        `<li>${r}</li>`).join('');
-
-      document.getElementById('serviceModalBody').innerHTML = `
-        <p class="svc-desc">${d.desc}</p>
-
-        <div class="svc-pills">
-          <span class="svc-pill"><strong>Classification:</strong> ${d.classification}</span>
-          <span class="svc-pill"><strong>Type of Transaction:</strong> ${d.type}</span>
-          <span class="svc-pill"><strong>Who may avail:</strong> ${d.who}</span>
-        </div>
-
-        <div class="svc-key-info">
-          <div class="svc-key-box">
-            <div class="svc-key-box-icon" style="background:${iconBg};">
-              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
-                   stroke-linecap="round" stroke-linejoin="round">
-                <text x="12" y="17" font-family="Arial, sans-serif" font-size="16"
-                      font-weight="bold" fill="${iconFill}" stroke="none"
-                      text-anchor="middle">₱</text>
-              </svg>
-            </div>
-            <div>
-              <div class="svc-key-label">Fees</div>
-              <div class="svc-key-value">${d.fee}</div>
-            </div>
-          </div>
-          <div class="svc-key-box">
-            <div class="svc-key-box-icon" style="background:${iconBg};">
-              <svg viewBox="0 0 24 24" fill="none" stroke="${iconStroke}" stroke-width="2"
-                   stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-            </div>
-            <div>
-              <div class="svc-key-label">Processing Time</div>
-              <div class="svc-key-value">${d.time}</div>
-            </div>
-          </div>
-        </div>
-
-        <div>
-          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Process Flow</div>
-          <div class="svc-steps">${stepsHTML}</div>
-        </div>
-
-        <div>
-          <div class="svc-section-label" style="color:${c}; border-bottom-color:${c};">Key Requirements</div>
-          <ul class="svc-req-list">${reqHTML}</ul>
-        </div>`;
-
-      /* Show modal */
       serviceBackdrop.style.display = 'flex';
       requestAnimationFrame(() => requestAnimationFrame(() => {
         serviceBackdrop.classList.add('visible');
+        positionServiceNavArrows();
       }));
       document.body.style.overflow = 'hidden';
     }
+
+    /* Position the prev/next arrows to hug the modal's actual left/right edges
+       (its width varies by screen size, so this is computed, not hardcoded). */
+    function positionServiceNavArrows() {
+      const modalEl = serviceBackdrop.querySelector('.service-modal');
+      if (!modalEl) return;
+      const rect = modalEl.getBoundingClientRect();
+      const gap = 14;
+      servicePrevBtn.style.left  = Math.max(6, rect.left - servicePrevBtn.offsetWidth - gap) + 'px';
+      serviceNextBtn.style.right = 'auto';
+      serviceNextBtn.style.left  = Math.min(
+        window.innerWidth - serviceNextBtn.offsetWidth - 6,
+        rect.right + gap
+      ) + 'px';
+    }
+    window.addEventListener('resize', () => {
+      if (serviceBackdrop.classList.contains('visible')) positionServiceNavArrows();
+    });
 
     function closeServiceModal() {
       serviceBackdrop.classList.remove('visible');
@@ -2020,13 +2178,492 @@
       }, { once: true });
     }
 
+    /* ── Tab switching (Overview / Requirements / Process) ── */
+    document.querySelectorAll('.svc-tabbtn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.svc-tabbtn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.svc-tabpanel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('panel' + btn.dataset.tab[0].toUpperCase() + btn.dataset.tab.slice(1)).classList.add('active');
+      });
+    });
+
+    /* ── Panel: Overview ── */
+    function renderOverview(d) {
+      const feeScheduleHTML = (d.feeSchedule && d.feeSchedule.length) ? `
+        <div class="svc-fee-schedule">
+          <div class="svc-section-label">${t('feeScheduleLabel')}</div>
+          <table class="svc-req-table">
+            <thead><tr><th>${t('feeScheduleActivity')}</th><th>${t('feeScheduleFee')}</th></tr></thead>
+            <tbody>${d.feeSchedule.map(f => `<tr><td>${f.activity}</td><td class="req-where">${f.fee}</td></tr>`).join('')}</tbody>
+          </table>
+        </div>` : '';
+
+      document.getElementById('panelOverview').innerHTML = `
+        <p class="svc-desc">${d.desc}</p>
+        <div class="svc-pills">
+          <span class="svc-pill"><strong>${t('typeLabel')}</strong> ${d.type}</span>
+          <span class="svc-pill"><strong>${t('whoLabel')}</strong> ${d.who}</span>
+        </div>
+        <div class="svc-key-info">
+          <div class="svc-key-box">
+            <div class="svc-key-box-icon gold-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#b8973a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <text x="12" y="17" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#b8973a" stroke="none" text-anchor="middle">₱</text>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-key-label">${t('feesLabel')}</div>
+              <div class="svc-key-value">${d.fee}</div>
+            </div>
+          </div>
+          <div class="svc-key-box">
+            <div class="svc-key-box-icon navy-bg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#0d1f4e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div>
+              <div class="svc-key-label">${t('timeLabel')}</div>
+              <div class="svc-key-value">${d.time}</div>
+            </div>
+          </div>
+        </div>
+        ${feeScheduleHTML}`;
+    }
+
+    /* ── Panel: Requirements ── */
+    function renderRequirements(d) {
+      const panel = document.getElementById('panelRequirements');
+
+      if (d.requirementGroups && d.requirementGroups.length) {
+        const multi = d.requirementGroups.length > 1;
+        const tabs = d.requirementGroups.map((g, i) =>
+          `<button class="svc-subtab ${i === 0 ? 'active' : ''}" data-idx="${i}">${g.label}</button>`).join('');
+
+        panel.innerHTML = `
+          ${multi ? `<div class="svc-subtabs" id="reqSubtabs">${tabs}</div>` : ''}
+          <div id="reqTableWrap"></div>
+          ${d.requirementNote ? `<div class="svc-req-note">${d.requirementNote}</div>` : ''}`;
+
+        function paintReqGroup(idx) {
+          const g = d.requirementGroups[idx];
+
+          function buildTable(items) {
+            if (!items.length) {
+              return `<p style="color:var(--muted); font-size:0.95rem; padding:12px 4px;">${t('reqNoMatch')}</p>`;
+            }
+            const rows = items.map((it, i) => `
+              <tr>
+                <td>${i + 1}. ${it.text}</td>
+                <td class="req-where">${it.where}</td>
+              </tr>`).join('');
+            const headLeft = g.searchable ? t('reqTableHeadActivity') : t('reqTableHeadReq');
+            const headRight = g.searchable ? t('reqTableHeadDoc') : t('reqTableHeadWhere');
+            return `
+              <table class="svc-req-table">
+                <thead><tr><th>${headLeft}</th><th>${headRight}</th></tr></thead>
+                <tbody>${rows}</tbody>
+              </table>`;
+          }
+
+          const searchHTML = g.searchable ? `
+            <div class="directory-search" style="margin-bottom:14px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input type="text" id="reqActivitySearch" placeholder="${t('reqSearchPlaceholder')}" autocomplete="off">
+            </div>` : '';
+
+          document.getElementById('reqTableWrap').innerHTML = `${searchHTML}<div id="reqTableInner">${buildTable(g.items)}</div>`;
+
+          if (g.searchable) {
+            const input = document.getElementById('reqActivitySearch');
+            input.addEventListener('input', () => {
+              const q = input.value.trim().toLowerCase();
+              const filtered = q === '' ? g.items : g.items.filter(it =>
+                it.text.toLowerCase().includes(q) || it.where.toLowerCase().includes(q));
+              document.getElementById('reqTableInner').innerHTML = buildTable(filtered);
+            });
+          }
+        }
+        paintReqGroup(0);
+
+        panel.querySelectorAll('#reqSubtabs .svc-subtab').forEach(btn => {
+          btn.addEventListener('click', () => {
+            panel.querySelectorAll('#reqSubtabs .svc-subtab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            paintReqGroup(Number(btn.dataset.idx));
+          });
+        });
+      } else {
+        const reqHTML = (d.requirements || []).map(r => `<li>${r}</li>`).join('');
+        panel.innerHTML = `
+          <ul class="svc-req-list">${reqHTML}</ul>
+          <div class="svc-stub-note">${t('stubNote')}
+          <a href="BB_CC_2026_APPROVED.pdf#page=${d.page || 1}" target="_blank" style="color:${d.color}; font-weight:700;">${t('stubNoteLink')}</a>.</div>`;
+      }
+    }
+
+    /* ── Panel: Process ── */
+    function renderProcess(d) {
+      const panel = document.getElementById('panelProcess');
+      const c = d.color;
+
+      if (d.processGroups && d.processGroups.length) {
+        const multi = d.processGroups.length > 1;
+        const tabs = d.processGroups.map((g, i) =>
+          `<button class="svc-subtab ${i === 0 ? 'active' : ''}" data-idx="${i}">${g.label}</button>`).join('');
+
+        panel.innerHTML = `
+          ${multi ? `<div class="svc-subtabs" id="procSubtabs">${tabs}</div>` : ''}
+          <div class="svc-subtotal" id="procSubtotal"></div>
+          <div id="procStepsWrap"></div>`;
+
+        function paintProcGroup(idx) {
+          const g = d.processGroups[idx];
+          document.getElementById('procSubtotal').innerHTML =
+            `<span>${t('totalFeeLabel')} <strong>${g.totalFee}</strong></span><span>${t('totalTimeLabel')} <strong>${g.totalTime}</strong></span>`;
+
+          const stepsHTML = g.steps.map((s, i) => `
+            ${i > 0 ? `<span class="svc-step-arrow" style="color:${c}">›</span>` : ''}
+            <div class="svc-step">
+              <div class="svc-step-box" style="border-color:${c}; background:${c}14;">
+                <div class="svc-step-num" style="background:${c}; color:#fff;">${s.num}</div>
+                <div class="svc-step-content">
+                  <div class="svc-step-title" style="color:${c};">${s.title}</div>
+                  <div class="svc-step-desc">${s.desc}</div>
+                </div>
+                ${s.time ? `<span class="svc-step-time" style="background:${c}; color:#fff;">${s.time}</span>` : `<span class="svc-step-time-placeholder"></span>`}
+              </div>
+            </div>`).join('');
+          document.getElementById('procStepsWrap').innerHTML = `<div class="svc-steps">${stepsHTML}</div>`;
+        }
+        paintProcGroup(0);
+
+        panel.querySelectorAll('#procSubtabs .svc-subtab').forEach(btn => {
+          btn.addEventListener('click', () => {
+            panel.querySelectorAll('#procSubtabs .svc-subtab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            paintProcGroup(Number(btn.dataset.idx));
+          });
+        });
+      } else {
+        const stepsHTML = (d.steps || []).map((s, i) => `
+          ${i > 0 ? `<span class="svc-step-arrow" style="color:${c}">›</span>` : ''}
+          <div class="svc-step">
+            <div class="svc-step-box" style="border-color:${c}; background:${c}14;">
+              <div class="svc-step-num" style="background:${c}; color:#fff;">${s.num}</div>
+              <div class="svc-step-content">
+                <div class="svc-step-title" style="color:${c};">${s.title}</div>
+                <div class="svc-step-desc">${s.desc}</div>
+              </div>
+              ${s.time ? `<span class="svc-step-time" style="background:${c}; color:#fff;">${s.time}</span>` : `<span class="svc-step-time-placeholder"></span>`}
+            </div>
+          </div>`).join('');
+        const subtotalHTML = (d.fee || d.time) ? `
+          <div class="svc-subtotal">
+            ${d.fee  ? `<span>${t('totalFeeLabel')} <strong>${d.fee}</strong></span>`   : ''}
+            ${d.time ? `<span>${t('totalTimeLabel')} <strong>${d.time}</strong></span>` : ''}
+          </div>` : '';
+        panel.innerHTML = `${subtotalHTML}<div class="svc-steps">${stepsHTML}</div>`;
+      }
+    }
+
     serviceClose.addEventListener('click', closeServiceModal);
-    serviceBackdrop.addEventListener('click', e => {
-      if (e.target === serviceBackdrop) closeServiceModal();
-    });
+    serviceBackdrop.addEventListener('click', e => { if (e.target === serviceBackdrop) closeServiceModal(); });
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && serviceBackdrop.classList.contains('visible')) closeServiceModal();
+      if (e.key !== 'Escape') {
+        if (serviceBackdrop.classList.contains('visible')) {
+          if (e.key === 'ArrowLeft')  goToAdjacentService(-1);
+          if (e.key === 'ArrowRight') goToAdjacentService(1);
+        }
+        return;
+      }
+      // Escape closes only the topmost thing open, one layer at a time.
+      if (typeof pdfModalBackdrop !== 'undefined' && pdfModalBackdrop.classList.contains('visible')) { closePdfModal(); return; }
+      if (amendmentBackdrop.classList.contains('visible')) { closeAmendmentChooser(); return; }
+      if (serviceBackdrop.classList.contains('visible')) { closeServiceModal(); return; }
     });
+
+    /* ============================================================
+      AMENDMENT TYPE CHOOSER MODAL
+      Launched from the Amendment of Business Permit service card's
+      "Start Application" button. Each item below is currently an
+      inert placeholder (no destination page yet) — wire up an
+      onSelect handler per item once the sub-flows exist.
+    ============================================================ */
+    const AMENDMENT_CHOOSER_ITEMS = [
+      {
+        title: 'Change Business Address',
+        desc: 'Update the registered location of your business.',
+        bg: '#f6ecd2', fg: '#b8973a',
+        icon: `<circle cx="12" cy="10" r="3"/><path d="M12 21s-7-7.2-7-11.5A7 7 0 0 1 19 9.5C19 13.8 12 21 12 21z"/>`,
+      },
+      {
+        title: 'Additional Business Line',
+        desc: 'Add a new line of business under your existing permit.',
+        bg: '#dceaf6', fg: '#2f6fa8',
+        icon: `<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`,
+      },
+      {
+        title: 'Transfer of Ownership',
+        desc: 'Change the registered owner of the business.',
+        bg: '#f1e4d4', fg: '#a05a2c',
+        icon: `<polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>`,
+      },
+      {
+        title: 'Change Business Name',
+        desc: 'Update the registered trade name of your business.',
+        bg: '#f7dede', fg: '#a13a3a',
+        icon: `<text x="12" y="17" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="currentColor" stroke="none" text-anchor="middle">T</text>`,
+      },
+      {
+        title: 'Other Amendments',
+        desc: 'For amendment types not listed above.',
+        bg: '#dcefe6', fg: '#2f8f6a',
+        icon: `<circle cx="12" cy="12" r="9"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12" y2="8"/>`,
+      },
+    ];
+
+    const amendmentBackdrop = document.getElementById('amendmentChooserBackdrop');
+    const chooserList       = document.getElementById('chooserList');
+    const chooserBackBtn    = document.getElementById('chooserBackBtn');
+    const chooserCloseBtn   = document.getElementById('chooserCloseBtn');
+
+    function renderAmendmentChooser() {
+      chooserList.innerHTML = AMENDMENT_CHOOSER_ITEMS.map(item => `
+        <button class="chooser-item" type="button">
+          <span class="chooser-item-icon" style="background:${item.bg};">
+            <svg viewBox="0 0 24 24" fill="none" stroke="${item.fg}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${item.icon}</svg>
+          </span>
+          <span class="chooser-item-body">
+            <div class="chooser-item-title">${item.title}</div>
+            <div class="chooser-item-desc">${item.desc}</div>
+          </span>
+          <svg class="chooser-item-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>`).join('');
+
+      /* Placeholder — no sub-flow pages exist yet for these amendment types */
+      chooserList.querySelectorAll('.chooser-item').forEach(btn => {
+        btn.addEventListener('click', () => {});
+      });
+    }
+
+    function openAmendmentChooser() {
+      renderAmendmentChooser();
+      document.getElementById('chooserHeader').style.background = SERVICE_DATA['amendment'].color;
+      amendmentBackdrop.style.display = 'flex';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        amendmentBackdrop.classList.add('visible');
+      }));
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAmendmentChooser() {
+      amendmentBackdrop.classList.remove('visible');
+      amendmentBackdrop.addEventListener('transitionend', () => {
+        amendmentBackdrop.style.display = 'none';
+        document.body.style.overflow    = '';
+      }, { once: true });
+    }
+
+    chooserCloseBtn.addEventListener('click', closeAmendmentChooser);
+    chooserBackBtn.addEventListener('click', () => { closeAmendmentChooser(); openServiceModal('amendment'); });
+    amendmentBackdrop.addEventListener('click', e => { if (e.target === amendmentBackdrop) closeAmendmentChooser(); });
+
+    /* ============================================================
+      PDF VIEWER MODAL
+      Shows the Citizen's Charter PDF inline instead of a new tab.
+      A small "open in new tab" icon is still offered for anyone who
+      wants the browser's native PDF toolbar (search, print, zoom).
+    ============================================================ */
+    const pdfModalBackdrop = document.getElementById('pdfModalBackdrop');
+    const pdfModalFrame    = document.getElementById('pdfModalFrame');
+    const pdfModalNewTab   = document.getElementById('pdfModalNewTabLink');
+    const pdfModalClose    = document.getElementById('pdfModalClose');
+
+    function openPdfModal(page) {
+      const p = page || 1;
+      pdfModalFrame.src = `BB_CC_2026_APPROVED.pdf#page=${p}`;
+      pdfModalNewTab.href = `BB_CC_2026_APPROVED.pdf#page=${p}`;
+      pdfModalBackdrop.style.display = 'flex';
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        pdfModalBackdrop.classList.add('visible');
+      }));
+      document.body.style.overflow = 'hidden';
+    }
+    function closePdfModal() {
+      pdfModalBackdrop.classList.remove('visible');
+      pdfModalBackdrop.addEventListener('transitionend', () => {
+        pdfModalBackdrop.style.display = 'none';
+        pdfModalFrame.src = ''; // stop rendering the PDF while hidden
+        // Only release body scroll if no other modal is still open underneath.
+        if (!serviceBackdrop.classList.contains('visible') && !amendmentBackdrop.classList.contains('visible')) {
+          document.body.style.overflow = '';
+        }
+      }, { once: true });
+    }
+
+    document.getElementById('serviceModalLink').addEventListener('click', () => {
+      openPdfModal(Number(document.getElementById('serviceModalLink').dataset.pdfPage) || 1);
+    });
+    pdfModalClose.addEventListener('click', closePdfModal);
+    pdfModalBackdrop.addEventListener('click', e => { if (e.target === pdfModalBackdrop) closePdfModal(); });
+    /* Escape-key handling for the PDF modal is merged into the combined
+       handler near closeServiceModal(), with priority so it closes just
+       the topmost layer (PDF modal, if open on top of a service modal). */
+
+    /* ============================================================
+      WALKTHROUGH TOUR
+      A brief spotlight tour, ported from charter-directory.html's
+      kiosk walkthrough. Uses a real element's on-screen position
+      (getBoundingClientRect) so the spotlight always lines up
+      correctly, then places a tooltip card beside it with Next/Skip.
+
+      Two entry points:
+        - "Take a Tour" button next to Main Services (manual, anytime)
+        - First-time visitors get it automatically (localStorage flag)
+      Plus a short follow-up tour the first time any service card is
+      opened, pointing at the Requirements/Process tabs.
+    ============================================================ */
+    const tourOverlay   = document.getElementById('tourOverlay');
+    const tourSpotlight = document.getElementById('tourSpotlight');
+    const tourTooltip   = document.getElementById('tourTooltip');
+    const tourDots      = document.getElementById('tourDots');
+    const tourTitleEl   = document.getElementById('tourTitle');
+    const tourDescEl    = document.getElementById('tourDesc');
+    const tourSkipBtn   = document.getElementById('tourSkipBtn');
+    const tourNextBtn   = document.getElementById('tourNextBtn');
+
+    const INTRO_TOUR_STEPS = [
+      {
+        selector: '#announcementPanel, #annBellNav',
+        title: 'Stay in the loop',
+        desc: 'Office closures, schedule changes, and other notices show up here — tap to see the latest.',
+      },
+      {
+        selector: '#servicesGrid .service-card, .services-grid .service-card',
+        title: 'Browse our services',
+        desc: 'Every permit and service we handle is listed as a card like this. Tap any one to see exactly what you need and how long it takes.',
+      },
+      {
+        selector: '.btn-track-application',
+        title: 'Already applied?',
+        desc: 'Tap here anytime to check the status of an application you\u2019ve already submitted.',
+      },
+    ];
+    // Shown the first time a service card is actually opened — teaches
+    // the Requirements/Process tabs and the footer actions at the
+    // moment they're relevant.
+    const CARD_TOUR_STEPS = [
+      { selector: '.svc-tabbtn[data-tab="requirements"]', title: 'See what you need to bring', desc: 'Tap "Requirements" to see the exact documents you need and where to get each one.' },
+      { selector: '.svc-tabbtn[data-tab="process"]', title: 'See the steps involved', desc: 'Tap "Process" to see every step, who handles it, and how long each one takes.' },
+      { selector: '#serviceModalLink', title: 'Read the official source', desc: 'Want to double-check everything against the official document? This opens the exact page of the Citizen\u2019s Charter PDF for this service.' },
+      { selector: '#serviceModalStart', title: 'Ready to apply?', desc: 'When you\u2019re ready, tap here to start your application for this service.' },
+    ];
+
+    let currentTourSteps = INTRO_TOUR_STEPS;
+    let tourStepIndex = 0;
+    let tourResizeHandler = null;
+    let tourOnEnd = null;
+
+    function positionTourStep() {
+      const step = currentTourSteps[tourStepIndex];
+      // Supports comma-separated selectors as visibility-aware fallbacks
+      // (e.g. a desktop-only panel vs. its mobile-only equivalent) — picks
+      // the first match that's actually rendered, not just present in the DOM.
+      const candidates = document.querySelectorAll(step.selector);
+      let el = null;
+      for (const cand of candidates) {
+        if (cand.offsetParent !== null || cand.getClientRects().length > 0) { el = cand; break; }
+      }
+      if (!el) { nextTourStep(); return; } // nothing visible for this step — skip gracefully
+
+      const r = el.getBoundingClientRect();
+      const pad = 8;
+      tourSpotlight.style.top    = `${r.top - pad}px`;
+      tourSpotlight.style.left  = `${r.left - pad}px`;
+      tourSpotlight.style.width  = `${r.width + pad * 2}px`;
+      tourSpotlight.style.height = `${r.height + pad * 2}px`;
+
+      const margin = 16;
+      const tooltipWidth = Math.min(420, window.innerWidth - 40);
+      tourTooltip.style.width = `${tooltipWidth}px`;
+
+      const tooltipHeight = tourTooltip.offsetHeight;
+      const spaceBelow = window.innerHeight - r.bottom - pad - margin;
+      const spaceAbove = r.top - pad - margin;
+      const placeBelow = spaceBelow >= tooltipHeight || spaceBelow >= spaceAbove;
+
+      let top = placeBelow ? (r.bottom + pad + margin) : (r.top - pad - margin - tooltipHeight);
+      top = Math.max(margin, Math.min(top, window.innerHeight - tooltipHeight - margin));
+
+      let left = r.left + r.width / 2 - tooltipWidth / 2;
+      left = Math.max(margin, Math.min(left, window.innerWidth - tooltipWidth - margin));
+
+      tourTooltip.style.top  = `${top}px`;
+      tourTooltip.style.left = `${left}px`;
+    }
+
+    function renderTourStep() {
+      const step = currentTourSteps[tourStepIndex];
+      const isLast = tourStepIndex === currentTourSteps.length - 1;
+
+      tourDots.innerHTML = currentTourSteps.map((_, i) =>
+        `<span class="tour-dot ${i === tourStepIndex ? 'active' : ''}"></span>`).join('');
+      tourTitleEl.textContent = step.title;
+      tourDescEl.textContent = step.desc;
+      tourSkipBtn.textContent = 'Skip';
+      tourNextBtn.textContent = isLast ? 'Got It' : 'Next';
+      tourSkipBtn.style.visibility = isLast ? 'hidden' : 'visible';
+
+      positionTourStep();
+    }
+
+    function nextTourStep() {
+      if (tourStepIndex >= currentTourSteps.length - 1) { endTour(); return; }
+      tourStepIndex++;
+      renderTourStep();
+    }
+
+    function startTour(steps, onEnd) {
+      currentTourSteps = steps || INTRO_TOUR_STEPS;
+      tourOnEnd = onEnd || null;
+      tourStepIndex = 0;
+      tourOverlay.classList.add('visible');
+      renderTourStep();
+      tourResizeHandler = () => positionTourStep();
+      window.addEventListener('resize', tourResizeHandler);
+    }
+
+    function endTour() {
+      tourOverlay.classList.remove('visible');
+      if (tourResizeHandler) {
+        window.removeEventListener('resize', tourResizeHandler);
+        tourResizeHandler = null;
+      }
+      if (tourOnEnd) { const cb = tourOnEnd; tourOnEnd = null; cb(); }
+    }
+
+    tourNextBtn.addEventListener('click', nextTourStep);
+    tourSkipBtn.addEventListener('click', endTour);
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && tourOverlay.classList.contains('visible')) endTour();
+    });
+
+    document.getElementById('takeTourBtn').addEventListener('click', () => startTour(INTRO_TOUR_STEPS));
+
+    // Card tour is manual-only too — no longer auto-shown the first time a
+    // service modal opens. Replay it any time via the "?" icon in the tab row.
+    document.getElementById('svcTabHelpBtn').addEventListener('click', () => startTour(CARD_TOUR_STEPS));
+
+    // Intro tour is manual-only now (via the "Take a Tour" button) — no
+    // longer auto-shown to first-time visitors on page load.
   </script>
 
   <!-- Settings – fixed to right edge of viewport beside scrollbar, desktop only -->
@@ -2039,39 +2676,6 @@
       </svg>
     </button>
     <div class="settings-dropdown" id="settingsDropdown" aria-hidden="true">
-      <div class="settings-label">Appearance</div>
-      <div class="settings-row">
-        <span class="settings-row-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-          Dark Mode
-        </span>
-        <button class="settings-toggle" id="darkModeToggle" role="switch" aria-checked="false">
-          <span class="settings-toggle-thumb"></span>
-        </button>
-      </div>
-      <div class="settings-divider"></div>
-      <div class="settings-label">Language</div>
-      <div class="settings-row">
-        <span class="settings-row-text">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-          </svg>
-          Filipino
-        </span>
-        <button class="settings-toggle settings-toggle--disabled" role="switch" aria-checked="false" disabled title="Coming soon">
-          <span class="settings-toggle-thumb"></span>
-        </button>
-      </div>
-      <div class="settings-coming-soon">Translation coming soon</div>
-
-      <div class="settings-divider"></div>
-
       <!-- Admin -->
       <div class="settings-label">Admin</div>
       <div class="settings-row settings-row--clickable" id="adminModeRow" role="button" tabindex="0">
